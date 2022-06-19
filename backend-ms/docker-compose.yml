@@ -1,0 +1,9 @@
+# To run docker services type following command on bash
+# docker-compose up -d
+
+services:
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    ports:
+      - 9411:9411
