@@ -1,0 +1,8 @@
+server:
+  port:
+    7
+
+spring:
+  application:
+    name:
+      notification

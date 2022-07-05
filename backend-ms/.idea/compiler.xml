@@ -7,7 +7,15 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="notification" />
+        <module name="student" />
+        <module name="auth" />
+        <module name="university" />
+        <module name="selection-process" />
+        <module name="zscore" />
         <module name="user" />
+        <module name="eureka-server" />
+        <module name="email" />
       </profile>
     </annotationProcessing>
   </component>

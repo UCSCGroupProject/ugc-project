@@ -1,0 +1,8 @@
+server:
+  port:
+    5
+
+spring:
+  application:
+    name:
+      zscore
