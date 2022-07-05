@@ -13,10 +13,12 @@
         <module name="university" />
         <module name="selection-process" />
         <module name="zscore" />
-        <module name="user" />
         <module name="eureka-server" />
         <module name="email" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="user" target="18" />
+    </bytecodeTargetLevel>
   </component>
 </project>
