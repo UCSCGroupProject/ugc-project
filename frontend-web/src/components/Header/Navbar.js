@@ -1,60 +1,99 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
+import NotificationPanel from "./Notifications/NotificationPanel";
+
+import ugcLogo from "./img/ugcLogo.png";
+
 export default class Navbar extends Component {
   render() {
     return (
-      <nav className="navbar navbar-expand navbar-dark bg-dark">
+      <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
         <div className="container-fluid">
           <Link to={"/"} className="navbar-brand">
-            Navbar
+            <img
+              src={ugcLogo}
+              height="30"
+              className="d-inline-block align-top"
+              alt=""
+            />
           </Link>
           <button
-            className="navbar-toggler"
             type="button"
+            className="navbar-toggler"
             data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
+            data-bs-target="#navbarCollapse"
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav">
-              <li className="nav-item">
-                <Link to={"/"} className="nav-link">
-                  Home
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to={"/mod"} className="nav-link">
-                  Mod
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to={"/admin"} className="nav-link">
-                  Admin
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to={"/user"} className="nav-link">
-                  User
-                </Link>
-              </li>
-
-              {/* auth */}
-              <li className="nav-item">
-                <Link to={"/login"} className="nav-link">
-                  Login
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to={"/register"} className="nav-link">
-                  SignUp
-                </Link>
-              </li>
-            </ul>
+          <div className="collapse navbar-collapse" id="navbarCollapse">
+            <div className="navbar-nav">
+              <Link to={"/student/dashboard"} className="nav-item nav-link">
+                Dashboard
+              </Link>
+              <div className="nav-item dropdown">
+                <a
+                  href="#"
+                  className="nav-link dropdown-toggle"
+                  data-bs-toggle="dropdown"
+                >
+                  Messages
+                </a>
+                <div className="dropdown-menu">
+                  <a href="#" className="dropdown-item">
+                    Inbox
+                  </a>
+                  <a href="#" className="dropdown-item">
+                    Sent
+                  </a>
+                  <a href="#" className="dropdown-item">
+                    Drafts
+                  </a>
+                </div>
+              </div>
+              <a href="#" className="nav-item nav-link disabled" tabindex="-1">
+                Reports
+              </a>
+            </div>
+            <div className="navbar-nav ms-auto">
+              {/* Notifications */}
+              <NotificationPanel />
+              <Link to={"/register"} className="nav-item nav-link">
+                Sign up
+              </Link>
+              <Link to={"/login"} className="nav-item nav-link">
+                Login
+              </Link>
+              <div className="nav-item dropdown">
+                <a
+                  href="#"
+                  className="nav-link dropdown-toggle"
+                  data-bs-toggle="dropdown"
+                >
+                  <i className="bi bi-gear" />
+                  <span className="p-1">Dhanushka</span>
+                </a>
+                <div className="dropdown-menu dropdown-menu-end">
+                  <Link to={"/login"} className="dropdown-item p-2">
+                    <i className="bi bi-person-circle"></i>
+                    <span className="p-2">Edit Profile</span>
+                  </Link>
+                  <Link to={"/login"} className="dropdown-item p-2">
+                    <i className="bi bi-envelope"></i>
+                    <span className="p-2">My Inbox</span>
+                  </Link>
+                  <Link to={"/login"} className="dropdown-item p-2">
+                    <i className="bi bi-list-task"></i>
+                    <span className="p-2">Task</span>
+                  </Link>
+                  <hr className="dropdown-divider" />
+                  <Link to={"/login"} className="dropdown-item p-2">
+                    <i className="bi bi-power"></i>
+                    <span className="p-2">Logout</span>
+                  </Link>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </nav>
