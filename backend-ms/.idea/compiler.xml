@@ -10,6 +10,7 @@
         <module name="notification" />
         <module name="student" />
         <module name="auth" />
+        <module name="blockchain" />
         <module name="university" />
         <module name="selection-process" />
         <module name="zscore" />
