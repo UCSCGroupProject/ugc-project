@@ -1,30 +1,42 @@
-### only for testing the blockchain construction
-GET http://localhost:8/blockchain/test
-
-
 ### Adding a new block to the blockchain
 POST http://localhost:8/blockchain/addblock
 Content-Type: application/json
 
-[
-  {
-    "transactionId": "1",
-    "index": "1236547",
-    "fullName": "khagsdl",
-    "nic": "199931712165",
-    "dateOfAdmission": "2011-10-03",
-    "dateOfLeave": "2015-3-06"
-  },
-  {
-    "transactionId": "2",
-    "index": "9875462",
-    "fullName": "jgyjkrfj",
-    "nic": "200016548965315",
-    "dateOfAdmission": "2012-10-08",
-    "dateOfLeave": "2015-8-16"
-  }
-]
+{
+  "transactions": [
+    {
+      "transactionId": "1",
+      "index": "1236547",
+      "fullName": "L.A.D.D.S. GUNAWARDHANA",
+      "nic": "199931712165",
+      "dateOfAdmission": "2011-10-03",
+      "dateOfLeave": "2015-3-06"
+    },
+    {
+      "transactionId": "2",
+      "index": "9875462",
+      "fullName": "D.C. PATHIRAGE",
+      "nic": "200016548965315",
+      "dateOfAdmission": "2012-10-08",
+      "dateOfLeave": "2015-8-16"
+    }
+  ],
+  "creatorName": "Hanwella Rajasinghe Central College",
+  "creatorAddress": "School Ln, Hanwella",
+  "creatorPublicKey": "123456",
+  "creatorSignature": "987654"
+}
 
 
 ### Getting the entire blockchain
 GET http://localhost:8/blockchain/getblockchain
+
+
+### Verifying a specific block in the blockchain
+GET http://localhost:8/blockchain/verifyblock/
+Content-Type: application/json
+
+{
+    "blockId": 2,
+    "publicKey": "MEYwEAYHKoZIzj0CAQYFK4EEAB8DMgAEBOzy5UtQYct6MatnIby6jfpqHHeqK44kBYkqiQF28f1ohQ/5o0nd9acbRrASEGgg"
+}
