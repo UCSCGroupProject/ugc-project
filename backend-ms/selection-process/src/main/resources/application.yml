@@ -14,7 +14,7 @@ spring:
     url: jdbc:mysql://ugcstudent-1.cibexrxavmfd.us-west-2.rds.amazonaws.com:3306/ugcStudents
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect
