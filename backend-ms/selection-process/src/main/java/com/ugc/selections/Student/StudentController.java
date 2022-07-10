@@ -10,7 +10,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping(path = "selection")
+@RequestMapping
 @CrossOrigin("*")
 public class StudentController {
 
@@ -21,9 +21,13 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @GetMapping
-    public List<Student> getStudents(){
-        return studentService.getStudents();
+    @GetMapping(path = "appliedStudents")
+    public List<Student> getAppliedStudents(){
+        return studentService.getAppliedStudents();
     }
 
+    @GetMapping(path = "ALPassedStudents")
+    public List<Student> getALPassedStudents(){
+        return studentService.getALPassedStudents();
+    }
 }

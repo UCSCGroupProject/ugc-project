@@ -3,7 +3,7 @@ import axios from "axios";
 
 const StudentsList = () => {
     const fetchStudentsList = () => {
-        axios.get("http://localhost:4/selection").then(res => {
+        axios.get("http://localhost:4/appliedStudents").then(res => {
             console.log(res);
         });
     };

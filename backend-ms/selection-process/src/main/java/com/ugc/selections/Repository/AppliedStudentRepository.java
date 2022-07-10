@@ -9,5 +9,6 @@ import java.util.List;
 //username: admin , password: adminugc
 
 @Repository
-public interface StudentRepository extends JpaRepository<Student, Long> {
+public interface AppliedStudentRepository extends JpaRepository<Student, Long> {
+
 }
