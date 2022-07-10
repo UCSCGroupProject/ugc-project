@@ -1,6 +1,6 @@
 server:
   port:
-    1
+    8081
 
 spring:
   application:
@@ -24,3 +24,10 @@ eureka:
       defaultZone: http://localhost:8761/eureka
     fetch-registry: true
     register-with-eureka: true
+
+gateway:
+  ip: host.docker.internal
+
+token:
+  expiration_time: 86400000 # 10 Days
+  secret: adasdklngsgl53d1g3d1g3d1g3d51fg3df1g35d1g31

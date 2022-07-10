@@ -19,6 +19,8 @@
     <module>auth</module>
     <module>eureka-server</module>
     <module>blockchain</module>
+    <module>gateway</module>
+      <module>user</module>
   </modules>
 
   <name>backend-ms</name>
