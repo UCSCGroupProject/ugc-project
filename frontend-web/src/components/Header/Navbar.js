@@ -1,19 +1,27 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import * as FaIcons from "react-icons/fa";
 
 import NotificationPanel from "./Notifications/NotificationPanel";
 
 import ugcLogo from "./img/ugcLogo.png";
+
+import "./Navbar.css";
 
 export default class Navbar extends Component {
   render() {
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
         <div className="container-fluid">
+          <div className="sidebar-toggler">
+            <Link to="#" className="menu-bars">
+              <FaIcons.FaBars />
+            </Link>
+          </div>
           <Link to={"/"} className="navbar-brand">
             <img
               src={ugcLogo}
-              height="30"
+              height="40"
               className="d-inline-block align-top"
               alt=""
             />
@@ -26,6 +34,7 @@ export default class Navbar extends Component {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
+
           <div className="collapse navbar-collapse" id="navbarCollapse">
             <div className="navbar-nav">
               <Link to={"/student/dashboard"} className="nav-item nav-link">
@@ -51,7 +60,7 @@ export default class Navbar extends Component {
                   </a>
                 </div>
               </div>
-              <a href="#" className="nav-item nav-link disabled" tabindex="-1">
+              <a href="#" className="nav-item nav-link disabled" tabIndex="-1">
                 Reports
               </a>
             </div>

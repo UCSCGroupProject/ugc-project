@@ -1,14 +1,12 @@
 package com.ugc.selections.Repository;
 
-import com.ugc.selections.Student.Student;
+import com.ugc.selections.Entity.AppliedStudent;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 //username: admin , password: adminugc
 
 @Repository
-public interface AppliedStudentRepository extends JpaRepository<Student, Long> {
+public interface AppliedStudentRepository extends JpaRepository<AppliedStudent, Long> {
 
 }

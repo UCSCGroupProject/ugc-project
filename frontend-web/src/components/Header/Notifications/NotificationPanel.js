@@ -23,7 +23,7 @@ function NotificationPanel() {
         <div className="notification-header">
           <h6 className="dropdown-header">
             NOTIFICATIONS
-            <span class="badge bg-danger ms-2">3 New</span>
+            <span className="badge bg-danger ms-2">3 New</span>
           </h6>
         </div>
         <div className="drop-content">
