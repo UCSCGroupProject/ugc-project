@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="dee84c13-531c-4535-9621-383b902b9139" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/selection-process/src/main/java/com/ugc/selections/Entity/ALPassedStudent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/selection-process/src/main/java/com/ugc/selections/Entity/SelectedStudent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/selection-process/src/main/java/com/ugc/selections/Repository/SelectedStudentRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/selection-process/src/main/java/com/ugc/selections/Repository/ALPassedStudentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/selection-process/src/main/java/com/ugc/selections/Repository/ALPassedStudentRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/selection-process/src/main/java/com/ugc/selections/Repository/AppliedStudentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/selection-process/src/main/java/com/ugc/selections/Repository/AppliedStudentRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/selection-process/src/main/java/com/ugc/selections/Student/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/selection-process/src/main/java/com/ugc/selections/Entity/AppliedStudent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/selection-process/src/main/java/com/ugc/selections/Student/StudentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/selection-process/src/main/java/com/ugc/selections/Controller/SelectionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/selection-process/src/main/java/com/ugc/selections/Student/StudentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/selection-process/src/main/java/com/ugc/selections/Service/SelectionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/selection-process/target/classes/com/ugc/selections/Repository/StudentRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/selection-process/target/classes/com/ugc/selections/SelectionProcessApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/selection-process/target/classes/com/ugc/selections/SelectionProcessApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/selection-process/target/classes/com/ugc/selections/Student/Student.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/selection-process/target/classes/com/ugc/selections/Student/StudentController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/selection-process/target/classes/com/ugc/selections/Student/StudentService.class" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="Interface" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="JpbToolWindowState">
+    <option name="myId2FirstActivated">
+      <map>
+        <entry key="com.haulmont.jpb.jpaInspector" value="true" />
+        <entry key="com.haulmont.jpb.jpaPalette" value="true" />
+        <entry key="com.haulmont.jpb.jpaStructure" value="true" />
+      </map>
+    </option>
+    <option name="myId2Visible">
+      <map>
+        <entry key="com.haulmont.jpb.jpaInspector" value="false" />
+        <entry key="com.haulmont.jpb.jpaPalette" value="false" />
+        <entry key="com.haulmont.jpb.jpaStructure" value="false" />
+      </map>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2BbMdrxAkXY8IXiDA7WEkNTKkUU" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "E:/aws-image-upload",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "spring.configuration.checksum": "712077f66d381f61b318a7d2df6fcec0"
+  }
+}]]></component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.SelectionProcessApplication">
+    <configuration name="EurekaServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="eureka-server" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.ugc.eurekaserver.EurekaServerApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.ugc.eurekaserver.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SelectionProcessApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="selection-process" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.ugc.selections.SelectionProcessApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.ugc.selections.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Spring Boot.EurekaServerApplication" />
+      <item itemvalue="Spring Boot.SelectionProcessApplication" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.SelectionProcessApplication" />
+        <item itemvalue="Spring Boot.EurekaServerApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="dee84c13-531c-4535-9621-383b902b9139" name="Changes" comment="" />
+      <created>1657170425739</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1657170425739</updated>
+      <workItem from="1657170435367" duration="514000" />
+      <workItem from="1657252617433" duration="6609000" />
+      <workItem from="1657262333204" duration="142000" />
+      <workItem from="1657348425404" duration="12361000" />
+      <workItem from="1657366655250" duration="85000" />
+      <workItem from="1657450739480" duration="789000" />
+      <workItem from="1657478413544" duration="2725000" />
+      <workItem from="1657551400412" duration="1662000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
