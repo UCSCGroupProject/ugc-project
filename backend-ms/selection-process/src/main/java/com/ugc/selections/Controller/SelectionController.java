@@ -18,21 +18,21 @@ import java.util.Optional;
 @RestController
 @RequestMapping
 @CrossOrigin("*")
-public class SelectionController {
+public class SelectionController  {
 
     private final SelectionService studentService;
 
     @Autowired
-    public SelectionController(SelectionService studentService) {
+    public SelectionController (SelectionService studentService) {
         this.studentService = studentService;
     }
 
-    @GetMapping(path = "appliedStudents")
+    @GetMapping (path = "appliedStudents")
     public List<AppliedStudent> getAppliedStudents(){
         return studentService.getAppliedStudents();
     }
 
-    @GetMapping(path = "ALPassedStudents")
+    @GetMapping (path = "ALPassedStudents")
     public List<ALPassedStudent> getALPassedStudents(){
         return studentService.getALPassedStudents();
     }

@@ -16,7 +16,7 @@ import java.util.Optional;
 
 
 @Service
-public class SelectionService  {
+public class SelectionService{
 
     private final AppliedStudentRepository appliedStudentRepository;
     private final ALPassedStudentRepository alPassedStudentRepository;
@@ -29,21 +29,26 @@ public class SelectionService  {
         this.alPassedStudentRepository = alPassedStudentRepository;
         this.selectedStudentRepository = selectedStudentRepository;
         this.atPassedStudentRepository = atPassedStudentRepository;
+
     }
 
     public List<AppliedStudent> getAppliedStudents() {
+
         return appliedStudentRepository.findAll();
     }
 
     public List<ALPassedStudent> getALPassedStudents() {
+
         return alPassedStudentRepository.findAll();
     }
 
     public List<SelectedStudent> selectedStudents() {
+
         return selectedStudentRepository.findAll();
     }
 
     public List<ATPassedStudent> getATPassedStudents() {
+
         return atPassedStudentRepository.findAll();
     }
 
