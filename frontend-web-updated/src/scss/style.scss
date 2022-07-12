@@ -1,0 +1,14 @@
+// To override the variables
+@import "variables";
+
+$enable-ltr: true;
+$enable-rtl: true;
+
+// Import CoreUI from React components library
+@import "@coreui/coreui/scss/coreui";
+
+@import "layout";
+@import "example";
+
+// To add a custom css
+@import "custom";

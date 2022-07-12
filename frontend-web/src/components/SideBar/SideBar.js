@@ -15,7 +15,7 @@ function SideBar() {
   };
 
   return (
-    <div>
+    <div className="sidebar">
       <div className="topbar">
         <Link to="#" className="menu-bars">
           <FaIcons.FaBars onClick={showSidebar} />
