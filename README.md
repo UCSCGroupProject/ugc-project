@@ -117,6 +117,7 @@ Backend folder structure,
     │   └── gateway/                    # pulic gateway API
     │   └── notification/               # notification sending [Might remove later]
     │   └── selection-process/          # student selection process for university courses
+    │   └── staff/                      # staff service
     │   └── student/                    # student service
     │   └── university/                 # university service
     │   └── user/                       # central user service
