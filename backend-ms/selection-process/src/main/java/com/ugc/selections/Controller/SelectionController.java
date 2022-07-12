@@ -1,6 +1,7 @@
 package com.ugc.selections.Controller;
 
 import com.ugc.selections.Entity.ALPassedStudent;
+import com.ugc.selections.Entity.ATPassedStudent;
 import com.ugc.selections.Entity.AppliedStudent;
 import com.ugc.selections.Entity.SelectedStudent;
 import com.ugc.selections.Service.SelectionService;
@@ -36,12 +37,22 @@ public class SelectionController {
         return studentService.getALPassedStudents();
     }
 
+    @GetMapping(path = "ATPassedStudents")
+    public List<ATPassedStudent> getATPassedStudents(){
+        return studentService.getATPassedStudents();
+    }
+
     @GetMapping(path = "selectStudents")
-    public Optional<List<SelectedStudent>> selectStudents(){
-        List<SelectedStudent> selectedStudents =  studentService.selectStudents();
+    public List<SelectedStudent> selectStudents(){
+        List<SelectedStudent> selectedStudents =  studentService.selectedStudents();
         if(selectedStudents.isEmpty()){
-            return null;
+            //Perform selection
+            List <AppliedStudent> appliedStudents = studentService.getAppliedStudents();
+            List <ALPassedStudent> alPassedStudents = studentService.getALPassedStudents();
+            List <ATPassedStudent> atPassedStudents = studentService.getATPassedStudents();
+            studentService.selectStudents(appliedStudents, alPassedStudents, atPassedStudents);
+            return studentService.selectedStudents();
         }
-        else return Optional.of(selectedStudents);
+        else return selectedStudents;
     }
 }
