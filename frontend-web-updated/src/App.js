@@ -11,12 +11,16 @@ const loading = (
 // Containers
 const UGCLayout = React.lazy(() => import("./layout/UGCLayout"));
 
+// Pages
+const Login = React.lazy(() => import("./views/user/Login"));
+
 class App extends Component {
   render() {
     return (
       <HashRouter>
         <Suspense fallback={loading}>
           <Routes>
+            <Route path="/login" name="Login" element={<Login />} />
             <Route path="*" name="Home" element={<UGCLayout />} />
           </Routes>
         </Suspense>
