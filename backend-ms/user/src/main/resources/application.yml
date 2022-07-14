@@ -9,7 +9,6 @@ spring:
   zipkin:
     base-url: http://localhost:9411
   datasource:
-    driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/user_db
     username: root
     password: root
@@ -17,6 +16,9 @@ spring:
     hibernate:
       ddl-auto: create-drop
     show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
 
 eureka:
   client:
@@ -28,6 +30,6 @@ eureka:
 gateway:
   ip: host.docker.internal
 
-token:
-  expiration_time: 86400000 # 10 Days
-  secret: adasdklngsgl53d1g3d1g3d1g3d51fg3df1g35d1g31
+# Security
+jwtSecrete: qwdfgbnjkoiuytrewasdfghjklmnbvcxz
+jwtExpirationMs: 86400000
