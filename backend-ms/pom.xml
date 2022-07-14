@@ -16,7 +16,6 @@
     <module>selection-process</module>
     <module>zscore</module>
     <module>notification</module>
-    <module>auth</module>
     <module>eureka-server</module>
     <module>blockchain</module>
     <module>gateway</module>

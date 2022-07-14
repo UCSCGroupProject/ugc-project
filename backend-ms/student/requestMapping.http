@@ -1,0 +1,19 @@
+### Register a new student
+POST http://localhost:8080/api/student/register
+Content-Type: application/json
+
+{
+  "username": "Dhanushka",
+  "email": "dhanushka@gamil.com",
+  "password": "1234567"
+}
+
+### Login registered student
+POST http://localhost:8080/api/student/login
+Content-Type: application/json
+
+{
+  "email": "dhanushka@gamil.com",
+  "password": "1234567"
+}
+
