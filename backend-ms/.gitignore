@@ -1,1 +1,14 @@
 .idea
+
+/auth/target
+/blockchain/target
+/email/target
+/eureka-server/target
+/gateway/target
+/notification/target
+/selection-process/target
+/staff/target
+/student/target
+/university/target
+/user/target
+/zscore/target

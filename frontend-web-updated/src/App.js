@@ -13,6 +13,7 @@ const UGCLayout = React.lazy(() => import("./layout/UGCLayout"));
 
 // Pages
 const Login = React.lazy(() => import("./views/user/Login"));
+const Test_Registration = React.lazy(() => import("./views/user/Test_Registration"));
 
 class App extends Component {
   render() {
@@ -21,6 +22,7 @@ class App extends Component {
         <Suspense fallback={loading}>
           <Routes>
             <Route path="/login" name="Login" element={<Login />} />
+            <Route path="/test_register" name="Login" element={<Test_Registration />} />
             <Route path="*" name="Home" element={<UGCLayout />} />
           </Routes>
         </Suspense>

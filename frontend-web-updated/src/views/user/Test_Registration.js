@@ -14,12 +14,16 @@ import {
   CAlert,
 } from '@coreui/react'
 
-import { v_email, v_required } from '../../utils/validator'
+import { v_email, v_required, v_inRange, v_match } from '../../utils/validator'
 
 import authService from '../../services/authService'
 
-const Login = () => {
+const Test_Registration = () => {
   // Form details
+  const [username, setUsername] = useState('')
+  const [isUsernameValid, setIsUsernameValid] = useState(true)
+  const [usernameError, setUsernameError] = useState('')
+
   const [email, setEmail] = useState('')
   const [isEmailValid, setIsEmailValid] = useState(true)
   const [emailError, setEmailError] = useState('')
@@ -27,6 +31,10 @@ const Login = () => {
   const [password, setPassword] = useState('')
   const [isPasswordValid, setIsPasswordValid] = useState(true)
   const [passwordError, setPasswordError] = useState('')
+
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [isConfirmPasswordValid, setIsConfirmPasswordValid] = useState(true)
+  const [confirmPasswordError, setConfirmPasswordError] = useState('')
 
   const [loading, setLoading] = useState(false)
   const [resMessage, setResMessage] = useState('')
@@ -37,10 +45,22 @@ const Login = () => {
     e.preventDefault()
 
     // init
+    setIsUsernameValid(true)
+    setUsernameError('')
     setIsEmailValid(true)
     setEmailError('')
     setIsPasswordValid(true)
     setPasswordError('')
+    setIsConfirmPasswordValid(true)
+    setConfirmPasswordError('')
+
+    if (!v_required(username)) {
+      setIsUsernameValid(false)
+      setUsernameError('Username can not be empty.')
+    } else if (!v_inRange(username, 5, 20)) {
+      setIsUsernameValid(false)
+      setUsernameError('Username must be 5-20 long.')
+    }
 
     if (!v_required(email)) {
       setIsEmailValid(false)
@@ -53,6 +73,15 @@ const Login = () => {
     if (!v_required(password)) {
       setIsPasswordValid(false)
       setPasswordError('Password can not be empty.')
+    } else if(!v_match(password, confirmPassword)){
+      setIsPasswordValid(false)
+      setPasswordError('Passwords are not matching.')
+    }
+
+
+    if (!v_required(confirmPassword)) {
+      setIsConfirmPasswordValid(false)
+      setConfirmPasswordError('Confirm password can not be empty.')
     }
 
     if (!isEmailValid || !isPasswordValid) {
@@ -64,9 +93,9 @@ const Login = () => {
     setLoading(true)
     setResMessage('')
 
-    authService.login(email, password).then(
+    authService.register(username, email, password).then(
       () => {
-        navigate('/')
+        navigate('/login')
       },
       (error) => {
         const res =
@@ -90,8 +119,10 @@ const Login = () => {
             <CCard className="mx-4">
               <CCardBody className="p-4">
                 <CForm onSubmit={handleSubmit}>
-                  <h1 className="text-center">Login</h1>
-                  <p className="text-medium-emphasis text-center">Please enter your credentials</p>
+                  <h1 className="text-center">Test Registration</h1>
+                  <p className="text-medium-emphasis text-center">
+                    Please fill the following details
+                  </p>
 
                   {resMessage && (
                     <CAlert color="info" className="text-center">
@@ -103,6 +134,19 @@ const Login = () => {
                     <CFormInput
                       type="text"
                       id="validationServer01"
+                      label="Usernmae"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      feedback={usernameError}
+                      invalid={!isUsernameValid}
+                      //   required
+                    />
+                  </div>
+
+                  <div className="mb-3">
+                    <CFormInput
+                      type="text"
+                      id="validationServer02"
                       label="Email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
@@ -115,7 +159,7 @@ const Login = () => {
                   <div className="mb-3">
                     <CFormInput
                       type="password"
-                      id="validationServer02"
+                      id="validationServer03"
                       label="Password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
@@ -126,12 +170,23 @@ const Login = () => {
                     />
                   </div>
 
+                  <div className="mb-3">
+                    <CFormInput
+                      type="password"
+                      id="validationServer04"
+                      label="Confirm Password"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      feedback={confirmPasswordError}
+                      invalid={!isConfirmPasswordValid}
+                      //   valid
+                      //   required
+                    />
+                  </div>
+
                   <div className="d-grid">
                     <CButton color="success" size="lg" type="submit" disabled={loading}>
-                      <div className="text-white">
-                        {loading && <CSpinner size="sm" />}
-                        Login
-                      </div>
+                      <div className="text-white">{loading && <CSpinner size="sm" />} Signup</div>
                     </CButton>
                   </div>
 
@@ -148,4 +203,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default Test_Registration
