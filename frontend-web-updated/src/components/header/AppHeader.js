@@ -22,7 +22,7 @@ import AppBreadcrumb from './AppBreadcrumb'
 
 import logo from '../../assets/brand/logo.png'
 
-function AppHeader() {
+function AppHeader(props) {
   const dispatch = useDispatch()
   const sidebarShow = useSelector((state) => state.sidebarShow)
 
@@ -76,7 +76,7 @@ function AppHeader() {
 
         {/* Header Dropdown */}
         <CHeaderNav className="ms-3">
-          <AppHeaderDropdown />
+          <AppHeaderDropdown details={props.details} />
         </CHeaderNav>
       </CContainer>
 

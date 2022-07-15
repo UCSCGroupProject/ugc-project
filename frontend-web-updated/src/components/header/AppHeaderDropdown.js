@@ -21,14 +21,25 @@ import {
   cilUser,
 } from "@coreui/icons";
 import CIcon from "@coreui/icons-react";
+import { useNavigate } from 'react-router-dom'
+
+import authService from "../../services/authService";
 
 import prof_pic from "./../../assets/images/avatars/Dhanushka_pic.jpg";
 
-const AppHeaderDropdown = () => {
+const AppHeaderDropdown = (props) => {
+  let navigate = useNavigate()
+
+  const logout = () => {
+    authService.logout();
+    navigate("/login")
+  }
+
   return (
     <CDropdown variant="nav-item">
       <CDropdownToggle placement="bottom-end" className="py-0" caret={false}>
         <CAvatar src={prof_pic} size="md" />
+        <span className="ms-2 fs-6">{props.details.username}</span>
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">
         <CDropdownHeader className="bg-light fw-semibold py-2">
@@ -88,9 +99,9 @@ const AppHeaderDropdown = () => {
           </CBadge>
         </CDropdownItem>
         <CDropdownDivider />
-        <CDropdownItem href="#">
+        <CDropdownItem onClick={logout}>
           <CIcon icon={cilLockLocked} className="me-2" />
-          Lock Account
+          Logout
         </CDropdownItem>
       </CDropdownMenu>
     </CDropdown>

@@ -67,6 +67,7 @@ const Login = () => {
     authService.login(email, password).then(
       () => {
         navigate('/')
+        console.log(authService.getCurrentUser())
       },
       (error) => {
         const res =
