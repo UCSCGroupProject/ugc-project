@@ -23,6 +23,22 @@ const _nav = [
   },
   {
     component: CNavTitle,
+    name: 'Manage Staff',
+  },
+  {
+    component: CNavItem,
+    name: 'Authorize Registration',
+    to: '/admin/staffregistration',
+    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Staff Privileges',
+    to: '/admin/privileges',
+    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavTitle,
     name: 'Course Details',
   },
   {
