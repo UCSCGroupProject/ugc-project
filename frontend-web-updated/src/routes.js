@@ -1,8 +1,10 @@
 import React from 'react'
 
 // Staff views
+  //Admin
 const Adm_Authorize_StaffRegistration = React.lazy(() => import('./views/staff/admin/StaffRegistration'))
 const Adm_Authorize_Privileges = React.lazy(() => import('./views/staff/admin/Privileges'))
+  //
 const Staff_UserDetails_Overview = React.lazy(() => import('./views/staff/userDetails/Overview'))
 const Staff_UserDetails_UserProfile = React.lazy(() => import('./views/staff/userDetails/UserProfile'))
 const Staff_Universities = React.lazy(() => import('./views/staff/universities/Universities'))
@@ -13,6 +15,8 @@ const Staff_ALResults = React.lazy(() => import('./views/staff/results/ALResults
 const Staff_AptitudeTests_Upcoming = React.lazy(() => import('./views/staff/aptitudeTests/Upcoming'))
 const Staff_AptitudeTests_Completed = React.lazy(() => import('./views/staff/aptitudeTests/Completed'))
 const Staff_Selected_Students = React.lazy(() => import('./views/staff/selection/SelectedStudents'))
+const Staff_Applied_Students = React.lazy(() => import('./views/staff/selection/AppliedStudents'))
+const Staff_Eligible_Students = React.lazy(() => import('./views/staff/selection/EligibleStudents'))
 const Staff_ZScore = React.lazy(() => import('./views/staff/zscore/ZScore'))
 const Staff_Analytics = React.lazy(() => import('./views/staff/analytics/Analytics'))
 const Staff_Status_Validation = React.lazy(() => import('./views/staff/validation/Status'))
@@ -38,23 +42,25 @@ const Stu_AptitudeTests_Progress_DelayedTests = React.lazy(() => import('./views
 
 const routes = [
   // Staff routes
-  { path: '/admin/authorize', name: 'Dashboard', element: Adm_Authorize_StaffRegistration },
+  { path: '/admin/staffregistration', name: 'Dashboard', element: Adm_Authorize_StaffRegistration },
   { path: '/admin/privileges', name: 'Dashboard', element: Adm_Authorize_Privileges },
-  { path: '/staff/useroverview', name: 'Dashboard', element: Staff_UserDetails_Overview },
-  { path: '/staff/userprofile', name: 'Dashboard', element: Staff_UserDetails_UserProfile },
-  { path: '/staff/universities', name: 'Dashboard', element: Staff_Universities },
-  { path: '/staff/univerityprofile', name: 'Dashboard', element: Staff_UniversityProfiles },
-  { path: '/staff/courses', name: 'Dashboard', element: Staff_Courses },
-  { path: '/staff/results/ol', name: 'Dashboard', element: Staff_OLResults },
-  { path: '/staff/results/al', name: 'Dashboard', element: Staff_ALResults },
-  { path: '/staff/aptitudetests/upcoming', name: 'Dashboard', element: Staff_AptitudeTests_Upcoming },
-  { path: '/staff/aptitudetests/completed', name: 'Dashboard', element: Staff_AptitudeTests_Completed },
-  { path: '/staff/selectedstudents', name: 'Dashboard', element: Staff_Selected_Students },
-  { path: '/staff/zscore', name: 'Dashboard', element: Staff_ZScore },
-  { path: '/staff/analytics', name: 'Dashboard', element: Staff_Analytics },
-  { path: '/staff/validation/status', name: 'Dashboard', element: Staff_Status_Validation },
-  { path: '/staff/validation/achievement', name: 'Dashboard', element: Staff_Achievement_Validation },
-  { path: '/staff/complaints', name: 'Dashboard', element: Staff_Complaints },
+  { path: '/staff/useroverview', name: 'User Overview', element: Staff_UserDetails_Overview },
+  { path: '/staff/userprofile', name: 'User Profile', element: Staff_UserDetails_UserProfile },
+  { path: '/staff/universities', name: 'All Universities', element: Staff_Universities },
+  { path: '/staff/univerityprofile', name: 'University Profile', element: Staff_UniversityProfiles },
+  { path: '/staff/courses', name: 'Courses', element: Staff_Courses },
+  { path: '/staff/results/ol', name: 'O/L Results', element: Staff_OLResults },
+  { path: '/staff/results/al', name: 'A/L Results', element: Staff_ALResults },
+  { path: '/staff/aptitudetests/upcoming', name: 'Upcoming Tests', element: Staff_AptitudeTests_Upcoming },
+  { path: '/staff/aptitudetests/completed', name: 'Completed Tests', element: Staff_AptitudeTests_Completed },
+  { path: '/staff/selectedstudents', name: 'Selected Students', element: Staff_Selected_Students },
+  { path: '/staff/appliedstudents', name: 'Applied Students', element: Staff_Applied_Students },
+  { path: '/staff/eligiblestudents', name: 'Eligible Students', element: Staff_Eligible_Students },
+  { path: '/staff/zscore', name: 'ZScore Tables', element: Staff_ZScore },
+  { path: '/staff/analytics', name: 'Analytics', element: Staff_Analytics },
+  { path: '/staff/validation/status', name: 'Student Status', element: Staff_Status_Validation },
+  { path: '/staff/validation/achievement', name: 'Student Achievements', element: Staff_Achievement_Validation },
+  { path: '/staff/complaints', name: 'Complaints', element: Staff_Complaints },
 
   // Student routes
   { path: '/student/dashboard', name: 'Dashboard', element: Stu_Dashboard },
