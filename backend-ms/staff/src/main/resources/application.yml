@@ -8,6 +8,18 @@ spring:
       staff
   zipkin:
     base-url: http://localhost:9411
+  datasource:
+    username: admin
+    password: adminugc
+    url: jdbc:mysql://ugcstudent-1.cibexrxavmfd.us-west-2.rds.amazonaws.com:3306/ugcStudents
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+        format_sql: true
+    show-sql: true
 
 eureka:
   client:
