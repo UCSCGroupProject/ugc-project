@@ -19,68 +19,76 @@ import { v_email, v_required } from '../../utils/validator'
 import authService from '../../services/authService'
 
 const Login = () => {
-  // Form details
-  const [email, setEmail] = useState('')
-  const [isEmailValid, setIsEmailValid] = useState(true)
-  const [emailError, setEmailError] = useState('')
-
-  const [password, setPassword] = useState('')
-  const [isPasswordValid, setIsPasswordValid] = useState(true)
-  const [passwordError, setPasswordError] = useState('')
-
+  // For the server side requests and responses
   const [loading, setLoading] = useState(false)
   const [resMessage, setResMessage] = useState('')
-
   let navigate = useNavigate()
 
+  // Update the form data while input
+  const onUpdateInput = (e) => {
+    setLoginForm((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }))
+  }
+
+  // Form data
+  const [loginForm, setLoginForm] = useState({
+    email: '',
+    password: '',
+  })
+
+  // For data errors
+  const [loginFormErrors, setLoginFormErrors] = useState({
+    emailError: '',
+    passwordError: '',
+  })
+
+  // Validate the data and
+  // If valid send to the server
+  // else show the errors
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    // init
-    setIsEmailValid(true)
-    setEmailError('')
-    setIsPasswordValid(true)
-    setPasswordError('')
+    let emailError = ''
+    let passwordError = ''
 
-    if (!v_required(email)) {
-      setIsEmailValid(false)
-      setEmailError('Email can not be empty.')
-    } else if (!v_email(email)) {
-      setIsEmailValid(false)
-      setEmailError('Enter a valid email.')
+    if (!v_required(loginForm.email)) {
+      emailError = 'Email can not be empty.'
+    } else if (!v_email(loginForm.email)) {
+      emailError = 'Email is not valid.'
     }
 
-    if (!v_required(password)) {
-      setIsPasswordValid(false)
-      setPasswordError('Password can not be empty.')
+    if (!v_required(loginForm.password)) {
+      passwordError = 'Password can not be empty.'
     }
 
-    if (!isEmailValid || !isPasswordValid) {
-      return
+    // If errors exist, show errors
+    setLoginFormErrors({ emailError, passwordError })
+
+    // If no errors exist, send to the server
+    if (!(emailError || passwordError)) {
+      // Sending to the server
+      setLoading(true)
+      setResMessage('')
+
+      authService.login(loginForm.email, loginForm.password).then(
+        () => {
+          navigate('/')
+          console.log(authService.getCurrentUser())
+        },
+        (error) => {
+          const res =
+            (error.response && error.response.data && error.response.data.message) ||
+            error.message ||
+            error.toString()
+
+          // After recieving the server request
+          setResMessage(res)
+          setLoading(false)
+        },
+      )
     }
-
-    // all valid then submit
-    // loading
-    setLoading(true)
-    setResMessage('')
-
-    authService.login(email, password).then(
-      () => {
-        navigate('/')
-        console.log(authService.getCurrentUser())
-      },
-      (error) => {
-        const res =
-          (error.response && error.response.data && error.response.data.message) ||
-          error.message ||
-          error.toString()
-
-        setResMessage(res)
-
-        // loading
-        setLoading(false)
-      },
-    )
   }
 
   return (
@@ -105,11 +113,11 @@ const Login = () => {
                       type="text"
                       id="validationServer01"
                       label="Email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      feedback={emailError}
-                      invalid={!isEmailValid}
-                      //   required
+                      name="email"
+                      onChange={onUpdateInput}
+                      value={loginForm.email.value}
+                      feedback={loginFormErrors.emailError}
+                      invalid={loginFormErrors.emailError ? true : false}
                     />
                   </div>
 
@@ -118,17 +126,16 @@ const Login = () => {
                       type="password"
                       id="validationServer02"
                       label="Password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      feedback={passwordError}
-                      invalid={!isPasswordValid}
-                      //   valid
-                      //   required
+                      name="password"
+                      onChange={onUpdateInput}
+                      value={loginForm.password.value}
+                      feedback={loginFormErrors.passwordError}
+                      invalid={loginFormErrors.passwordError ? true : false}
                     />
                   </div>
 
                   <div className="d-grid">
-                    <CButton color="success" size="lg" type="submit" disabled={loading}>
+                    <CButton color="success" size="lg" type="submit">
                       <div className="text-white">
                         {loading && <CSpinner size="sm" />}
                         Login
