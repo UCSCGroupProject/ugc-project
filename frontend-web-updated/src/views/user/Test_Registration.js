@@ -14,101 +14,112 @@ import {
   CAlert,
 } from '@coreui/react'
 
-import { v_email, v_required, v_inRange, v_match } from '../../utils/validator'
+import { v_email, v_required, v_inRange, v_min, v_match } from '../../utils/validator'
 
 import authService from '../../services/authService'
 
 const Test_Registration = () => {
-  // Form details
-  const [username, setUsername] = useState('')
-  const [isUsernameValid, setIsUsernameValid] = useState(true)
-  const [usernameError, setUsernameError] = useState('')
-
-  const [email, setEmail] = useState('')
-  const [isEmailValid, setIsEmailValid] = useState(true)
-  const [emailError, setEmailError] = useState('')
-
-  const [password, setPassword] = useState('')
-  const [isPasswordValid, setIsPasswordValid] = useState(true)
-  const [passwordError, setPasswordError] = useState('')
-
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [isConfirmPasswordValid, setIsConfirmPasswordValid] = useState(true)
-  const [confirmPasswordError, setConfirmPasswordError] = useState('')
-
+  // For the server side requests and responses
   const [loading, setLoading] = useState(false)
   const [resMessage, setResMessage] = useState('')
-
   let navigate = useNavigate()
 
+  // Form data
+  const [testRegistrationForm, setTestRegistrationForm] = useState({
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  })
+
+  // Update the form data while input
+  const onUpdateTestRegistrationFormInput = (e) => {
+    setTestRegistrationForm((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }))
+  }
+
+  // For data errors
+  const [testRegistrationFormErrors, setTestRegistrationFormErrors] = useState({
+    usernameError: '',
+    emailError: '',
+    passwordError: '',
+    confirmPasswordError: '',
+  })
+
+  // Validate the data and
+  // If valid send to the server
+  // else show the errors
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    // init
-    setIsUsernameValid(true)
-    setUsernameError('')
-    setIsEmailValid(true)
-    setEmailError('')
-    setIsPasswordValid(true)
-    setPasswordError('')
-    setIsConfirmPasswordValid(true)
-    setConfirmPasswordError('')
+    let usernameError = ''
+    let emailError = ''
+    let passwordError = ''
+    let confirmPasswordError = ''
 
-    if (!v_required(username)) {
-      setIsUsernameValid(false)
-      setUsernameError('Username can not be empty.')
-    } else if (!v_inRange(username, 5, 20)) {
-      setIsUsernameValid(false)
-      setUsernameError('Username must be 5-20 long.')
+    if (!v_required(testRegistrationForm.username)) {
+      usernameError = 'Username can not be empty.'
+    } else if (!v_inRange(testRegistrationForm.username, 5, 20)) {
+      usernameError = 'Username must be 5-20 long.'
     }
 
-    if (!v_required(email)) {
-      setIsEmailValid(false)
-      setEmailError('Email can not be empty.')
-    } else if (!v_email(email)) {
-      setIsEmailValid(false)
-      setEmailError('Enter a valid email.')
+    if (!v_required(testRegistrationForm.email)) {
+      emailError = 'Email can not be empty.'
+    } else if (!v_email(testRegistrationForm.email)) {
+      emailError = 'Email is not valid.'
     }
 
-    if (!v_required(password)) {
-      setIsPasswordValid(false)
-      setPasswordError('Password can not be empty.')
-    } else if(!v_match(password, confirmPassword)){
-      setIsPasswordValid(false)
-      setPasswordError('Passwords are not matching.')
+    if (!v_required(testRegistrationForm.password)) {
+      passwordError = 'Password can not be empty.'
+    } else if (!v_min(testRegistrationForm.password, 10)) {
+      passwordError = 'Password must be at least 10 characters long.'
+    } else if (!v_match(testRegistrationForm.password, testRegistrationForm.confirmPassword)) {
+      passwordError = 'Passwords are not matching.'
     }
 
-
-    if (!v_required(confirmPassword)) {
-      setIsConfirmPasswordValid(false)
-      setConfirmPasswordError('Confirm password can not be empty.')
+    if (!v_required(testRegistrationForm.confirmPassword)) {
+      confirmPasswordError = 'Confirm Password can not be empty.'
     }
 
-    if (!isEmailValid || !isPasswordValid) {
-      return
+    // If errors exist, show errors
+    setTestRegistrationFormErrors({
+      usernameError,
+      emailError,
+      passwordError,
+      confirmPasswordError,
+    })
+
+    // If no errors exist, send to the server
+    if (!(usernameError || emailError || passwordError || confirmPasswordError)) {
+      // Sending to the server
+      setLoading(true)
+      setResMessage('')
+
+      authService
+        .register(
+          testRegistrationForm.username,
+          testRegistrationForm.email,
+          testRegistrationForm.password,
+        )
+        .then(
+          () => {
+            navigate('/login')
+          },
+          (error) => {
+            const res =
+              (error.response && error.response.data && error.response.data.message) ||
+              error.message ||
+              error.toString()
+
+            setResMessage(res)
+
+            // loading
+            setLoading(false)
+          },
+        )
     }
-
-    // all valid then submit
-    // loading
-    setLoading(true)
-    setResMessage('')
-
-    authService.register(username, email, password).then(
-      () => {
-        navigate('/login')
-      },
-      (error) => {
-        const res =
-          (error.response && error.response.data && error.response.data.message) ||
-          error.message ||
-          error.toString()
-
-        setResMessage(res)
-
-        // loading
-        setLoading(false)
-      },
-    )
   }
 
   return (
@@ -134,12 +145,12 @@ const Test_Registration = () => {
                     <CFormInput
                       type="text"
                       id="validationServer01"
-                      label="Usernmae"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
-                      feedback={usernameError}
-                      invalid={!isUsernameValid}
-                      //   required
+                      label="Username"
+                      name="username"
+                      onChange={onUpdateTestRegistrationFormInput}
+                      value={testRegistrationForm.username}
+                      feedback={testRegistrationFormErrors.usernameError}
+                      invalid={testRegistrationFormErrors.usernameError ? true : false}
                     />
                   </div>
 
@@ -148,11 +159,11 @@ const Test_Registration = () => {
                       type="text"
                       id="validationServer02"
                       label="Email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      feedback={emailError}
-                      invalid={!isEmailValid}
-                      //   required
+                      name="email"
+                      onChange={onUpdateTestRegistrationFormInput}
+                      value={testRegistrationForm.email}
+                      feedback={testRegistrationFormErrors.emailError}
+                      invalid={testRegistrationFormErrors.emailError ? true : false}
                     />
                   </div>
 
@@ -161,12 +172,11 @@ const Test_Registration = () => {
                       type="password"
                       id="validationServer03"
                       label="Password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      feedback={passwordError}
-                      invalid={!isPasswordValid}
-                      //   valid
-                      //   required
+                      name="password"
+                      onChange={onUpdateTestRegistrationFormInput}
+                      value={testRegistrationForm.password}
+                      feedback={testRegistrationFormErrors.passwordError}
+                      invalid={testRegistrationFormErrors.passwordError ? true : false}
                     />
                   </div>
 
@@ -175,12 +185,11 @@ const Test_Registration = () => {
                       type="password"
                       id="validationServer04"
                       label="Confirm Password"
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                      feedback={confirmPasswordError}
-                      invalid={!isConfirmPasswordValid}
-                      //   valid
-                      //   required
+                      name="confirmPassword"
+                      onChange={onUpdateTestRegistrationFormInput}
+                      value={testRegistrationForm.confirmPassword}
+                      feedback={testRegistrationFormErrors.confirmPasswordError}
+                      invalid={testRegistrationFormErrors.confirmPasswordError ? true : false}
                     />
                   </div>
 

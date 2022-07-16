@@ -24,6 +24,12 @@ const Login = () => {
   const [resMessage, setResMessage] = useState('')
   let navigate = useNavigate()
 
+  // Form data
+  const [loginForm, setLoginForm] = useState({
+    email: '',
+    password: '',
+  })
+
   // Update the form data while input
   const onUpdateInput = (e) => {
     setLoginForm((prev) => ({
@@ -31,12 +37,6 @@ const Login = () => {
       [e.target.name]: e.target.value,
     }))
   }
-
-  // Form data
-  const [loginForm, setLoginForm] = useState({
-    email: '',
-    password: '',
-  })
 
   // For data errors
   const [loginFormErrors, setLoginFormErrors] = useState({
@@ -115,7 +115,7 @@ const Login = () => {
                       label="Email"
                       name="email"
                       onChange={onUpdateInput}
-                      value={loginForm.email.value}
+                      value={loginForm.email}
                       feedback={loginFormErrors.emailError}
                       invalid={loginFormErrors.emailError ? true : false}
                     />
@@ -128,7 +128,7 @@ const Login = () => {
                       label="Password"
                       name="password"
                       onChange={onUpdateInput}
-                      value={loginForm.password.value}
+                      value={loginForm.password}
                       feedback={loginFormErrors.passwordError}
                       invalid={loginFormErrors.passwordError ? true : false}
                     />
