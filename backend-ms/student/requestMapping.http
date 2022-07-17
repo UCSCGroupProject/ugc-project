@@ -17,3 +17,75 @@ Content-Type: application/json
   "password": "ds2254890"
 }
 
+
+### Student registration - Section 1 Form check
+POST http://localhost:8081/api/student/stuNicAndExamFormCheck
+Content-Type: application/json
+
+{
+  "confirmNic": "199931712165",
+  "indexNo": "sdfsdfsg",
+  "nic": "199931712165",
+  "nicDateOfIssue": "2022-06-30",
+  "usedIDCopy": "C:\\fakepath\\AdobePIP.dll",
+  "usedIDDateOfIssue": "2022-07-15",
+  "usedIDNo": "dfgdfg",
+  "usedIDType": "DL"
+}
+
+### Student registration - Section 2 Form check
+POST http://localhost:8081/api/student/stuDetailsFormCheck
+Content-Type: application/json
+
+{
+  "civilStatus": "1",
+  "dob": "2022-07-20",
+  "fullName": "gdg",
+  "gender": "1",
+  "nameWithInitials": "sdfsdf",
+  "pob": "2",
+  "title": "miss"
+}
+
+### Student registration - Section 3 Form check
+POST http://localhost:8081/api/student/loginDetailsFormCheck
+Content-Type: application/json
+
+{
+  "confirmPassword": "ds2254890A@",
+  "email": "dhanushkasandakelum711@gmail.com",
+  "password": "ds2254890A@",
+  "phone": "0775642956"
+}
+
+### Student registration - Entire registration form submittion
+POST http://localhost:8081/api/student/studentRegister
+Content-Type: application/json
+
+{
+ "stuNicAndExamForm": {
+   "confirmNic": "199931712165",
+   "indexNo": "sdfsdfsg",
+   "nic": "199931712165",
+   "nicDateOfIssue": "2022-06-30",
+   "usedIDCopy": "C:\\fakepath\\AdobePIP.dll",
+   "usedIDDateOfIssue": "2022-07-15",
+   "usedIDNo": "dfgdfg",
+   "usedIDType": "DL"
+ },
+  "stuDetailsForm": {
+    "civilStatus": "1",
+    "dob": "2022-07-20",
+    "fullName": "gdg",
+    "gender": "1",
+    "nameWithInitials": "sdfsdf",
+    "pob": "2",
+    "title": "miss"
+  },
+  "stuLoginDetailsForm": {
+    "confirmPassword": "ds2254890A@",
+    "email": "dhanushkasandakelum711@gmail.com",
+    "password": "ds2254890A@",
+    "phone": "0775642956"
+  }
+}

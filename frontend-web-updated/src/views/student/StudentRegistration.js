@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   CButton,
   CCard,
@@ -14,6 +15,7 @@ import {
   CCardSubtitle,
   CButtonGroup,
   CFormSelect,
+  CFormCheck,
 } from '@coreui/react'
 
 import { cilCheckAlt } from '@coreui/icons'
@@ -30,29 +32,23 @@ import {
   v_containsSpecialChars,
 } from '../../utils/validator'
 
+import studentService from '../../services/studentService'
+
 const StudentRegistration = () => {
+  // For the server side requests and responses
+  const [loading, setLoading] = useState(false)
+  const [resMessage, setResMessage] = useState('')
+  let navigate = useNavigate()
+
+  // For the Section transitions
   const [sectionIndex, setSectionIndex] = useState(0)
 
   const incrementSection = () => {
-    setSectionIndex((sectionIndex + 1) % 3)
-
-    console.log('FIRST SECTION')
-    console.log(stuNicAndExamForm)
-    console.log('SECOND SECTION')
-    console.log(stuDetailsForm)
-    console.log('THIRD SECTION')
-    console.log(stuLoginDetailsForm)
+    setSectionIndex((sectionIndex + 1) % 4)
   }
 
   const decrementSection = () => {
-    setSectionIndex((sectionIndex - 1) % 3)
-
-    console.log('FIRST SECTION')
-    console.log(stuNicAndExamForm)
-    console.log('SECOND SECTION')
-    console.log(stuDetailsForm)
-    console.log('THIRD SECTION')
-    console.log(stuLoginDetailsForm)
+    setSectionIndex((sectionIndex - 1) % 4)
   }
 
   /**
@@ -170,25 +166,27 @@ const StudentRegistration = () => {
         usedIDCopyError
       )
     ) {
-      // // Sending to the server
-      // setLoading(true)
-      // setResMessage('')
-      // authService.login(loginForm.email, loginForm.password).then(
-      //   () => {
-      //     navigate('/')
-      //     console.log(authService.getCurrentUser())
-      //   },
-      //   (error) => {
-      //     const res =
-      //       (error.response && error.response.data && error.response.data.message) ||
-      //       error.message ||
-      //       error.toString()
-      //     // After recieving the server request
-      //     setResMessage(res)
-      //     setLoading(false)
-      //   },
-      // )
-      incrementSection()
+      console.log('FIRST SECTION')
+      console.log(stuNicAndExamForm)
+
+      // Sending to the server
+      setLoading(true)
+      setResMessage('')
+      studentService.stuNicAndExamFormCheck(stuNicAndExamForm).then(
+        () => {
+          setLoading(false)
+          incrementSection()
+        },
+        (error) => {
+          const res =
+            (error.response && error.response.data && error.response.data.message) ||
+            error.message ||
+            error.toString()
+          // After recieving the server request
+          setResMessage(res)
+          setLoading(false)
+        },
+      )
     }
   }
 
@@ -317,6 +315,12 @@ const StudentRegistration = () => {
           </CCardBody>
         </CCard>
 
+        {resMessage && (
+          <CAlert color="danger" className="text-center">
+            {resMessage}
+          </CAlert>
+        )}
+
         <CRow>
           <CCol md={4} className="ms-auto">
             <CButtonGroup size="sm" className="w-100">
@@ -329,7 +333,7 @@ const StudentRegistration = () => {
                 className="p-2"
                 onClick={handleStuNicAndExamFormSubmit}
               >
-                Next
+                {loading && <CSpinner size="sm" />} Next
               </CButton>
             </CButtonGroup>
           </CCol>
@@ -439,25 +443,27 @@ const StudentRegistration = () => {
         genderError
       )
     ) {
-      // // Sending to the server
-      // setLoading(true)
-      // setResMessage('')
-      // authService.login(loginForm.email, loginForm.password).then(
-      //   () => {
-      //     navigate('/')
-      //     console.log(authService.getCurrentUser())
-      //   },
-      //   (error) => {
-      //     const res =
-      //       (error.response && error.response.data && error.response.data.message) ||
-      //       error.message ||
-      //       error.toString()
-      //     // After recieving the server request
-      //     setResMessage(res)
-      //     setLoading(false)
-      //   },
-      // )
-      incrementSection()
+      console.log('SECOND SECTION')
+      console.log(stuDetailsForm)
+
+      // Sending to the server
+      setLoading(true)
+      setResMessage('')
+      studentService.stuDetailsFormCheck(stuDetailsForm).then(
+        () => {
+          setLoading(false)
+          incrementSection()
+        },
+        (error) => {
+          const res =
+            (error.response && error.response.data && error.response.data.message) ||
+            error.message ||
+            error.toString()
+          // After recieving the server request
+          setResMessage(res)
+          setLoading(false)
+        },
+      )
     }
   }
 
@@ -571,6 +577,12 @@ const StudentRegistration = () => {
           </CCardBody>
         </CCard>
 
+        {resMessage && (
+          <CAlert color="danger" className="text-center">
+            {resMessage}
+          </CAlert>
+        )}
+
         <CRow>
           <CCol md={4} className="ms-auto">
             <CButtonGroup size="sm" className="w-100">
@@ -589,7 +601,7 @@ const StudentRegistration = () => {
                 className="p-2"
                 onClick={handleStuDetailsFormSubmit}
               >
-                Next
+                {loading && <CSpinner size="sm" />} Next
               </CButton>
             </CButtonGroup>
           </CCol>
@@ -691,25 +703,27 @@ const StudentRegistration = () => {
 
     // If no errors exist, send to the server
     if (!(emailError || phoneError || passwordError || confirmPasswordError)) {
-      // // Sending to the server
-      // setLoading(true)
-      // setResMessage('')
-      // authService.login(loginForm.email, loginForm.password).then(
-      //   () => {
-      //     navigate('/')
-      //     console.log(authService.getCurrentUser())
-      //   },
-      //   (error) => {
-      //     const res =
-      //       (error.response && error.response.data && error.response.data.message) ||
-      //       error.message ||
-      //       error.toString()
-      //     // After recieving the server request
-      //     setResMessage(res)
-      //     setLoading(false)
-      //   },
-      // )
-      incrementSection()
+      console.log('THIRD SECTION')
+      console.log(stuLoginDetailsForm)
+
+      // Sending to the server
+      setLoading(true)
+      setResMessage('')
+      studentService.loginDetailsFormCheck(stuLoginDetailsForm).then(
+        () => {
+          setLoading(false)
+          incrementSection()
+        },
+        (error) => {
+          const res =
+            (error.response && error.response.data && error.response.data.message) ||
+            error.message ||
+            error.toString()
+          // After recieving the server request
+          setResMessage(res)
+          setLoading(false)
+        },
+      )
     }
   }
 
@@ -808,6 +822,12 @@ const StudentRegistration = () => {
           </CCardBody>
         </CCard>
 
+        {resMessage && (
+          <CAlert color="danger" className="text-center">
+            {resMessage}
+          </CAlert>
+        )}
+
         <CRow>
           <CCol md={4} className="ms-auto">
             <CButtonGroup size="sm" className="w-100">
@@ -835,8 +855,147 @@ const StudentRegistration = () => {
     )
   }
 
+  /**
+   * SECTION 4
+   */
+  // Form data
+  const [agreement, setAgreement] = useState(false)
+
+  // Validate the data and
+  // If valid send to the server
+  // else show the errors
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    if (agreement) {
+      // Sending to the server
+      setLoading(true)
+      setResMessage('')
+
+      studentService.studentRegister(stuNicAndExamForm, stuDetailsForm, stuLoginDetailsForm).then(
+        () => {
+          navigate('/')
+          // console.log(authService.getCurrentUser())
+          console.log('Registered successfully')
+        },
+        (error) => {
+          const res =
+            (error.response && error.response.data && error.response.data.message) ||
+            error.message ||
+            error.toString()
+
+          // After recieving the server request
+          setResMessage(res)
+          setLoading(false)
+        },
+      )
+    }
+  }
+
+  const termsAndConditionsSection = () => {
+    return (
+      <section>
+        <p className="text-medium-emphasis text-center">
+          Before clicking on the “Register” button, carefully read and understand the terms and
+          conditions for users of this online service.
+        </p>
+
+        <CCard className="p-4 mb-3">
+          <CCardSubtitle className="text-decoration-underline">
+            Terms and Conditions for the users of this online service of University Grants
+            Commission
+          </CCardSubtitle>
+          <CCardBody>
+            {/* <CRow className="g-3 needs-validation">
+
+            </CRow> */}
+            <div>
+              <ol>
+                <li className="mb-3">
+                  I agree to use this online service only for the purpose of applying for university
+                  admission based on the G.C.E. (A/L) Examination, held in year 2020 and not for any
+                  other purpose.
+                </li>
+                <li className="mb-3">
+                  I am a candidate sat for the G.C.E. (A/L) Examination held in year 2020. I certify
+                  that the Index Number, National Identity Card Number and email address provided by
+                  me are my own and not belong to any other person.
+                </li>
+                <li className="mb-3">
+                  I certify that all details provided / will be provided by me in the registration
+                  and in each step of this application process for university admission via online
+                  service are true and correct.
+                </li>
+                <li className="mb-3">
+                  I understand and agree that providing any false, misleading, inaccurate or
+                  fraudulent information, details, statements at any time or any attempt to alter
+                  the content of this website, fraudulent logins to other user accounts or alter the
+                  content or data provided by me or anybody else will result in my university
+                  admission invalid at any time and I will be subjected to legal actions.
+                </li>
+                <li className="mb-3">
+                  I am aware that I am not allowed to change any information provided by me after
+                  submission of my application through this online service without permission of the
+                  University Grants Commission.
+                </li>
+                <li className="mb-3">
+                  By using this online service I do authorize the University Grants Commission to
+                  contact me via given email address, mobile phone number, by way of postal letters
+                  or any other electronic and non-electronic means of communication.
+                </li>
+                <li className="mb-3">
+                  I am well aware that submission of application for university admission through
+                  this online service is only for the purpose of authenticating my details and my
+                  electronic application will not be considered for university admission until I
+                  submit the duly signed printed application form along with the necessary
+                  supporting documents to the University Grants Commission on or before the last
+                  date for submission of applications as pronounced by press notices
+                </li>
+              </ol>
+            </div>
+          </CCardBody>
+          <CFormCheck
+            type="checkbox"
+            id="invalidCheck"
+            label="Agree to terms and conditions"
+            name="agreement"
+            value={agreement}
+            onChange={(e) => setAgreement(!agreement)}
+          />
+        </CCard>
+
+        {resMessage && (
+          <CAlert color="danger" className="text-center">
+            {resMessage}
+          </CAlert>
+        )}
+
+        <CRow>
+          <CCol md={4} className="ms-auto">
+            <CButtonGroup size="sm" className="w-100">
+              <CButton
+                color="dark"
+                variant="outline"
+                type="button"
+                className="p-2"
+                onClick={decrementSection}
+              >
+                Back
+              </CButton>
+              <CButton
+                color="primary"
+                type="button"
+                className="p-2"
+                onClick={handleSubmit}
+                disabled={!agreement ? true : false}
+              >
+                {loading && <CSpinner size="sm" />} Register
+              </CButton>
+            </CButtonGroup>
+          </CCol>
+        </CRow>
+      </section>
+    )
   }
 
   return (
@@ -848,11 +1007,11 @@ const StudentRegistration = () => {
               <CCardBody className="p-4">
                 <CForm onSubmit={handleSubmit}>
                   <h1 className="text-center">Student Signup</h1>
-
                   {/* Sections */}
                   {sectionIndex === 0 && nicAndExamDetailsSection()}
                   {sectionIndex === 1 && studentDetailsSection()}
                   {sectionIndex === 2 && loginDetailsSection()}
+                  {sectionIndex === 3 && termsAndConditionsSection()}
                 </CForm>
               </CCardBody>
             </CCard>

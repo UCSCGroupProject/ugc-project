@@ -2,7 +2,6 @@ import axios from 'axios'
 
 const API_URL = 'http://localhost:8081/api/student'
 
-
 class AuthService {
   login(email, password) {
     return axios
@@ -29,11 +28,11 @@ class AuthService {
   }
 
   logout() {
-    localStorage.removeItem("student");
+    localStorage.removeItem('student')
   }
 
   getCurrentUser() {
-    return JSON.parse(localStorage.getItem("student"))
+    return JSON.parse(localStorage.getItem('student'))
   }
 }
 

@@ -4,7 +4,11 @@ import com.ugc.student.model.Role;
 import com.ugc.student.model.Student;
 import com.ugc.student.model.enums.E_Role;
 import com.ugc.student.payload.request.LoginRequest;
+import com.ugc.student.payload.request.studentRegistration.LoginDetailsRequest;
+import com.ugc.student.payload.request.studentRegistration.NICAndExamDetailsRequest;
 import com.ugc.student.payload.request.SignupRequest;
+import com.ugc.student.payload.request.studentRegistration.StudentDetailsRequest;
+import com.ugc.student.payload.request.studentRegistration.StudentRegisterRequest;
 import com.ugc.student.payload.response.JwtResponse;
 import com.ugc.student.payload.response.MessageResponse;
 import com.ugc.student.repository.RoleRepository;
@@ -23,14 +27,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "http://localhost:3001", maxAge = 3600)
+//@CrossOrigin(origins = "http://localhost:3001", maxAge = 3600)
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/student")
 public class StudentController {
@@ -139,5 +143,25 @@ public class StudentController {
         studentRepository.save(student);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully"));
+    }
+
+    @PostMapping("/stuNicAndExamFormCheck")
+    public ResponseEntity<?> stuNicAndExamFormCheck(@Valid @RequestBody NICAndExamDetailsRequest nicAndExamDetailsRequest) {
+        return ResponseEntity.ok(new MessageResponse("Section 1 validation passed"));
+    }
+
+    @PostMapping("/stuDetailsFormCheck")
+    public ResponseEntity<?> stuDetailsFormCheck(@Valid @RequestBody StudentDetailsRequest studentDetailsRequest) {
+        return ResponseEntity.ok(new MessageResponse("Section 2 validation passed"));
+    }
+
+    @PostMapping("/loginDetailsFormCheck")
+    public ResponseEntity<?> loginDetailsFormCheck(@Valid @RequestBody LoginDetailsRequest loginDetailsRequest) {
+        return ResponseEntity.ok(new MessageResponse("Section 3 validation passed"));
+    }
+
+    @PostMapping("/studentRegister")
+    public ResponseEntity<?> studentRegister(@Valid @RequestBody StudentRegisterRequest studentRegisterRequest) {
+        return ResponseEntity.ok(new MessageResponse("Registered!"));
     }
 }
