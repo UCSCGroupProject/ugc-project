@@ -355,6 +355,7 @@ const StudentRegistration = () => {
     pob: '',
     civilStatus: '',
     gender: '',
+    phone: '',
   })
 
   // Update the form data while input
@@ -375,6 +376,7 @@ const StudentRegistration = () => {
     pobError: '',
     civilStatusError: '',
     genderError: '',
+    phoneError: '',
   })
 
   // Validate the data and
@@ -391,6 +393,7 @@ const StudentRegistration = () => {
     let pobError = ''
     let civilStatusError = ''
     let genderError = ''
+    let phoneError = ''
 
     if (!v_required(stuDetailsForm.title)) {
       titleError = 'Title can not be empty.'
@@ -420,6 +423,10 @@ const StudentRegistration = () => {
       genderError = 'Gender can not be empty.'
     }
 
+    if (!v_required(stuDetailsForm.phone)) {
+      phoneError = 'Phone can not be empty.'
+    }
+
     // If errors exist, show errors
     setStuDetailsFormErrors({
       titleError,
@@ -429,6 +436,7 @@ const StudentRegistration = () => {
       pobError,
       civilStatusError,
       genderError,
+      phoneError,
     })
 
     // If no errors exist, send to the server
@@ -440,7 +448,8 @@ const StudentRegistration = () => {
         dobError ||
         pobError ||
         civilStatusError ||
-        genderError
+        genderError ||
+        phoneError
       )
     ) {
       console.log('SECOND SECTION')
@@ -573,6 +582,18 @@ const StudentRegistration = () => {
                   <option value="1">Female</option>
                 </CFormSelect>
               </CCol>
+              <CCol md={4}>
+                <CFormInput
+                  type="text"
+                  id="validationMobilePhoneNumber"
+                  label="Mobile phone number"
+                  name="phone"
+                  onChange={onUpdateInputInStuDetailsForm}
+                  value={stuDetailsForm.phone}
+                  feedback={stuDetailsFormErrors.phoneError}
+                  invalid={stuDetailsFormErrors.phoneError ? true : false}
+                />
+              </CCol>
             </CRow>
           </CCardBody>
         </CCard>
@@ -616,8 +637,9 @@ const StudentRegistration = () => {
   // Form data
   const [stuLoginDetailsForm, setStuLoginDetailsForm] = useState({
     // Login Details
+    username: '',
     email: '',
-    phone: '',
+    role: [],
     password: '',
     confirmPassword: '',
   })
@@ -648,8 +670,8 @@ const StudentRegistration = () => {
   // For data errors
   const [stuLoginDetailsFormErrors, setStuLoginDetailsFormErrors] = useState({
     // Login Details
+    usernameError: '',
     emailError: '',
-    phoneError: '',
     passwordError: '',
     confirmPasswordError: '',
   })
@@ -661,19 +683,19 @@ const StudentRegistration = () => {
     e.preventDefault()
 
     // Student Details
+    let usernameError = ''
     let emailError = ''
-    let phoneError = ''
     let passwordError = ''
     let confirmPasswordError = ''
+
+    if (!v_required(stuLoginDetailsForm.username)) {
+      usernameError = 'Username can not be empty.'
+    }
 
     if (!v_required(stuLoginDetailsForm.email)) {
       emailError = 'Email can not be empty.'
     } else if (!v_email(stuLoginDetailsForm.email)) {
       emailError = 'Email is not valid.'
-    }
-
-    if (!v_required(stuLoginDetailsForm.phone)) {
-      phoneError = 'Phone can not be empty.'
     }
 
     if (!v_required(stuLoginDetailsForm.password)) {
@@ -695,14 +717,14 @@ const StudentRegistration = () => {
 
     // If errors exist, show errors
     setStuLoginDetailsFormErrors({
+      usernameError,
       emailError,
-      phoneError,
       passwordError,
       confirmPasswordError,
     })
 
     // If no errors exist, send to the server
-    if (!(emailError || phoneError || passwordError || confirmPasswordError)) {
+    if (!(usernameError || emailError || passwordError || confirmPasswordError)) {
       console.log('THIRD SECTION')
       console.log(stuLoginDetailsForm)
 
@@ -741,6 +763,18 @@ const StudentRegistration = () => {
               <CCol md={6}>
                 <CFormInput
                   type="text"
+                  id="validationMobilePhoneNumber"
+                  label="Username"
+                  name="username"
+                  onChange={onUpdateInputInsetStuLoginDetailsForm}
+                  value={stuLoginDetailsForm.username}
+                  feedback={stuLoginDetailsFormErrors.usernameError}
+                  invalid={stuLoginDetailsFormErrors.usernameError ? true : false}
+                />
+              </CCol>
+              <CCol md={6}>
+                <CFormInput
+                  type="text"
                   id="validationEmail"
                   label="Email"
                   name="email"
@@ -748,18 +782,6 @@ const StudentRegistration = () => {
                   value={stuLoginDetailsForm.email}
                   feedback={stuLoginDetailsFormErrors.emailError}
                   invalid={stuLoginDetailsFormErrors.emailError ? true : false}
-                />
-              </CCol>
-              <CCol md={4}>
-                <CFormInput
-                  type="text"
-                  id="validationMobilePhoneNumber"
-                  label="Mobile phone number"
-                  name="phone"
-                  onChange={onUpdateInputInsetStuLoginDetailsForm}
-                  value={stuLoginDetailsForm.phone}
-                  feedback={stuLoginDetailsFormErrors.phoneError}
-                  invalid={stuLoginDetailsFormErrors.phoneError ? true : false}
                 />
               </CCol>
               <CCol md={6}>
@@ -872,7 +894,29 @@ const StudentRegistration = () => {
       setLoading(true)
       setResMessage('')
 
-      studentService.studentRegister(stuNicAndExamForm, stuDetailsForm, stuLoginDetailsForm).then(
+      let completeData = {
+        nic: stuNicAndExamForm.nic,
+        nicDateOfIssue: stuNicAndExamForm.nicDateOfIssue,
+        indexNo: stuNicAndExamForm.indexNo,
+        usedIDType: stuNicAndExamForm.usedIDType,
+        usedIDNo: stuNicAndExamForm.usedIDNo,
+        usedIDDateOfIssue: stuNicAndExamForm.usedIDDateOfIssue,
+        usedIDCopy: stuNicAndExamForm.usedIDCopy,
+        title: stuDetailsForm.title,
+        nameWithInitials: stuDetailsForm.nameWithInitials,
+        fullName: stuDetailsForm.fullName,
+        dob: stuDetailsForm.dob,
+        pob: stuDetailsForm.pob,
+        civilStatus: stuDetailsForm.civilStatus,
+        gender: stuDetailsForm.gender,
+        phone: stuDetailsForm.phone,
+        username: stuLoginDetailsForm.username,
+        email: stuLoginDetailsForm.email,
+        role: stuLoginDetailsForm.role,
+        password: stuLoginDetailsForm.password,
+      }
+
+      studentService.studentRegister(completeData).then(
         () => {
           navigate('/')
           // console.log(authService.getCurrentUser())

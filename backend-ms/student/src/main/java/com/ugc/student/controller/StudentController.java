@@ -28,6 +28,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -147,21 +148,115 @@ public class StudentController {
 
     @PostMapping("/stuNicAndExamFormCheck")
     public ResponseEntity<?> stuNicAndExamFormCheck(@Valid @RequestBody NICAndExamDetailsRequest nicAndExamDetailsRequest) {
-        return ResponseEntity.ok(new MessageResponse("Section 1 validation passed"));
+        if (studentService.isNICAlreadyExists(nicAndExamDetailsRequest.getNic())) {
+            return ResponseEntity.ok(new MessageResponse("NIC already exists"));
+        }
+//
+        if (studentService.isIndexNoAlreadyExists(nicAndExamDetailsRequest.getIndexNo())) {
+            return ResponseEntity.ok(new MessageResponse("Index number already exists"));
+        }
+//
+//        studentService.saveNicAndExamDetails(nicAndExamDetailsRequest);
+
+        return ResponseEntity.ok(new MessageResponse("Section 1 validation passed and saved"));
     }
 
     @PostMapping("/stuDetailsFormCheck")
     public ResponseEntity<?> stuDetailsFormCheck(@Valid @RequestBody StudentDetailsRequest studentDetailsRequest) {
+        if(studentService.isPhoneAlreadyExists(studentDetailsRequest.getPhone())){
+            return ResponseEntity.ok(new MessageResponse("Phone number already exists"));
+        }
+
+//        studentService.saveStudentDetails(studentDetailsRequest);
+
         return ResponseEntity.ok(new MessageResponse("Section 2 validation passed"));
     }
 
     @PostMapping("/loginDetailsFormCheck")
     public ResponseEntity<?> loginDetailsFormCheck(@Valid @RequestBody LoginDetailsRequest loginDetailsRequest) {
+        if(studentRepository.existsByUsername(loginDetailsRequest.getUsername())){
+            return ResponseEntity.badRequest().body(new MessageResponse("Username is already taken"));
+        }
+
+        if(studentRepository.existsByEmail(loginDetailsRequest.getEmail())){
+            return ResponseEntity.badRequest().body(new MessageResponse("Email is already in use"));
+        }
+
+        Set<String> strRoles = loginDetailsRequest.getRole();
+        if (strRoles == null){
+            return ResponseEntity.ok(new MessageResponse("No role has been defined"));
+        } else{
+            for (String role: strRoles){
+                if(!roleRepository.existsByName(role)){
+                    return ResponseEntity.ok(new MessageResponse("Invalid role"));
+                }
+            }
+        }
+
         return ResponseEntity.ok(new MessageResponse("Section 3 validation passed"));
     }
 
     @PostMapping("/studentRegister")
     public ResponseEntity<?> studentRegister(@Valid @RequestBody StudentRegisterRequest studentRegisterRequest) {
+        System.out.println(studentRegisterRequest.getUsername());
+        Student student = new Student(
+                studentRegisterRequest.getUsername(),
+                studentRegisterRequest.getEmail(),
+                encoder.encode(studentRegisterRequest.getPassword())
+        );
+
+        Set<String> strRoles = studentRegisterRequest.getRole();
+        Set<Role> roles = new HashSet<>();
+
+        // Check whether the role is valid or not
+        if(strRoles == null){
+            Role userRole = roleRepository.findByName(E_Role.ROLE_STUDENT)
+                    .orElseThrow(
+                            () -> new RuntimeException("Role is not found")
+                    );
+            roles.add(userRole);
+        } else {
+            strRoles.forEach(role -> {
+                switch (role){
+                    case "student":
+                        Role studentRole = roleRepository.findByName(E_Role.ROLE_STUDENT).orElseThrow(
+                                ()-> new RuntimeException("Role is not found")
+                        );
+                        roles.add(studentRole);
+                        break;
+                }
+            });
+        }
+
+        System.out.println(roles);
+        student.setRoles(roles);
+
+        // Save student login details
+        studentRepository.save(student);
+
+        // Save student details
+        studentService.saveStudentDetails(
+                studentRegisterRequest.getTitle(),
+                studentRegisterRequest.getNameWithInitials(),
+                studentRegisterRequest.getFullName(),
+                studentRegisterRequest.getDob(),
+                studentRegisterRequest.getPob(),
+                studentRegisterRequest.getCivilStatus(),
+                studentRegisterRequest.getGender(),
+                studentRegisterRequest.getPhone()
+        );
+
+        // Save nic and exam details
+        studentService.saveNicAndExamDetails(
+                studentRegisterRequest.getNic(),
+                studentRegisterRequest.getNicDateOfIssue(),
+                studentRegisterRequest.getIndexNo(),
+                studentRegisterRequest.getUsedIDType(),
+                studentRegisterRequest.getUsedIDNo(),
+                studentRegisterRequest.getUsedIDDateOfIssue(),
+                studentRegisterRequest.getUsedIDCopy()
+        );
+
         return ResponseEntity.ok(new MessageResponse("Registered!"));
     }
 }

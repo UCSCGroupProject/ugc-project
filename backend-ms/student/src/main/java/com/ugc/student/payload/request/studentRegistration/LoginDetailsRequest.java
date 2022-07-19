@@ -3,11 +3,13 @@ package com.ugc.student.payload.request.studentRegistration;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Getter
 @Setter
 public class LoginDetailsRequest {
+    private String username;
     private String email;
-    private String phone;
+    private Set<String> role;
     private String password;
-    private String confirmPassword;
 }

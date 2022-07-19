@@ -1,20 +1,20 @@
 package com.ugc.student.payload.request.studentRegistration;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import java.util.Date;
 
 @Getter
 @Setter
 public class NICAndExamDetailsRequest {
-    @NotBlank
     private String nic;
-    private String confirmNic;
-    private String nicDateOfIssue;
+    private Date nicDateOfIssue;
     private String indexNo;
     private String usedIDType;
     private String usedIDNo;
-    private String usedIDDateOfIssue;
+    private Date usedIDDateOfIssue;
     private String usedIDCopy;
 }

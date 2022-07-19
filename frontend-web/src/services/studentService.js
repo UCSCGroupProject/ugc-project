@@ -24,7 +24,7 @@ class StudentService {
 
   stuNicAndExamFormCheck(stuNicAndExamForm) {
     return axios.post(API_URL + '/stuNicAndExamFormCheck', stuNicAndExamForm).then((response) => {
-      console.log(response.data)
+      console.log(response)
       return response.data
     })
   }
@@ -43,10 +43,8 @@ class StudentService {
     })
   }
 
-  studentRegister(stuNicAndExamForm,stuDetailsForm, stuLoginDetailsForm) {
-    return axios.post(API_URL + '/studentRegister', {
-        stuNicAndExamForm, stuDetailsForm, stuLoginDetailsForm
-    }).then((response) => {
+  studentRegister(completeData) {
+    return axios.post(API_URL + '/studentRegister', completeData).then((response) => {
       console.log(response.data)
       return response.data
     })
