@@ -535,6 +535,7 @@ import {
   // Form data
   const [staffLoginDetailsForm, setStaffLoginDetailsForm] = useState({
     // Login Details
+    username: '',
     email: '',
     phone: '',
     password: '',
@@ -567,6 +568,7 @@ import {
   // For data errors
   const [staffLoginDetailsFormErrors, setStaffLoginDetailsFormErrors] = useState({
     // Login Details
+    usernameError: '',
     emailError: '',
     phoneError: '',
     passwordError: '',
@@ -580,10 +582,15 @@ import {
     e.preventDefault()
 
     // Login Details
+    let usernameError = ''
     let emailError = ''
     let phoneError = ''
     let passwordError = ''
     let confirmPasswordError = ''
+
+    if (!v_required(staffLoginDetailsForm.username)) {
+      usernameError = 'Username cannot be empty.'
+    }
 
     if (!v_required(staffLoginDetailsForm.email)) {
       emailError = 'Email cannot be empty.'
@@ -614,6 +621,7 @@ import {
 
     // If errors exist, show errors
     setStaffLoginDetailsFormErrors({
+      usernameError,
       emailError,
       phoneError,
       passwordError,
@@ -621,7 +629,7 @@ import {
     })
 
     // If no errors exist, send to the server
-    if (!(emailError || phoneError || passwordError || confirmPasswordError)) {
+    if (!(usernameError || emailError || phoneError || passwordError || confirmPasswordError)) {
 
       // Sending to the server
       setLoading(true)
@@ -655,6 +663,18 @@ import {
           <CCardSubtitle>Login Details</CCardSubtitle>
           <CCardBody>
             <CRow className="g-3 needs-validation">
+            <CCol md={6}>
+                <CFormInput
+                  type="text"
+                  id="validationUsername"
+                  label="Username"
+                  name="username"
+                  onChange={onUpdateInputInsetStaffLoginDetailsForm}
+                  value={staffLoginDetailsForm.username}
+                  feedback={staffLoginDetailsFormErrors.usernameError}
+                  invalid={staffLoginDetailsFormErrors.usernameError ? true : false}
+                />
+              </CCol>
               <CCol md={6}>
                 <CFormInput
                   type="text"

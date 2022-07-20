@@ -1,4 +1,4 @@
-package com.ugc.staff.Controller.Payload.Request.StaffRegistration;
+package com.ugc.staff.Payload.Request.StaffRegistration;
 
 import lombok.Getter;
 import lombok.Setter;

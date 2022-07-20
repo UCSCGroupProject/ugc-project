@@ -14,7 +14,7 @@ import 'simplebar/dist/simplebar.min.css'
 
 // sidebar nav config
 import studentNavigation from '../../views/student/sidebarData'
-import staffNavigation from '../../views/student/sidebarData'
+import staffNavigation from '../../views/staff/sidebarData'
 
 const AppSidebar = () => {
   const dispatch = useDispatch()

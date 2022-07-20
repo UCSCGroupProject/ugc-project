@@ -1,12 +1,16 @@
 package com.ugc.staff.Controller;
 
-import com.ugc.staff.Controller.Payload.Request.StaffRegistration.RoleDetailsRequest;
+import com.ugc.staff.Payload.Request.SignUpRequest;
 import com.ugc.staff.Model.ALPassedStudent;
 import com.ugc.staff.Model.ATPassedStudent;
 import com.ugc.staff.Model.AppliedStudent;
+import com.ugc.staff.Payload.Response.MessageResponse;
 import com.ugc.staff.Service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -18,9 +22,19 @@ import java.util.List;
 public class StaffController {
     private final StaffService staffService;
 
+    private PasswordEncoder passwordEncoder;
+
     @Autowired
-    public StaffController(StaffService staffService) {
+    public StaffController(StaffService staffService, PasswordEncoder passwordEncoder) {
         this.staffService = staffService;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @Bean
+    CommandLineRunner runner(){
+        return  args -> {
+            staffService.initRoles();
+        };
     }
 
     @GetMapping(path = "appliedStudents")
@@ -38,8 +52,20 @@ public class StaffController {
         return staffService.getATPassedStudents();
     }
 
-    @PostMapping(path = "/RoleDetailsFormCheck")
-    public ResponseEntity<?> RoleDetailsFormCheck(@Valid @RequestBody RoleDetailsRequest roleDetailsRequest){
+    @PostMapping(path = "/register")
+    public ResponseEntity<?> register(@Valid @RequestBody SignUpRequest signUpRequest){
+        if(staffService.findByUsername(signUpRequest.getUsername())){
+            return ResponseEntity.badRequest().body(new MessageResponse("Username is already taken"));
+        }
 
+        if(staffService.findByEmail(signUpRequest.getEmail())){
+            return ResponseEntity.badRequest().body(new MessageResponse("Email is already taken"));
+        }
+
+        // New user account creation
+        staffService.createUser(signUpRequest.getUsername(),
+                signUpRequest.getEmail(), passwordEncoder.encode(signUpRequest.getPassword()), signUpRequest.getRole());
+
+        return ResponseEntity.ok(new MessageResponse("User registered successfully"));
     }
 }
