@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Random;
 
 @Service
 public class StudentService {
@@ -51,5 +52,12 @@ public class StudentService {
         StudentDetails studentDetails = new StudentDetails(title, nameWithInitials, fullName, dob, pob, civilStatus,  gender, phone );
 
         studentDetailsRepository.save(studentDetails);
+    }
+
+    public int generateOTP(){
+        Random random = new Random();
+        int otp = 100000 + random.nextInt(900000);
+
+        return otp;
     }
 }

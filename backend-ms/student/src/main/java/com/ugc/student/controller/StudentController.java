@@ -4,6 +4,8 @@ import com.ugc.student.model.Role;
 import com.ugc.student.model.Student;
 import com.ugc.student.model.enums.E_Role;
 import com.ugc.student.payload.request.LoginRequest;
+import com.ugc.student.payload.request.otp.OTPRequest;
+import com.ugc.student.payload.request.otp.SmsRequest;
 import com.ugc.student.payload.request.studentRegistration.LoginDetailsRequest;
 import com.ugc.student.payload.request.studentRegistration.NICAndExamDetailsRequest;
 import com.ugc.student.payload.request.SignupRequest;
@@ -26,9 +28,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -39,6 +41,9 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/student")
 public class StudentController {
+    @Autowired
+    RestTemplate restTemplate;
+
     @Autowired
     AuthenticationManager authenticationManager;
 
@@ -170,6 +175,40 @@ public class StudentController {
 //        studentService.saveStudentDetails(studentDetailsRequest);
 
         return ResponseEntity.ok(new MessageResponse("Section 2 validation passed"));
+    }
+
+    int otp = 0;
+
+    @PostMapping("/generateOTP")
+    public void generateOTP(){
+        otp = studentService.generateOTP();
+
+        SmsRequest smsRequest = new SmsRequest("+94775642956", "Your OTP is " + otp);
+
+        restTemplate.postForObject(
+                "http://localhost:2/api/notification/sms",
+                smsRequest,
+                smsRequest.getClass()
+                );
+
+        System.out.println("Generated and sent");
+    }
+
+    @PostMapping("/validateOTP")
+    public boolean validateOTP(@RequestBody OTPRequest otpRequest){
+        if(otp != 0){
+            if(otp == otpRequest.getEnteredOtp()){
+                System.out.println("OTP valid");
+                return true;
+            }
+            else {
+                System.out.println("OTP invalid");
+                return false;
+            }
+        } else {
+            System.out.println("No OTP has been generated");
+            return false;
+        }
     }
 
     @PostMapping("/loginDetailsFormCheck")

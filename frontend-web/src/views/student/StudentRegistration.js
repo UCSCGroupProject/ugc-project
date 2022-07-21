@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {
   CButton,
   CCard,
@@ -16,9 +16,13 @@ import {
   CButtonGroup,
   CFormSelect,
   CFormCheck,
+  CInputGroup,
+  CFormLabel,
+  CFormFeedback,
+  CInputGroupText,
 } from '@coreui/react'
 
-import { cilCheckAlt } from '@coreui/icons'
+import { cilCheckAlt, cilTask } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
 import {
@@ -62,7 +66,7 @@ const StudentRegistration = () => {
     nicDateOfIssue: '',
     // Exam details
     indexNo: '',
-    usedIDType: '',
+    usedIDType: 'NIC',
     usedIDNo: '',
     usedIDDateOfIssue: '',
     usedIDCopy: '',
@@ -324,9 +328,13 @@ const StudentRegistration = () => {
         <CRow>
           <CCol md={4} className="ms-auto">
             <CButtonGroup size="sm" className="w-100">
-              <CButton color="dark" variant="outline" type="submit" className="p-2">
+              {/* <CButton color="dark" variant="outline" type="submit" className="p-2">
                 Cancel
-              </CButton>
+              </CButton> */}
+              <Link to="/" className="btn btn-outline-dark p-2">
+                Cancel
+              </Link>
+
               <CButton
                 color="primary"
                 type="button"
@@ -348,15 +356,79 @@ const StudentRegistration = () => {
   // Form data
   const [stuDetailsForm, setDetailsForm] = useState({
     // Student Details
-    title: '',
+    title: 'mrs',
     nameWithInitials: '',
     fullName: '',
     dob: '',
-    pob: '',
-    civilStatus: '',
-    gender: '',
+    pob: 'Colombo',
+    civilStatus: 'unmarried',
+    gender: 'male',
     phone: '',
   })
+
+  const [isPhoneValid, setIsPhoneValid] = useState(false)
+
+  useEffect(() => {
+    console.log(stuDetailsForm.phone.length)
+
+    if (stuDetailsForm.phone.length == 10) {
+      setIsPhoneValid(true)
+    } else {
+      setIsPhoneValid(false)
+    }
+  }, [stuDetailsForm.phone])
+
+  const [otpState, setOtpState] = useState({
+    otp: '',
+    enteredOtp: '',
+    isSendOtp: false,
+    isResendOtp: false,
+    isEnteredOtpValid: false,
+  })
+
+  const [otpStateError, setOtpStateError] = useState({
+    enteredOtpError: '',
+  })
+
+  const handleOtpSend = () => {
+    if (!otpState.isSendOtp) {
+      setOtpState((prev) => ({
+        ...prev,
+        otp: '15979',
+        isSendOtp: true,
+      }))
+    }
+
+    console.log('otp is ', otpState.otp)
+  }
+
+  const onUpdateOtp = (e) => {
+    setOtpState((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }))
+  }
+
+  const handleVerifyOtp = () => {
+    console.log('OTP STATE')
+    console.log(otpState)
+    console.log('OTP STATE ERROR')
+    console.log(otpStateError)
+
+    let enteredOtpError = ''
+
+    if (otpState.otp !== otpState.enteredOtp) {
+      enteredOtpError = 'OTP is not valid'
+    } else {
+      setOtpState((prev) => ({
+        ...prev,
+        isEnteredOtpValid: true,
+      }))
+    }
+
+    console.log(enteredOtpError)
+    setOtpStateError({ enteredOtpError })
+  }
 
   // Update the form data while input
   const onUpdateInputInStuDetailsForm = (e) => {
@@ -507,6 +579,7 @@ const StudentRegistration = () => {
                   type="text"
                   id="validationNameWithInitials"
                   label="Name of the Applicant with initials (English Block Letters Eg: BANDARA DPS)"
+                  className="text-uppercase"
                   name="nameWithInitials"
                   onChange={onUpdateInputInStuDetailsForm}
                   value={stuDetailsForm.nameWithInitials}
@@ -519,6 +592,7 @@ const StudentRegistration = () => {
                   type="text"
                   id="validationFullName"
                   label="Applicant’s Full Name (English Block Letters)"
+                  className="text-uppercase"
                   name="fullName"
                   onChange={onUpdateInputInStuDetailsForm}
                   value={stuDetailsForm.fullName}
@@ -548,10 +622,31 @@ const StudentRegistration = () => {
                   feedback={stuDetailsFormErrors.pobError}
                   invalid={stuDetailsFormErrors.pobError ? true : false}
                 >
-                  <option>01 - Colombo</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
+                  <option value="Colombo">Colombo</option>
+                  <option value="Gampaha">Gampaha</option>
+                  <option value="Kalutara">Kalutara</option>
+                  <option value="Kandy">Kandy</option>
+                  <option value="Matale">Matale</option>
+                  <option value="Nuwara Eliya">Nuwara Eliya</option>
+                  <option value="Galle">Galle</option>
+                  <option value="Matara">Matara</option>
+                  <option value="Hambantota">Hambantota</option>
+                  <option value="Jaffna">Jaffna</option>
+                  <option value="Kilinochchi">Kilinochchi</option>
+                  <option value="Mannar">Mannar</option>
+                  <option value="Vavuniya">Vavuniya</option>
+                  <option value="Mullaitivu">Mullaitivu</option>
+                  <option value="Batticaloa">Batticaloa</option>
+                  <option value="Ampara">Ampara</option>
+                  <option value="Trincomalee">Trincomalee</option>
+                  <option value="Kurunegala">Kurunegala</option>
+                  <option value="Puttalam">Puttalam</option>
+                  <option value="Anuradhapura">Anuradhapura</option>
+                  <option value="Polonnaruwa">Polonnaruwa</option>
+                  <option value="Badulla">Badulla</option>
+                  <option value="Moneragala">Moneragala</option>
+                  <option value="Ratnapura">Ratnapura</option>
+                  <option value="Kegalle">Kegalle</option>
                 </CFormSelect>
               </CCol>
               <CCol md={3}>
@@ -564,8 +659,8 @@ const StudentRegistration = () => {
                   feedback={stuDetailsFormErrors.civilStatusError}
                   invalid={stuDetailsFormErrors.civilStatusError ? true : false}
                 >
-                  <option value="0">Unmarried</option>
-                  <option value="1">Married</option>
+                  <option value="unmarried">Unmarried</option>
+                  <option value="married">Married</option>
                 </CFormSelect>
               </CCol>
               <CCol md={2}>
@@ -578,22 +673,76 @@ const StudentRegistration = () => {
                   feedback={stuDetailsFormErrors.genderError}
                   invalid={stuDetailsFormErrors.genderError ? true : false}
                 >
-                  <option value="0">Male</option>
-                  <option value="1">Female</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
                 </CFormSelect>
               </CCol>
               <CCol md={4}>
-                <CFormInput
-                  type="text"
-                  id="validationMobilePhoneNumber"
-                  label="Mobile phone number"
-                  name="phone"
-                  onChange={onUpdateInputInStuDetailsForm}
-                  value={stuDetailsForm.phone}
-                  feedback={stuDetailsFormErrors.phoneError}
-                  invalid={stuDetailsFormErrors.phoneError ? true : false}
-                />
+                <CFormLabel htmlFor="validationCustomUsername">Phone number</CFormLabel>
+                <CInputGroup className="has-validation">
+                  {/* <CInputGroupText>@</CInputGroupText> */}
+                  <CFormInput
+                    type="number"
+                    id="validationMobilePhoneNumber"
+                    name="phone"
+                    onChange={onUpdateInputInStuDetailsForm}
+                    value={stuDetailsForm.phone}
+                    feedback={stuDetailsFormErrors.phoneError}
+                    invalid={stuDetailsFormErrors.phoneError ? true : false}
+                    disabled={otpState.isEnteredOtpValid}
+                  />
+                  {otpState.isEnteredOtpValid && (
+                    <CInputGroupText className="bg-success text-white">
+                      <CIcon icon={cilTask} size="lg" className="mx-2 my-1" />
+                    </CInputGroupText>
+                  )}
+                  {!otpState.isEnteredOtpValid && (
+                    <CButton
+                      color="warning"
+                      type="button"
+                      className="p-2 text-white"
+                      onClick={handleOtpSend}
+                      disabled={!isPhoneValid}
+                    >
+                      {loading && <CSpinner size="sm" />} Send OTP
+                    </CButton>
+                  )}
+                </CInputGroup>
               </CCol>
+              {otpState.isSendOtp && (
+                <CCol md={3}>
+                  <CFormLabel htmlFor="validationCustomUsername">OTP</CFormLabel>
+                  <CInputGroup className="has-validation">
+                    <CFormInput
+                      type="text"
+                      id="validationOTP"
+                      name="enteredOtp"
+                      onChange={onUpdateOtp}
+                      value={otpState.enteredOtp}
+                      // feedback="asd"
+                      invalid={otpStateError.enteredOtpError ? true : false}
+                      disabled={otpState.isEnteredOtpValid}
+                    />
+                    {otpState.isEnteredOtpValid && (
+                      <CInputGroupText className="bg-success text-white">
+                        <CIcon icon={cilTask} size="lg" className="mx-2 my-1" />
+                      </CInputGroupText>
+                    )}
+
+                    {!otpState.isEnteredOtpValid && (
+                      <CButton
+                        color="info"
+                        type="button"
+                        className="p-2 text-white"
+                        onClick={handleVerifyOtp}
+                      >
+                        {loading && <CSpinner size="sm" />} Verify OTP
+                      </CButton>
+                    )}
+                    <CFormFeedback invalid>{otpStateError.enteredOtpError}</CFormFeedback>
+                  </CInputGroup>
+                </CCol>
+              )}
             </CRow>
           </CCardBody>
         </CCard>

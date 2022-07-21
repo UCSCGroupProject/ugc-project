@@ -95,7 +95,7 @@ const Login = () => {
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
         <CRow className="justify-content-center">
-          <CCol md={9} lg={7} xl={6}>
+          <CCol md={7} lg={6} xl={5}>
             <CCard className="mx-4">
               <CCardBody className="p-4">
                 <CForm onSubmit={handleSubmit}>
@@ -145,6 +145,9 @@ const Login = () => {
 
                   <div className="m-4 text-center">
                     <Link to="/forgotpassword">Forgot password?</Link>
+                  </div>
+                  <div className="mb-4 text-center">
+                    <Link to="/studentregister">Create an account?</Link>
                   </div>
                 </CForm>
               </CCardBody>
