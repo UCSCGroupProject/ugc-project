@@ -18,6 +18,7 @@ const Staff_Selected_Students = React.lazy(() => import('./views/staff/selection
 const Staff_Applied_Students = React.lazy(() => import('./views/staff/selection/AppliedStudents'))
 const Staff_Eligible_Students = React.lazy(() => import('./views/staff/selection/EligibleStudents'))
 const Staff_ZScore = React.lazy(() => import('./views/staff/zscore/ZScore'))
+const Staff_ZScoreTable = React.lazy(() => import('./views/staff/zscore/ZScoreTable'))
 const Staff_Analytics = React.lazy(() => import('./views/staff/analytics/Analytics'))
 const Staff_Status_Validation = React.lazy(() => import('./views/staff/validation/Status'))
 const Staff_Achievement_Validation = React.lazy(() => import('./views/staff/validation/Achievement'))
@@ -56,7 +57,8 @@ const routes = [
   { path: '/staff/selectedstudents', name: 'Selected Students', element: Staff_Selected_Students },
   { path: '/staff/appliedstudents', name: 'Applied Students', element: Staff_Applied_Students },
   { path: '/staff/eligiblestudents', name: 'Eligible Students', element: Staff_Eligible_Students },
-  { path: '/staff/zscore', name: 'ZScore Tables', element: Staff_ZScore },
+  { path: '/staff/zscore', name: 'ZScore Table Selection', element: Staff_ZScore },
+  { path: '/staff/zscoretable', name: 'ZScore Tables', element: Staff_ZScoreTable },
   { path: '/staff/analytics', name: 'Analytics', element: Staff_Analytics },
   { path: '/staff/validation/status', name: 'Student Status', element: Staff_Status_Validation },
   { path: '/staff/validation/achievement', name: 'Student Achievements', element: Staff_Achievement_Validation },

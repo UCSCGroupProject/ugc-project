@@ -358,7 +358,7 @@ const StaffRegistration = () => {
       // Sending to the server
       setLoading(true)
       setResMessage('')
-      staffService.staffDetailsFormCheck(staffPersonalDetailsForm).then(
+      staffService.staffPersonalDetailsFormCheck(staffPersonalDetailsForm).then(
         () => {
           setLoading(false)
           incrementSection()
@@ -533,7 +533,6 @@ const StaffRegistration = () => {
     // Login Details
     username: '',
     email: '',
-    phone: '',
     password: '',
     confirmPassword: '',
   })
@@ -566,7 +565,6 @@ const StaffRegistration = () => {
     // Login Details
     usernameError: '',
     emailError: '',
-    phoneError: '',
     passwordError: '',
     confirmPasswordError: '',
   })
@@ -580,7 +578,6 @@ const StaffRegistration = () => {
     // Login Details
     let usernameError = ''
     let emailError = ''
-    let phoneError = ''
     let passwordError = ''
     let confirmPasswordError = ''
 
@@ -592,10 +589,6 @@ const StaffRegistration = () => {
       emailError = 'Email cannot be empty.'
     } else if (!v_email(staffLoginDetailsForm.email)) {
       emailError = 'Email is not valid.'
-    }
-
-    if (!v_required(staffLoginDetailsForm.phone)) {
-      phoneError = 'Phone cannot be empty.'
     }
 
     if (!v_required(staffLoginDetailsForm.password)) {
@@ -619,13 +612,12 @@ const StaffRegistration = () => {
     setStaffLoginDetailsFormErrors({
       usernameError,
       emailError,
-      phoneError,
       passwordError,
       confirmPasswordError,
     })
 
     // If no errors exist, send to the server
-    if (!(usernameError || emailError || phoneError || passwordError || confirmPasswordError)) {
+    if (!(usernameError || emailError || passwordError || confirmPasswordError)) {
       // Sending to the server
       setLoading(true)
       setResMessage('')
@@ -678,18 +670,6 @@ const StaffRegistration = () => {
                   value={staffLoginDetailsForm.email}
                   feedback={staffLoginDetailsFormErrors.emailError}
                   invalid={staffLoginDetailsFormErrors.emailError ? true : false}
-                />
-              </CCol>
-              <CCol md={4}>
-                <CFormInput
-                  type="text"
-                  id="validationMobilePhoneNumber"
-                  label="Mobile phone number"
-                  name="phone"
-                  onChange={onUpdateInputInsetStaffLoginDetailsForm}
-                  value={staffLoginDetailsForm.phone}
-                  feedback={staffLoginDetailsFormErrors.phoneError}
-                  invalid={staffLoginDetailsFormErrors.phoneError ? true : false}
                 />
               </CCol>
               <CCol md={6}>

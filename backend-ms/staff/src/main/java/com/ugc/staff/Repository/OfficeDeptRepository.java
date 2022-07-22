@@ -9,9 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface OfficeDeptRepository extends JpaRepository<OfficeDept, Integer> {
-
-    // TODO: OLD CODE - Remove those
-//    Boolean existsByName(String officeDept);
-
     Optional<OfficeDept> findByName(E_OfficeDept name);
 }

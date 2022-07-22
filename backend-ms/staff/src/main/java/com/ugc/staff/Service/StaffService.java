@@ -21,13 +21,15 @@ public class StaffService {
 
     private final OfficeDeptRepository officeDeptRepository;
 
-    public StaffService(AppliedStudentRepository appliedStudentRepository, ALPassedStudentRepository alPassedStudentRepository, ATPassedStudentRepository atPassedStudentRepository, StaffRepository staffRepository, RoleRepository roleRepository, OfficeDeptRepository officeDeptRepository) {
+    private final PersonalDetailsRepository personalDetailsRepository;
+    public StaffService(AppliedStudentRepository appliedStudentRepository, ALPassedStudentRepository alPassedStudentRepository, ATPassedStudentRepository atPassedStudentRepository, StaffRepository staffRepository, RoleRepository roleRepository, OfficeDeptRepository officeDeptRepository, PersonalDetailsRepository personalDetailsRepository) {
         this.appliedStudentRepository = appliedStudentRepository;
         this.alPassedStudentRepository = alPassedStudentRepository;
         this.atPassedStudentRepository = atPassedStudentRepository;
         this.staffRepository = staffRepository;
         this.roleRepository = roleRepository;
         this.officeDeptRepository = officeDeptRepository;
+        this.personalDetailsRepository = personalDetailsRepository;
     }
 
     public void initRoles() {
@@ -38,7 +40,7 @@ public class StaffService {
         staffRole2.setName(E_Role.ROLE_ViceChairman);
 
         Role staffRole3 = new Role();
-        staffRole3.setName(E_Role.Senior_Assistant_Secretary);
+        staffRole3.setName(E_Role.ROLE_Senior_Assistant_Secretary);
 
         Role staffRole4 = new Role();
         staffRole4.setName(E_Role.ROLE_AssistantSecretary);
@@ -144,17 +146,6 @@ public class StaffService {
         staffRepository.save(staff);
     }
 
-    // TODO: OLD CODE - Remove those
-//    public boolean findRole(String role) {
-//        return roleRepository.existsByName(role);
-//    }
-//
-//    public boolean findOfficeDept(String office_dept) {
-//        return officeDeptRepository.existsByName(office_dept);
-//    }
-
-
-//    I added
     public boolean isOfficeDeptValid(String strOfficeDept){
         Optional<OfficeDept> offDept = null;
 
@@ -196,7 +187,7 @@ public class StaffService {
                 role = roleRepository.findByName(E_Role.ROLE_ViceChairman);
                 break;
             case "Senior Assistant Secretary":
-                role = roleRepository.findByName(E_Role.Senior_Assistant_Secretary);
+                role = roleRepository.findByName(E_Role.ROLE_Senior_Assistant_Secretary);
                 break;
             case "Assistant Secretary":
                 role = roleRepository.findByName(E_Role.ROLE_AssistantSecretary);
@@ -222,5 +213,13 @@ public class StaffService {
             return true;
         else
             return false;
+    }
+
+    public boolean doesPhoneNumberAlreadyExist(String phoneNumber) {
+        return personalDetailsRepository.existsByPhoneNumber(phoneNumber);
+    }
+
+    public boolean doesHomeNumberAlreadyExist(String phoneNumber) {
+        return personalDetailsRepository.existsByHomeNumber(phoneNumber);
     }
 }
