@@ -49,6 +49,29 @@ class StudentService {
       return response.data
     })
   }
+
+  sendOtp(phone) {
+    const smsRequest = {
+      phoneNumber: phone,
+      message: 'Your OTP is ',
+    }
+
+    return axios.post(API_URL + '/generateOTP', smsRequest).then((response) => {
+      console.log(response.data)
+      return response.data
+    })
+  }
+
+  validateOtp(enteredOtp) {
+    const otpRequest = {
+      enteredOtp: enteredOtp,
+    }
+
+    return axios.post(API_URL + '/validateOTP', otpRequest).then((response) => {
+      // console.log(response.data)
+      return response.data
+    })
+  }
 }
 
 export default new StudentService()

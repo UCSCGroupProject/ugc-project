@@ -1,6 +1,6 @@
 package com.ugc.student.security.services;
 
-import com.ugc.student.model.Student;
+import com.ugc.student.payload.model.Student;
 import com.ugc.student.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

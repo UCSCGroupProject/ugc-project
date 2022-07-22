@@ -1,4 +1,4 @@
-package com.ugc.student.model;
+package com.ugc.student.payload.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

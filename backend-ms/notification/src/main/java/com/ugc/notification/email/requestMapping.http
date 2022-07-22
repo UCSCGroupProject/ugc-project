@@ -1,0 +1,8 @@
+### Student account verification email sending
+POST http://localhost:2/api/notification/email/sendVerifyAccountEmail
+Content-Type: application/json
+
+{
+  "recipient": "dhanushkasandakelum711@gmail.com",
+  "msgBody": "159753"
+}

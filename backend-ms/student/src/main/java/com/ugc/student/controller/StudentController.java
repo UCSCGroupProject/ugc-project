@@ -1,8 +1,8 @@
 package com.ugc.student.controller;
 
-import com.ugc.student.model.Role;
-import com.ugc.student.model.Student;
-import com.ugc.student.model.enums.E_Role;
+import com.ugc.student.payload.model.Role;
+import com.ugc.student.payload.model.Student;
+import com.ugc.student.payload.model.enums.E_Role;
 import com.ugc.student.payload.request.LoginRequest;
 import com.ugc.student.payload.request.otp.OTPRequest;
 import com.ugc.student.payload.request.otp.SmsRequest;
@@ -61,12 +61,6 @@ public class StudentController {
 
     @Autowired
     StudentService studentService;
-
-
-//    @PostConstruct
-//    public void initRoles() {
-//        studentService.initRoles();
-//    }
 
     @Bean
     CommandLineRunner runner(){
@@ -156,12 +150,10 @@ public class StudentController {
         if (studentService.isNICAlreadyExists(nicAndExamDetailsRequest.getNic())) {
             return ResponseEntity.ok(new MessageResponse("NIC already exists"));
         }
-//
+
         if (studentService.isIndexNoAlreadyExists(nicAndExamDetailsRequest.getIndexNo())) {
             return ResponseEntity.ok(new MessageResponse("Index number already exists"));
         }
-//
-//        studentService.saveNicAndExamDetails(nicAndExamDetailsRequest);
 
         return ResponseEntity.ok(new MessageResponse("Section 1 validation passed and saved"));
     }
@@ -172,26 +164,28 @@ public class StudentController {
             return ResponseEntity.ok(new MessageResponse("Phone number already exists"));
         }
 
-//        studentService.saveStudentDetails(studentDetailsRequest);
-
         return ResponseEntity.ok(new MessageResponse("Section 2 validation passed"));
     }
 
     int otp = 0;
 
     @PostMapping("/generateOTP")
-    public void generateOTP(){
+    public void generateOTP(@Valid @RequestBody SmsRequest smsRequest){
         otp = studentService.generateOTP();
 
-        SmsRequest smsRequest = new SmsRequest("+94775642956", "Your OTP is " + otp);
+        // Even sms request sent a message in built, here i am using message redefinition on server side
+        SmsRequest otpSms = new SmsRequest(
+                smsRequest.getPhoneNumber(),
+                "Your OTP is " + otp
+        );
 
         restTemplate.postForObject(
                 "http://localhost:2/api/notification/sms",
-                smsRequest,
+                otpSms,
                 smsRequest.getClass()
                 );
 
-        System.out.println("Generated and sent");
+        System.out.println("Generated and sent to " + smsRequest.getPhoneNumber());
     }
 
     @PostMapping("/validateOTP")

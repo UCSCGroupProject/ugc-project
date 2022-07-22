@@ -45,6 +45,18 @@ Content-Type: application/json
   "nameWithInitials": "sdfsdf",
   "pob": "2",
   "title": "miss"
+  "phone": "0775642956"
+}
+
+### OTP generation
+POST http://localhost:8081/api/student/generateOTP
+
+### OTP validation
+POST http://localhost:8081/api/student/validateOTP
+Content-Type: application/json
+
+{
+  "enteredOtp": "889910"
 }
 
 ### Student registration - Section 3 Form check
@@ -55,7 +67,6 @@ Content-Type: application/json
   "confirmPassword": "ds2254890A@",
   "email": "dhanushkasandakelum711@gmail.com",
   "password": "ds2254890A@",
-  "phone": "0775642956"
 }
 
 ### Student registration - Entire registration form submittion

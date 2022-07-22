@@ -1,11 +1,9 @@
 package com.ugc.student.service;
 
-import com.ugc.student.model.NICAndExamDetails;
-import com.ugc.student.model.Role;
-import com.ugc.student.model.StudentDetails;
-import com.ugc.student.model.enums.E_Role;
-import com.ugc.student.payload.request.studentRegistration.NICAndExamDetailsRequest;
-import com.ugc.student.payload.request.studentRegistration.StudentDetailsRequest;
+import com.ugc.student.payload.model.NICAndExamDetails;
+import com.ugc.student.payload.model.Role;
+import com.ugc.student.payload.model.StudentDetails;
+import com.ugc.student.payload.model.enums.E_Role;
 import com.ugc.student.repository.NICAndExamDetailsRepository;
 import com.ugc.student.repository.RoleRepository;
 import com.ugc.student.repository.StudentDetailsRepository;

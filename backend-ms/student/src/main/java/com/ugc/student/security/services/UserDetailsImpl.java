@@ -1,6 +1,6 @@
 package com.ugc.student.security.services;
 
-import com.ugc.student.model.Student;
+import com.ugc.student.payload.model.Student;
 import net.minidev.json.annotate.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

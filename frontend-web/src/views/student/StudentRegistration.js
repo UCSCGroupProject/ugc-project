@@ -369,38 +369,23 @@ const StudentRegistration = () => {
   const [isPhoneValid, setIsPhoneValid] = useState(false)
 
   useEffect(() => {
-    console.log(stuDetailsForm.phone.length)
-
-    if (stuDetailsForm.phone.length == 10) {
+    if (stuDetailsForm.phone.length >= 10) {
       setIsPhoneValid(true)
     } else {
       setIsPhoneValid(false)
     }
   }, [stuDetailsForm.phone])
 
+  // OTP validation
   const [otpState, setOtpState] = useState({
-    otp: '',
-    enteredOtp: '',
     isSendOtp: false,
-    isResendOtp: false,
     isEnteredOtpValid: false,
   })
 
-  const [otpStateError, setOtpStateError] = useState({
-    enteredOtpError: '',
-  })
+  const [enteredOtpError, setEnteredOtpError] = useState('')
 
-  const handleOtpSend = () => {
-    if (!otpState.isSendOtp) {
-      setOtpState((prev) => ({
-        ...prev,
-        otp: '15979',
-        isSendOtp: true,
-      }))
-    }
-
-    console.log('otp is ', otpState.otp)
-  }
+  const [isSendingOTP, setIsSendingOTP] = useState(false)
+  const [isValidatingOTP, setIsValidatingOTP] = useState(false)
 
   const onUpdateOtp = (e) => {
     setOtpState((prev) => ({
@@ -409,25 +394,76 @@ const StudentRegistration = () => {
     }))
   }
 
-  const handleVerifyOtp = () => {
-    console.log('OTP STATE')
-    console.log(otpState)
-    console.log('OTP STATE ERROR')
-    console.log(otpStateError)
+  // Send OTP to the given phone number
+  const handleSendOTP = () => {
+    setOtpState((prev) => ({
+      ...prev,
+      isSendOtp: false,
+    }))
 
-    let enteredOtpError = ''
+    // Sending to the server
+    setIsSendingOTP(true)
+    setResMessage('')
 
-    if (otpState.otp !== otpState.enteredOtp) {
-      enteredOtpError = 'OTP is not valid'
-    } else {
-      setOtpState((prev) => ({
-        ...prev,
-        isEnteredOtpValid: true,
-      }))
-    }
+    studentService.sendOtp(stuDetailsForm.phone).then(
+      () => {
+        if (!otpState.isSendOtp) {
+          setOtpState((prev) => ({
+            ...prev,
+            isSendOtp: true,
+          }))
+        }
 
-    console.log(enteredOtpError)
-    setOtpStateError({ enteredOtpError })
+        // After recieving the server request
+        setIsSendingOTP(false)
+      },
+      (error) => {
+        const res =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString()
+        setResMessage(res)
+        setIsSendingOTP(false)
+      },
+    )
+  }
+
+  // Validate the OTP
+  const handleValidateOTP = () => {
+    setOtpState((prev) => ({
+      ...prev,
+      isEnteredOtpValid: false,
+    }))
+
+    // Sending to the server
+    setIsValidatingOTP(true)
+    setResMessage('')
+    setEnteredOtpError('')
+
+    studentService.validateOtp(otpState.enteredOtp).then(
+      (res) => {
+        console.log(res)
+        if (res) {
+          setOtpState((prev) => ({
+            ...prev,
+            isEnteredOtpValid: true,
+          }))
+        } else {
+          setEnteredOtpError('Entered OTP is not valid.')
+        }
+
+        // After recieving the server request
+        setIsValidatingOTP(false)
+      },
+      (error) => {
+        const res =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString()
+        setResMessage(res)
+        setIsValidatingOTP(false)
+      },
+    )
   }
 
   // Update the form data while input
@@ -497,6 +533,10 @@ const StudentRegistration = () => {
 
     if (!v_required(stuDetailsForm.phone)) {
       phoneError = 'Phone can not be empty.'
+    }
+
+    if (!otpState.isEnteredOtpValid) {
+      phoneError = 'Phone number should be validated using OTP.'
     }
 
     // If errors exist, show errors
@@ -682,12 +722,12 @@ const StudentRegistration = () => {
                 <CInputGroup className="has-validation">
                   {/* <CInputGroupText>@</CInputGroupText> */}
                   <CFormInput
-                    type="number"
+                    type="text"
                     id="validationMobilePhoneNumber"
                     name="phone"
                     onChange={onUpdateInputInStuDetailsForm}
                     value={stuDetailsForm.phone}
-                    feedback={stuDetailsFormErrors.phoneError}
+                    // feedback={stuDetailsFormErrors.phoneError}
                     invalid={stuDetailsFormErrors.phoneError ? true : false}
                     disabled={otpState.isEnteredOtpValid}
                   />
@@ -701,12 +741,14 @@ const StudentRegistration = () => {
                       color="warning"
                       type="button"
                       className="p-2 text-white"
-                      onClick={handleOtpSend}
+                      // onClick={handleOtpSend}
+                      onClick={handleSendOTP}
                       disabled={!isPhoneValid}
                     >
-                      {loading && <CSpinner size="sm" />} Send OTP
+                      {isSendingOTP && <CSpinner size="sm" />} Send OTP
                     </CButton>
                   )}
+                  <CFormFeedback invalid>{stuDetailsFormErrors.phoneError}</CFormFeedback>
                 </CInputGroup>
               </CCol>
               {otpState.isSendOtp && (
@@ -720,7 +762,7 @@ const StudentRegistration = () => {
                       onChange={onUpdateOtp}
                       value={otpState.enteredOtp}
                       // feedback="asd"
-                      invalid={otpStateError.enteredOtpError ? true : false}
+                      invalid={enteredOtpError ? true : false}
                       disabled={otpState.isEnteredOtpValid}
                     />
                     {otpState.isEnteredOtpValid && (
@@ -734,12 +776,12 @@ const StudentRegistration = () => {
                         color="info"
                         type="button"
                         className="p-2 text-white"
-                        onClick={handleVerifyOtp}
+                        onClick={handleValidateOTP}
                       >
-                        {loading && <CSpinner size="sm" />} Verify OTP
+                        {isValidatingOTP && <CSpinner size="sm" />} Verify OTP
                       </CButton>
                     )}
-                    <CFormFeedback invalid>{otpStateError.enteredOtpError}</CFormFeedback>
+                    <CFormFeedback invalid>{enteredOtpError}</CFormFeedback>
                   </CInputGroup>
                 </CCol>
               )}
