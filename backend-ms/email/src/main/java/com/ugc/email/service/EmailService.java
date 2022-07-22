@@ -1,6 +1,6 @@
-package com.ugc.notification.email.service;
+package com.ugc.email.service;
 
-import com.ugc.notification.email.payload.request.EmailRequest;
+import com.ugc.email.payload.request.EmailRequest;
 
 public interface EmailService {
     // Method to send a simple email

@@ -1,7 +1,7 @@
-package com.ugc.notification.email.controller;
+package com.ugc.email.controller;
 
-import com.ugc.notification.email.payload.request.EmailRequest;
-import com.ugc.notification.email.service.EmailService;
+import com.ugc.email.payload.request.EmailRequest;
+import com.ugc.email.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/notification/email")
+@RequestMapping("/api/email")
 public class EmailController {
     @Autowired
     private EmailService emailService;
@@ -138,11 +138,5 @@ public class EmailController {
 
         return status;
     }
-
-
-
-
-
-
 
 }

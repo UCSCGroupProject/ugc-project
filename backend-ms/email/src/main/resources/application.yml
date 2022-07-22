@@ -1,13 +1,22 @@
 server:
   port:
-    8085
+    3
 
 spring:
   application:
     name:
       email
-  zipkin:
-    base-url: http://localhost:9411
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ucscgroupproject@gmail.com
+    password: okypfwaqistmyxwb
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 eureka:
   client:

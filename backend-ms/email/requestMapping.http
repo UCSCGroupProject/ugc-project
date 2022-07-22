@@ -1,5 +1,5 @@
 ### Student account verification email sending
-POST http://localhost:2/api/notification/email/sendVerifyAccountEmail
+POST http://localhost:3/api/email/sendVerifyAccountEmail
 Content-Type: application/json
 
 {

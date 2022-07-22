@@ -1,4 +1,4 @@
-package com.ugc.notification.email.payload.request;
+package com.ugc.email.payload.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,6 +1,6 @@
-package com.ugc.notification.email.service;
+package com.ugc.email.service;
 
-import com.ugc.notification.email.payload.request.EmailRequest;
+import com.ugc.email.payload.request.EmailRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
