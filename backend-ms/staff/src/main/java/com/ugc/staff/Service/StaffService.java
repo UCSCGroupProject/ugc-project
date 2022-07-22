@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -143,11 +144,83 @@ public class StaffService {
         staffRepository.save(staff);
     }
 
-    public boolean findRole(String role) {
-        return roleRepository.existsByName(role);
+    // TODO: OLD CODE - Remove those
+//    public boolean findRole(String role) {
+//        return roleRepository.existsByName(role);
+//    }
+//
+//    public boolean findOfficeDept(String office_dept) {
+//        return officeDeptRepository.existsByName(office_dept);
+//    }
+
+
+//    I added
+    public boolean isOfficeDeptValid(String strOfficeDept){
+        Optional<OfficeDept> offDept = null;
+
+        switch (strOfficeDept){
+            case "OC":
+                offDept = officeDeptRepository.findByName(E_OfficeDept.OFFICEDEPT_Office_Of_The_Chairman);
+                break;
+            case "OVC":
+                offDept = officeDeptRepository.findByName(E_OfficeDept.OFFICEDEPT_Office_Of_The_Vice_Chairman);
+                break;
+            case "OS":
+                offDept = officeDeptRepository.findByName(E_OfficeDept.OFFICEDEPT_Office_Of_The_Secretary);
+                break;
+            case "PD":
+                offDept = officeDeptRepository.findByName(E_OfficeDept.OFFICEDEPT_Personnel_Division);
+                break;
+            case "UAD":
+                offDept = officeDeptRepository.findByName(E_OfficeDept.OFFICEDEPT_University_Admissions_Department);
+                break;
+            case "AAD":
+                offDept = officeDeptRepository.findByName(E_OfficeDept.OFFICEDEPT_Academic_Affairs_Department);
+                break;
+            case "MISD":
+                offDept = officeDeptRepository.findByName(E_OfficeDept.OFFICEDEPT_Management_Information_Systems_Division);
+                break;
+        }
+
+        if (offDept != null)
+            return true;
+        else
+            return false;
     }
 
-    public boolean findOffice_Dept(String office_dept) {
-        return officeDeptRepository.existsByName(office_dept);
+    public boolean isRoleValid(String strRole){
+        Optional<Role> role = null;
+
+        switch (strRole){
+            case "Vice-Chairman":
+                role = roleRepository.findByName(E_Role.ROLE_ViceChairman);
+                break;
+            case "Senior Assistant Secretary":
+                role = roleRepository.findByName(E_Role.Senior_Assistant_Secretary);
+                break;
+            case "Assistant Secretary":
+                role = roleRepository.findByName(E_Role.ROLE_AssistantSecretary);
+                break;
+            case "Deputy Secretary":
+                role = roleRepository.findByName(E_Role.ROLE_DeputySecretary);
+                break;
+            case "Statistician":
+                role = roleRepository.findByName(E_Role.ROLE_Statistician);
+                break;
+            case "Assistant Statistician":
+                role = roleRepository.findByName(E_Role.ROLE_AssistantStatistician);
+                break;
+            case "Staff":
+                role = roleRepository.findByName(E_Role.ROLE_STAFF);
+                break;
+            case "Chairman":
+                role = roleRepository.findByName(E_Role.ROLE_Chairman);
+                break;
+        }
+
+        if (role != null)
+            return true;
+        else
+            return false;
     }
 }

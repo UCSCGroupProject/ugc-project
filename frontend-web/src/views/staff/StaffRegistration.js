@@ -1,67 +1,65 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
-    CButton,
-    CCard,
-    CCardBody,
-    CCol,
-    CContainer,
-    CForm,
-    CFormInput,
-    CRow,
-    CSpinner,
-    CAlert,
-    CCardSubtitle,
-    CButtonGroup,
-    CFormSelect,
-    CFormCheck,
-  } from '@coreui/react'
-  
-  import { cilCheckAlt } from '@coreui/icons'
-  import CIcon from '@coreui/icons-react'
-  
-  import {
-    v_required,
-    v_min,
-    v_match,
-    v_email,
-    v_containsUppercase,
-    v_containsLowercase,
-    v_containsNumber,
-    v_containsSpecialChars,
-  } from '../../utils/validator'
-  
-  import staffService from '../../services/staffService'
+  CButton,
+  CCard,
+  CCardBody,
+  CCol,
+  CContainer,
+  CForm,
+  CFormInput,
+  CRow,
+  CSpinner,
+  CAlert,
+  CCardSubtitle,
+  CButtonGroup,
+  CFormSelect,
+  CFormCheck,
+} from '@coreui/react'
 
-  const StaffRegistration = () => {
-    // For the server side requests and responses
-    const [loading, setLoading] = useState(false)
-    const [resMessage, setResMessage] = useState('')
-    let navigate = useNavigate()
+import { cilCheckAlt } from '@coreui/icons'
+import CIcon from '@coreui/icons-react'
 
-    // For the Section transitions
-    const [sectionIndex, setSectionIndex] = useState(0)
+import {
+  v_required,
+  v_min,
+  v_match,
+  v_email,
+  v_containsUppercase,
+  v_containsLowercase,
+  v_containsNumber,
+  v_containsSpecialChars,
+} from '../../utils/validator'
 
-    const incrementSection = () => {
-        setSectionIndex((sectionIndex + 1) % 4)
-    }
+import staffService from '../../services/staffService'
 
-    const decrementSection = () => {
-        setSectionIndex((sectionIndex - 1) % 4)
-    }
+const StaffRegistration = () => {
+  // For the server side requests and responses
+  const [loading, setLoading] = useState(false)
+  const [resMessage, setResMessage] = useState('')
+  let navigate = useNavigate()
 
-    /**
+  // For the Section transitions
+  const [sectionIndex, setSectionIndex] = useState(0)
+
+  const incrementSection = () => {
+    setSectionIndex((sectionIndex + 1) % 4)
+  }
+
+  const decrementSection = () => {
+    setSectionIndex((sectionIndex - 1) % 4)
+  }
+
+  /**
    * SECTION 1
    */
   // Form data
   const [staffRoleDetailsForm, setStaffRoleDetailsForm] = useState({
     // Role Details
-    office_dept: '',
+    officeDept: '',
     role: '',
   })
-
-
 
   // Update the form data while input
   const onUpdateInput = (e) => {
@@ -71,48 +69,48 @@ import {
     }))
   }
 
-  const [roleSet, setRoleSet] = useState([]);
+  const [roleSet, setRoleSet] = useState([])
 
   useEffect(() => {
-    switch(staffRoleDetailsForm.office_dept){
-      case "OC":
-        setRoleSet(["Chairman", "Assistant Secretary"])
-        break;
+    switch (staffRoleDetailsForm.officeDept) {
+      case 'OC':
+        setRoleSet(['Chairman', 'Assistant Secretary'])
+        break
 
-        case "OVC":
-          setRoleSet(["Vice-Chairman", "Senior Assistant Secretary"])
-        break;
+      case 'OVC':
+        setRoleSet(['Vice-Chairman', 'Senior Assistant Secretary'])
+        break
 
-        case "OS":
-          setRoleSet(["Secretary", "Senior Assistant Secretary"])
-        break;
+      case 'OS':
+        setRoleSet(['Secretary', 'Senior Assistant Secretary'])
+        break
 
-        case "PD":
-          setRoleSet(["Senior Assistant Secretary"])
-        break;
+      case 'PD':
+        setRoleSet(['Senior Assistant Secretary'])
+        break
 
-        case "UAD":
-          setRoleSet(["Senior Assistant Secretary", "Assistant Secretary", ])
-        break;
+      case 'UAD':
+        setRoleSet(['Senior Assistant Secretary', 'Assistant Secretary'])
+        break
 
-        case "AAD":
-          setRoleSet(["Deputy Secretary", "Senior Assistant Secretary", "Assistant Secretary", ])
-        break;
+      case 'AAD':
+        setRoleSet(['Deputy Secretary', 'Senior Assistant Secretary', 'Assistant Secretary'])
+        break
 
-        case "MISD":
-          setRoleSet(["Statistician", "Assistant Statistician",])
-        break;
+      case 'MISD':
+        setRoleSet(['Statistician', 'Assistant Statistician'])
+        break
 
-        default:
-          setRoleSet([])
-          break;
+      default:
+        setRoleSet([])
+        break
     }
-  }, [staffRoleDetailsForm.office_dept])
-  
+  }, [staffRoleDetailsForm.officeDept])
+
   // For data errors
   const [staffRoleDetailsFormErrors, setStaffRoleDetailsFormErrors] = useState({
     // Role Details
-    office_deptError: '',
+    officeDeptError: '',
     roleError: '',
   })
 
@@ -123,30 +121,25 @@ import {
     e.preventDefault()
 
     // Role Details
-    let office_deptError = ''
+    let officeDeptError = ''
     let roleError = ''
 
-    if (!v_required(staffRoleDetailsForm.office_dept)) {
-        office_deptError = 'Office/Department cannot be empty.'
+    if (!v_required(staffRoleDetailsForm.officeDept)) {
+      officeDeptError = 'Office/Department cannot be empty.'
     }
 
     if (!v_required(staffRoleDetailsForm.role)) {
-        roleError = 'Role cannot be empty.'
+      roleError = 'Role cannot be empty.'
     }
 
     // If errors exist, show errors
     setStaffRoleDetailsFormErrors({
-      office_deptError,
+      officeDeptError,
       roleError,
     })
 
     // If no errors exist, send to the server
-    if (
-      !(
-        office_deptError ||
-        roleError
-      )
-    ) {
+    if (!(officeDeptError || roleError)) {
       // Sending to the server
       setLoading(true)
       setResMessage('')
@@ -181,27 +174,26 @@ import {
             <CRow className="justify-content-center">
               <CCol md={4}>
                 <CFormSelect
-                    label="Office / Department"
-                    aria-label="Default select example"
-                    name="office_dept"
-                    onChange={onUpdateInput}
-                    value={staffRoleDetailsForm.office_dept}
-                    feedback={staffRoleDetailsFormErrors.office_deptError}
-                    invalid={staffRoleDetailsFormErrors.office_deptError ? true : false}
-                    >
-                    <option value="">Choose</option>
-                    <option value='OC'>Office of the Chairman</option>
-                    <option value='OVC'>Office of the Vice-Chairman</option>
-                    <option value='OS'>Office of the Secretary</option>
-                    <option value='PD'>Personnel Division</option>
-                    <option value='UAD'>University Admissions Department</option>
-                    <option value='AAD'>Academic Affairs Department</option>
-                    <option value='MISD'>Management Information Systems Division</option>
+                  label="Office / Department"
+                  aria-label="Default select example"
+                  name="officeDept"
+                  onChange={onUpdateInput}
+                  value={staffRoleDetailsForm.officeDept}
+                  feedback={staffRoleDetailsFormErrors.officeDeptError}
+                  invalid={staffRoleDetailsFormErrors.officeDeptError ? true : false}
+                >
+                  <option value="">Choose office</option>
+                  <option value="OC">Office of the Chairman</option>
+                  <option value="OVC">Office of the Vice-Chairman</option>
+                  <option value="OS">Office of the Secretary</option>
+                  <option value="PD">Personnel Division</option>
+                  <option value="UAD">University Admissions Department</option>
+                  <option value="AAD">Academic Affairs Department</option>
+                  <option value="MISD">Management Information Systems Division</option>
                 </CFormSelect>
               </CCol>
               <CCol md={4}>
                 <CFormSelect
-                  
                   label="Role"
                   aria-label="Default select example"
                   name="role"
@@ -210,7 +202,12 @@ import {
                   feedback={staffRoleDetailsFormErrors.roleError}
                   invalid={staffRoleDetailsFormErrors.roleError ? true : false}
                 >
-                  {roleSet.map(item => <option key={item} value={item}>{item}</option>)}
+                  <option value="">Choose Role</option>
+                  {roleSet.map((item) => (
+                    <option key={item} value={item}>
+                      {item}
+                    </option>
+                  ))}
                 </CFormSelect>
               </CCol>
             </CRow>
@@ -358,7 +355,6 @@ import {
         genderError
       )
     ) {
-
       // Sending to the server
       setLoading(true)
       setResMessage('')
@@ -520,7 +516,7 @@ import {
                 className="p-2"
                 onClick={handleStaffPersonalDetailsFormSubmit}
               >
-                { loading &&  <CSpinner size="sm" />} Next
+                {loading && <CSpinner size="sm" />} Next
               </CButton>
             </CButtonGroup>
           </CCol>
@@ -528,7 +524,7 @@ import {
       </section>
     )
   }
-  
+
   /**
    * SECTION 3
    */
@@ -630,7 +626,6 @@ import {
 
     // If no errors exist, send to the server
     if (!(usernameError || emailError || phoneError || passwordError || confirmPasswordError)) {
-
       // Sending to the server
       setLoading(true)
       setResMessage('')
@@ -655,15 +650,13 @@ import {
   const loginDetailsSection = () => {
     return (
       <section>
-        <p className="text-medium-emphasis text-center">
-          Please enter your login information.
-        </p>
+        <p className="text-medium-emphasis text-center">Please enter your login information.</p>
 
         <CCard className="p-3 mb-3">
           <CCardSubtitle>Login Details</CCardSubtitle>
           <CCardBody>
             <CRow className="g-3 needs-validation">
-            <CCol md={6}>
+              <CCol md={6}>
                 <CFormInput
                   type="text"
                   id="validationUsername"
@@ -809,22 +802,24 @@ import {
       setLoading(true)
       setResMessage('')
 
-      staffService.staffRegister(staffRoleDetailsForm, staffPersonalDetailsForm, staffLoginDetailsForm).then(
-        () => {
-          navigate('/')
-          console.log('Registered successfully')
-        },
-        (error) => {
-          const res =
-            (error.response && error.response.data && error.response.data.message) ||
-            error.message ||
-            error.toString()
+      staffService
+        .staffRegister(staffRoleDetailsForm, staffPersonalDetailsForm, staffLoginDetailsForm)
+        .then(
+          () => {
+            navigate('/')
+            console.log('Registered successfully')
+          },
+          (error) => {
+            const res =
+              (error.response && error.response.data && error.response.data.message) ||
+              error.message ||
+              error.toString()
 
-          // After recieving the server request
-          setResMessage(res)
-          setLoading(false)
-        },
-      )
+            // After recieving the server request
+            setResMessage(res)
+            setLoading(false)
+          },
+        )
     }
   }
 
@@ -957,6 +952,6 @@ import {
       </CContainer>
     </div>
   )
-  }
+}
 
-  export default StaffRegistration
+export default StaffRegistration

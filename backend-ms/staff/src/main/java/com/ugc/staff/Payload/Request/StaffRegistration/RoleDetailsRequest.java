@@ -9,6 +9,6 @@ import java.util.Set;
 @Getter
 @Setter
 public class RoleDetailsRequest {
-    private String office_dept;
+    private String officeDept;
     private String role;
 }

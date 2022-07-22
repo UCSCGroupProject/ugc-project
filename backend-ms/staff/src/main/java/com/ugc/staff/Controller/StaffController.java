@@ -1,5 +1,6 @@
 package com.ugc.staff.Controller;
 
+import com.ugc.staff.Model.Enums.E_OfficeDept;
 import com.ugc.staff.Payload.Request.SignUpRequest;
 import com.ugc.staff.Model.ALPassedStudent;
 import com.ugc.staff.Model.ATPassedStudent;
@@ -75,20 +76,29 @@ public class StaffController {
 
     @PostMapping(path = "/RoleDetailsFormCheck")
     public ResponseEntity<?> staffRoleFormCheck(@Valid @RequestBody RoleDetailsRequest roleDetailsRequest){
+        String strOfficeDept = roleDetailsRequest.getOfficeDept();
+        String strRole = roleDetailsRequest.getRole();
 
-        String strRoles = roleDetailsRequest.getRole();
-        String strOfficeDept = roleDetailsRequest.getOffice_dept();
+       if(!staffService.isOfficeDeptValid(strOfficeDept)){
+           return ResponseEntity.ok(new MessageResponse("Office/Department does not exist"));
+       }
 
+        if(!staffService.isRoleValid(strRole)){
+            return ResponseEntity.ok(new MessageResponse("Role does not exist"));
+        }
+
+        // TODO: OLD CODE - Remove those
         //for(String role: strRoles) {
-            if (!staffService.findRole(strRoles)) {
-                return ResponseEntity.ok(new MessageResponse("Role does not exist"));
-            }
+//            if (!staffService.findRole(strRole)) {
+//                return ResponseEntity.ok(new MessageResponse("Role does not exist"));
+//            }
        // }
         //for(String officeDept: strOfficeDept){
-            if(!staffService.findOffice_Dept(strOfficeDept)){
-                return ResponseEntity.ok(new MessageResponse("Office/Department does not exist"));
-            }
+//            if(!staffService.findOfficeDept(strOfficeDept)){
+//                return ResponseEntity.ok(new MessageResponse("Office/Department does not exist"));
+//            }
        // }
+
         return ResponseEntity.ok(new MessageResponse("Section 1 validation passed and saved"));
 
     }

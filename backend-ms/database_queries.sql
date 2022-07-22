@@ -1,3 +1,7 @@
-DROP DATABASE IF EXISTS auth_db;
-CREATE DATABASE auth_db;
-USE auth_db;
+DROP DATABASE IF EXISTS student_db;
+CREATE DATABASE student_db;
+USE student_db;
+
+DROP DATABASE IF EXISTS staff_db;
+CREATE DATABASE staff_db;
+USE staff_db;
