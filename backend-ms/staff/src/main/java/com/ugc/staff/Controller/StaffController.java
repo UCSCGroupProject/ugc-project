@@ -5,6 +5,7 @@ import com.ugc.staff.Payload.Request.SignUpRequest;
 import com.ugc.staff.Model.ALPassedStudent;
 import com.ugc.staff.Model.ATPassedStudent;
 import com.ugc.staff.Model.AppliedStudent;
+import com.ugc.staff.Payload.Request.StaffRegistration.PersonalDetailsRequest;
 import com.ugc.staff.Payload.Request.StaffRegistration.RoleDetailsRequest;
 import com.ugc.staff.Payload.Response.MessageResponse;
 import com.ugc.staff.Service.StaffService;
@@ -87,19 +88,18 @@ public class StaffController {
             return ResponseEntity.ok(new MessageResponse("Role does not exist"));
         }
 
-        // TODO: OLD CODE - Remove those
-        //for(String role: strRoles) {
-//            if (!staffService.findRole(strRole)) {
-//                return ResponseEntity.ok(new MessageResponse("Role does not exist"));
-//            }
-       // }
-        //for(String officeDept: strOfficeDept){
-//            if(!staffService.findOfficeDept(strOfficeDept)){
-//                return ResponseEntity.ok(new MessageResponse("Office/Department does not exist"));
-//            }
-       // }
-
         return ResponseEntity.ok(new MessageResponse("Section 1 validation passed and saved"));
 
+    }
+
+    @PostMapping(path = "/PersonalDetailsFormCheck")
+    public ResponseEntity<?> staffPersonalFormCheck(@Valid @RequestBody PersonalDetailsRequest personalDetailsRequest){
+        if(staffService.doesPhoneNumberAlreadyExist(personalDetailsRequest.getPhoneNumber())){
+            return ResponseEntity.ok(new MessageResponse("Phone number already exists"));
+        }
+        if(staffService.doesHomeNumberAlreadyExist(personalDetailsRequest.getHomeNumber())){
+            return ResponseEntity.ok(new MessageResponse("Land Line already exists"));
+        }
+        return ResponseEntity.ok(new MessageResponse("Section 2 validation passed"));
     }
 }
