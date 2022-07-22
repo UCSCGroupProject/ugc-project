@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = 'http://localhost:8081/api/staff'
+const API_URL = 'http://localhost:8083/api/staff'
 
 class StaffService {
     register(staffRoleDetailsForm, staffPersonalDetailsForm, staffLoginDetailsForm) {

@@ -4,6 +4,7 @@ import com.ugc.staff.Payload.Request.SignUpRequest;
 import com.ugc.staff.Model.ALPassedStudent;
 import com.ugc.staff.Model.ATPassedStudent;
 import com.ugc.staff.Model.AppliedStudent;
+import com.ugc.staff.Payload.Request.StaffRegistration.RoleDetailsRequest;
 import com.ugc.staff.Payload.Response.MessageResponse;
 import com.ugc.staff.Service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/staff")
@@ -34,6 +37,7 @@ public class StaffController {
     CommandLineRunner runner(){
         return  args -> {
             staffService.initRoles();
+            staffService.initOfficeDept();
         };
     }
 
@@ -67,5 +71,25 @@ public class StaffController {
                 signUpRequest.getEmail(), passwordEncoder.encode(signUpRequest.getPassword()), signUpRequest.getRole());
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully"));
+    }
+
+    @PostMapping(path = "/RoleDetailsFormCheck")
+    public ResponseEntity<?> staffRoleFormCheck(@Valid @RequestBody RoleDetailsRequest roleDetailsRequest){
+
+        String strRoles = roleDetailsRequest.getRole();
+        String strOfficeDept = roleDetailsRequest.getOffice_dept();
+
+        //for(String role: strRoles) {
+            if (!staffService.findRole(strRoles)) {
+                return ResponseEntity.ok(new MessageResponse("Role does not exist"));
+            }
+       // }
+        //for(String officeDept: strOfficeDept){
+            if(!staffService.findOffice_Dept(strOfficeDept)){
+                return ResponseEntity.ok(new MessageResponse("Office/Department does not exist"));
+            }
+       // }
+        return ResponseEntity.ok(new MessageResponse("Section 1 validation passed and saved"));
+
     }
 }

@@ -150,7 +150,7 @@ import {
       // Sending to the server
       setLoading(true)
       setResMessage('')
-      staffService.staffRoleFormCheck(staffRoleDetailsForm).then(
+      staffService.staffRoleDetailsFormCheck(staffRoleDetailsForm).then(
         () => {
           setLoading(false)
           incrementSection()
@@ -190,13 +190,13 @@ import {
                     invalid={staffRoleDetailsFormErrors.office_deptError ? true : false}
                     >
                     <option value="">Choose</option>
-                    <option value="OC">Office of the Chairman</option>
-                    <option value="OVC">Office of the Vice-Chairman</option>
-                    <option value="OS">Office of the Secretary</option>
-                    <option value="PD">Personnel Division</option>
-                    <option value="UAD">University Admissions Department</option>
-                    <option value="AAD">Academic Affairs Department</option>
-                    <option value="MISD">Management Information Systems Division</option>
+                    <option value='OC'>Office of the Chairman</option>
+                    <option value='OVC'>Office of the Vice-Chairman</option>
+                    <option value='OS'>Office of the Secretary</option>
+                    <option value='PD'>Personnel Division</option>
+                    <option value='UAD'>University Admissions Department</option>
+                    <option value='AAD'>Academic Affairs Department</option>
+                    <option value='MISD'>Management Information Systems Division</option>
                 </CFormSelect>
               </CCol>
               <CCol md={4}>
