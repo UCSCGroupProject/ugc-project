@@ -32,7 +32,7 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     public static UserDetailsImpl build(Staff staff){
-        List<GrantedAuthority> studentAuthorities = staff.getRoles().stream()
+        List<GrantedAuthority> staffAuthorities = staff.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName().name()))
                 .collect(Collectors.toList());
 
@@ -41,7 +41,7 @@ public class UserDetailsImpl implements UserDetails {
                 staff.getUsername(),
                 staff.getEmail(),
                 staff.getPassword(),
-                studentAuthorities
+                staffAuthorities
         );
     }
 
