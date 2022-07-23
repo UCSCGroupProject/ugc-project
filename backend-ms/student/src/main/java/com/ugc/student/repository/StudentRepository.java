@@ -1,6 +1,6 @@
 package com.ugc.student.repository;
 
-import com.ugc.student.payload.model.Student;
+import com.ugc.student.model.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -15,7 +15,7 @@ public class EmailController {
     private EmailService emailService;
 
     @PostMapping("/sendVerifyAccountEmail")
-    public String sendVerifyAccountEmail(@RequestBody EmailRequest details){
+    public void sendVerifyAccountEmail(@RequestBody EmailRequest details){
         EmailRequest emailRequest = new EmailRequest();
         emailRequest.setRecipient(details.getRecipient());
         emailRequest.setSubject("UGC Student account verification");
@@ -122,7 +122,7 @@ public class EmailController {
 
         String status = emailService.sendSimpleMail(emailRequest);
 
-        return status;
+//        return status;
     }
 
     @PostMapping("/sendMail")

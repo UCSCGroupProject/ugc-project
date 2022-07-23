@@ -1,7 +1,7 @@
 package com.ugc.student.repository;
 
-import com.ugc.student.payload.model.Role;
-import com.ugc.student.payload.model.enums.E_Role;
+import com.ugc.student.model.Role;
+import com.ugc.student.model.enums.E_Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

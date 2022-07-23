@@ -341,7 +341,13 @@ const StudentRegistration = () => {
                 className="p-2"
                 onClick={handleStuNicAndExamFormSubmit}
               >
-                {loading && <CSpinner size="sm" />} Next
+                {loading ? (
+                  <span>
+                    <CSpinner size="sm" /> Validating
+                  </span>
+                ) : (
+                  <span>Next</span>
+                )}
               </CButton>
             </CButtonGroup>
           </CCol>
@@ -378,6 +384,7 @@ const StudentRegistration = () => {
 
   // OTP validation
   const [otpState, setOtpState] = useState({
+    enteredOtp: '',
     isSendOtp: false,
     isEnteredOtpValid: false,
   })
@@ -407,13 +414,10 @@ const StudentRegistration = () => {
 
     studentService.sendOtp(stuDetailsForm.phone).then(
       () => {
-        if (!otpState.isSendOtp) {
-          setOtpState((prev) => ({
-            ...prev,
-            isSendOtp: true,
-          }))
-        }
-
+        setOtpState((prev) => ({
+          ...prev,
+          isSendOtp: true,
+        }))
         // After recieving the server request
         setIsSendingOTP(false)
       },
@@ -533,9 +537,7 @@ const StudentRegistration = () => {
 
     if (!v_required(stuDetailsForm.phone)) {
       phoneError = 'Phone can not be empty.'
-    }
-
-    if (!otpState.isEnteredOtpValid) {
+    } else if (!otpState.isEnteredOtpValid) {
       phoneError = 'Phone number should be validated using OTP.'
     }
 
@@ -743,9 +745,15 @@ const StudentRegistration = () => {
                       className="p-2 text-white"
                       // onClick={handleOtpSend}
                       onClick={handleSendOTP}
-                      disabled={!isPhoneValid}
+                      disabled={!isPhoneValid || isSendingOTP}
                     >
-                      {isSendingOTP && <CSpinner size="sm" />} Send OTP
+                      {isSendingOTP ? (
+                        <span>
+                          <CSpinner size="sm" /> {'Sending'}
+                        </span>
+                      ) : (
+                        <span>Send OTP</span>
+                      )}
                     </CButton>
                   )}
                   <CFormFeedback invalid>{stuDetailsFormErrors.phoneError}</CFormFeedback>
@@ -813,7 +821,13 @@ const StudentRegistration = () => {
                 className="p-2"
                 onClick={handleStuDetailsFormSubmit}
               >
-                {loading && <CSpinner size="sm" />} Next
+                {loading ? (
+                  <span>
+                    <CSpinner size="sm" /> Validating
+                  </span>
+                ) : (
+                  <span>Next</span>
+                )}
               </CButton>
             </CButtonGroup>
           </CCol>
@@ -834,6 +848,104 @@ const StudentRegistration = () => {
     password: '',
     confirmPassword: '',
   })
+
+  const [isEmailValid, setIsEmailValid] = useState(false)
+
+  useEffect(() => {
+    if (v_email(stuLoginDetailsForm.email)) {
+      setIsEmailValid(true)
+    } else {
+      setIsEmailValid(false)
+    }
+  }, [stuLoginDetailsForm.email])
+
+  // Email code validation
+  const [codeState, setCodeState] = useState({
+    enteredCode: '',
+    isSendCode: false,
+    isEnteredCodeValid: false,
+  })
+
+  const [enteredCodeError, setEnteredCodeError] = useState('')
+
+  const [isSendingCode, setIsSendingCode] = useState(false)
+  const [isValidatingCode, setIsValidatingCode] = useState(false)
+
+  const onUpdateCode = (e) => {
+    setCodeState((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }))
+  }
+
+  // Send Code to the given email
+  const handleSendCode = () => {
+    setCodeState((prev) => ({
+      ...prev,
+      isSendCode: false,
+    }))
+
+    // Sending to the server
+    setIsSendingCode(true)
+    setResMessage('')
+
+    studentService.sendCode(stuLoginDetailsForm.email).then(
+      () => {
+        setCodeState((prev) => ({
+          ...prev,
+          isSendCode: true,
+        }))
+        // After recieving the server request
+        setIsSendingCode(false)
+      },
+      (error) => {
+        const res =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString()
+        setResMessage(res)
+        setIsSendingCode(false)
+      },
+    )
+  }
+
+  // Validate the Code
+  const handleValidateCode = () => {
+    setCodeState((prev) => ({
+      ...prev,
+      isEnteredCodeValid: false,
+    }))
+
+    // Sending to the server
+    setIsValidatingCode(true)
+    setResMessage('')
+    setEnteredCodeError('')
+
+    studentService.validateCode(codeState.enteredCode).then(
+      (res) => {
+        console.log(res)
+        if (res) {
+          setCodeState((prev) => ({
+            ...prev,
+            isEnteredCodeValid: true,
+          }))
+        } else {
+          setEnteredCodeError('Entered OTP is not valid.')
+        }
+
+        // After recieving the server request
+        setIsValidatingCode(false)
+      },
+      (error) => {
+        const res =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString()
+        setResMessage(res)
+        setIsValidatingCode(false)
+      },
+    )
+  }
 
   // Strong password guidelines
   const [pwd_guideline_length, set_pwd_guideline_length] = useState(false)
@@ -887,6 +999,8 @@ const StudentRegistration = () => {
       emailError = 'Email can not be empty.'
     } else if (!v_email(stuLoginDetailsForm.email)) {
       emailError = 'Email is not valid.'
+    } else if (!codeState.isEnteredCodeValid) {
+      emailError = 'Email should be validated using Code.'
     }
 
     if (!v_required(stuLoginDetailsForm.password)) {
@@ -951,7 +1065,7 @@ const StudentRegistration = () => {
           <CCardSubtitle>Login Details</CCardSubtitle>
           <CCardBody>
             <CRow className="g-3 needs-validation">
-              <CCol md={6}>
+              <CCol md={4}>
                 <CFormInput
                   type="text"
                   id="validationMobilePhoneNumber"
@@ -963,7 +1077,7 @@ const StudentRegistration = () => {
                   invalid={stuLoginDetailsFormErrors.usernameError ? true : false}
                 />
               </CCol>
-              <CCol md={6}>
+              {/* <CCol md={4}>
                 <CFormInput
                   type="text"
                   id="validationEmail"
@@ -974,7 +1088,83 @@ const StudentRegistration = () => {
                   feedback={stuLoginDetailsFormErrors.emailError}
                   invalid={stuLoginDetailsFormErrors.emailError ? true : false}
                 />
+              </CCol> */}
+              {/* below new */}
+              <CCol md={4}>
+                <CFormLabel htmlFor="validationEmail">Email</CFormLabel>
+                <CInputGroup className="has-validation">
+                  {/* <CInputGroupText>@</CInputGroupText> */}
+                  <CFormInput
+                    type="text"
+                    id="validationEmail"
+                    name="email"
+                    onChange={onUpdateInputInsetStuLoginDetailsForm}
+                    value={stuLoginDetailsForm.email}
+                    // feedback={stuDetailsFormErrors.phoneError}
+                    invalid={stuLoginDetailsFormErrors.emailError ? true : false}
+                    disabled={codeState.isEnteredCodeValid}
+                  />
+                  {codeState.isEnteredCodeValid && (
+                    <CInputGroupText className="bg-success text-white">
+                      <CIcon icon={cilTask} size="lg" className="mx-2 my-1" />
+                    </CInputGroupText>
+                  )}
+                  {!codeState.isEnteredCodeValid && (
+                    <CButton
+                      color="warning"
+                      type="button"
+                      className="p-2 text-white"
+                      // onClick={handleOtpSend}
+                      onClick={handleSendCode}
+                      disabled={!isEmailValid || isSendingCode}
+                    >
+                      {isSendingCode ? (
+                        <span>
+                          <CSpinner size="sm" /> {'Sending'}
+                        </span>
+                      ) : (
+                        <span>Send Code</span>
+                      )}
+                    </CButton>
+                  )}
+                  <CFormFeedback invalid>{stuLoginDetailsFormErrors.emailError}</CFormFeedback>
+                </CInputGroup>
               </CCol>
+              {codeState.isSendCode && (
+                <CCol md={3}>
+                  <CFormLabel htmlFor="validationVerificationCode">Verification Code</CFormLabel>
+                  <CInputGroup className="has-validation">
+                    <CFormInput
+                      type="text"
+                      id="validationCode"
+                      name="enteredCode"
+                      onChange={onUpdateCode}
+                      value={codeState.enteredCode}
+                      // feedback="asd"
+                      invalid={enteredCodeError ? true : false}
+                      disabled={codeState.isEnteredCodeValid}
+                    />
+                    {codeState.isEnteredCodeValid && (
+                      <CInputGroupText className="bg-success text-white">
+                        <CIcon icon={cilTask} size="lg" className="mx-2 my-1" />
+                      </CInputGroupText>
+                    )}
+
+                    {!codeState.isEnteredCodeValid && (
+                      <CButton
+                        color="info"
+                        type="button"
+                        className="p-2 text-white"
+                        onClick={handleValidateCode}
+                      >
+                        {isValidatingCode && <CSpinner size="sm" />} Verify OTP
+                      </CButton>
+                    )}
+                    <CFormFeedback invalid>{enteredCodeError}</CFormFeedback>
+                  </CInputGroup>
+                </CCol>
+              )}
+              {/* above new */}
               <CCol md={6}>
                 <CFormInput
                   type="password"
@@ -1059,7 +1249,13 @@ const StudentRegistration = () => {
                 className="p-2"
                 onClick={handleStuLoginDetailsFormSubmit}
               >
-                Next
+                {loading ? (
+                  <span>
+                    <CSpinner size="sm" /> Validating
+                  </span>
+                ) : (
+                  <span>Next</span>
+                )}
               </CButton>
             </CButtonGroup>
           </CCol>
@@ -1224,7 +1420,13 @@ const StudentRegistration = () => {
                 onClick={handleSubmit}
                 disabled={!agreement ? true : false}
               >
-                {loading && <CSpinner size="sm" />} Register
+                {loading ? (
+                  <span>
+                    <CSpinner size="sm" /> Finalizing
+                  </span>
+                ) : (
+                  <span>Register</span>
+                )}
               </CButton>
             </CButtonGroup>
           </CCol>

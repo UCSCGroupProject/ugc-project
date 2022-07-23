@@ -1,9 +1,11 @@
 package com.ugc.student.controller;
 
-import com.ugc.student.payload.model.Role;
-import com.ugc.student.payload.model.Student;
-import com.ugc.student.payload.model.enums.E_Role;
+import com.ugc.student.model.Role;
+import com.ugc.student.model.Student;
+import com.ugc.student.model.enums.E_Role;
 import com.ugc.student.payload.request.LoginRequest;
+import com.ugc.student.payload.request.email.CodeRequest;
+import com.ugc.student.payload.request.email.EmailRequest;
 import com.ugc.student.payload.request.otp.OTPRequest;
 import com.ugc.student.payload.request.otp.SmsRequest;
 import com.ugc.student.payload.request.studentRegistration.LoginDetailsRequest;
@@ -167,6 +169,7 @@ public class StudentController {
         return ResponseEntity.ok(new MessageResponse("Section 2 validation passed"));
     }
 
+    // TODO: Need to be write protected. Otherwise race conditions may occur.
     int otp = 0;
 
     @PostMapping("/generateOTP")
@@ -227,6 +230,49 @@ public class StudentController {
         }
 
         return ResponseEntity.ok(new MessageResponse("Section 3 validation passed"));
+    }
+
+
+    // TODO: Need to be write protected. Otherwise race conditions may occur.
+    int code = 0;
+
+    @PostMapping("/generateCode")
+    public void generateCode(@Valid @RequestBody EmailRequest emailRequest){
+        code = studentService.generateCode();
+        String strCode = String.valueOf(code);
+
+        // Even sms request sent a message in built, here i am using message redefinition on server side
+        EmailRequest email = new EmailRequest(
+                emailRequest.getRecipient(),
+                strCode,
+                "",
+                ""
+        );
+
+        restTemplate.postForObject(
+                "http://localhost:3/api/email/sendVerifyAccountEmail",
+                email,
+                emailRequest.getClass()
+        );
+
+        System.out.println("Generated and sent to " + emailRequest.getRecipient());
+    }
+
+    @PostMapping("/validateCode")
+    public boolean validateCode(@RequestBody CodeRequest codeRequest){
+        if(code != 0){
+            if(code == codeRequest.getEnteredCode()){
+                System.out.println("Code valid");
+                return true;
+            }
+            else {
+                System.out.println("Code invalid");
+                return false;
+            }
+        } else {
+            System.out.println("No Code has been generated");
+            return false;
+        }
     }
 
     @PostMapping("/studentRegister")

@@ -6,17 +6,6 @@ spring:
   application:
     name:
       notification
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: ucscgroupproject@gmail.com
-    password: okypfwaqistmyxwb
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
 
 eureka:
   client:

@@ -1,6 +1,6 @@
-package com.ugc.student.payload.model;
+package com.ugc.student.model;
 
-import com.ugc.student.payload.model.enums.E_Role;
+import com.ugc.student.model.enums.E_Role;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
