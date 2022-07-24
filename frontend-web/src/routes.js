@@ -38,6 +38,16 @@ const Stu_AptitudeTests_Progress_OngoingTests = React.lazy(() => import('./views
 const Stu_AptitudeTests_Progress_DelayedTests = React.lazy(() => import('./views/student/aptitudeTests/progress/DelayedTests'))
 
 // University views
+const Uni_Dashboard = React.lazy(() => import('./views/university/dashboard/Dashboard'))
+const Uni_Courses = React.lazy(() => import('./views/university/courses/Courses'))
+const Uni_Courses_CourseDetails = React.lazy(() => import('./views/university/courses/CourseDetails'))
+const Uni_AptitudeTests = React.lazy(() => import('./views/university/aptitudeTests'))
+const Uni_AptitudeTests_TestDetails = React.lazy(() => import('./views/university/aptitudeTests/AptitudeTestDetails'))
+const Uni_AptitudeTests_TestDetails_Results = React.lazy(() => import('./views/university/aptitudeTests/AptitudeTestResults'))
+// const Uni_AptitudeTests_Progress_UpcomingTests = React.lazy(() => import('./views/university/aptitudeTests/progress/UpcomingTests'))
+// const Uni_AptitudeTests_Progress_OngoingTests = React.lazy(() => import('./views/university/aptitudeTests/progress/OngoingTests'))
+// const Uni_AptitudeTests_Progress_DelayedTests = React.lazy(() => import('./views/university/aptitudeTests/progress/DelayedTests'))
+
 
 // User views
 
@@ -78,6 +88,16 @@ const routes = [
   { path: '/student/aptitudetests/delayed', name: 'Delayed Tests', element: Stu_AptitudeTests_Progress_DelayedTests },
 
   // University routes
+  { path: '/university/dashboard', name: 'Dashboard', element: Uni_Dashboard },
+  { path: '/university/courses', name: 'Courses', element: Uni_Courses },
+  { path: '/university/courses/coursedetails', name: 'Courses Details', element: Uni_Courses_CourseDetails },
+  { path: '/university/aptitudetests', name: 'Aptitude Tests', element: Uni_AptitudeTests },
+  { path: '/university/aptitudetests/aptitudetestdetails', name: 'Aptitude Tests', element: Uni_AptitudeTests_AptitudeTestDetails },
+  { path: '/university/aptitudetests/results', name: 'Results', element: Uni_AptitudeTests_AptitudeTestResults },
+  // { path: '/university/aptitudetests/upcoming', name: 'Upcoming Tests', element: Uni_AptitudeTests_Progress_UpcomingTests },
+  // { path: '/university/aptitudetests/ongoing', name: 'Ongoing Tests', element: Uni_AptitudeTests_Progress_OngoingTests },
+  // { path: '/university/aptitudetests/delayed', name: 'Delayed Tests', element: Uni_AptitudeTests_Progress_DelayedTests },
+
 
   // User routes
   { path: '/', exact: true, name: 'Home' },
