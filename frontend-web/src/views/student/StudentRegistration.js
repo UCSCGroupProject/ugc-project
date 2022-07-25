@@ -45,7 +45,7 @@ const StudentRegistration = () => {
   let navigate = useNavigate()
 
   // For the Section transitions
-  const [sectionIndex, setSectionIndex] = useState(0)
+  const [sectionIndex, setSectionIndex] = useState(2)
 
   const incrementSection = () => {
     setSectionIndex((sectionIndex + 1) % 4)

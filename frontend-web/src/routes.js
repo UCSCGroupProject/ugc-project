@@ -25,6 +25,10 @@ const Staff_Achievement_Validation = React.lazy(() => import('./views/staff/vali
 const Staff_Complaints = React.lazy(() => import('./views/staff/complaints/Complaints'))
 
 // Student views
+// Settings
+const Stu_NICAndExamDetails_Settings =  React.lazy(() => import('./views/student/settings/NICAndExamDetails_Settings'))
+const Stu_StudentDetails_Settings =  React.lazy(() => import('./views/student/settings/StudentDetails_Settings'))
+const Stu_LoginDetails_Settings =  React.lazy(() => import('./views/student/settings/LoginDetails_Settings'))
 const Stu_Dashboard = React.lazy(() => import('./views/student/dashboard/Dashboard'))
 const Stu_Courses_Apply = React.lazy(() => import('./views/student/courses/Apply'))
 const Stu_Courses_CourseDetails_MyCourses = React.lazy(() => import('./views/student/courses/courseDetails/MyCourses'))
@@ -65,6 +69,10 @@ const routes = [
   { path: '/staff/complaints', name: 'Complaints', element: Staff_Complaints },
 
   // Student routes
+  // Settings
+  { path: '/student/nic_and_exam_details_settings', name: 'Settings', element: Stu_NICAndExamDetails_Settings },
+  { path: '/student/student_details_settings', name: 'Settings', element: Stu_StudentDetails_Settings },
+  { path: '/student/login_details_settings', name: 'Settings', element: Stu_LoginDetails_Settings },
   { path: '/student/dashboard', name: 'Dashboard', element: Stu_Dashboard },
   { path: '/student/courses/apply', name: 'Apply', element: Stu_Courses_Apply },
   { path: '/student/courses/my', name: 'My Courses', element: Stu_Courses_CourseDetails_MyCourses },

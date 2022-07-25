@@ -1,4 +1,5 @@
-import React from "react";
+import React from 'react'
+import { NavLink } from 'react-router-dom'
 import {
   CAvatar,
   CBadge,
@@ -8,7 +9,7 @@ import {
   CDropdownItem,
   CDropdownMenu,
   CDropdownToggle,
-} from "@coreui/react";
+} from '@coreui/react'
 import {
   cilBell,
   cilCreditCard,
@@ -18,21 +19,20 @@ import {
   cilLockLocked,
   cilSettings,
   cilTask,
-  cilUser,
-} from "@coreui/icons";
-import CIcon from "@coreui/icons-react";
+} from '@coreui/icons'
+import CIcon from '@coreui/icons-react'
 import { useNavigate } from 'react-router-dom'
 
-import authService from "../../services/authService";
+import authService from '../../services/authService'
 
-import prof_pic from "./../../assets/images/avatars/Dhanushka_pic.jpg";
+import prof_pic from './../../assets/images/avatars/Dhanushka_pic.jpg'
 
 const AppHeaderDropdown = (props) => {
   let navigate = useNavigate()
 
   const logout = () => {
-    authService.logout();
-    navigate("/login")
+    authService.logout()
+    navigate('/login')
   }
 
   return (
@@ -42,9 +42,7 @@ const AppHeaderDropdown = (props) => {
         <span className="ms-2 fs-6">{props.details.username}</span>
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">
-        <CDropdownHeader className="bg-light fw-semibold py-2">
-          Account
-        </CDropdownHeader>
+        <CDropdownHeader className="bg-light fw-semibold py-2">Account</CDropdownHeader>
         <CDropdownItem href="#">
           <CIcon icon={cilBell} className="me-2" />
           Updates
@@ -73,18 +71,14 @@ const AppHeaderDropdown = (props) => {
             42
           </CBadge>
         </CDropdownItem>
-        <CDropdownHeader className="bg-light fw-semibold py-2">
-          Settings
-        </CDropdownHeader>
-        <CDropdownItem href="#">
-          <CIcon icon={cilUser} className="me-2" />
-          Profile
-        </CDropdownItem>
-        <CDropdownItem href="#">
-          <CIcon icon={cilSettings} className="me-2" />
-          Settings
-        </CDropdownItem>
-        <CDropdownItem href="#">
+        <CDropdownHeader className="bg-light fw-semibold py-2">Settings</CDropdownHeader>
+        <NavLink to="/student/nic_and_exam_details_settings" style={{ textDecoration: 'none' }}>
+          <CDropdownItem>
+            <CIcon icon={cilSettings} className="me-2" />
+            Settings
+          </CDropdownItem>
+        </NavLink>
+        <CDropdownItem>
           <CIcon icon={cilCreditCard} className="me-2" />
           Payments
           <CBadge color="secondary" className="ms-2">
@@ -105,7 +99,7 @@ const AppHeaderDropdown = (props) => {
         </CDropdownItem>
       </CDropdownMenu>
     </CDropdown>
-  );
-};
+  )
+}
 
-export default AppHeaderDropdown;
+export default AppHeaderDropdown
