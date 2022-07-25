@@ -1,5 +1,7 @@
 package com.ugc.staff.Model;
 
+import com.ugc.staff.Model.Enums.E_OfficeDept;
+import com.ugc.staff.Model.Enums.E_Role;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Entity
@@ -34,15 +37,40 @@ public class Staff {
     @Size(max = 120)
     private String password;
 
+//    @ManyToMany(fetch = FetchType.LAZY)
+//    @JoinTable(name = "staff_role",
+//            joinColumns = @JoinColumn(name = "staff_id"),
+//            inverseJoinColumns = @JoinColumn(name = "role_id"))
+//    private Set<Role> roles = new HashSet<>();
+
+//    @NotBlank
+//    @Size(max = 120)
+//    private E_Role role;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "staff_role",
-            joinColumns = @JoinColumn(name = "staff_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+           joinColumns = @JoinColumn(name = "staff_id"),
+           inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();;
 
-    public Staff(String username, String email, String password) {
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "staff_office_dept",
+            joinColumns = @JoinColumn(name = "staff_id"),
+            inverseJoinColumns = @JoinColumn(name = "office_dept_id"))
+    private Set<OfficeDept> officeDept = new HashSet<>();;
+
+
+//    @NotBlank
+//    @Size(max = 120)
+//    private E_OfficeDept officeDept;
+
+    public Staff(String username, String email, String password, Set<Role> role, Set<OfficeDept> officeDept) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.roles = role;
+        this.officeDept = officeDept;
     }
+
+
 }

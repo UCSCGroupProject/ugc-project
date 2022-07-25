@@ -6,10 +6,7 @@ import com.ugc.staff.Model.Enums.E_Role;
 import com.ugc.staff.Repository.*;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class StaffService {
@@ -116,38 +113,38 @@ public class StaffService {
         return staffRepository.existsByEmail(email);
     }
 
-    public void createUser(String username, String email, String password, Set<String> role) {
-        Staff staff = new Staff(
-                username, email, password
-        );
-        Set<String> staffRole = role;
-        Set<Role> roles = new HashSet<>();
-
-        // Check whether the role is valid or not
-        if(staffRole == null){
-            Role userRole = roleRepository.findByName(E_Role.ROLE_STAFF)
-                    .orElseThrow(() -> new RuntimeException("Role is not found"));
-            roles.add(userRole);
-        }
-        else{
-            staffRole.forEach(sRole -> {
-                switch (sRole){
-                    case "staff":
-                        Role userRole = roleRepository.findByName(E_Role.ROLE_STAFF).orElseThrow(
-                                ()-> new RuntimeException("Role is not found")
-                        );
-                        roles.add(userRole);
-                        break;
-                }
-            });
-        }
-
-        staff.setRoles(roles);
-        staffRepository.save(staff);
-    }
+//    public void createUser(String username, String email, String password) {
+//        Staff staff = new Staff(
+//                username, email, password
+//        );
+//
+//        Set<Role> roles = new HashSet<>();
+//
+//        // Check whether the role is valid or not
+//        if(staffRole == null){
+//            Role userRole = roleRepository.findByName(E_Role.ROLE_STAFF)
+//                    .orElseThrow(() -> new RuntimeException("Role is not found"));
+//            roles.add(userRole);
+//        }
+//        else{
+//            staffRole.forEach(sRole -> {
+//                switch (sRole){
+//                    case "staff":
+//                        Role userRole = roleRepository.findByName(E_Role.ROLE_STAFF).orElseThrow(
+//                                ()-> new RuntimeException("Role is not found")
+//                        );
+//                        roles.add(userRole);
+//                        break;
+//                }
+//            });
+//        }
+//
+//        staff.setRoles(roles);
+//        staffRepository.save(staff);
+//    }
 
     public boolean isOfficeDeptValid(String strOfficeDept){
-        Optional<OfficeDept> offDept = null;
+        OfficeDept offDept = null;
 
         switch (strOfficeDept){
             case "OC":
@@ -180,7 +177,7 @@ public class StaffService {
     }
 
     public boolean isRoleValid(String strRole){
-        Optional<Role> role = null;
+        Role role = null;
 
         switch (strRole){
             case "Vice-Chairman":
@@ -221,5 +218,84 @@ public class StaffService {
 
     public boolean doesHomeNumberAlreadyExist(String phoneNumber) {
         return personalDetailsRepository.existsByHomeNumber(phoneNumber);
+    }
+
+
+    public void createUser(String username, String email,
+                           String password, String role,
+                           Date dob, String fullName, String address,
+                           String homeNumber, String phoneNumber,
+                           String gender, String nameWithInitials,
+                           String officeDept, String title) {
+
+
+        Set<Role> staffRole = null;
+        //role = roleRepository.findByName(E_Role.ROLE_ViceChairman);
+        if(role == "Vice-Chairman" ){
+            staffRole.add(roleRepository.findByName(E_Role.ROLE_ViceChairman));
+        }
+        else if(role == "Senior Assistant Secretary" ){
+            staffRole.add(roleRepository.findByName(E_Role.ROLE_Senior_Assistant_Secretary));
+        }
+        else if(role == "Assistant Secretary" ){
+            staffRole.add(roleRepository.findByName(E_Role.ROLE_AssistantSecretary));
+        }
+        else if(role == "Deputy Secretary" ){
+            staffRole.add(roleRepository.findByName(E_Role.ROLE_DeputySecretary));
+        }
+        else if(role == "Statistician" ){
+            staffRole.add(roleRepository.findByName(E_Role.ROLE_Statistician));
+        }
+        else if(role == "Assistant Statistician" ){
+            staffRole.add(roleRepository.findByName(E_Role.ROLE_AssistantStatistician));
+        }
+        else if(role == "Chairman" ){
+            staffRole.add(roleRepository.findByName(E_Role.ROLE_Chairman));
+        }
+        else if(role == "Senior Assistant Secretary" ) {
+            staffRole.add(roleRepository.findByName(E_Role.ROLE_Senior_Assistant_Secretary));
+        }
+
+        Set<OfficeDept> staffOfficeDept = null;
+        
+        if(officeDept == "OC" ){
+            staffOfficeDept.add(officeDeptRepository.findByName(E_OfficeDept.OFFICEDEPT_Office_Of_The_Chairman));
+        }
+        else if(role == "OVC" ){
+            staffOfficeDept.add(officeDeptRepository.findByName(E_OfficeDept.OFFICEDEPT_Office_Of_The_Vice_Chairman));
+        }
+        else if(role == "OS" ){
+            staffOfficeDept.add(officeDeptRepository.findByName(E_OfficeDept.OFFICEDEPT_Office_Of_The_Secretary));
+        }
+        else if(role == "PD" ){
+            staffOfficeDept.add(officeDeptRepository.findByName(E_OfficeDept.OFFICEDEPT_Personnel_Division));
+        }
+        else if(role == "UAD" ){
+            staffOfficeDept.add(officeDeptRepository.findByName(E_OfficeDept.OFFICEDEPT_University_Admissions_Department));
+        }
+        else if(role == "AAD" ){
+            staffOfficeDept.add(officeDeptRepository.findByName(E_OfficeDept.OFFICEDEPT_Academic_Affairs_Department));
+        }
+        else if(role == "MISD" ){
+            staffOfficeDept.add(officeDeptRepository.findByName(E_OfficeDept.OFFICEDEPT_Management_Information_Systems_Division));
+        }
+
+        // Save staff basic details
+        
+        Staff staff = new Staff(username, email, password, staffRole, staffOfficeDept);
+        staffRepository.save(staff);
+
+        // Save student details
+        PersonalDetails personalDetails = new PersonalDetails(
+                title,
+                nameWithInitials,
+                fullName,
+                dob,
+                address,
+                phoneNumber,
+                homeNumber,
+                gender
+        );
+        personalDetailsRepository.save(personalDetails);
     }
 }

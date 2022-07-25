@@ -9,5 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface OfficeDeptRepository extends JpaRepository<OfficeDept, Integer> {
-    Optional<OfficeDept> findByName(E_OfficeDept name);
+    OfficeDept findByName(E_OfficeDept name);
 }

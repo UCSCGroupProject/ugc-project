@@ -5,8 +5,10 @@ import com.ugc.staff.Payload.Request.SignUpRequest;
 import com.ugc.staff.Model.ALPassedStudent;
 import com.ugc.staff.Model.ATPassedStudent;
 import com.ugc.staff.Model.AppliedStudent;
+import com.ugc.staff.Payload.Request.StaffRegistration.LoginDetailsRequest;
 import com.ugc.staff.Payload.Request.StaffRegistration.PersonalDetailsRequest;
 import com.ugc.staff.Payload.Request.StaffRegistration.RoleDetailsRequest;
+import com.ugc.staff.Payload.Request.StaffRegistration.StaffRegisterRequest;
 import com.ugc.staff.Payload.Response.MessageResponse;
 import com.ugc.staff.Service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,18 +61,14 @@ public class StaffController {
     }
 
     @PostMapping(path = "/register")
-    public ResponseEntity<?> register(@Valid @RequestBody SignUpRequest signUpRequest){
-        if(staffService.findByUsername(signUpRequest.getUsername())){
-            return ResponseEntity.badRequest().body(new MessageResponse("Username is already taken"));
-        }
-
-        if(staffService.findByEmail(signUpRequest.getEmail())){
-            return ResponseEntity.badRequest().body(new MessageResponse("Email is already taken"));
-        }
-
+    public ResponseEntity<?> register(@Valid @RequestBody StaffRegisterRequest staffRegisterRequest){
         // New user account creation
-        staffService.createUser(signUpRequest.getUsername(),
-                signUpRequest.getEmail(), passwordEncoder.encode(signUpRequest.getPassword()), signUpRequest.getRole());
+        staffService.createUser(staffRegisterRequest.getUsername(), staffRegisterRequest.getEmail(),
+                passwordEncoder.encode(staffRegisterRequest.getPassword()), staffRegisterRequest.getRole(),
+                staffRegisterRequest.getDob(), staffRegisterRequest.getFullName(),
+                staffRegisterRequest.getAddress(),staffRegisterRequest.getHomeNumber(), staffRegisterRequest.getPhoneNumber(),
+                staffRegisterRequest.getGender(), staffRegisterRequest.getNameWithInitials(),
+                staffRegisterRequest.getOfficeDept(), staffRegisterRequest.getTitle());
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully"));
     }
@@ -101,5 +99,16 @@ public class StaffController {
             return ResponseEntity.ok(new MessageResponse("Land Line already exists"));
         }
         return ResponseEntity.ok(new MessageResponse("Section 2 validation passed"));
+    }
+
+    @PostMapping(path = "/LoginDetailsFormCheck")
+    public ResponseEntity<?> staffPersonalFormCheck(@Valid @RequestBody LoginDetailsRequest loginDetailsRequest){
+        if(staffService.findByUsername(loginDetailsRequest.getUsername())){
+            return ResponseEntity.badRequest().body(new MessageResponse("Username is already taken"));
+        }
+        if(staffService.findByEmail(loginDetailsRequest.getEmail())){
+            return ResponseEntity.badRequest().body(new MessageResponse("Email is already taken"));
+        }
+        return ResponseEntity.ok(new MessageResponse("Section 3 validation passed"));
     }
 }

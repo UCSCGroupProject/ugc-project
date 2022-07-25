@@ -621,7 +621,7 @@ const StaffRegistration = () => {
       // Sending to the server
       setLoading(true)
       setResMessage('')
-      staffService.loginDetailsFormCheck(staffLoginDetailsForm).then(
+      staffService.staffLoginDetailsFormCheck(staffLoginDetailsForm).then(
         () => {
           setLoading(false)
           incrementSection()
@@ -782,24 +782,39 @@ const StaffRegistration = () => {
       setLoading(true)
       setResMessage('')
 
-      staffService
-        .staffRegister(staffRoleDetailsForm, staffPersonalDetailsForm, staffLoginDetailsForm)
-        .then(
-          () => {
-            navigate('/')
-            console.log('Registered successfully')
-          },
-          (error) => {
-            const res =
-              (error.response && error.response.data && error.response.data.message) ||
-              error.message ||
-              error.toString()
+      let completeData = {
+        role: staffRoleDetailsForm.role,
+        officeDept: staffRoleDetailsForm.officeDept,
+        title: staffPersonalDetailsForm.title,
+        nameWithInitials: staffPersonalDetailsForm.nameWithInitials,
+        fullName: staffPersonalDetailsForm.fullName,
+        dob: staffPersonalDetailsForm.dob,
+        address: staffPersonalDetailsForm.address,
+        phoneNumber: staffPersonalDetailsForm.phoneNumber,
+        homeNumber: staffPersonalDetailsForm.homeNumber,
+        gender: staffPersonalDetailsForm.gender,
+        username: staffLoginDetailsForm.username,
+        email: staffLoginDetailsForm.email,
+        password: staffLoginDetailsForm.password,
+      }
 
-            // After recieving the server request
-            setResMessage(res)
-            setLoading(false)
-          },
-        )
+      staffService.staffRegister(completeData).then(
+        () => {
+          navigate('/')
+          // console.log(authService.getCurrentUser())
+          console.log('Registered successfully')
+        },
+        (error) => {
+          const res =
+            (error.response && error.response.data && error.response.data.message) ||
+            error.message ||
+            error.toString()
+
+          // After recieving the server request
+          setResMessage(res)
+          setLoading(false)
+        },
+      )
     }
   }
 
@@ -823,44 +838,35 @@ const StaffRegistration = () => {
             <div>
               <ol>
                 <li className="mb-3">
-                  I agree to use this online service only for the purpose of applying for university
-                  admission based on the G.C.E. (A/L) Examination, held in year 2020 and not for any
+                  I agree to use this online service only for the purpose of monitoring and carrying out 
+                  the tasks that are required of me as part of the functionalities of the university
+                  admission process based on the G.C.E. (A/L) Examination, and not for any
                   other purpose.
                 </li>
                 <li className="mb-3">
-                  I am a candidate sat for the G.C.E. (A/L) Examination held in year 2020. I certify
-                  that the Index Number, National Identity Card Number and email address provided by
-                  me are my own and not belong to any other person.
+                  I am at present a staff member of the University Grants Commission - Sri Lanka. I certify
+                  that the details provided by me are my own and do not belong to any other person.
                 </li>
                 <li className="mb-3">
-                  I certify that all details provided / will be provided by me in the registration
-                  and in each step of this application process for university admission via online
-                  service are true and correct.
+                  I certify that all details provided / will be provided by me in each step of this 
+                  registration process for this system via online service are true and correct.
                 </li>
                 <li className="mb-3">
                   I understand and agree that providing any false, misleading, inaccurate or
                   fraudulent information, details, statements at any time or any attempt to alter
                   the content of this website, fraudulent logins to other user accounts or alter the
-                  content or data provided by me or anybody else will result in my university
-                  admission invalid at any time and I will be subjected to legal actions.
+                  content or data provided by me or anybody else will result in my staff privileges 
+                  being invalid at any time and I will be subjected to legal actions.
                 </li>
                 <li className="mb-3">
-                  I am aware that I am not allowed to change any information provided by me after
-                  submission of my application through this online service without permission of the
+                  I am aware that I am not allowed to disclose any confidential information 
+                  within this online service without permission of the
                   University Grants Commission.
                 </li>
                 <li className="mb-3">
                   By using this online service I do authorize the University Grants Commission to
                   contact me via given email address, mobile phone number, by way of postal letters
                   or any other electronic and non-electronic means of communication.
-                </li>
-                <li className="mb-3">
-                  I am well aware that submission of application for university admission through
-                  this online service is only for the purpose of authenticating my details and my
-                  electronic application will not be considered for university admission until I
-                  submit the duly signed printed application form along with the necessary
-                  supporting documents to the University Grants Commission on or before the last
-                  date for submission of applications as pronounced by press notices
                 </li>
               </ol>
             </div>

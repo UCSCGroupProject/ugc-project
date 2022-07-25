@@ -3,7 +3,15 @@ import axios from 'axios'
 const API_URL = 'http://localhost:8083/api/staff'
 
 class StaffService {
-  register(staffRoleDetailsForm, staffPersonalDetailsForm, staffLoginDetailsForm) {
+  staffRegister(staffRoleDetailsForm, staffPersonalDetailsForm, staffLoginDetailsForm) {
+
+    console.log('FIRST SECTION')
+    console.log(staffRoleDetailsForm)
+    console.log('SECOND SECTION')
+    console.log(staffPersonalDetailsForm)
+    console.log('THIRD SECTION')
+    console.log(staffLoginDetailsForm)
+
     return axios
       .post(API_URL + '/register', {
         staffRoleDetailsForm,
@@ -13,6 +21,13 @@ class StaffService {
       .then((response) => {
         return response.data
       })
+  }
+
+  staffRegister(completeData) {
+    return axios.post(API_URL + '/register', completeData).then((response) => {
+      console.log(response.data)
+      return response.data
+    })
   }
 
   staffRoleDetailsFormCheck(staffRoleDetailsForm) {
@@ -33,7 +48,7 @@ class StaffService {
 
   staffLoginDetailsFormCheck(staffLoginDetailsForm) {
     return axios
-      .post(API_URL + '/loginDetailsFormCheck', staffLoginDetailsForm)
+      .post(API_URL + '/LoginDetailsFormCheck', staffLoginDetailsForm)
       .then((response) => {
         console.log(response.data)
         return response.data
