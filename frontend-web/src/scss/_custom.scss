@@ -1,0 +1,16 @@
+// Overrides
+
+// Custom
+.shadow-box {
+  transition: box-shadow 0.3s;
+}
+
+.shadow-box:hover {
+  box-shadow: 0 0 11px rgba(50, 50, 50, 0.8);
+}
+
+/* side images */
+.wall-image {
+  height: 300px;
+  object-fit: cover;
+}

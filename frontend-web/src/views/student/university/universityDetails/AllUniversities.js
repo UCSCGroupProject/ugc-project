@@ -1,4 +1,5 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 import {
   CRow,
   CCol,
@@ -170,18 +171,23 @@ function AllUniversities() {
 
       <CRow xs={{ cols: 1, gutter: 3 }} md={{ cols: 3 }}>
         {universityData.map((item) => (
-          <CCol xs key={item.id}>
-            <CCard className="h-100">
-              <CCardImage height={200} orientation="top" src={item.wall} />
-              <CCardBody>
-                <CCardTitle>{item.name}</CCardTitle>
-                <CCardText>temp</CCardText>
-              </CCardBody>
-              {/* <CCardFooter>
+          <NavLink
+            to="/student/university/profile"
+            style={{ textDecoration: 'none', color: 'inherit' }}
+          >
+            <CCol xs key={item.id}>
+              <CCard className="h-100 shadow-box">
+                <CCardImage height={200} orientation="top" src={item.wall} />
+                <CCardBody>
+                  <CCardTitle>{item.name}</CCardTitle>
+                  {/* <CCardText>temp</CCardText> */}
+                </CCardBody>
+                {/* <CCardFooter>
                 <small className="text-medium-emphasis">Last updated 3 mins ago</small>
               </CCardFooter> */}
-            </CCard>
-          </CCol>
+              </CCard>
+            </CCol>
+          </NavLink>
         ))}
       </CRow>
     </div>

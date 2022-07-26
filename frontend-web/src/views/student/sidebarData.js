@@ -67,7 +67,7 @@ const _nav = [
       {
         component: CNavItem,
         name: 'All Universities',
-        to: '/student/university/all',
+        to: '/student/university',
       },
     ],
   },

@@ -35,6 +35,7 @@ const Stu_Courses_CourseDetails_MyCourses = React.lazy(() => import('./views/stu
 const Stu_Courses_CourseDetails_RecommendedCourses = React.lazy(() => import('./views/student/courses/courseDetails/RecommendedCourses'))
 const Stu_Courses_CourseDetails_AllCourses = React.lazy(() => import('./views/student/courses/courseDetails/AllCourses'))
 const Stu_University_UniversityDetails_AllUniversities = React.lazy(() => import('./views/student/university/universityDetails/AllUniversities'))
+const Stu_University_UniversityDetails_Profile = React.lazy(() => import('./views/student/university/universityDetails/UniversityProfile'))
 const Stu_AptitudeTests_TestDetails_MyTests = React.lazy(() => import('./views/student/aptitudeTests/testDetails/MyTests'))
 const Stu_AptitudeTests_TestDetails_Results = React.lazy(() => import('./views/student/aptitudeTests/testDetails/Results'))
 const Stu_AptitudeTests_Progress_UpcomingTests = React.lazy(() => import('./views/student/aptitudeTests/progress/UpcomingTests'))
@@ -88,7 +89,8 @@ const routes = [
   { path: '/student/courses/my', name: 'My Courses', element: Stu_Courses_CourseDetails_MyCourses },
   { path: '/student/courses/recomended', name: 'Recommended Courses', element: Stu_Courses_CourseDetails_RecommendedCourses },
   { path: '/student/courses/all', name: 'All Courses', element: Stu_Courses_CourseDetails_AllCourses },
-  { path: '/student/university/all', name: 'All Universities', element: Stu_University_UniversityDetails_AllUniversities },
+  { path: '/student/university', name: 'All Universities', element: Stu_University_UniversityDetails_AllUniversities },
+  { path: '/student/university/profile', name: 'Profile', element: Stu_University_UniversityDetails_Profile },
   { path: '/student/aptitudetests/my', name: 'My Tests', element: Stu_AptitudeTests_TestDetails_MyTests },
   { path: '/student/aptitudetests/results', name: 'Results', element: Stu_AptitudeTests_TestDetails_Results },
   { path: '/student/aptitudetests/upcoming', name: 'Upcoming Tests', element: Stu_AptitudeTests_Progress_UpcomingTests },
