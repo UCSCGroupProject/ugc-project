@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import CIcon from '@coreui/icons-react'
 import {
   CButton,
   CModal,
@@ -6,8 +7,12 @@ import {
   CModalTitle,
   CModalBody,
   CModalFooter,
-  CFormCheck,
+  CForm,
   CFormInput,
+  CContainer,
+  CRow,
+  CCol,
+  CButtonGroup,
 } from '@coreui/react'
 
 function StaffZScore() {
@@ -36,18 +41,37 @@ function StaffZScore() {
             <CButton color="primary">Import</CButton>
           </CModalFooter>
         </CModal>
-        
       </div>
-      <div className="d-grid gap-2 col-6 mx-auto">
-        <CButton color="primary" size="lg" type="button" variant="outline" href="#/staff/zscoretable">
-            2021 - Latest
-        </CButton>
-        <CButton color="primary" size="lg" type="button" variant="outline" href="#/staff/zscoretable">
-            2020
-        </CButton>
-        <CButton color="primary" size="lg" type="button" variant="outline" href="#/staff/zscoretable">
-            2019
-        </CButton>
+
+      <div className="d-grid gap-3 col-6 mx-auto">
+        
+        <CButtonGroup>
+          <CButton color="primary" size="lg" type="button" variant="outline" href="#/staff/zscoretable">
+              2021 - Latest
+          </CButton>
+          <CButton color="dark" size="lg" type="button" variant="outline">
+              Delete
+          </CButton>
+        </CButtonGroup>
+          
+        <CButtonGroup>
+          <CButton color="primary" size="lg" type="button" variant="outline" href="#/staff/zscoretable">
+              2020
+          </CButton>
+          <CButton color="dark" size="lg" type="button" variant="outline">
+                Delete
+          </CButton>
+        </CButtonGroup>
+        
+        <CButtonGroup>
+          <CButton color="primary" size="lg" type="button" variant="outline" href="#/staff/zscoretable">
+              2019
+          </CButton>
+          <CButton color="dark" size="lg" type="button" variant="outline">
+                Delete
+          </CButton>
+        </CButtonGroup>
+        
       </div>
     </>
   )
