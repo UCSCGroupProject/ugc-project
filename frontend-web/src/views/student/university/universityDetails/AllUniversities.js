@@ -7,8 +7,6 @@ import {
   CCardImage,
   CCardBody,
   CCardTitle,
-  CCardFooter,
-  CCardText,
   CInputGroup,
   CFormInput,
   CButton,
@@ -156,7 +154,7 @@ const universityData = [
 function AllUniversities() {
   return (
     <div>
-      <CRow className="p-2 bg-secondary rounded">
+      <CRow className="p-1 bg-white rounded">
         <CCol md={4} className="ms-auto">
           <CInputGroup>
             <CFormInput type="text" name="phone" placeholder="Search..." />

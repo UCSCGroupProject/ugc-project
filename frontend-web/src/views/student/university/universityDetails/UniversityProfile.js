@@ -8,6 +8,8 @@ import {
   CTableHeaderCell,
   CTableBody,
   CTableDataCell,
+  CRow,
+  CCol,
 } from '@coreui/react'
 
 import uoc_img from '../../../../assets/images/university/wall/university_of_colombo_bg.jpg'
@@ -19,11 +21,23 @@ function UniversityProfile() {
       <CImage src={uoc_img} className="w-100 wall-image mt-3 rounded-top" />
       <div>
         <div className="p-3 bg-light border">
-          <h2>University of Colombo</h2>
-          <h6>Colombo, Western Province</h6>
-          <a href="www.uoc.lk">
-            <b>www.uoc.lk</b>
-          </a>
+          <CRow>
+            <CCol md={6}>
+              <h2>University of Colombo</h2>
+              <h6>Colombo, Western Province</h6>
+              <a href="www.uoc.lk">
+                <b>www.uoc.lk</b>
+              </a>
+            </CCol>
+            <CCol md={6}>
+              <div className="py-3">
+                The University of Colombo is a public research university located primarily in
+                Colombo, Sri Lanka. It is the oldest institution of modern higher education in Sri
+                Lanka. Specialised in the fields of natural, social, and applied sciences as well as
+                mathematics, computer sciences, and law.
+              </div>
+            </CCol>
+          </CRow>
         </div>
         <div className="my-3">
           <div className="mb-1">

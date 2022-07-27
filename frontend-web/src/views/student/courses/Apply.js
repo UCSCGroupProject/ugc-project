@@ -153,7 +153,8 @@ function Apply() {
       {
         id: orderOfPreference.length + 1,
         unicode: getRelevantUnicode(selectedCourse, selectedUniversity),
-        name: selectedCourse + ' / ' + selectedUniversity,
+        courseOfStudy: selectedCourse,
+        university: selectedUniversity,
       },
     ])
 
@@ -213,7 +214,8 @@ function Apply() {
                     <CTableRow>
                       <CTableHeaderCell>No.</CTableHeaderCell>
                       <CTableHeaderCell>Unicode</CTableHeaderCell>
-                      <CTableHeaderCell>Course + University</CTableHeaderCell>
+                      <CTableHeaderCell>Course</CTableHeaderCell>
+                      <CTableHeaderCell>University</CTableHeaderCell>
                     </CTableRow>
                   </CTableHead>
                   <CTableBody>
@@ -221,7 +223,8 @@ function Apply() {
                       <CTableRow key={item.id}>
                         <CTableHeaderCell>{item.id}</CTableHeaderCell>
                         <CTableDataCell>{item.unicode}</CTableDataCell>
-                        <CTableDataCell>{item.name}</CTableDataCell>
+                        <CTableDataCell>{item.courseOfStudy}</CTableDataCell>
+                        <CTableDataCell>{item.university}</CTableDataCell>
                       </CTableRow>
                     ))}
                   </CTableBody>
