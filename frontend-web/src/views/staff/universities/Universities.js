@@ -1,7 +1,6 @@
 import React from 'react'
 import {
-  CTable,
-  CButton
+  CTable
 } from '@coreui/react'
 import logo from '../../../assets/images/logo-uoc.png';
 function StaffUniversities() {
