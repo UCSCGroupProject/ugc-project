@@ -91,28 +91,10 @@ const _nav = [
         name: 'Results',
         to: '/student/aptitudetests/results',
       },
-    ],
-  },
-  {
-    component: CNavGroup,
-    name: 'Progress',
-    to: '',
-    icon: <CIcon icon={cilChartLine} customClassName="nav-icon" />,
-    items: [
       {
         component: CNavItem,
-        name: 'Upcoming Tests',
-        to: '/student/aptitudetests/upcoming',
-      },
-      {
-        component: CNavItem,
-        name: 'Ongoing Tests',
-        to: '/student/aptitudetests/ongoing',
-      },
-      {
-        component: CNavItem,
-        name: 'Delayed Tests',
-        to: '/student/aptitudetests/delayed',
+        name: 'Progress',
+        to: '/student/aptitudetests/progress',
       },
     ],
   },
