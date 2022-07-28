@@ -39,7 +39,7 @@ function Overview() {
           <CCardBody>
             <CCardTitle>
               {' '}
-              26K (-12.4% ) <CIcon icon={cilArrowTop} size="xl" />
+              26K (12.4% ) <CIcon icon={cilArrowTop} size="xl" />
             </CCardTitle>
             <CCardText>
             {<br></br>}
