@@ -38,9 +38,7 @@ const Stu_University_UniversityDetails_AllUniversities = React.lazy(() => import
 const Stu_University_UniversityDetails_Profile = React.lazy(() => import('./views/student/university/universityDetails/UniversityProfile'))
 const Stu_AptitudeTests_TestDetails_MyTests = React.lazy(() => import('./views/student/aptitudeTests/testDetails/MyTests'))
 const Stu_AptitudeTests_TestDetails_Results = React.lazy(() => import('./views/student/aptitudeTests/testDetails/Results'))
-const Stu_AptitudeTests_Progress_UpcomingTests = React.lazy(() => import('./views/student/aptitudeTests/progress/UpcomingTests'))
-const Stu_AptitudeTests_Progress_OngoingTests = React.lazy(() => import('./views/student/aptitudeTests/progress/OngoingTests'))
-const Stu_AptitudeTests_Progress_DelayedTests = React.lazy(() => import('./views/student/aptitudeTests/progress/DelayedTests'))
+const Stu_AptitudeTests_TestDetails_Progress = React.lazy(() => import('./views/student/aptitudeTests/testDetails/Progress'))
 
 // University views
 const Uni_Registration = React.lazy(() => import('./views/university/UniRegistration'))
@@ -94,9 +92,7 @@ const routes = [
   { path: '/student/university/profile', name: 'Profile', element: Stu_University_UniversityDetails_Profile },
   { path: '/student/aptitudetests/my', name: 'My Tests', element: Stu_AptitudeTests_TestDetails_MyTests },
   { path: '/student/aptitudetests/results', name: 'Results', element: Stu_AptitudeTests_TestDetails_Results },
-  { path: '/student/aptitudetests/upcoming', name: 'Upcoming Tests', element: Stu_AptitudeTests_Progress_UpcomingTests },
-  { path: '/student/aptitudetests/ongoing', name: 'Ongoing Tests', element: Stu_AptitudeTests_Progress_OngoingTests },
-  { path: '/student/aptitudetests/delayed', name: 'Delayed Tests', element: Stu_AptitudeTests_Progress_DelayedTests },
+  { path: '/student/aptitudetests/progress', name: 'Progress', element: Stu_AptitudeTests_TestDetails_Progress },
 
   // University routes
   { path: '/university/registration', name: 'Dashboard', element: Uni_Registration },

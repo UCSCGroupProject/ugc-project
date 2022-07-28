@@ -23,14 +23,21 @@ function UniversityProfile() {
         <div className="p-3 bg-light border">
           <CRow>
             <CCol md={6}>
-              <h2>University of Colombo</h2>
-              <h6>Colombo, Western Province</h6>
-              <a href="www.uoc.lk">
-                <b>www.uoc.lk</b>
-              </a>
+              <CRow>
+                <CCol md="auto">
+                  <CImage src={uoc_logo_img} height={50} className="mt-1" />
+                </CCol>
+                <CCol md="auto">
+                  <h2>University of Colombo</h2>
+                  <h6>Colombo, Western Province</h6>
+                  <a href="www.uoc.lk">
+                    <b>www.uoc.lk</b>
+                  </a>
+                </CCol>
+              </CRow>
             </CCol>
             <CCol md={6}>
-              <div className="py-3">
+              <div className="py-2">
                 The University of Colombo is a public research university located primarily in
                 Colombo, Sri Lanka. It is the oldest institution of modern higher education in Sri
                 Lanka. Specialised in the fields of natural, social, and applied sciences as well as
