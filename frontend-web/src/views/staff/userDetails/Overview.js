@@ -42,8 +42,8 @@ function Overview() {
               26K (-12.4% ) <CIcon icon={cilArrowTop} size="xl" />
             </CCardTitle>
             <CCardText>
-              Government Students - {studentDetails.governmentStudents} {<br></br>}
-              Private Students - {studentDetails.privateStudents}
+            {<br></br>}
+              {<br></br>}
             </CCardText>
           </CCardBody>
           <CCardFooter>
@@ -84,8 +84,8 @@ function Overview() {
               [Total {schoolDetails.totalCount}] <CIcon icon={cilChartLine} size="xl" />
             </CCardTitle>
             <CCardText>
-              Government Students - {schoolDetails.governmentSchools} {<br></br>}
-              Private Students - {schoolDetails.privateSchools}
+              Government Schools - {schoolDetails.governmentSchools} {<br></br>}
+              Private Schools - {schoolDetails.privateSchools}
             </CCardText>
           </CCardBody>
           <CCardFooter>
