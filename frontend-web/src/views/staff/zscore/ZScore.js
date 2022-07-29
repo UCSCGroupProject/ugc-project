@@ -10,8 +10,10 @@ import {
   CForm,
   CFormInput,
   CContainer,
-  CRow,
-  CCol,
+  CTable,
+  CTableBody,
+  CTableDataCell,
+  CTableRow,
   CButtonGroup,
 } from '@coreui/react'
 
@@ -21,7 +23,7 @@ function StaffZScore() {
     <>
       <div className="d-grid gap-2 d-md-flex justify-content-md-end">
         <CButton color="primary" className="me-md-2" onClick={() => setVisible(!visible)}>
-          Add Table
+          Import Table
         </CButton>
         <CModal alignment="center" visible={visible} onClose={() => setVisible(false)}>
           <CModalHeader>
@@ -30,7 +32,7 @@ function StaffZScore() {
           <CModalBody>       
             <div>
               <CFormInput type="file" size="sm" id="formFileSm" label="Choose your file to import as Z-score table" />
-            </div>
+            </div><br />
             <div><CFormInput type="text" size="sm" label="Save as" text="Please enter the year of Z-score table" aria-label="sm input example"/></div>
             {/* <div><CFormCheck id="flexCheckChecked" label="Latest Z-table" /></div> */}
           </CModalBody>
@@ -44,10 +46,9 @@ function StaffZScore() {
       </div>
 
       <div className="d-grid gap-3 col-6 mx-auto">
-        
         <CButtonGroup>
           <CButton color="primary" size="lg" type="button" variant="outline" href="#/staff/zscoretable">
-              2021 - Latest
+              2021
           </CButton>
           <CButton color="dark" size="lg" type="button" variant="outline">
               Delete

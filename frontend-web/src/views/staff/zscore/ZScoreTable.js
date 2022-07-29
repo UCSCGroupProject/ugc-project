@@ -53,6 +53,39 @@ function StaffZScoreTable() {
                   <CTableDataCell>1.8456</CTableDataCell>
                   <CTableDataCell>NA</CTableDataCell>
               </CTableRow>
+              <CTableRow>
+                  <CTableHeaderCell scope="row">Galle</CTableHeaderCell>
+                  <CTableDataCell>1.8456</CTableDataCell>
+                  <CTableDataCell>1.8456</CTableDataCell>
+                  <CTableDataCell>1.8456</CTableDataCell>
+                  <CTableDataCell>1.8456</CTableDataCell>
+                  <CTableDataCell>1.8456</CTableDataCell>
+                  <CTableDataCell>NA</CTableDataCell>
+                  <CTableDataCell>1.8456</CTableDataCell>
+                  <CTableDataCell>1.8456</CTableDataCell>
+              </CTableRow>
+              <CTableRow>
+                  <CTableHeaderCell scope="row">Ratnapura</CTableHeaderCell>
+                  <CTableDataCell>1.8456</CTableDataCell>
+                  <CTableDataCell>1.8456</CTableDataCell>
+                  <CTableDataCell>NA</CTableDataCell>
+                  <CTableDataCell>1.8456</CTableDataCell>
+                  <CTableDataCell>1.8456</CTableDataCell>
+                  <CTableDataCell>NA</CTableDataCell>
+                  <CTableDataCell>1.8456</CTableDataCell>
+                  <CTableDataCell>1.8456</CTableDataCell>
+              </CTableRow>
+              <CTableRow>
+                  <CTableHeaderCell scope="row">Matara</CTableHeaderCell>
+                  <CTableDataCell>1.8456</CTableDataCell>
+                  <CTableDataCell>NA</CTableDataCell>
+                  <CTableDataCell>1.8456</CTableDataCell>
+                  <CTableDataCell>1.8456</CTableDataCell>
+                  <CTableDataCell>1.8456</CTableDataCell>
+                  <CTableDataCell>1.8456</CTableDataCell>
+                  <CTableDataCell>1.8456</CTableDataCell>
+                  <CTableDataCell>NA</CTableDataCell>
+              </CTableRow>
           </CTableBody>
         </CTable></>
   )
