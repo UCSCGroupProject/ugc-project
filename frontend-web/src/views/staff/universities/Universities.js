@@ -161,7 +161,6 @@ function StaffUniversities() {
                     <CInputGroupText>Filter By</CInputGroupText>
                     <CFormSelect aria-label="filterByOption1">
                       <option value="all">All</option>
-                      <option value="unicode">Unicode</option>
                       <option value="course">Course</option>
                       <option value="university">University</option>
                     </CFormSelect>
