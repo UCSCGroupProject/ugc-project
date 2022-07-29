@@ -16,6 +16,7 @@ const Login = React.lazy(() => import('./views/user/Login'))
 const Test_Registration = React.lazy(() => import('./views/user/Test_Registration'))
 const StudentRegistration = React.lazy(() => import('./views/student/StudentRegistration'))
 const StaffRegistration = React.lazy(() => import('./views/staff/StaffRegistration'))
+const UniversityRegistration = React.lazy(() => import('./views/university/UniRegistration'))
 
 class App extends Component {
   render() {
@@ -34,6 +35,11 @@ class App extends Component {
               path="/staffregister"
               name="Staff Registration"
               element={<StaffRegistration />}
+            />
+            <Route
+              path="/universityregister"
+              name="University Registration"
+              element={<UniversityRegistration />}
             />
             <Route path="*" name="Home" element={<UGCLayout />} />
           </Routes>
