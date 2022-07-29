@@ -15,7 +15,7 @@ import 'simplebar/dist/simplebar.min.css'
 // sidebar nav config
 import studentNavigation from '../../views/student/sidebarData'
 import staffNavigation from '../../views/staff/sidebarData'
-import universityNavigation from "../../views/university/sidebarData"
+import universityNavigation from '../../views/university/sidebarData'
 
 const AppSidebar = (props) => {
   const dispatch = useDispatch()
@@ -38,13 +38,9 @@ const AppSidebar = (props) => {
       </CSidebarBrand>
       <CSidebarNav className="ugc-sidebar">
         <SimpleBar>
-<<<<<<< Updated upstream
-          <AppSidebarNav items={staffNavigation} />
-=======
           {props.actor === 'student' && <AppSidebarNav items={studentNavigation} />}
           {props.actor === 'staff' && <AppSidebarNav items={staffNavigation} />}
           {props.actor === 'university' && <AppSidebarNav items={universityNavigation} />}
->>>>>>> Stashed changes
         </SimpleBar>
       </CSidebarNav>
       <CSidebarToggler

@@ -53,7 +53,7 @@ function UGCLayout() {
 
   return (
     <div>
-      <AppSidebar actor="university" />
+      <AppSidebar actor="staff" />
       <CToaster ref={toaster} push={toast} placement="top-end" />
       <div className="wrapper d-flex flex-column min-vh-100 bg-light">
         <AppHeader details={userDetails} />
