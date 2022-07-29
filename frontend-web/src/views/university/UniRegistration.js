@@ -70,7 +70,7 @@ const UniRegistration = () => {
     }))
   }
 
-  const [addressSet, setAddressSet] = useState([])
+  //const [addressSet, setAddressSet] = useState([])
 
   // useEffect(() => {
   //   switch (uniDetailsForm.officeDept) {
@@ -819,7 +819,7 @@ const UniRegistration = () => {
         nameWithInitials: uniOtherDetailsForm.nameWithInitials,
         fullName: uniOtherDetailsForm.fullName,
         dob: uniOtherDetailsForm.dob,
-        address: uniOtherDetailsForm.address,
+        // address: uniOtherDetailsForm.address,
         phoneNumber: uniOtherDetailsForm.phoneNumber,
         homeNumber: uniOtherDetailsForm.homeNumber,
         gender: uniOtherDetailsForm.gender,
@@ -949,11 +949,11 @@ const UniRegistration = () => {
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
         <CRow className="justify-content-center">
-          <CCol md={11}>
+          <CCol md={10}>
             <CCard className="mx-4">
-              <CCardBody className="p-4">
+              <CCardBody className="p-5">
                 <CForm onSubmit={handleSubmitStaff}>
-                  <h1 className="text-center">Staff Signup</h1>
+                  <h1 className="text-center">Government University Signup</h1>
 
                   {/* Sections */}
                   {sectionIndex === 0 && uniDetailsSection()}
