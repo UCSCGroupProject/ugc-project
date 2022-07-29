@@ -36,7 +36,7 @@ function SelectedStudents() {
       _cellProps: { id: { scope: 'row' } },
     },
     {
-      id: 1,
+      id: 2,
       unicode: '112A',
       course: 'Engineering',
       university: 'University of Moratuwa',

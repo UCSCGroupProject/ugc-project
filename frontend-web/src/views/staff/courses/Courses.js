@@ -32,7 +32,7 @@ function StaffCourses() {
       _cellProps: { id: { scope: 'row' } },
     },
     {
-      id: 1,
+      id: 2,
       course: 'Engineering',
       _cellProps: { id: { scope: 'row' } },
     }
@@ -40,10 +40,6 @@ function StaffCourses() {
 
   return (
     <div>
-      <div style={{textAlign: 'right'}}>
-        <CButton color='success'><CIcon icon={cibAddthis}></CIcon> Add course</CButton>
-      </div>
-      <br></br>
       <CRow>
         <CCol xs>
           <CCard className="mb-4">
@@ -107,6 +103,11 @@ function StaffCourses() {
           </CCard>
         </CCol>
       </CRow>
+
+      <div style={{textAlign: 'right'}}>
+      <CButton color='success'><CIcon icon={cibAddthis}></CIcon> Add Course</CButton>
+      </div>
+
     </div>
   )
 }
