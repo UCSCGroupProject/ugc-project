@@ -26,7 +26,7 @@ function Overview() {
   }
 
   const universityDetails = {
-    totalCount: '71388',
+    totalCount: '17',
   }
 
   return (

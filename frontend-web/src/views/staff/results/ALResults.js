@@ -32,6 +32,8 @@ function ALResults() {
       stream: 'Physical Science',
       district: 'Colombo',
       school: "St Paul's Girls' School, Milagiriya",
+      islandRank: "50",
+      districtRank: "20",
       status: 'Government',
       _cellProps: { id: { scope: 'row' } },
     },
@@ -42,6 +44,8 @@ function ALResults() {
       stream: 'Biological Science',
       district: 'Ratnapura',
       school: 'Lyceum International School, Ratnapura',
+      islandRank: "55",
+      districtRank: "25",
       status: 'Private',
       _cellProps: { id: { scope: 'row' } },
     },
@@ -78,6 +82,8 @@ function ALResults() {
                       <option value="university">Stream</option>
                       <option value="zscore">District</option>
                       <option value="school">School</option>
+                      <option value="school">District Rank</option>
+                      <option value="school">Island Rank</option>
                       <option value="school">Status</option>
                     </CFormSelect>
                     <CInputGroupText> in </CInputGroupText>
@@ -112,6 +118,8 @@ function ALResults() {
                       <CTableHeaderCell>Stream</CTableHeaderCell>
                       <CTableHeaderCell>District</CTableHeaderCell>
                       <CTableHeaderCell>School</CTableHeaderCell>
+                      <CTableHeaderCell>District Rank</CTableHeaderCell>
+                      <CTableHeaderCell>Island Rank</CTableHeaderCell>
                       <CTableHeaderCell>Status</CTableHeaderCell>
                       <CTableHeaderCell></CTableHeaderCell>
                     </CTableRow>
@@ -125,6 +133,8 @@ function ALResults() {
                         <CTableDataCell>{item.stream}</CTableDataCell>
                         <CTableDataCell>{item.district}</CTableDataCell>
                         <CTableDataCell>{item.school}</CTableDataCell>
+                        <CTableDataCell>{item.districtRank}</CTableDataCell>
+                        <CTableDataCell>{item.islandRank}</CTableDataCell>
                         <CTableDataCell>{item.status}</CTableDataCell>
                         <CTableDataCell>
                           <CButton color="warning">Edit</CButton>
