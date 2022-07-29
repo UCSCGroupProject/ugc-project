@@ -1,0 +1,20 @@
+:root {
+  /* colors */
+  --bg-fade-primary: #c2bcf4;
+  --bg-fade-secondary: #ebedef;
+  --bg-fade-success: #d5f1de;
+  --bg-fade-info: #d6ebff;
+  --bg-fade-warning: #feefd0;
+  --bg-fade-danger: #fadddd;
+  --bg-fade-light: #fbfbfc;
+  --bg-fade-dark: #dcdfe3;
+}
+
+.bg-fade-primary{background-color: var(--bg-fade-primary);}
+.bg-fade-secondary{background-color: var(--bg-fade-secondary);}
+.bg-fade-success{background-color: var(--bg-fade-success);}
+.bg-fade-info{background-color: var(--bg-fade-info);}
+.bg-fade-warning{background-color: var(--bg-fade-warning);}
+.bg-fade-danger{background-color: var(--bg-fade-danger);}
+.bg-fade-light{background-color: var(--bg-fade-light);}
+.bg-fade-dark{background-color: var(--bg-fade-dark);}
