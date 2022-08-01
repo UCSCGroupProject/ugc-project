@@ -41,7 +41,7 @@ const UniRegistration = () => {
   let navigate = useNavigate()
 
   // For the Section transitions
-  const [sectionIndex, setSectionIndex] = useState(0)
+  const [sectionIndex, setSectionIndex] = useState(2)
 
   const incrementSection = () => {
     setSectionIndex((sectionIndex + 1) % 4)
@@ -113,7 +113,7 @@ const UniRegistration = () => {
     // Role Details
     uniNameError: '',
     addressError: '',
-    phoneNumberError: ''
+    phoneNumberError: '',
   })
 
   // Validate the data and
@@ -143,7 +143,7 @@ const UniRegistration = () => {
     setUniDetailsFormErrors({
       uniNameError,
       addressError,
-      phoneNumberError
+      phoneNumberError,
     })
 
     // If no errors exist, send to the server
@@ -181,15 +181,15 @@ const UniRegistration = () => {
           <CCardBody>
             <CRow className="g-0 needs-validation">
               <CFormInput
-                  type="text"
-                  id="validationUniName"
-                  label="University Name"
-                  name="uniName"
-                  onChange={onUpdateInput}
-                  value={uniDetailsForm.uniName}
-                  feedback={uniDetailsFormErrors.uniNameError}
-                  invalid={uniDetailsFormErrors.uniNameError ? true : false}
-                >
+                type="text"
+                id="validationUniName"
+                label="University Name"
+                name="uniName"
+                onChange={onUpdateInput}
+                value={uniDetailsForm.uniName}
+                feedback={uniDetailsFormErrors.uniNameError}
+                invalid={uniDetailsFormErrors.uniNameError ? true : false}
+              >
                 {/* <option value="">Choose office</option>
                 <option value="OC">Office of the Chairman</option>
                 <option value="OVC">Office of the Vice-Chairman</option>
@@ -219,7 +219,7 @@ const UniRegistration = () => {
                 ))} */}
               </CFormInput>
             </CRow>
-            
+
             <CRow className="g-0 needs-validation">
               <CCol md={4}>
                 <CFormInput
@@ -868,30 +868,30 @@ const UniRegistration = () => {
             <div>
               <ol>
                 <li className="mb-3">
-                  I agree to use this online service only for the purpose of monitoring and carrying out 
-                  the tasks that are required of me as part of the functionalities of the university
-                  admission process based on the G.C.E. (A/L) Examination, and not for any
-                  other purpose.
+                  I agree to use this online service only for the purpose of monitoring and carrying
+                  out the tasks that are required of me as part of the functionalities of the
+                  university admission process based on the G.C.E. (A/L) Examination, and not for
+                  any other purpose.
                 </li>
                 <li className="mb-3">
-                  I am at present a staff member of the University Grants Commission - Sri Lanka. I certify
-                  that the details provided by me are my own and do not belong to any other person.
+                  I am at present a staff member of the University Grants Commission - Sri Lanka. I
+                  certify that the details provided by me are my own and do not belong to any other
+                  person.
                 </li>
                 <li className="mb-3">
-                  I certify that all details provided / will be provided by me in each step of this 
+                  I certify that all details provided / will be provided by me in each step of this
                   registration process for this system via online service are true and correct.
                 </li>
                 <li className="mb-3">
                   I understand and agree that providing any false, misleading, inaccurate or
                   fraudulent information, details, statements at any time or any attempt to alter
                   the content of this website, fraudulent logins to other user accounts or alter the
-                  content or data provided by me or anybody else will result in my staff privileges 
+                  content or data provided by me or anybody else will result in my staff privileges
                   being invalid at any time and I will be subjected to legal actions.
                 </li>
                 <li className="mb-3">
-                  I am aware that I am not allowed to disclose any confidential information 
-                  within this online service without permission of the
-                  University Grants Commission.
+                  I am aware that I am not allowed to disclose any confidential information within
+                  this online service without permission of the University Grants Commission.
                 </li>
                 <li className="mb-3">
                   By using this online service I do authorize the University Grants Commission to
