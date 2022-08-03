@@ -45,7 +45,7 @@ const UniRegistration = () => {
   let navigate = useNavigate()
 
   // For the Section transitions
-  const [sectionIndex, setSectionIndex] = useState(2)
+  const [sectionIndex, setSectionIndex] = useState(0)
 
   const incrementSection = () => {
     setSectionIndex((sectionIndex + 1) % 3)
