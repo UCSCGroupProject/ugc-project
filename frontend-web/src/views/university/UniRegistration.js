@@ -16,9 +16,13 @@ import {
   CButtonGroup,
   CFormSelect,
   CFormCheck,
+  CInputGroup,
+  CFormLabel,
+  CFormFeedback,
+  CInputGroupText,
 } from '@coreui/react'
 
-import { cilCheckAlt } from '@coreui/icons'
+import { cilCheckAlt, cilTask } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
 import {
@@ -44,11 +48,11 @@ const UniRegistration = () => {
   const [sectionIndex, setSectionIndex] = useState(2)
 
   const incrementSection = () => {
-    setSectionIndex((sectionIndex + 1) % 4)
+    setSectionIndex((sectionIndex + 1) % 3)
   }
 
   const decrementSection = () => {
-    setSectionIndex((sectionIndex - 1) % 4)
+    setSectionIndex((sectionIndex - 1) % 3)
   }
 
   /**
@@ -59,11 +63,111 @@ const UniRegistration = () => {
     // Role Details
     uniName: '',
     address: '',
-    phoneNumber: '',
+    islandRank: '',
+    worldRank: '',
+    phone: '',
   })
 
+  const [isPhoneValid, setIsPhoneValid] = useState(false)
+
+  useEffect(() => {
+    if (uniDetailsForm.phone.length >= 10) {
+      setIsPhoneValid(true)
+    } else {
+      setIsPhoneValid(false)
+    }
+  }, [uniDetailsForm.phone])
+
+  // OTP validation
+  const [otpState, setOtpState] = useState({
+    enteredOtp: '',
+    isSendOtp: false,
+    isEnteredOtpValid: false,
+  })
+
+  const [enteredOtpError, setEnteredOtpError] = useState('')
+
+  const [isSendingOTP, setIsSendingOTP] = useState(false)
+  const [isValidatingOTP, setIsValidatingOTP] = useState(false)
+
+  const onUpdateOtp = (e) => {
+    setOtpState((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }))
+  }
+
+  // Send OTP to the given phone number
+  const handleSendOTP = () => {
+    setOtpState((prev) => ({
+      ...prev,
+      isSendOtp: false,
+    }))
+
+    // Sending to the server
+    setIsSendingOTP(true)
+    setResMessage('')
+
+    uniService.sendOtp(uniDetailsForm.phone).then(
+      () => {
+        setOtpState((prev) => ({
+          ...prev,
+          isSendOtp: true,
+        }))
+        // After recieving the server request
+        setIsSendingOTP(false)
+      },
+      (error) => {
+        const res =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString()
+        setResMessage(res)
+        setIsSendingOTP(false)
+      },
+    )
+  }
+
+  // Validate the OTP
+  const handleValidateOTP = () => {
+    setOtpState((prev) => ({
+      ...prev,
+      isEnteredOtpValid: false,
+    }))
+
+    // Sending to the server
+    setIsValidatingOTP(true)
+    setResMessage('')
+    setEnteredOtpError('')
+
+    uniService.validateOtp(otpState.enteredOtp).then(
+      (res) => {
+        console.log(res)
+        if (res) {
+          setOtpState((prev) => ({
+            ...prev,
+            isEnteredOtpValid: true,
+          }))
+        } else {
+          setEnteredOtpError('Entered OTP is not valid.')
+        }
+
+        // After recieving the server request
+        setIsValidatingOTP(false)
+      },
+      (error) => {
+        const res =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString()
+        setResMessage(res)
+        setIsValidatingOTP(false)
+      },
+    )
+  }
+
   // Update the form data while input
-  const onUpdateInput = (e) => {
+  const onUpdateInputInUniDetailsForm = (e) => {
     setUniDetailsForm((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
@@ -113,7 +217,9 @@ const UniRegistration = () => {
     // Role Details
     uniNameError: '',
     addressError: '',
-    phoneNumberError: '',
+    islandRankError: '',
+    worldRankError: '',
+    phoneError: '',
   })
 
   // Validate the data and
@@ -125,7 +231,9 @@ const UniRegistration = () => {
     // Uni Details
     let uniNameError = ''
     let addressError = ''
-    let phoneNumberError = ''
+    let islandRankError = ''
+    let worldRankError = ''
+    let phoneError = ''
 
     if (!v_required(uniDetailsForm.uniName)) {
       uniNameError = 'University Name cannot be empty.'
@@ -135,19 +243,31 @@ const UniRegistration = () => {
       addressError = 'Address cannot be empty.'
     }
 
-    if (!v_required(uniDetailsForm.phoneNumber)) {
-      phoneNumberError = 'Phone Number cannot be empty.'
+    if (!v_required(uniDetailsForm.islandRank)) {
+      islandRankError = 'Island rank cannot be empty.'
+    }
+
+    if (!v_required(uniDetailsForm.worldRank)) {
+      worldRankError = 'World rank cannot be empty.'
+    }
+
+    if (!v_required(uniDetailsForm.phone)) {
+      phoneError = 'Phone Number cannot be empty.'
+    } else if (!otpState.isEnteredOtpValid) {
+      phoneError = 'Phone number should be validated using OTP.'
     }
 
     // If errors exist, show errors
     setUniDetailsFormErrors({
       uniNameError,
       addressError,
-      phoneNumberError,
+      islandRankError,
+      worldRankError,
+      phoneError,
     })
 
     // If no errors exist, send to the server
-    if (!(uniNameError || addressError || phoneNumberError)) {
+    if (!(uniNameError || addressError || islandRankError || worldRankError || phoneError)) {
       // Sending to the server
       setLoading(true)
       setResMessage('')
@@ -179,18 +299,19 @@ const UniRegistration = () => {
         <CCard className="p-3 mb-3">
           <CCardSubtitle>University Details</CCardSubtitle>
           <CCardBody>
-            <CRow className="g-0 needs-validation">
-              <CFormInput
-                type="text"
-                id="validationUniName"
-                label="University Name"
-                name="uniName"
-                onChange={onUpdateInput}
-                value={uniDetailsForm.uniName}
-                feedback={uniDetailsFormErrors.uniNameError}
-                invalid={uniDetailsFormErrors.uniNameError ? true : false}
-              >
-                {/* <option value="">Choose office</option>
+            <CRow className="g-3 needs-validation">
+              <CCol md={12}>
+                <CFormInput
+                  type="text"
+                  id="validationUniName"
+                  label="University Name"
+                  name="uniName"
+                  onChange={onUpdateInputInUniDetailsForm}
+                  value={uniDetailsForm.uniName}
+                  feedback={uniDetailsFormErrors.uniNameError}
+                  invalid={uniDetailsFormErrors.uniNameError ? true : false}
+                >
+                  {/* <option value="">Choose office</option>
                 <option value="OC">Office of the Chairman</option>
                 <option value="OVC">Office of the Vice-Chairman</option>
                 <option value="OS">Office of the Secretary</option>
@@ -198,48 +319,125 @@ const UniRegistration = () => {
                 <option value="UAD">University Admissions Department</option>
                 <option value="AAD">Academic Affairs Department</option>
                 <option value="MISD">Management Information Systems Division</option> */}
-              </CFormInput>
-            </CRow>
-            <CRow className="g-0 needs-validation">
-              <CFormInput
-                type="text"
-                id="validationAddress"
-                label="Address"
-                name="address"
-                onChange={onUpdateInput}
-                value={uniDetailsForm.address}
-                feedback={uniDetailsFormErrors.addressError}
-                invalid={uniDetailsFormErrors.addressError ? true : false}
-              >
-                {/* <option value="">Choose Role</option>
+                </CFormInput>
+              </CCol>
+              <CCol md={8}>
+                <CFormInput
+                  type="text"
+                  id="validationAddress"
+                  label="Address"
+                  name="address"
+                  onChange={onUpdateInputInUniDetailsForm}
+                  value={uniDetailsForm.address}
+                  feedback={uniDetailsFormErrors.addressError}
+                  invalid={uniDetailsFormErrors.addressError ? true : false}
+                >
+                  {/* <option value="">Choose Role</option>
                 {addressSet.map((item) => (
                   <option key={item} value={item}>
                     {item}
                   </option>
                 ))} */}
-              </CFormInput>
-            </CRow>
-
-            <CRow className="g-0 needs-validation">
-              <CCol md={4}>
-                <CFormInput
-                  type="text"
-                  id="validationPhoneNumber"
-                  label="Phone Number"
-                  name="phoneNumber"
-                  onChange={onUpdateInput}
-                  value={uniDetailsForm.phoneNumber}
-                  feedback={uniDetailsFormErrors.phoneNumberError}
-                  invalid={uniDetailsFormErrors.phoneNumberError ? true : false}
-                >
-                  {/* <option value="">Choose Role</option>
-                  {addressSet.map((item) => (
-                    <option key={item} value={item}>
-                      {item}
-                    </option>
-                  ))} */}
                 </CFormInput>
               </CCol>
+              <CCol md={2}>
+                <CFormInput
+                  type="text"
+                  id="validationIslandRank"
+                  label="Island rank"
+                  name="islandRank"
+                  onChange={onUpdateInputInUniDetailsForm}
+                  value={uniDetailsForm.islandRank}
+                  feedback={uniDetailsFormErrors.islandRankError}
+                  invalid={uniDetailsFormErrors.islandRankError ? true : false}
+                ></CFormInput>
+              </CCol>
+              <CCol md={2}>
+                <CFormInput
+                  type="text"
+                  id="validationWorldRank"
+                  label="World rank"
+                  name="worldRank"
+                  onChange={onUpdateInputInUniDetailsForm}
+                  value={uniDetailsForm.worldRank}
+                  feedback={uniDetailsFormErrors.worldRankError}
+                  invalid={uniDetailsFormErrors.worldRankError ? true : false}
+                ></CFormInput>
+              </CCol>
+              <CCol md={4}>
+                <CFormLabel htmlFor="validationCustomUsername">Phone number</CFormLabel>
+                <CInputGroup className="has-validation">
+                  {/* <CInputGroupText>@</CInputGroupText> */}
+                  <CFormInput
+                    type="text"
+                    id="validationMobilePhoneNumber"
+                    name="phone"
+                    onChange={onUpdateInputInUniDetailsForm}
+                    value={uniDetailsForm.phone}
+                    // feedback={stuDetailsFormErrors.phoneError}
+                    invalid={uniDetailsFormErrors.phoneError ? true : false}
+                    disabled={otpState.isEnteredOtpValid}
+                  />
+                  {otpState.isEnteredOtpValid && (
+                    <CInputGroupText className="bg-success text-white">
+                      <CIcon icon={cilTask} size="lg" className="mx-2 my-1" />
+                    </CInputGroupText>
+                  )}
+                  {!otpState.isEnteredOtpValid && (
+                    <CButton
+                      color="warning"
+                      type="button"
+                      className="p-2 text-white"
+                      // onClick={handleOtpSend}
+                      onClick={handleSendOTP}
+                      disabled={!isPhoneValid || isSendingOTP}
+                    >
+                      {isSendingOTP ? (
+                        <span>
+                          <CSpinner size="sm" /> {'Sending'}
+                        </span>
+                      ) : (
+                        <span>Send OTP</span>
+                      )}
+                    </CButton>
+                  )}
+                  <CFormFeedback invalid>{uniDetailsFormErrors.phoneError}</CFormFeedback>
+                </CInputGroup>
+              </CCol>
+              {otpState.isSendOtp && (
+                <CCol md={3}>
+                  <CFormLabel htmlFor="validationCustomUsername">OTP</CFormLabel>
+                  <CInputGroup className="has-validation">
+                    <CFormInput
+                      type="text"
+                      id="validationOTP"
+                      name="enteredOtp"
+                      onChange={onUpdateOtp}
+                      value={otpState.enteredOtp}
+                      // feedback="asd"
+                      invalid={enteredOtpError ? true : false}
+                      disabled={otpState.isEnteredOtpValid}
+                    />
+                    {otpState.isEnteredOtpValid && (
+                      <CInputGroupText className="bg-success text-white">
+                        <CIcon icon={cilTask} size="lg" className="mx-2 my-1" />
+                      </CInputGroupText>
+                    )}
+
+                    {!otpState.isEnteredOtpValid && (
+                      <CButton
+                        color="info"
+                        type="button"
+                        className="p-2 text-white"
+                        onClick={handleValidateOTP}
+                      >
+                        {isValidatingOTP && <CSpinner size="sm" />} Verify OTP
+                      </CButton>
+                    )}
+                    <CFormFeedback invalid>{enteredOtpError}</CFormFeedback>
+                  </CInputGroup>
+                </CCol>
+              )}
             </CRow>
           </CCardBody>
         </CCard>
@@ -262,7 +460,13 @@ const UniRegistration = () => {
                 className="p-2"
                 onClick={handleUniDetailsSubmit}
               >
-                {loading && <CSpinner size="sm" />} Next
+                {loading ? (
+                  <span>
+                    <CSpinner size="sm" /> Validating
+                  </span>
+                ) : (
+                  <span>Next</span>
+                )}
               </CButton>
             </CButtonGroup>
           </CCol>
@@ -275,297 +479,396 @@ const UniRegistration = () => {
    * SECTION 2
    */
   // Form data
-  const [uniOtherDetailsForm, setStaffPersonalDetailsForm] = useState({
-    // Personal Details
-    title: '',
-    nameWithInitials: '',
-    fullName: '',
-    dob: '',
-    address: '',
-    phoneNumber: '',
-    homeNumber: '',
-    gender: '',
-  })
+  // const [uniOtherDetailsForm, setStaffPersonalDetailsForm] = useState({
+  //   // Personal Details
+  //   title: '',
+  //   nameWithInitials: '',
+  //   fullName: '',
+  //   dob: '',
+  //   address: '',
+  //   phoneNumber: '',
+  //   homeNumber: '',
+  //   gender: '',
+  // })
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-  }
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault()
+  // }
 
-  // Update the form data while input
-  const onUpdateInputInStaffPersonalDetailsForm = (e) => {
-    setStaffPersonalDetailsForm((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }))
-  }
+  // // Update the form data while input
+  // const onUpdateInputInStaffPersonalDetailsForm = (e) => {
+  //   setStaffPersonalDetailsForm((prev) => ({
+  //     ...prev,
+  //     [e.target.name]: e.target.value,
+  //   }))
+  // }
 
-  // For data errors
-  const [uniOtherDetailsFormErrors, setStaffPersonalDetailsFormErrors] = useState({
-    // Student Details
-    titleError: '',
-    nameWithInitialsError: '',
-    fullNameError: '',
-    dobError: '',
-    addressError: '',
-    phoneNumberError: '',
-    homeNumberError: '',
-    genderError: '',
-  })
+  // // For data errors
+  // const [uniOtherDetailsFormErrors, setStaffPersonalDetailsFormErrors] = useState({
+  //   // Student Details
+  //   titleError: '',
+  //   nameWithInitialsError: '',
+  //   fullNameError: '',
+  //   dobError: '',
+  //   addressError: '',
+  //   phoneNumberError: '',
+  //   homeNumberError: '',
+  //   genderError: '',
+  // })
 
-  // Validate the data and
-  // If valid send to the server
-  // else show the errors
-  const handleStaffPersonalDetailsFormSubmit = async (e) => {
-    e.preventDefault()
+  // // Validate the data and
+  // // If valid send to the server
+  // // else show the errors
+  // const handleStaffPersonalDetailsFormSubmit = async (e) => {
+  //   e.preventDefault()
 
-    // Personal Details
-    let titleError = ''
-    let nameWithInitialsError = ''
-    let fullNameError = ''
-    let dobError = ''
-    let addressError = ''
-    let phoneNumberError = ''
-    let homeNumberError = ''
-    let genderError = ''
+  //   // Personal Details
+  //   let titleError = ''
+  //   let nameWithInitialsError = ''
+  //   let fullNameError = ''
+  //   let dobError = ''
+  //   let addressError = ''
+  //   let phoneNumberError = ''
+  //   let homeNumberError = ''
+  //   let genderError = ''
 
-    if (!v_required(uniOtherDetailsForm.title)) {
-      titleError = 'Title cannot be empty.'
-    }
+  //   if (!v_required(uniOtherDetailsForm.title)) {
+  //     titleError = 'Title cannot be empty.'
+  //   }
 
-    if (!v_required(uniOtherDetailsForm.nameWithInitials)) {
-      nameWithInitialsError = 'Name with initials cannot be empty.'
-    }
+  //   if (!v_required(uniOtherDetailsForm.nameWithInitials)) {
+  //     nameWithInitialsError = 'Name with initials cannot be empty.'
+  //   }
 
-    if (!v_required(uniOtherDetailsForm.fullName)) {
-      fullNameError = 'Full name cannot be empty.'
-    }
+  //   if (!v_required(uniOtherDetailsForm.fullName)) {
+  //     fullNameError = 'Full name cannot be empty.'
+  //   }
 
-    if (!v_required(uniOtherDetailsForm.dob)) {
-      dobError = 'Date of birth cannot be empty.'
-    }
+  //   if (!v_required(uniOtherDetailsForm.dob)) {
+  //     dobError = 'Date of birth cannot be empty.'
+  //   }
 
-    if (!v_required(uniOtherDetailsForm.address)) {
-      addressError = 'Address cannot be empty.'
-    }
+  //   if (!v_required(uniOtherDetailsForm.address)) {
+  //     addressError = 'Address cannot be empty.'
+  //   }
 
-    if (!v_required(uniOtherDetailsForm.phoneNumber)) {
-      phoneNumberError = 'Phone number cannot be empty.'
-    }
+  //   if (!v_required(uniOtherDetailsForm.phoneNumber)) {
+  //     phoneNumberError = 'Phone number cannot be empty.'
+  //   }
 
-    if (!v_required(uniOtherDetailsForm.homeNumber)) {
-      homeNumberError = 'Land line cannot be empty.'
-    }
+  //   if (!v_required(uniOtherDetailsForm.homeNumber)) {
+  //     homeNumberError = 'Land line cannot be empty.'
+  //   }
 
-    if (!v_required(uniOtherDetailsForm.gender)) {
-      genderError = 'Gender can not be empty.'
-    }
+  //   if (!v_required(uniOtherDetailsForm.gender)) {
+  //     genderError = 'Gender can not be empty.'
+  //   }
 
-    // If errors exist, show errors
-    setStaffPersonalDetailsFormErrors({
-      titleError,
-      nameWithInitialsError,
-      fullNameError,
-      dobError,
-      addressError,
-      phoneNumberError,
-      homeNumberError,
-      genderError,
-    })
+  //   // If errors exist, show errors
+  //   setStaffPersonalDetailsFormErrors({
+  //     titleError,
+  //     nameWithInitialsError,
+  //     fullNameError,
+  //     dobError,
+  //     addressError,
+  //     phoneNumberError,
+  //     homeNumberError,
+  //     genderError,
+  //   })
 
-    // If no errors exist, send to the server
-    if (
-      !(
-        titleError ||
-        nameWithInitialsError ||
-        fullNameError ||
-        dobError ||
-        addressError ||
-        phoneNumberError ||
-        homeNumberError ||
-        genderError
-      )
-    ) {
-      // Sending to the server
-      setLoading(true)
-      setResMessage('')
-      uniService.uniOtherDetailsFormCheck(uniOtherDetailsForm).then(
-        () => {
-          setLoading(false)
-          incrementSection()
-        },
-        (error) => {
-          const res =
-            (error.response && error.response.data && error.response.data.message) ||
-            error.message ||
-            error.toString()
-          // After recieving the server request
-          setResMessage(res)
-          setLoading(false)
-        },
-      )
-    }
-  }
+  //   // If no errors exist, send to the server
+  //   if (
+  //     !(
+  //       titleError ||
+  //       nameWithInitialsError ||
+  //       fullNameError ||
+  //       dobError ||
+  //       addressError ||
+  //       phoneNumberError ||
+  //       homeNumberError ||
+  //       genderError
+  //     )
+  //   ) {
+  //     // Sending to the server
+  //     setLoading(true)
+  //     setResMessage('')
+  //     uniService.uniOtherDetailsFormCheck(uniOtherDetailsForm).then(
+  //       () => {
+  //         setLoading(false)
+  //         incrementSection()
+  //       },
+  //       (error) => {
+  //         const res =
+  //           (error.response && error.response.data && error.response.data.message) ||
+  //           error.message ||
+  //           error.toString()
+  //         // After recieving the server request
+  //         setResMessage(res)
+  //         setLoading(false)
+  //       },
+  //     )
+  //   }
+  // }
 
-  const uniOtherDetailsSection = () => {
-    return (
-      <section>
-        <p className="text-medium-emphasis text-center">
-          Please enter your personal information in the following sections
-        </p>
+  // const uniOtherDetailsSection = () => {
+  //   return (
+  //     <section>
+  //       <p className="text-medium-emphasis text-center">
+  //         Please enter your personal information in the following sections
+  //       </p>
 
-        <CCard className="p-3 mb-3">
-          <CCardSubtitle>Personal Details</CCardSubtitle>
-          <CCardBody>
-            <CRow className="g-3 needs-validation">
-              <CCol md={2}>
-                <CFormSelect
-                  label="Title"
-                  aria-label="title-select"
-                  name="title"
-                  onChange={onUpdateInputInStaffPersonalDetailsForm}
-                  value={uniOtherDetailsForm.title}
-                  feedback={uniOtherDetailsFormErrors.titleError}
-                  invalid={uniOtherDetailsFormErrors.titleError ? true : false}
-                >
-                  <option value="mrs">Mrs.</option>
-                  <option value="miss">Miss.</option>
-                  <option value="ms">Ms.</option>
-                </CFormSelect>
-              </CCol>
-              <CCol md={10}>
-                <CFormInput
-                  type="text"
-                  id="validationNameWithInitials"
-                  label="Name with initials (English Block Letters Eg: BANDARA DPS)"
-                  name="nameWithInitials"
-                  onChange={onUpdateInputInStaffPersonalDetailsForm}
-                  value={uniOtherDetailsForm.nameWithInitials}
-                  feedback={uniOtherDetailsFormErrors.nameWithInitialsError}
-                  invalid={uniOtherDetailsFormErrors.nameWithInitialsError ? true : false}
-                />
-              </CCol>
-              <CCol md={10}>
-                <CFormInput
-                  type="text"
-                  id="validationFullName"
-                  label="Full Name (English Block Letters)"
-                  name="fullName"
-                  onChange={onUpdateInputInStaffPersonalDetailsForm}
-                  value={uniOtherDetailsForm.fullName}
-                  feedback={uniOtherDetailsFormErrors.fullNameError}
-                  invalid={uniOtherDetailsFormErrors.fullNameError ? true : false}
-                />
-              </CCol>
-              <CCol md={2}>
-                <CFormInput
-                  type="date"
-                  id="validationDob"
-                  label="Date of Birth"
-                  name="dob"
-                  onChange={onUpdateInputInStaffPersonalDetailsForm}
-                  value={uniOtherDetailsForm.dob}
-                  feedback={uniOtherDetailsFormErrors.dobError}
-                  invalid={uniOtherDetailsFormErrors.dobError ? true : false}
-                />
-              </CCol>
-              <CCol md={12}>
-                <CFormInput
-                  type="text"
-                  id="validationAddress"
-                  label="Address"
-                  name="address"
-                  onChange={onUpdateInputInStaffPersonalDetailsForm}
-                  value={uniOtherDetailsForm.address}
-                  feedback={uniOtherDetailsFormErrors.addressError}
-                  invalid={uniOtherDetailsFormErrors.addressError ? true : false}
-                />
-              </CCol>
-              <CCol md={4}>
-                <CFormInput
-                  type="text"
-                  id="validationPhoneNumber"
-                  label="Phone Number"
-                  name="phoneNumber"
-                  onChange={onUpdateInputInStaffPersonalDetailsForm}
-                  value={uniOtherDetailsForm.phoneNumber}
-                  feedback={uniOtherDetailsFormErrors.phoneNumberError}
-                  invalid={uniOtherDetailsFormErrors.phoneNumberError ? true : false}
-                />
-              </CCol>
-              <CCol md={4}>
-                <CFormInput
-                  type="text"
-                  id="validationHomeNumber"
-                  label="Land Line"
-                  name="homeNumber"
-                  onChange={onUpdateInputInStaffPersonalDetailsForm}
-                  value={uniOtherDetailsForm.homeNumber}
-                  feedback={uniOtherDetailsFormErrors.homeNumberError}
-                  invalid={uniOtherDetailsFormErrors.homeNumberError ? true : false}
-                />
-              </CCol>
-              <CCol md={2}>
-                <CFormSelect
-                  label="Gender"
-                  aria-label="gender-select"
-                  name="gender"
-                  onChange={onUpdateInputInStaffPersonalDetailsForm}
-                  value={uniOtherDetailsForm.gender}
-                  feedback={uniOtherDetailsFormErrors.genderError}
-                  invalid={uniOtherDetailsFormErrors.genderError ? true : false}
-                >
-                  <option value="0">Male</option>
-                  <option value="1">Female</option>
-                </CFormSelect>
-              </CCol>
-            </CRow>
-          </CCardBody>
-        </CCard>
+  //       <CCard className="p-3 mb-3">
+  //         <CCardSubtitle>Personal Details</CCardSubtitle>
+  //         <CCardBody>
+  //           <CRow className="g-3 needs-validation">
+  //             <CCol md={2}>
+  //               <CFormSelect
+  //                 label="Title"
+  //                 aria-label="title-select"
+  //                 name="title"
+  //                 onChange={onUpdateInputInStaffPersonalDetailsForm}
+  //                 value={uniOtherDetailsForm.title}
+  //                 feedback={uniOtherDetailsFormErrors.titleError}
+  //                 invalid={uniOtherDetailsFormErrors.titleError ? true : false}
+  //               >
+  //                 <option value="mrs">Mrs.</option>
+  //                 <option value="miss">Miss.</option>
+  //                 <option value="ms">Ms.</option>
+  //               </CFormSelect>
+  //             </CCol>
+  //             <CCol md={10}>
+  //               <CFormInput
+  //                 type="text"
+  //                 id="validationNameWithInitials"
+  //                 label="Name with initials (English Block Letters Eg: BANDARA DPS)"
+  //                 name="nameWithInitials"
+  //                 onChange={onUpdateInputInStaffPersonalDetailsForm}
+  //                 value={uniOtherDetailsForm.nameWithInitials}
+  //                 feedback={uniOtherDetailsFormErrors.nameWithInitialsError}
+  //                 invalid={uniOtherDetailsFormErrors.nameWithInitialsError ? true : false}
+  //               />
+  //             </CCol>
+  //             <CCol md={10}>
+  //               <CFormInput
+  //                 type="text"
+  //                 id="validationFullName"
+  //                 label="Full Name (English Block Letters)"
+  //                 name="fullName"
+  //                 onChange={onUpdateInputInStaffPersonalDetailsForm}
+  //                 value={uniOtherDetailsForm.fullName}
+  //                 feedback={uniOtherDetailsFormErrors.fullNameError}
+  //                 invalid={uniOtherDetailsFormErrors.fullNameError ? true : false}
+  //               />
+  //             </CCol>
+  //             <CCol md={2}>
+  //               <CFormInput
+  //                 type="date"
+  //                 id="validationDob"
+  //                 label="Date of Birth"
+  //                 name="dob"
+  //                 onChange={onUpdateInputInStaffPersonalDetailsForm}
+  //                 value={uniOtherDetailsForm.dob}
+  //                 feedback={uniOtherDetailsFormErrors.dobError}
+  //                 invalid={uniOtherDetailsFormErrors.dobError ? true : false}
+  //               />
+  //             </CCol>
+  //             <CCol md={12}>
+  //               <CFormInput
+  //                 type="text"
+  //                 id="validationAddress"
+  //                 label="Address"
+  //                 name="address"
+  //                 onChange={onUpdateInputInStaffPersonalDetailsForm}
+  //                 value={uniOtherDetailsForm.address}
+  //                 feedback={uniOtherDetailsFormErrors.addressError}
+  //                 invalid={uniOtherDetailsFormErrors.addressError ? true : false}
+  //               />
+  //             </CCol>
+  //             <CCol md={4}>
+  //               <CFormInput
+  //                 type="text"
+  //                 id="validationPhoneNumber"
+  //                 label="Phone Number"
+  //                 name="phoneNumber"
+  //                 onChange={onUpdateInputInStaffPersonalDetailsForm}
+  //                 value={uniOtherDetailsForm.phoneNumber}
+  //                 feedback={uniOtherDetailsFormErrors.phoneNumberError}
+  //                 invalid={uniOtherDetailsFormErrors.phoneNumberError ? true : false}
+  //               />
+  //             </CCol>
+  //             <CCol md={4}>
+  //               <CFormInput
+  //                 type="text"
+  //                 id="validationHomeNumber"
+  //                 label="Land Line"
+  //                 name="homeNumber"
+  //                 onChange={onUpdateInputInStaffPersonalDetailsForm}
+  //                 value={uniOtherDetailsForm.homeNumber}
+  //                 feedback={uniOtherDetailsFormErrors.homeNumberError}
+  //                 invalid={uniOtherDetailsFormErrors.homeNumberError ? true : false}
+  //               />
+  //             </CCol>
+  //             <CCol md={2}>
+  //               <CFormSelect
+  //                 label="Gender"
+  //                 aria-label="gender-select"
+  //                 name="gender"
+  //                 onChange={onUpdateInputInStaffPersonalDetailsForm}
+  //                 value={uniOtherDetailsForm.gender}
+  //                 feedback={uniOtherDetailsFormErrors.genderError}
+  //                 invalid={uniOtherDetailsFormErrors.genderError ? true : false}
+  //               >
+  //                 <option value="0">Male</option>
+  //                 <option value="1">Female</option>
+  //               </CFormSelect>
+  //             </CCol>
+  //           </CRow>
+  //         </CCardBody>
+  //       </CCard>
 
-        {resMessage && (
-          <CAlert color="danger" className="text-center">
-            {resMessage}
-          </CAlert>
-        )}
+  //       {resMessage && (
+  //         <CAlert color="danger" className="text-center">
+  //           {resMessage}
+  //         </CAlert>
+  //       )}
 
-        <CRow>
-          <CCol md={4} className="ms-auto">
-            <CButtonGroup size="sm" className="w-100">
-              <CButton
-                color="dark"
-                variant="outline"
-                type="button"
-                className="p-2"
-                onClick={decrementSection}
-              >
-                Back
-              </CButton>
-              <CButton
-                color="primary"
-                type="button"
-                className="p-2"
-                onClick={handleStaffPersonalDetailsFormSubmit}
-              >
-                {loading && <CSpinner size="sm" />} Next
-              </CButton>
-            </CButtonGroup>
-          </CCol>
-        </CRow>
-      </section>
-    )
-  }
+  //       <CRow>
+  //         <CCol md={4} className="ms-auto">
+  //           <CButtonGroup size="sm" className="w-100">
+  //             <CButton
+  //               color="dark"
+  //               variant="outline"
+  //               type="button"
+  //               className="p-2"
+  //               onClick={decrementSection}
+  //             >
+  //               Back
+  //             </CButton>
+  //             <CButton
+  //               color="primary"
+  //               type="button"
+  //               className="p-2"
+  //               onClick={handleStaffPersonalDetailsFormSubmit}
+  //             >
+  //               {loading && <CSpinner size="sm" />} Next
+  //             </CButton>
+  //           </CButtonGroup>
+  //         </CCol>
+  //       </CRow>
+  //     </section>
+  //   )
+  // }
 
   /**
    * SECTION 3
    */
   // Form data
-  const [uniLoginDetailsForm, setStaffLoginDetailsForm] = useState({
+  const [uniLoginDetailsForm, setUniLoginDetailsForm] = useState({
     // Login Details
     username: '',
     email: '',
+    role: [],
     password: '',
     confirmPassword: '',
   })
+
+  const [isEmailValid, setIsEmailValid] = useState(false)
+
+  useEffect(() => {
+    if (v_email(uniLoginDetailsForm.email)) {
+      setIsEmailValid(true)
+    } else {
+      setIsEmailValid(false)
+    }
+  }, [uniLoginDetailsForm.email])
+
+  // Email code validation
+  const [codeState, setCodeState] = useState({
+    enteredCode: '',
+    isSendCode: false,
+    isEnteredCodeValid: false,
+  })
+
+  const [enteredCodeError, setEnteredCodeError] = useState('')
+
+  const [isSendingCode, setIsSendingCode] = useState(false)
+  const [isValidatingCode, setIsValidatingCode] = useState(false)
+
+  const onUpdateCode = (e) => {
+    setCodeState((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }))
+  }
+
+  // Send Code to the given email
+  const handleSendCode = () => {
+    setCodeState((prev) => ({
+      ...prev,
+      isSendCode: false,
+    }))
+
+    // Sending to the server
+    setIsSendingCode(true)
+    setResMessage('')
+
+    uniService.sendCode(uniLoginDetailsForm.email).then(
+      () => {
+        setCodeState((prev) => ({
+          ...prev,
+          isSendCode: true,
+        }))
+        // After recieving the server request
+        setIsSendingCode(false)
+      },
+      (error) => {
+        const res =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString()
+        setResMessage(res)
+        setIsSendingCode(false)
+      },
+    )
+  }
+
+  // Validate the Code
+  const handleValidateCode = () => {
+    setCodeState((prev) => ({
+      ...prev,
+      isEnteredCodeValid: false,
+    }))
+
+    // Sending to the server
+    setIsValidatingCode(true)
+    setResMessage('')
+    setEnteredCodeError('')
+
+    uniService.validateCode(codeState.enteredCode).then(
+      (res) => {
+        console.log(res)
+        if (res) {
+          setCodeState((prev) => ({
+            ...prev,
+            isEnteredCodeValid: true,
+          }))
+        } else {
+          setEnteredCodeError('Entered OTP is not valid.')
+        }
+
+        // After recieving the server request
+        setIsValidatingCode(false)
+      },
+      (error) => {
+        const res =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString()
+        setResMessage(res)
+        setIsValidatingCode(false)
+      },
+    )
+  }
 
   // Strong password guidelines
   const [pwd_guideline_length, set_pwd_guideline_length] = useState(false)
@@ -583,8 +886,8 @@ const UniRegistration = () => {
   }, [uniLoginDetailsForm.password])
 
   // Update the form data while input
-  const onUpdateInputInsetStaffLoginDetailsForm = (e) => {
-    setStaffLoginDetailsForm((prev) => ({
+  const onUpdateInputInsetUniLoginDetailsForm = (e) => {
+    setUniLoginDetailsForm((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }))
@@ -602,40 +905,42 @@ const UniRegistration = () => {
   // Validate the data and
   // If valid send to the server
   // else show the errors
-  const handleStaffLoginDetailsFormSubmit = async (e) => {
+  const handleUniLoginDetailsFormSubmit = async (e) => {
     e.preventDefault()
 
-    // Login Details
+    // University Details
     let usernameError = ''
     let emailError = ''
     let passwordError = ''
     let confirmPasswordError = ''
 
     if (!v_required(uniLoginDetailsForm.username)) {
-      usernameError = 'Username cannot be empty.'
+      usernameError = 'Username can not be empty.'
     }
 
     if (!v_required(uniLoginDetailsForm.email)) {
-      emailError = 'Email cannot be empty.'
+      emailError = 'Email can not be empty.'
     } else if (!v_email(uniLoginDetailsForm.email)) {
       emailError = 'Email is not valid.'
+    } else if (!codeState.isEnteredCodeValid) {
+      emailError = 'Email should be validated using Code.'
     }
 
     if (!v_required(uniLoginDetailsForm.password)) {
-      passwordError = 'Password cannot be empty.'
+      passwordError = 'Password can not be empty.'
     } else if (
       !(pwd_guideline_length,
       pwd_guideline_lowercase,
       pwd_guideline_number,
       pwd_guideline_specialChar)
     ) {
-      passwordError = 'Password does not satisfy the following guidelines.'
+      passwordError = 'Password does not stasfy the following guidelines.'
     } else if (!v_match(uniLoginDetailsForm.password, uniLoginDetailsForm.confirmPassword)) {
       passwordError = 'Passwords are not matching.'
     }
 
     if (!v_required(uniLoginDetailsForm.confirmPassword)) {
-      confirmPasswordError = 'Confirm password cannot be empty.'
+      confirmPasswordError = 'Confirm password can not be empty.'
     }
 
     // If errors exist, show errors
@@ -648,10 +953,13 @@ const UniRegistration = () => {
 
     // If no errors exist, send to the server
     if (!(usernameError || emailError || passwordError || confirmPasswordError)) {
+      console.log('THIRD SECTION')
+      console.log(uniLoginDetailsForm)
+
       // Sending to the server
       setLoading(true)
       setResMessage('')
-      uniService.uniLoginDetailsFormCheck(uniLoginDetailsForm).then(
+      uniService.loginDetailsFormCheck(uniLoginDetailsForm).then(
         () => {
           setLoading(false)
           incrementSection()
@@ -672,43 +980,121 @@ const UniRegistration = () => {
   const loginDetailsSection = () => {
     return (
       <section>
-        <p className="text-medium-emphasis text-center">Please enter your login information.</p>
+        <p className="text-medium-emphasis text-center">
+          Please enter your login information as well.
+        </p>
 
         <CCard className="p-3 mb-3">
           <CCardSubtitle>Login Details</CCardSubtitle>
           <CCardBody>
             <CRow className="g-3 needs-validation">
-              <CCol md={6}>
+              <CCol md={4}>
                 <CFormInput
                   type="text"
-                  id="validationUsername"
+                  id="validationMobilePhoneNumber"
                   label="Username"
                   name="username"
-                  onChange={onUpdateInputInsetStaffLoginDetailsForm}
+                  onChange={onUpdateInputInsetUniLoginDetailsForm}
                   value={uniLoginDetailsForm.username}
                   feedback={uniLoginDetailsFormErrors.usernameError}
                   invalid={uniLoginDetailsFormErrors.usernameError ? true : false}
                 />
               </CCol>
-              <CCol md={6}>
+              {/* <CCol md={4}>
                 <CFormInput
                   type="text"
                   id="validationEmail"
                   label="Email"
                   name="email"
-                  onChange={onUpdateInputInsetStaffLoginDetailsForm}
-                  value={uniLoginDetailsForm.email}
-                  feedback={uniLoginDetailsFormErrors.emailError}
-                  invalid={uniLoginDetailsFormErrors.emailError ? true : false}
+                  onChange={onUpdateInputInsetStuLoginDetailsForm}
+                  value={stuLoginDetailsForm.email}
+                  feedback={stuLoginDetailsFormErrors.emailError}
+                  invalid={stuLoginDetailsFormErrors.emailError ? true : false}
                 />
+              </CCol> */}
+              {/* below new */}
+              <CCol md={4}>
+                <CFormLabel htmlFor="validationEmail">Email</CFormLabel>
+                <CInputGroup className="has-validation">
+                  {/* <CInputGroupText>@</CInputGroupText> */}
+                  <CFormInput
+                    type="text"
+                    id="validationEmail"
+                    name="email"
+                    onChange={onUpdateInputInsetUniLoginDetailsForm}
+                    value={uniLoginDetailsForm.email}
+                    // feedback={stuDetailsFormErrors.phoneError}
+                    invalid={uniLoginDetailsFormErrors.emailError ? true : false}
+                    disabled={codeState.isEnteredCodeValid}
+                  />
+                  {codeState.isEnteredCodeValid && (
+                    <CInputGroupText className="bg-success text-white">
+                      <CIcon icon={cilTask} size="lg" className="mx-2 my-1" />
+                    </CInputGroupText>
+                  )}
+                  {!codeState.isEnteredCodeValid && (
+                    <CButton
+                      color="warning"
+                      type="button"
+                      className="p-2 text-white"
+                      // onClick={handleOtpSend}
+                      onClick={handleSendCode}
+                      disabled={!isEmailValid || isSendingCode}
+                    >
+                      {isSendingCode ? (
+                        <span>
+                          <CSpinner size="sm" /> {'Sending'}
+                        </span>
+                      ) : (
+                        <span>Send Code</span>
+                      )}
+                    </CButton>
+                  )}
+                  <CFormFeedback invalid>{uniLoginDetailsFormErrors.emailError}</CFormFeedback>
+                </CInputGroup>
               </CCol>
+              {codeState.isSendCode && (
+                <CCol md={3}>
+                  <CFormLabel htmlFor="validationVerificationCode">Verification Code</CFormLabel>
+                  <CInputGroup className="has-validation">
+                    <CFormInput
+                      type="text"
+                      id="validationCode"
+                      name="enteredCode"
+                      onChange={onUpdateCode}
+                      value={codeState.enteredCode}
+                      // feedback="asd"
+                      invalid={enteredCodeError ? true : false}
+                      disabled={codeState.isEnteredCodeValid}
+                    />
+                    {codeState.isEnteredCodeValid && (
+                      <CInputGroupText className="bg-success text-white">
+                        <CIcon icon={cilTask} size="lg" className="mx-2 my-1" />
+                      </CInputGroupText>
+                    )}
+
+                    {!codeState.isEnteredCodeValid && (
+                      <CButton
+                        color="info"
+                        type="button"
+                        className="p-2 text-white"
+                        onClick={handleValidateCode}
+                      >
+                        {isValidatingCode && <CSpinner size="sm" />} Verify OTP
+                      </CButton>
+                    )}
+                    <CFormFeedback invalid>{enteredCodeError}</CFormFeedback>
+                  </CInputGroup>
+                </CCol>
+              )}
+              {/* above new */}
               <CCol md={6}>
                 <CFormInput
                   type="password"
                   id="validationPassword"
                   label="Password"
                   name="password"
-                  onChange={onUpdateInputInsetStaffLoginDetailsForm}
+                  onChange={onUpdateInputInsetUniLoginDetailsForm}
                   value={uniLoginDetailsForm.password}
                   feedback={uniLoginDetailsFormErrors.passwordError}
                   invalid={uniLoginDetailsFormErrors.passwordError ? true : false}
@@ -752,7 +1138,7 @@ const UniRegistration = () => {
                   id="validationConfirmPassword"
                   label="Confirm Password"
                   name="confirmPassword"
-                  onChange={onUpdateInputInsetStaffLoginDetailsForm}
+                  onChange={onUpdateInputInsetUniLoginDetailsForm}
                   value={uniLoginDetailsForm.confirmPassword}
                   feedback={uniLoginDetailsFormErrors.confirmPasswordError}
                   invalid={uniLoginDetailsFormErrors.confirmPasswordError ? true : false}
@@ -784,9 +1170,15 @@ const UniRegistration = () => {
                 color="primary"
                 type="button"
                 className="p-2"
-                onClick={handleStaffLoginDetailsFormSubmit}
+                onClick={handleUniLoginDetailsFormSubmit}
               >
-                Next
+                {loading ? (
+                  <span>
+                    <CSpinner size="sm" /> Validating
+                  </span>
+                ) : (
+                  <span>Next</span>
+                )}
               </CButton>
             </CButtonGroup>
           </CCol>
@@ -815,14 +1207,17 @@ const UniRegistration = () => {
       let completeData = {
         address: uniDetailsForm.address,
         uniName: uniDetailsForm.uniName,
-        title: uniOtherDetailsForm.title,
-        nameWithInitials: uniOtherDetailsForm.nameWithInitials,
-        fullName: uniOtherDetailsForm.fullName,
-        dob: uniOtherDetailsForm.dob,
+        islandRank: uniDetailsForm.islandRank,
+        worldRank: uniDetailsForm.worldRank,
+        phone: uniDetailsForm.phone,
+        // title: uniOtherDetailsForm.title,
+        // nameWithInitials: uniOtherDetailsForm.nameWithInitials,
+        // fullName: uniOtherDetailsForm.fullName,
+        // dob: uniOtherDetailsForm.dob,
         // address: uniOtherDetailsForm.address,
-        phoneNumber: uniOtherDetailsForm.phoneNumber,
-        homeNumber: uniOtherDetailsForm.homeNumber,
-        gender: uniOtherDetailsForm.gender,
+        // phoneNumber: uniOtherDetailsForm.phoneNumber,
+        // homeNumber: uniOtherDetailsForm.homeNumber,
+        // gender: uniOtherDetailsForm.gender,
         username: uniLoginDetailsForm.username,
         email: uniLoginDetailsForm.email,
         password: uniLoginDetailsForm.password,
@@ -936,7 +1331,13 @@ const UniRegistration = () => {
                 onClick={handleSubmitStaff}
                 disabled={!agreement ? true : false}
               >
-                {loading && <CSpinner size="sm" />} Register
+                {loading ? (
+                  <span>
+                    <CSpinner size="sm" /> Finalizing
+                  </span>
+                ) : (
+                  <span>Register</span>
+                )}
               </CButton>
             </CButtonGroup>
           </CCol>
@@ -957,9 +1358,9 @@ const UniRegistration = () => {
 
                   {/* Sections */}
                   {sectionIndex === 0 && uniDetailsSection()}
-                  {sectionIndex === 1 && uniOtherDetailsSection()}
-                  {sectionIndex === 2 && loginDetailsSection()}
-                  {sectionIndex === 3 && termsAndConditionsSection()}
+                  {/* {sectionIndex === 1 && uniOtherDetailsSection()} */}
+                  {sectionIndex === 1 && loginDetailsSection()}
+                  {sectionIndex === 2 && termsAndConditionsSection()}
                 </CForm>
               </CCardBody>
             </CCard>
