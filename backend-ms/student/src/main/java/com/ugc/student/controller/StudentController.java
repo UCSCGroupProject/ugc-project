@@ -43,6 +43,9 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/student")
 public class StudentController {
+
+    // TODO: Find out why field injection is not recommended
+
     @Autowired
     RestTemplate restTemplate;
 

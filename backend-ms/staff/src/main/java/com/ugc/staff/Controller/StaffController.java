@@ -1,6 +1,7 @@
 package com.ugc.staff.Controller;
 
 import com.ugc.staff.Model.Enums.E_OfficeDept;
+import com.ugc.staff.Payload.Request.OTP.SMSRequest;
 import com.ugc.staff.Payload.Request.SignUpRequest;
 import com.ugc.staff.Model.ALPassedStudent;
 import com.ugc.staff.Model.ATPassedStudent;
@@ -17,6 +18,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
 import java.util.Collections;
@@ -30,6 +32,9 @@ public class StaffController {
     private final StaffService staffService;
 
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    RestTemplate restTemplate;
 
     @Autowired
     public StaffController(StaffService staffService, PasswordEncoder passwordEncoder) {
@@ -59,6 +64,26 @@ public class StaffController {
     public List<ATPassedStudent> getATPassedStudents(){
         return staffService.getATPassedStudents();
     }
+
+    int otp = 0;
+    @PostMapping("/generateOTP")
+    public void generateOTP(@Valid @RequestBody SMSRequest smsRequest){
+        otp = staffService.generateOTP();
+
+        SMSRequest otpSMS = new SMSRequest(
+                smsRequest.getPhoneNumber(),
+                "Your OTP is " + otp
+        );
+
+        restTemplate.postForObject(
+                "http://localhost:2/api/notification/sms",
+                otpSMS,
+                smsRequest.getClass()
+        );
+
+        System.out.println("Generated and sent to " + smsRequest.getPhoneNumber());
+    }
+
 
     @PostMapping(path = "/register")
     public ResponseEntity<?> register(@Valid @RequestBody StaffRegisterRequest staffRegisterRequest){

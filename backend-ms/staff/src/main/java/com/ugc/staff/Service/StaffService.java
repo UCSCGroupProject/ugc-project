@@ -221,6 +221,13 @@ public class StaffService {
     }
 
 
+    public int generateOTP(){
+        Random random = new Random();
+        int otp = 100000 + random.nextInt(900000);
+
+        return otp;
+    }
+
     public void createUser(String username, String email,
                            String password, String role,
                            Date dob, String fullName, String address,
