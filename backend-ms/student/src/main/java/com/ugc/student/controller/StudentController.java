@@ -169,45 +169,6 @@ public class StudentController {
         return ResponseEntity.ok(new MessageResponse("Section 2 validation passed"));
     }
 
-    // TODO: Need to be write protected. Otherwise race conditions may occur.
-    int otp = 0;
-
-    @PostMapping("/generateOTP")
-    public void generateOTP(@Valid @RequestBody SmsRequest smsRequest){
-        otp = studentService.generateOTP();
-
-        // Even sms request sent a message in built, here i am using message redefinition on server side
-        SmsRequest otpSms = new SmsRequest(
-                smsRequest.getPhoneNumber(),
-                "Your OTP is " + otp
-        );
-
-        restTemplate.postForObject(
-                "http://localhost:2/api/notification/sms",
-                otpSms,
-                smsRequest.getClass()
-                );
-
-        System.out.println("Generated and sent to " + smsRequest.getPhoneNumber());
-    }
-
-    @PostMapping("/validateOTP")
-    public boolean validateOTP(@RequestBody OTPRequest otpRequest){
-        if(otp != 0){
-            if(otp == otpRequest.getEnteredOtp()){
-                System.out.println("OTP valid");
-                return true;
-            }
-            else {
-                System.out.println("OTP invalid");
-                return false;
-            }
-        } else {
-            System.out.println("No OTP has been generated");
-            return false;
-        }
-    }
-
     @PostMapping("/loginDetailsFormCheck")
     public ResponseEntity<?> loginDetailsFormCheck(@Valid @RequestBody LoginDetailsRequest loginDetailsRequest) {
         if(studentRepository.existsByUsername(loginDetailsRequest.getUsername())){
@@ -230,49 +191,6 @@ public class StudentController {
         }
 
         return ResponseEntity.ok(new MessageResponse("Section 3 validation passed"));
-    }
-
-
-    // TODO: Need to be write protected. Otherwise race conditions may occur.
-    int code = 0;
-
-    @PostMapping("/generateCode")
-    public void generateCode(@Valid @RequestBody EmailRequest emailRequest){
-        code = studentService.generateCode();
-        String strCode = String.valueOf(code);
-
-        // Even sms request sent a message in built, here i am using message redefinition on server side
-        EmailRequest email = new EmailRequest(
-                emailRequest.getRecipient(),
-                strCode,
-                "",
-                ""
-        );
-
-        restTemplate.postForObject(
-                "http://localhost:3/api/email/sendVerifyAccountEmail",
-                email,
-                emailRequest.getClass()
-        );
-
-        System.out.println("Generated and sent to " + emailRequest.getRecipient());
-    }
-
-    @PostMapping("/validateCode")
-    public boolean validateCode(@RequestBody CodeRequest codeRequest){
-        if(code != 0){
-            if(code == codeRequest.getEnteredCode()){
-                System.out.println("Code valid");
-                return true;
-            }
-            else {
-                System.out.println("Code invalid");
-                return false;
-            }
-        } else {
-            System.out.println("No Code has been generated");
-            return false;
-        }
     }
 
     @PostMapping("/studentRegister")
@@ -338,4 +256,90 @@ public class StudentController {
 
         return ResponseEntity.ok(new MessageResponse("Registered!"));
     }
+
+    // OTP Validation and Generation for phone number
+    // TODO: Need to be write protected. Otherwise race conditions may occur.
+    int otp = 0;
+
+    @PostMapping("/generateOTP")
+    public void generateOTP(@Valid @RequestBody SmsRequest smsRequest){
+        otp = studentService.generateOTP();
+
+        // Even sms request sent a message in built, here i am using message redefinition on server side
+        SmsRequest otpSms = new SmsRequest(
+                smsRequest.getPhoneNumber(),
+                "Your OTP is " + otp
+        );
+
+        restTemplate.postForObject(
+                "http://localhost:2/api/notification/sms",
+                otpSms,
+                smsRequest.getClass()
+                );
+
+        System.out.println("Generated and sent to " + smsRequest.getPhoneNumber());
+    }
+
+    @PostMapping("/validateOTP")
+    public boolean validateOTP(@RequestBody OTPRequest otpRequest){
+        if(otp != 0){
+            if(otp == otpRequest.getEnteredOtp()){
+                System.out.println("OTP valid");
+                return true;
+            }
+            else {
+                System.out.println("OTP invalid");
+                return false;
+            }
+        } else {
+            System.out.println("No OTP has been generated");
+            return false;
+        }
+    }
+
+
+    // Code validation adn generation for Email
+    // TODO: Need to be write protected. Otherwise race conditions may occur.
+    int code = 0;
+
+    @PostMapping("/generateCode")
+    public void generateCode(@Valid @RequestBody EmailRequest emailRequest){
+        code = studentService.generateCode();
+        String strCode = String.valueOf(code);
+
+        // Even sms request sent a message in built, here i am using message redefinition on server side
+        EmailRequest email = new EmailRequest(
+                emailRequest.getRecipient(),
+                strCode,
+                "",
+                ""
+        );
+
+        restTemplate.postForObject(
+                "http://localhost:3/api/email/sendVerifyAccountEmail",
+                email,
+                emailRequest.getClass()
+        );
+
+        System.out.println("Generated and sent to " + emailRequest.getRecipient());
+    }
+
+    @PostMapping("/validateCode")
+    public boolean validateCode(@RequestBody CodeRequest codeRequest){
+        if(code != 0){
+            if(code == codeRequest.getEnteredCode()){
+                System.out.println("Code valid");
+                return true;
+            }
+            else {
+                System.out.println("Code invalid");
+                return false;
+            }
+        } else {
+            System.out.println("No Code has been generated");
+            return false;
+        }
+    }
+
+
 }

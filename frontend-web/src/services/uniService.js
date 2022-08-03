@@ -3,7 +3,7 @@ import axios from 'axios'
 const API_URL = 'http://localhost:8083/api/university'
 
 class UniService {
-  uniRegister(uniDetailsForm, uniOtherDetailsForm, uniLoginDetailsForm) {
+  register(uniDetailsForm, uniOtherDetailsForm, uniLoginDetailsForm) {
     console.log('FIRST SECTION')
     console.log(uniDetailsForm)
     console.log('SECOND SECTION')
@@ -22,36 +22,34 @@ class UniService {
       })
   }
 
-  uniRegister(completeData) {
-    return axios.post(API_URL + '/register', completeData).then((response) => {
-      console.log(response.data)
-      return response.data
-    })
-  }
+  // uniRegister(completeData) {
+  //   return axios.post(API_URL + '/register', completeData).then((response) => {
+  //     console.log(response.data)
+  //     return response.data
+  //   })
+  // }
 
   uniDetailsFormCheck(uniDetailsForm) {
-    return axios.post(API_URL + '/UniDetailsFormCheck', uniDetailsForm).then((response) => {
+    return axios.post(API_URL + '/uniDetailsFormCheck', uniDetailsForm).then((response) => {
       console.log(response.data)
       return response.data
     })
   }
 
-  uniOtherDetailsFormCheck(uniOtherDetailsForm) {
-    return axios
-      .post(API_URL + '/UniOtherDetailsFormCheck', uniOtherDetailsForm)
-      .then((response) => {
-        console.log(response.data)
-        return response.data
-      })
-  }
-
-  uniLoginDetailsFormCheck(uniLoginDetailsForm) {
+  loginDetailsFormCheck(uniLoginDetailsForm) {
     return axios
       .post(API_URL + '/UniLoginDetailsFormCheck', uniLoginDetailsForm)
       .then((response) => {
         console.log(response.data)
         return response.data
       })
+  }
+
+  universityRegister(completeData) {
+    return axios.post(API_URL + '/universityRegister', completeData).then((response) => {
+      console.log(response.data)
+      return response.data
+    })
   }
 
   // OTP
