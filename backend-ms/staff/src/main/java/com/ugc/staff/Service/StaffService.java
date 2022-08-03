@@ -285,7 +285,7 @@ public class StaffService {
         Staff staff = new Staff(username, email, password, staffRole, staffOfficeDept);
         staffRepository.save(staff);
 
-        // Save student details
+        // Save staff personal details
         PersonalDetails personalDetails = new PersonalDetails(
                 title,
                 nameWithInitials,
