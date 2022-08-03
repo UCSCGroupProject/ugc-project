@@ -51,7 +51,7 @@ public class Staff {
     @JoinTable(name = "staff_role",
            joinColumns = @JoinColumn(name = "staff_id"),
            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();;
+    private Set<Role> role = new HashSet<>();;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "staff_office_dept",
@@ -68,7 +68,7 @@ public class Staff {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.roles = role;
+        this.role = role;
         this.officeDept = officeDept;
     }
 

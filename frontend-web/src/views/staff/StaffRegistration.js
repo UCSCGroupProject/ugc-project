@@ -16,10 +16,14 @@ import {
   CButtonGroup,
   CFormSelect,
   CFormCheck,
+  CInputGroup,
+  CFormLabel,
+  CFormFeedback,
+  CInputGroupText,
 } from '@coreui/react'
 
-import { cilCheckAlt } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
+import { cilCheckAlt, cilTask } from '@coreui/icons'
 
 import {
   v_required,
@@ -257,8 +261,102 @@ const StaffRegistration = () => {
     gender: '',
   })
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
+  const [isPhoneValid, setIsPhoneValid] = useState(false)
+
+  useEffect(() => {
+    if (staffPersonalDetailsForm.phoneNumber.length >= 10) {
+      setIsPhoneValid(true)
+    } else {
+      setIsPhoneValid(false)
+    }
+  }, [staffPersonalDetailsForm.phoneNumber])
+
+  // OTP validation
+  const [otpState, setOtpState] = useState({
+    enteredOtp: '',
+    isSendOtp: false,
+    isEnteredOtpValid: false,
+  })
+
+  const [enteredOtpError, setEnteredOtpError] = useState('')
+
+  const [isSendingOTP, setIsSendingOTP] = useState(false)
+  const [isValidatingOTP, setIsValidatingOTP] = useState(false)
+
+  const onUpdateOtp = (e) => {
+    setOtpState((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }))
+  }
+
+  // Send OTP to the given phone number
+  const handleSendOTP = () => {
+    setOtpState((prev) => ({
+      ...prev,
+      isSendOtp: false,
+    }))
+
+    // Sending to the server
+    setIsSendingOTP(true)
+    setResMessage('')
+
+    staffService.sendOtp(staffPersonalDetailsForm.phone).then(
+      () => {
+        setOtpState((prev) => ({
+          ...prev,
+          isSendOtp: true,
+        }))
+        // After recieving the server request
+        setIsSendingOTP(false)
+      },
+      (error) => {
+        const res =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString()
+        setResMessage(res)
+        setIsSendingOTP(false)
+      },
+    )
+  }
+
+  // Validate the OTP
+  const handleValidateOTP = () => {
+    setOtpState((prev) => ({
+      ...prev,
+      isEnteredOtpValid: false,
+    }))
+
+    // Sending to the server
+    setIsValidatingOTP(true)
+    setResMessage('')
+    setEnteredOtpError('')
+
+    staffService.validateOtp(otpState.enteredOtp).then(
+      (res) => {
+        console.log(res)
+        if (res) {
+          setOtpState((prev) => ({
+            ...prev,
+            isEnteredOtpValid: true,
+          }))
+        } else {
+          setEnteredOtpError('Entered OTP is not valid.')
+        }
+
+        // After recieving the server request
+        setIsValidatingOTP(false)
+      },
+      (error) => {
+        const res =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString()
+        setResMessage(res)
+        setIsValidatingOTP(false)
+      },
+    )
   }
 
   // Update the form data while input
@@ -451,17 +549,77 @@ const StaffRegistration = () => {
                 />
               </CCol>
               <CCol md={4}>
-                <CFormInput
-                  type="text"
-                  id="validationPhoneNumber"
-                  label="Phone Number"
-                  name="phoneNumber"
-                  onChange={onUpdateInputInStaffPersonalDetailsForm}
-                  value={staffPersonalDetailsForm.phoneNumber}
-                  feedback={staffPersonalDetailsFormErrors.phoneNumberError}
-                  invalid={staffPersonalDetailsFormErrors.phoneNumberError ? true : false}
-                />
+                <CFormLabel htmlFor="validationCustomUsername">Phone number</CFormLabel>
+                <CInputGroup className="has-validation">
+                  <CFormInput
+                    type="text"
+                    id="validationMobilePhoneNumber"
+                    name="phoneNumber"
+                    onChange={onUpdateInputInStaffPersonalDetailsForm}
+                    value={staffPersonalDetailsForm.phoneNumber}
+                    invalid={staffPersonalDetailsFormErrors.phoneNumberError ? true : false}
+                    disabled={otpState.isEnteredOtpValid}
+                  />
+                  {otpState.isEnteredOtpValid && (
+                    <CInputGroupText className="bg-success text-white">
+                      <CIcon icon={cilTask} size="lg" className="mx-2 my-1" />
+                    </CInputGroupText>
+                  )}
+                  {!otpState.isEnteredOtpValid && (
+                    <CButton
+                      color="warning"
+                      type="button"
+                      className="p-2 text-white"
+                      // onClick={handleOtpSend}
+                      onClick={handleSendOTP}
+                      disabled={!isPhoneValid || isSendingOTP}
+                    >
+                      {isSendingOTP ? (
+                        <span>
+                          <CSpinner size="sm" /> {'Sending'}
+                        </span>
+                      ) : (
+                        <span>Send OTP</span>
+                      )}
+                    </CButton>
+                  )}
+                  <CFormFeedback invalid>{staffPersonalDetailsFormErrors.phoneNumberError}</CFormFeedback>
+                </CInputGroup>
               </CCol>
+              {otpState.isSendOtp && (
+                <CCol md={3}>
+                  <CFormLabel htmlFor="validationCustomUsername">OTP</CFormLabel>
+                  <CInputGroup className="has-validation">
+                    <CFormInput
+                      type="text"
+                      id="validationOTP"
+                      name="enteredOtp"
+                      onChange={onUpdateOtp}
+                      value={otpState.enteredOtp}
+                      // feedback="asd"
+                      invalid={enteredOtpError ? true : false}
+                      disabled={otpState.isEnteredOtpValid}
+                    />
+                    {otpState.isEnteredOtpValid && (
+                      <CInputGroupText className="bg-success text-white">
+                        <CIcon icon={cilTask} size="lg" className="mx-2 my-1" />
+                      </CInputGroupText>
+                    )}
+
+                    {!otpState.isEnteredOtpValid && (
+                      <CButton
+                        color="info"
+                        type="button"
+                        className="p-2 text-white"
+                        onClick={handleValidateOTP}
+                      >
+                        {isValidatingOTP && <CSpinner size="sm" />} Verify OTP
+                      </CButton>
+                    )}
+                    <CFormFeedback invalid>{enteredOtpError}</CFormFeedback>
+                  </CInputGroup>
+                </CCol>
+              )}
               <CCol md={4}>
                 <CFormInput
                   type="text"

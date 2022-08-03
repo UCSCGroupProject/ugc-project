@@ -221,6 +221,13 @@ public class StaffService {
     }
 
 
+    public int generateOTP(){
+        Random random = new Random();
+        int otp = 100000 + random.nextInt(900000);
+
+        return otp;
+    }
+
     public void createUser(String username, String email,
                            String password, String role,
                            Date dob, String fullName, String address,
@@ -285,7 +292,7 @@ public class StaffService {
         Staff staff = new Staff(username, email, password, staffRole, staffOfficeDept);
         staffRepository.save(staff);
 
-        // Save student details
+        // Save staff personal details
         PersonalDetails personalDetails = new PersonalDetails(
                 title,
                 nameWithInitials,
