@@ -228,6 +228,13 @@ public class StaffService {
         return otp;
     }
 
+    public int generateCode(){
+        Random random = new Random();
+        int code = 100000 + random.nextInt(900000);
+
+        return code;
+    }
+
     public void createUser(String username, String email,
                            String password, String role,
                            Date dob, String fullName, String address,

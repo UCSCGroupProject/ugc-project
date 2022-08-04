@@ -256,7 +256,7 @@ const StaffRegistration = () => {
     fullName: '',
     dob: '',
     address: '',
-    phoneNumber: '',
+    phone: '',
     homeNumber: '',
     gender: '',
   })
@@ -264,12 +264,12 @@ const StaffRegistration = () => {
   const [isPhoneValid, setIsPhoneValid] = useState(false)
 
   useEffect(() => {
-    if (staffPersonalDetailsForm.phoneNumber.length >= 10) {
+    if (staffPersonalDetailsForm.phone.length >= 10) {
       setIsPhoneValid(true)
     } else {
       setIsPhoneValid(false)
     }
-  }, [staffPersonalDetailsForm.phoneNumber])
+  }, [staffPersonalDetailsForm.phone])
 
   // OTP validation
   const [otpState, setOtpState] = useState({
@@ -375,7 +375,7 @@ const StaffRegistration = () => {
     fullNameError: '',
     dobError: '',
     addressError: '',
-    phoneNumberError: '',
+    phoneError: '',
     homeNumberError: '',
     genderError: '',
   })
@@ -392,7 +392,7 @@ const StaffRegistration = () => {
     let fullNameError = ''
     let dobError = ''
     let addressError = ''
-    let phoneNumberError = ''
+    let phoneError = ''
     let homeNumberError = ''
     let genderError = ''
 
@@ -416,8 +416,10 @@ const StaffRegistration = () => {
       addressError = 'Address cannot be empty.'
     }
 
-    if (!v_required(staffPersonalDetailsForm.phoneNumber)) {
-      phoneNumberError = 'Phone number cannot be empty.'
+    if (!v_required(staffPersonalDetailsForm.phone)) {
+      phoneError = 'Phone number cannot be empty.'
+    } else if (!otpState.isEnteredOtpValid) {
+      phoneError = 'Phone number should be validated using OTP.'
     }
 
     if (!v_required(staffPersonalDetailsForm.homeNumber)) {
@@ -435,7 +437,7 @@ const StaffRegistration = () => {
       fullNameError,
       dobError,
       addressError,
-      phoneNumberError,
+      phoneError,
       homeNumberError,
       genderError,
     })
@@ -448,7 +450,7 @@ const StaffRegistration = () => {
         fullNameError ||
         dobError ||
         addressError ||
-        phoneNumberError ||
+        phoneError ||
         homeNumberError ||
         genderError
       )
@@ -554,10 +556,10 @@ const StaffRegistration = () => {
                   <CFormInput
                     type="text"
                     id="validationMobilePhoneNumber"
-                    name="phoneNumber"
+                    name="phone"
                     onChange={onUpdateInputInStaffPersonalDetailsForm}
-                    value={staffPersonalDetailsForm.phoneNumber}
-                    invalid={staffPersonalDetailsFormErrors.phoneNumberError ? true : false}
+                    value={staffPersonalDetailsForm.phone}
+                    invalid={staffPersonalDetailsFormErrors.phoneError ? true : false}
                     disabled={otpState.isEnteredOtpValid}
                   />
                   {otpState.isEnteredOtpValid && (
@@ -583,7 +585,7 @@ const StaffRegistration = () => {
                       )}
                     </CButton>
                   )}
-                  <CFormFeedback invalid>{staffPersonalDetailsFormErrors.phoneNumberError}</CFormFeedback>
+                  <CFormFeedback invalid>{staffPersonalDetailsFormErrors.phoneError}</CFormFeedback>
                 </CInputGroup>
               </CCol>
               {otpState.isSendOtp && (
@@ -695,6 +697,104 @@ const StaffRegistration = () => {
     confirmPassword: '',
   })
 
+  const [isEmailValid, setIsEmailValid] = useState(false)
+
+  useEffect(() => {
+    if (v_email(staffLoginDetailsForm.email)) {
+      setIsEmailValid(true)
+    } else {
+      setIsEmailValid(false)
+    }
+  }, [staffLoginDetailsForm.email])
+
+  // Email code validation
+  const [codeState, setCodeState] = useState({
+    enteredCode: '',
+    isSendCode: false,
+    isEnteredCodeValid: false,
+  })
+
+  const [enteredCodeError, setEnteredCodeError] = useState('')
+
+  const [isSendingCode, setIsSendingCode] = useState(false)
+  const [isValidatingCode, setIsValidatingCode] = useState(false)
+
+  const onUpdateCode = (e) => {
+    setCodeState((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }))
+  }
+
+  // Send Code to the given email
+  const handleSendCode = () => {
+    setCodeState((prev) => ({
+      ...prev,
+      isSendCode: false,
+    }))
+
+    // Sending to the server
+    setIsSendingCode(true)
+    setResMessage('')
+
+    staffService.sendCode(staffLoginDetailsForm.email).then(
+      () => {
+        setCodeState((prev) => ({
+          ...prev,
+          isSendCode: true,
+        }))
+        // After recieving the server request
+        setIsSendingCode(false)
+      },
+      (error) => {
+        const res =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString()
+        setResMessage(res)
+        setIsSendingCode(false)
+      },
+    )
+  }
+
+  // Validate the Code
+  const handleValidateCode = () => {
+    setCodeState((prev) => ({
+      ...prev,
+      isEnteredCodeValid: false,
+    }))
+
+    // Sending to the server
+    setIsValidatingCode(true)
+    setResMessage('')
+    setEnteredCodeError('')
+
+    staffService.validateCode(codeState.enteredCode).then(
+      (res) => {
+        console.log(res)
+        if (res) {
+          setCodeState((prev) => ({
+            ...prev,
+            isEnteredCodeValid: true,
+          }))
+        } else {
+          setEnteredCodeError('Entered code is not valid.')
+        }
+
+        // After recieving the server request
+        setIsValidatingCode(false)
+      },
+      (error) => {
+        const res =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString()
+        setResMessage(res)
+        setIsValidatingCode(false)
+      },
+    )
+  }
+
   // Strong password guidelines
   const [pwd_guideline_length, set_pwd_guideline_length] = useState(false)
   const [pwd_guideline_uppercase, set_pwd_guideline_uppercase] = useState(false)
@@ -747,6 +847,8 @@ const StaffRegistration = () => {
       emailError = 'Email cannot be empty.'
     } else if (!v_email(staffLoginDetailsForm.email)) {
       emailError = 'Email is not valid.'
+    } else if (!codeState.isEnteredCodeValid) {
+      emailError = 'Email should be validated using code.'
     }
 
     if (!v_required(staffLoginDetailsForm.password)) {
@@ -818,7 +920,7 @@ const StaffRegistration = () => {
                   invalid={staffLoginDetailsFormErrors.usernameError ? true : false}
                 />
               </CCol>
-              <CCol md={6}>
+              {/* <CCol md={6}>
                 <CFormInput
                   type="text"
                   id="validationEmail"
@@ -829,7 +931,78 @@ const StaffRegistration = () => {
                   feedback={staffLoginDetailsFormErrors.emailError}
                   invalid={staffLoginDetailsFormErrors.emailError ? true : false}
                 />
+              </CCol> */}
+              <CCol md={4}>
+                <CFormLabel htmlFor="validationEmail">Email</CFormLabel>
+                <CInputGroup className="has-validation">
+                  <CFormInput
+                    type="text"
+                    id="validationEmail"
+                    name="email"
+                    onChange={onUpdateInputInsetStaffLoginDetailsForm}
+                    value={staffLoginDetailsForm.email}
+                    invalid={staffLoginDetailsFormErrors.emailError ? true : false}
+                    disabled={codeState.isEnteredCodeValid}
+                  />
+                  {codeState.isEnteredCodeValid && (
+                    <CInputGroupText className="bg-success text-white">
+                      <CIcon icon={cilTask} size="lg" className="mx-2 my-1" />
+                    </CInputGroupText>
+                  )}
+                  {!codeState.isEnteredCodeValid && (
+                    <CButton
+                      color="warning"
+                      type="button"
+                      className="p-2 text-white"
+                      // onClick={handleOtpSend}
+                      onClick={handleSendCode}
+                      disabled={!isEmailValid || isSendingCode}
+                    >
+                      {isSendingCode ? (
+                        <span>
+                          <CSpinner size="sm" /> {'Sending'}
+                        </span>
+                      ) : (
+                        <span>Send Code</span>
+                      )}
+                    </CButton>
+                  )}
+                  <CFormFeedback invalid>{staffLoginDetailsFormErrors.emailError}</CFormFeedback>
+                </CInputGroup>
               </CCol>
+              {codeState.isSendCode && (
+                <CCol md={3}>
+                  <CFormLabel htmlFor="validationVerificationCode">Verification Code</CFormLabel>
+                  <CInputGroup className="has-validation">
+                    <CFormInput
+                      type="text"
+                      id="validationCode"
+                      name="enteredCode"
+                      onChange={onUpdateCode}
+                      value={codeState.enteredCode}
+                      invalid={enteredCodeError ? true : false}
+                      disabled={codeState.isEnteredCodeValid}
+                    />
+                    {codeState.isEnteredCodeValid && (
+                      <CInputGroupText className="bg-success text-white">
+                        <CIcon icon={cilTask} size="lg" className="mx-2 my-1" />
+                      </CInputGroupText>
+                    )}
+
+                    {!codeState.isEnteredCodeValid && (
+                      <CButton
+                        color="info"
+                        type="button"
+                        className="p-2 text-white"
+                        onClick={handleValidateCode}
+                      >
+                        {isValidatingCode && <CSpinner size="sm" />} Verify OTP
+                      </CButton>
+                    )}
+                    <CFormFeedback invalid>{enteredCodeError}</CFormFeedback>
+                  </CInputGroup>
+                </CCol>
+              )}
               <CCol md={6}>
                 <CFormInput
                   type="password"
@@ -948,7 +1121,7 @@ const StaffRegistration = () => {
         fullName: staffPersonalDetailsForm.fullName,
         dob: staffPersonalDetailsForm.dob,
         address: staffPersonalDetailsForm.address,
-        phoneNumber: staffPersonalDetailsForm.phoneNumber,
+        phone: staffPersonalDetailsForm.phone,
         homeNumber: staffPersonalDetailsForm.homeNumber,
         gender: staffPersonalDetailsForm.gender,
         username: staffLoginDetailsForm.username,

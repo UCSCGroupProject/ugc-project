@@ -1,7 +1,10 @@
 package com.ugc.staff.Controller;
 
 import com.ugc.staff.Model.Enums.E_OfficeDept;
-import com.ugc.staff.Payload.Request.OTP.SMSRequest;
+import com.ugc.staff.Payload.Request.Email.CodeRequest;
+import com.ugc.staff.Payload.Request.Email.EmailRequest;
+import com.ugc.staff.Payload.Request.OTP.OTPRequest;
+import com.ugc.staff.Payload.Request.OTP.SmsRequest;
 import com.ugc.staff.Payload.Request.SignUpRequest;
 import com.ugc.staff.Model.ALPassedStudent;
 import com.ugc.staff.Model.ATPassedStudent;
@@ -67,23 +70,81 @@ public class StaffController {
 
     int otp = 0;
     @PostMapping("/generateOTP")
-    public void generateOTP(@Valid @RequestBody SMSRequest smsRequest){
+    public void generateOTP(@Valid @RequestBody SmsRequest smsRequest){
         otp = staffService.generateOTP();
 
-        SMSRequest otpSMS = new SMSRequest(
+        SmsRequest otpSms = new SmsRequest(
+
                 smsRequest.getPhoneNumber(),
                 "Your OTP is " + otp
         );
 
         restTemplate.postForObject(
                 "http://localhost:2/api/notification/sms",
-                otpSMS,
+                otpSms,
                 smsRequest.getClass()
         );
 
         System.out.println("Generated and sent to " + smsRequest.getPhoneNumber());
     }
 
+
+    @PostMapping("/validateOTP")
+    public boolean validateOTP(@RequestBody OTPRequest otpRequest){
+        if(otp != 0){
+            if(otp == otpRequest.getEnteredOtp()){
+                System.out.println("OTP valid");
+                return true;
+            }
+            else {
+                System.out.println("OTP invalid");
+                return false;
+            }
+        } else {
+            System.out.println("No OTP has been generated");
+            return false;
+        }
+    }
+
+    int code = 0;
+    @PostMapping("/generateCode")
+    public void generateCode(@Valid @RequestBody EmailRequest emailRequest){
+        code = staffService.generateCode();
+        String strCode = String.valueOf(code);
+
+        // Even sms request sent a message in built, here i am using message redefinition on server side
+        EmailRequest email = new EmailRequest(
+                emailRequest.getRecipient(),
+                strCode,
+                "",
+                ""
+        );
+
+        restTemplate.postForObject(
+                "http://localhost:3/api/email/sendVerifyAccountEmail",
+                email,
+                emailRequest.getClass()
+        );
+
+        System.out.println("Generated and sent to " + emailRequest.getRecipient());
+    }
+
+    @PostMapping("/validateCode")
+    public boolean validateCode(@RequestBody CodeRequest codeRequest){
+        if(code != 0){
+            if(code == codeRequest.getEnteredCode()){
+                System.out.println("Code valid");
+                return true;
+            }
+            else {
+                System.out.println("Code invalid");
+                return false;
+            }
+        } else {
+            System.out.println("No Code has been generated");
+            return false;
+        }
+    }
 
     @PostMapping(path = "/register")
     public ResponseEntity<?> register(@Valid @RequestBody StaffRegisterRequest staffRegisterRequest){
