@@ -4,7 +4,6 @@ const API_URL = 'http://localhost:8083/api/staff'
 
 class StaffService {
   staffRegister(staffRoleDetailsForm, staffPersonalDetailsForm, staffLoginDetailsForm) {
-
     console.log('FIRST SECTION')
     console.log(staffRoleDetailsForm)
     console.log('SECOND SECTION')
@@ -78,7 +77,28 @@ class StaffService {
       return response.data
     })
   }
-  
+
+  // Code
+  sendCode(email) {
+    const smsRequest = {
+      recipient: email,
+    }
+
+    return axios.post(API_URL + '/generateCode', smsRequest).then((response) => {
+      console.log(response.data)
+      return response.data
+    })
+  }
+
+  validateCode(enteredCode) {
+    const codeRequest = {
+      enteredCode: enteredCode,
+    }
+
+    return axios.post(API_URL + '/validateCode', codeRequest).then((response) => {
+      return response.data
+    })
+  }
 }
 
 export default new StaffService()
