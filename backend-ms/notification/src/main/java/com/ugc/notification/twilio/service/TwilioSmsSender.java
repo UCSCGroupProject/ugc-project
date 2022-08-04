@@ -4,7 +4,7 @@ import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.rest.api.v2010.account.MessageCreator;
 import com.twilio.type.PhoneNumber;
 import com.ugc.notification.twilio.config.TwilioConfiguration;
-import com.ugc.notification.twilio.request.SmsRequest;
+import com.ugc.notification.twilio.payload.request.SmsRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,0 +1,8 @@
+### Student account verification email sending
+POST http://localhost:2/api/notification/sms
+Content-Type: application/json
+
+{
+  "phoneNumber": "+94 775642956",
+  "message": "159753"
+}

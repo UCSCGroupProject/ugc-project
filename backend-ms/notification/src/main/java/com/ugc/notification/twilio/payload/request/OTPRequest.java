@@ -1,6 +1,5 @@
-package com.ugc.student.payload.request.otp;
+package com.ugc.notification.twilio.payload.request;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,5 +8,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class OTPRequest {
+    private String phone;
     private int enteredOtp;
 }

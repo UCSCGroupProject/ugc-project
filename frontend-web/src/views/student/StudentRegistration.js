@@ -37,6 +37,8 @@ import {
 } from '../../utils/validator'
 
 import studentService from '../../services/studentService'
+import otpService from '../../services/otpService'
+import emailService from '../../services/emailService'
 
 const StudentRegistration = () => {
   // For the server side requests and responses
@@ -45,7 +47,7 @@ const StudentRegistration = () => {
   let navigate = useNavigate()
 
   // For the Section transitions
-  const [sectionIndex, setSectionIndex] = useState(2)
+  const [sectionIndex, setSectionIndex] = useState(1)
 
   const incrementSection = () => {
     setSectionIndex((sectionIndex + 1) % 4)
@@ -412,7 +414,7 @@ const StudentRegistration = () => {
     setIsSendingOTP(true)
     setResMessage('')
 
-    studentService.sendOtp(stuDetailsForm.phone).then(
+    otpService.sendOtp(stuDetailsForm.phone).then(
       () => {
         setOtpState((prev) => ({
           ...prev,
@@ -444,7 +446,7 @@ const StudentRegistration = () => {
     setResMessage('')
     setEnteredOtpError('')
 
-    studentService.validateOtp(otpState.enteredOtp).then(
+    otpService.validateOtp(stuDetailsForm.phone, otpState.enteredOtp).then(
       (res) => {
         console.log(res)
         if (res) {
@@ -889,7 +891,7 @@ const StudentRegistration = () => {
     setIsSendingCode(true)
     setResMessage('')
 
-    studentService.sendCode(stuLoginDetailsForm.email).then(
+    emailService.sendCode(stuLoginDetailsForm.email).then(
       () => {
         setCodeState((prev) => ({
           ...prev,
@@ -921,7 +923,7 @@ const StudentRegistration = () => {
     setResMessage('')
     setEnteredCodeError('')
 
-    studentService.validateCode(codeState.enteredCode).then(
+    emailService.validateCode(stuLoginDetailsForm.email, codeState.enteredCode).then(
       (res) => {
         console.log(res)
         if (res) {

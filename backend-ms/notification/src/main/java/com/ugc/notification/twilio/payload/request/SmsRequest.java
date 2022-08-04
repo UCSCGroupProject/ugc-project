@@ -1,4 +1,4 @@
-package com.ugc.notification.twilio.request;
+package com.ugc.notification.twilio.payload.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

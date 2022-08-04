@@ -1,7 +1,7 @@
 package com.ugc.notification.twilio.controller;
 
 import com.ugc.notification.twilio.service.TwilioService;
-import com.ugc.notification.twilio.request.SmsRequest;
+import com.ugc.notification.twilio.payload.request.SmsRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

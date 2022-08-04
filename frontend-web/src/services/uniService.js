@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_URL = 'http://localhost:8083/api/university'
+const API_URL = 'http://localhost:8082/api/university'
 
 class UniService {
   register(uniDetailsForm, uniOtherDetailsForm, uniLoginDetailsForm) {
@@ -38,7 +38,7 @@ class UniService {
 
   loginDetailsFormCheck(uniLoginDetailsForm) {
     return axios
-      .post(API_URL + '/UniLoginDetailsFormCheck', uniLoginDetailsForm)
+      .post(API_URL + '/uniLoginDetailsFormCheck', uniLoginDetailsForm)
       .then((response) => {
         console.log(response.data)
         return response.data

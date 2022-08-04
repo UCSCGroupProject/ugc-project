@@ -51,18 +51,4 @@ public class StudentService {
 
         studentDetailsRepository.save(studentDetails);
     }
-
-    public int generateOTP(){
-        Random random = new Random();
-        int otp = 100000 + random.nextInt(900000);
-
-        return otp;
-    }
-
-    public int generateCode(){
-        Random random = new Random();
-        int code = 100000 + random.nextInt(900000);
-
-        return code;
-    }
 }

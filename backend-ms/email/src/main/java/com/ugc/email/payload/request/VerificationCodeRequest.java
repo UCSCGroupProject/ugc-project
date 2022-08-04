@@ -1,4 +1,4 @@
-package com.ugc.student.payload.request.email;
+package com.ugc.email.payload.request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,6 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CodeRequest {
+public class VerificationCodeRequest {
+    private String email;
     private int enteredCode;
 }
