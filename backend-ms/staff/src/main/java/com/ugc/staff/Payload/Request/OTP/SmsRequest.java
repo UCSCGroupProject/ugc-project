@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 @ToString
-public class SMSRequest {
+public class SmsRequest {
 
     @NotBlank
     private final String phoneNumber;
@@ -18,7 +18,7 @@ public class SMSRequest {
     @NotBlank
     private final String message;
 
-    public SMSRequest(@JsonProperty("TwilioService") String phoneNumber, @JsonProperty("message") String message) {
+    public SmsRequest(@JsonProperty("TwilioService") String phoneNumber, @JsonProperty("message") String message) {
         this.phoneNumber = phoneNumber;
         this.message = message;
     }

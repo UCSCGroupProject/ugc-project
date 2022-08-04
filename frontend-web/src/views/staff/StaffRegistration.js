@@ -256,7 +256,7 @@ const StaffRegistration = () => {
     fullName: '',
     dob: '',
     address: '',
-    phoneNumber: '',
+    phone: '',
     homeNumber: '',
     gender: '',
   })
@@ -264,12 +264,12 @@ const StaffRegistration = () => {
   const [isPhoneValid, setIsPhoneValid] = useState(false)
 
   useEffect(() => {
-    if (staffPersonalDetailsForm.phoneNumber.length >= 10) {
+    if (staffPersonalDetailsForm.phone.length >= 10) {
       setIsPhoneValid(true)
     } else {
       setIsPhoneValid(false)
     }
-  }, [staffPersonalDetailsForm.phoneNumber])
+  }, [staffPersonalDetailsForm.phone])
 
   // OTP validation
   const [otpState, setOtpState] = useState({
@@ -375,7 +375,7 @@ const StaffRegistration = () => {
     fullNameError: '',
     dobError: '',
     addressError: '',
-    phoneNumberError: '',
+    phoneError: '',
     homeNumberError: '',
     genderError: '',
   })
@@ -392,7 +392,7 @@ const StaffRegistration = () => {
     let fullNameError = ''
     let dobError = ''
     let addressError = ''
-    let phoneNumberError = ''
+    let phoneError = ''
     let homeNumberError = ''
     let genderError = ''
 
@@ -416,8 +416,10 @@ const StaffRegistration = () => {
       addressError = 'Address cannot be empty.'
     }
 
-    if (!v_required(staffPersonalDetailsForm.phoneNumber)) {
-      phoneNumberError = 'Phone number cannot be empty.'
+    if (!v_required(staffPersonalDetailsForm.phone)) {
+      phoneError = 'Phone number cannot be empty.'
+    } else if (!otpState.isEnteredOtpValid) {
+      phoneError = 'Phone number should be validated using OTP.'
     }
 
     if (!v_required(staffPersonalDetailsForm.homeNumber)) {
@@ -435,7 +437,7 @@ const StaffRegistration = () => {
       fullNameError,
       dobError,
       addressError,
-      phoneNumberError,
+      phoneError,
       homeNumberError,
       genderError,
     })
@@ -448,7 +450,7 @@ const StaffRegistration = () => {
         fullNameError ||
         dobError ||
         addressError ||
-        phoneNumberError ||
+        phoneError ||
         homeNumberError ||
         genderError
       )
@@ -554,10 +556,10 @@ const StaffRegistration = () => {
                   <CFormInput
                     type="text"
                     id="validationMobilePhoneNumber"
-                    name="phoneNumber"
+                    name="phone"
                     onChange={onUpdateInputInStaffPersonalDetailsForm}
-                    value={staffPersonalDetailsForm.phoneNumber}
-                    invalid={staffPersonalDetailsFormErrors.phoneNumberError ? true : false}
+                    value={staffPersonalDetailsForm.phone}
+                    invalid={staffPersonalDetailsFormErrors.phoneError ? true : false}
                     disabled={otpState.isEnteredOtpValid}
                   />
                   {otpState.isEnteredOtpValid && (
@@ -583,7 +585,7 @@ const StaffRegistration = () => {
                       )}
                     </CButton>
                   )}
-                  <CFormFeedback invalid>{staffPersonalDetailsFormErrors.phoneNumberError}</CFormFeedback>
+                  <CFormFeedback invalid>{staffPersonalDetailsFormErrors.phoneError}</CFormFeedback>
                 </CInputGroup>
               </CCol>
               {otpState.isSendOtp && (
@@ -948,7 +950,7 @@ const StaffRegistration = () => {
         fullName: staffPersonalDetailsForm.fullName,
         dob: staffPersonalDetailsForm.dob,
         address: staffPersonalDetailsForm.address,
-        phoneNumber: staffPersonalDetailsForm.phoneNumber,
+        phone: staffPersonalDetailsForm.phone,
         homeNumber: staffPersonalDetailsForm.homeNumber,
         gender: staffPersonalDetailsForm.gender,
         username: staffLoginDetailsForm.username,
