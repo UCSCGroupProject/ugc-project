@@ -1,0 +1,23 @@
+### Login registered university
+POST http://localhost:8082/api/university/login
+Content-Type: application/json
+
+{
+  "email": "ucsc@gmail.com",
+  "password": "2254890"
+}
+
+### University registration - Entire registration form submittion
+POST http://localhost:8082/api/university/universityRegister
+Content-Type: application/json
+
+{
+  "name": "UOC",
+  "address": "123",
+  "islandRank": "1",
+  "worldRank": "1000",
+  "phone": "0362254890",
+  "email": "ucsc@gmail.com",
+  "username": "ucsc",
+  "password": "2254890"
+}
