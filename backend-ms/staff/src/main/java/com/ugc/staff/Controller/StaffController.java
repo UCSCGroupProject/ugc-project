@@ -3,6 +3,7 @@ package com.ugc.staff.Controller;
 import com.ugc.staff.Model.Enums.E_OfficeDept;
 import com.ugc.staff.Payload.Request.Email.CodeRequest;
 import com.ugc.staff.Payload.Request.Email.EmailRequest;
+import com.ugc.staff.Payload.Request.LoginRequest;
 import com.ugc.staff.Payload.Request.OTP.OTPRequest;
 import com.ugc.staff.Payload.Request.OTP.SmsRequest;
 import com.ugc.staff.Payload.Request.SignUpRequest;
@@ -144,6 +145,11 @@ public class StaffController {
             System.out.println("No Code has been generated");
             return false;
         }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest){
+        return staffService.login(loginRequest);
     }
 
     @PostMapping(path = "/register")

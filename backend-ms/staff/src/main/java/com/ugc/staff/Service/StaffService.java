@@ -3,10 +3,20 @@ package com.ugc.staff.Service;
 import com.ugc.staff.Model.*;
 import com.ugc.staff.Model.Enums.E_OfficeDept;
 import com.ugc.staff.Model.Enums.E_Role;
+import com.ugc.staff.Payload.Request.LoginRequest;
+import com.ugc.staff.Payload.Response.JWTResponse;
 import com.ugc.staff.Repository.*;
+import com.ugc.staff.Security.JWT.JWTUtils;
+import com.ugc.staff.Security.Services.UserDetailsImpl;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class StaffService {
@@ -16,15 +26,20 @@ public class StaffService {
     private final StaffRepository staffRepository;
     private final RoleRepository roleRepository;
 
+    private final AuthenticationManager authenticationManager;
+
+    private final JWTUtils jwtUtils;
     private final OfficeDeptRepository officeDeptRepository;
 
     private final PersonalDetailsRepository personalDetailsRepository;
-    public StaffService(AppliedStudentRepository appliedStudentRepository, ALPassedStudentRepository alPassedStudentRepository, ATPassedStudentRepository atPassedStudentRepository, StaffRepository staffRepository, RoleRepository roleRepository, OfficeDeptRepository officeDeptRepository, PersonalDetailsRepository personalDetailsRepository) {
+    public StaffService(AppliedStudentRepository appliedStudentRepository, ALPassedStudentRepository alPassedStudentRepository, ATPassedStudentRepository atPassedStudentRepository, StaffRepository staffRepository, RoleRepository roleRepository, AuthenticationManager authenticationManager, JWTUtils jwtUtils, OfficeDeptRepository officeDeptRepository, PersonalDetailsRepository personalDetailsRepository) {
         this.appliedStudentRepository = appliedStudentRepository;
         this.alPassedStudentRepository = alPassedStudentRepository;
         this.atPassedStudentRepository = atPassedStudentRepository;
         this.staffRepository = staffRepository;
         this.roleRepository = roleRepository;
+        this.authenticationManager = authenticationManager;
+        this.jwtUtils = jwtUtils;
         this.officeDeptRepository = officeDeptRepository;
         this.personalDetailsRepository = personalDetailsRepository;
     }
@@ -311,5 +326,28 @@ public class StaffService {
                 gender
         );
         personalDetailsRepository.save(personalDetails);
+    }
+
+    public ResponseEntity<?> login(LoginRequest loginRequest) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
+        );
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = jwtUtils.generateJwtToken(authentication);
+
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(role -> role.getAuthority())
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(
+                new JWTResponse(
+                        jwt,
+                        userDetails.getId(),
+                        userDetails.getUsername(),
+                        userDetails.getEmail(),
+                        roles
+                )
+        );
     }
 }
