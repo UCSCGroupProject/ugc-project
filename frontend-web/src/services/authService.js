@@ -4,6 +4,9 @@ const API_URL = 'http://localhost:8081/api/student'
 
 class AuthService {
   login(email, password) {
+    if(axios.get("http://localhost:8081/api/student/isStudent", {email}).then((res) => {console.log(res)})) {
+      console.log("")
+    }
     return axios
       .post(API_URL + '/login', {
         email,

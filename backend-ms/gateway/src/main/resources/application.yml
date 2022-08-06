@@ -17,10 +17,6 @@ spring:
             allowedMethods: "*"
             allowedHeaders: "*"
       routes:
-        - id: auth
-          uri: lb://AUTH
-          predicates:
-            - Path=/users/**
         - id: user
           uri: lb://USER
           predicates:

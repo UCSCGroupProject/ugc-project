@@ -1,149 +1,47 @@
 package com.ugc.student.controller;
 
-import com.ugc.student.model.Role;
-import com.ugc.student.model.Student;
-import com.ugc.student.model.enums.E_Role;
 import com.ugc.student.payload.request.LoginRequest;
+import com.ugc.student.payload.request.UserTypeRequest;
 import com.ugc.student.payload.request.studentRegistration.LoginDetailsRequest;
 import com.ugc.student.payload.request.studentRegistration.NICAndExamDetailsRequest;
-import com.ugc.student.payload.request.SignupRequest;
 import com.ugc.student.payload.request.studentRegistration.StudentDetailsRequest;
 import com.ugc.student.payload.request.studentRegistration.StudentRegisterRequest;
-import com.ugc.student.payload.response.JwtResponse;
 import com.ugc.student.payload.response.MessageResponse;
 import com.ugc.student.repository.RoleRepository;
 import com.ugc.student.repository.StudentRepository;
-import com.ugc.student.security.jwt.JwtUtils;
-import com.ugc.student.security.services.UserDetailsImpl;
 import com.ugc.student.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-//@CrossOrigin(origins = "http://localhost:3001", maxAge = 3600)
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/student")
 public class StudentController {
-
-    // TODO: Find out why field injection is not recommended
-
-    @Autowired
-    RestTemplate restTemplate;
-
-    @Autowired
-    AuthenticationManager authenticationManager;
-
     @Autowired
     StudentRepository studentRepository;
-
     @Autowired
     RoleRepository roleRepository;
 
     @Autowired
-    PasswordEncoder encoder;
-
-    @Autowired
-    JwtUtils jwtUtils;
-
-    @Autowired
     StudentService studentService;
-
-    @Bean
-    CommandLineRunner runner(){
-        return  args -> {
-            studentService.initRoles();
-        };
-    }
 
     @GetMapping("/check")
     public String checkStatus() {
         return "Working!";
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest){
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
-        );
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
-
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(role -> role.getAuthority())
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(
-                new JwtResponse(
-                        jwt,
-                        userDetails.getId(),
-                        userDetails.getUsername(),
-                        userDetails.getEmail(),
-                        roles
-                )
-        );
+    @GetMapping("/isStudent")
+    public boolean isStudent(@RequestBody UserTypeRequest userTypeRequest) {
+        return studentService.isStudent(userTypeRequest.getEmail());
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<?> register(@Valid @RequestBody SignupRequest signupRequest){
-        if(studentRepository.existsByUsername(signupRequest.getUsername())){
-            return ResponseEntity.badRequest().body(new MessageResponse("Username is already taken"));
-        }
-
-        if(studentRepository.existsByEmail(signupRequest.getEmail())){
-            return ResponseEntity.badRequest().body(new MessageResponse("Email is already in use"));
-        }
-
-        // New user account creation
-        Student student = new Student(
-                signupRequest.getUsername(),
-                signupRequest.getEmail(),
-                encoder.encode(signupRequest.getPassword())
-        );
-
-        Set<String> strRoles = signupRequest.getRole();
-        Set<Role> roles = new HashSet<>();
-
-        // Check whether the role is valid or not
-        if(strRoles == null){
-            Role userRole = roleRepository.findByName(E_Role.ROLE_STUDENT)
-                    .orElseThrow(
-                            () -> new RuntimeException("Role is not found")
-                    );
-            roles.add(userRole);
-        } else {
-            strRoles.forEach(role -> {
-                switch (role){
-                    case "student":
-                        Role studentRole = roleRepository.findByName(E_Role.ROLE_STUDENT).orElseThrow(
-                                ()-> new RuntimeException("Role is not found")
-                        );
-                        roles.add(studentRole);
-                        break;
-                }
-            });
-        }
-
-        student.setRoles(roles);
-        studentRepository.save(student);
-
-        return ResponseEntity.ok(new MessageResponse("User registered successfully"));
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest){
+        return studentService.login(loginRequest);
     }
 
     @PostMapping("/stuNicAndExamFormCheck")
@@ -194,65 +92,8 @@ public class StudentController {
 
     @PostMapping("/studentRegister")
     public ResponseEntity<?> studentRegister(@Valid @RequestBody StudentRegisterRequest studentRegisterRequest) {
-        System.out.println(studentRegisterRequest.getUsername());
-        Student student = new Student(
-                studentRegisterRequest.getUsername(),
-                studentRegisterRequest.getEmail(),
-                encoder.encode(studentRegisterRequest.getPassword())
-        );
+        String result = studentService.studentRegister(studentRegisterRequest);
 
-        Set<String> strRoles = studentRegisterRequest.getRole();
-        Set<Role> roles = new HashSet<>();
-
-        // Check whether the role is valid or not
-        if(strRoles == null){
-            Role userRole = roleRepository.findByName(E_Role.ROLE_STUDENT)
-                    .orElseThrow(
-                            () -> new RuntimeException("Role is not found")
-                    );
-            roles.add(userRole);
-        } else {
-            strRoles.forEach(role -> {
-                switch (role){
-                    case "student":
-                        Role studentRole = roleRepository.findByName(E_Role.ROLE_STUDENT).orElseThrow(
-                                ()-> new RuntimeException("Role is not found")
-                        );
-                        roles.add(studentRole);
-                        break;
-                }
-            });
-        }
-
-        System.out.println(roles);
-        student.setRoles(roles);
-
-        // Save student login details
-        studentRepository.save(student);
-
-        // Save student details
-        studentService.saveStudentDetails(
-                studentRegisterRequest.getTitle(),
-                studentRegisterRequest.getNameWithInitials(),
-                studentRegisterRequest.getFullName(),
-                studentRegisterRequest.getDob(),
-                studentRegisterRequest.getPob(),
-                studentRegisterRequest.getCivilStatus(),
-                studentRegisterRequest.getGender(),
-                studentRegisterRequest.getPhone()
-        );
-
-        // Save nic and exam details
-        studentService.saveNicAndExamDetails(
-                studentRegisterRequest.getNic(),
-                studentRegisterRequest.getNicDateOfIssue(),
-                studentRegisterRequest.getIndexNo(),
-                studentRegisterRequest.getUsedIDType(),
-                studentRegisterRequest.getUsedIDNo(),
-                studentRegisterRequest.getUsedIDDateOfIssue(),
-                studentRegisterRequest.getUsedIDCopy()
-        );
-
-        return ResponseEntity.ok(new MessageResponse("Registered!"));
+        return ResponseEntity.ok(new MessageResponse(result));
     }
 }

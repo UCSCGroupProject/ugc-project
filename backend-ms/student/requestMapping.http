@@ -1,20 +1,10 @@
-### Register a new student
-POST http://localhost:8080/api/student/register
-Content-Type: application/json
-
-{
-  "username": "Dhanushka",
-  "email": "dhanushka@gamil.com",
-  "password": "1234567"
-}
-
 ### Login registered student
-POST http://localhost:8080/api/student/login
+POST http://localhost:8081/api/student/login
 Content-Type: application/json
 
 {
-  "email": "dhanushkasandakelum@gmail.com",
-  "password": "ds2254890"
+  "email": "dhanushkasandakelum711@gmail.com",
+  "password": "ds2254890A@"
 }
 
 
@@ -48,17 +38,6 @@ Content-Type: application/json
   "phone": "0775642956"
 }
 
-### OTP generation
-POST http://localhost:8081/api/student/generateOTP
-
-### OTP validation
-POST http://localhost:8081/api/student/validateOTP
-Content-Type: application/json
-
-{
-  "enteredOtp": "889910"
-}
-
 ### Student registration - Section 3 Form check
 POST http://localhost:8081/api/student/loginDetailsFormCheck
 Content-Type: application/json
@@ -74,29 +53,25 @@ POST http://localhost:8081/api/student/studentRegister
 Content-Type: application/json
 
 {
- "stuNicAndExamForm": {
-   "confirmNic": "199931712165",
-   "indexNo": "sdfsdfsg",
-   "nic": "199931712165",
-   "nicDateOfIssue": "2022-06-30",
-   "usedIDCopy": "C:\\fakepath\\AdobePIP.dll",
-   "usedIDDateOfIssue": "2022-07-15",
-   "usedIDNo": "dfgdfg",
-   "usedIDType": "DL"
- },
-  "stuDetailsForm": {
-    "civilStatus": "1",
-    "dob": "2022-07-20",
-    "fullName": "gdg",
-    "gender": "1",
-    "nameWithInitials": "sdfsdf",
-    "pob": "2",
-    "title": "miss"
-  },
-  "stuLoginDetailsForm": {
-    "confirmPassword": "ds2254890A@",
-    "email": "dhanushkasandakelum711@gmail.com",
-    "password": "ds2254890A@",
-    "phone": "0775642956"
-  }
+  "confirmNic": "199931712165",
+  "indexNo": "sdfsdfsg",
+  "nic": "199931712165",
+  "nicDateOfIssue": "2022-06-30",
+  "usedIDCopy": "C:\\fakepath\\AdobePIP.dll",
+  "usedIDDateOfIssue": "2022-07-15",
+  "usedIDNo": "dfgdfg",
+  "usedIDType": "DL",
+
+  "civilStatus": "1",
+  "dob": "2022-07-20",
+  "fullName": "gdg",
+  "gender": "1",
+  "nameWithInitials": "sdfsdf",
+  "pob": "2",
+  "title": "miss",
+  "phone": "0775642956",
+
+  "username": "Dhanushka",
+  "email": "dhanushkasandakelum711@gmail.com",
+  "password": "ds2254890A@"
 }

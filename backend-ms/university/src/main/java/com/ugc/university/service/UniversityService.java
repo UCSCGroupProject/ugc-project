@@ -27,13 +27,15 @@ import java.util.stream.Collectors;
 
 @Service
 public class UniversityService {
+    // Repositories
     @Autowired
     RoleRepository roleRepository;
     @Autowired
     UniversityRepository universityRepository;
-
     @Autowired
     UniversityDetailsRepository universityDetailsRepository;
+
+    // Utility Services
     @Autowired
     AuthenticationManager authenticationManager;
     @Autowired
