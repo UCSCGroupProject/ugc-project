@@ -27,7 +27,9 @@ const Staff_Selected_Students = React.lazy(() => import('./views/staff/selection
 const Staff_Applied_Students = React.lazy(() => import('./views/staff/selection/AppliedStudents'))
 const Staff_Eligible = React.lazy(() => import('./views/staff/selection/eligible/Eligible'))
 const Staff_Eligible_Courses = React.lazy(() => import('./views/staff/selection/eligible/Courses'))
-const Staff_Eligible_Students = React.lazy(() => import('./views/staff/selection/eligible/Students'))
+const Staff_Eligible_Students = React.lazy(() =>
+  import('./views/staff/selection/eligible/Students'),
+)
 const Staff_ZScore = React.lazy(() => import('./views/staff/zscore/ZScore'))
 const Staff_ZScoreTable = React.lazy(() => import('./views/staff/zscore/ZScoreTable'))
 const Staff_Analytics = React.lazy(() => import('./views/staff/analytics/Analytics'))
@@ -103,7 +105,11 @@ const routes = [
     element: Staff_UniversityProfiles,
   },
   { path: '/staff/courses', name: 'Courses', element: Staff_Courses },
-  { path: '/staff/universitycourses', name: 'University Courses', element: Staff_University_Courses },
+  {
+    path: '/staff/universitycourses',
+    name: 'University Courses',
+    element: Staff_University_Courses,
+  },
   { path: '/staff/results/ol', name: 'O/L Results', element: Staff_OLResults },
   { path: '/staff/results/al', name: 'A/L Results', element: Staff_ALResults },
   {
@@ -118,9 +124,9 @@ const routes = [
   },
   { path: '/staff/selectedstudents', name: 'Selected Students', element: Staff_Selected_Students },
   { path: '/staff/appliedstudents', name: 'Applied Students', element: Staff_Applied_Students },
-  { path: '/staff/eligible', name: 'Eligible Students', element: Staff_Eligible },
-  { path: '/staff/eligible/courses', name: 'Eligible Students', element: Staff_Eligible_Courses },
-  { path: '/staff/eligible/course/students', name: 'Eligible Students', element: Staff_Eligible_Students },
+  { path: '/staff/eligible', name: 'Eligible', element: Staff_Eligible },
+  { path: '/staff/eligible/courses', name: 'Courses', element: Staff_Eligible_Courses },
+  { path: '/staff/eligible/courses/students', name: 'Students', element: Staff_Eligible_Students },
   { path: '/staff/zscore', name: 'ZScore Table Selection', element: Staff_ZScore },
   { path: '/staff/zscoretable', name: 'ZScore Tables', element: Staff_ZScoreTable },
   { path: '/staff/analytics', name: 'Analytics', element: Staff_Analytics },

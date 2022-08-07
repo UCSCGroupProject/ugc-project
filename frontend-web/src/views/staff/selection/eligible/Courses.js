@@ -112,7 +112,7 @@ function EligibleCourses() {
                         <CTableDataCell>{item.totalIntake}</CTableDataCell>
                         <CTableDataCell>{item.appliedCount}</CTableDataCell>
                         <CTableDataCell>{item.eligibleCount}</CTableDataCell>
-                        <CTableDataCell><CButton color='warning' component="a" href="#/staff/eligible/course/students">View Students</CButton></CTableDataCell>
+                        <CTableDataCell><CButton color='warning' component="a" href="#/staff/eligible/courses/students">View Students</CButton></CTableDataCell>
                       </CTableRow>
                     ))}
                   </CTableBody>
