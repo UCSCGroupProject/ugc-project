@@ -23,6 +23,7 @@ import { cilSearch } from '@coreui/icons'
 import { cilFilter, cilDelete, cibAddthis } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
+
 function StaffCourses() {
 
   const courseList = [
@@ -82,6 +83,7 @@ function StaffCourses() {
                     <CTableRow>
                       <CTableHeaderCell>#</CTableHeaderCell>
                       <CTableHeaderCell>Course</CTableHeaderCell>
+                      <CTableHeaderCell style={{ width: "15%" }}>Action</CTableHeaderCell>
                       <CTableHeaderCell style={{ width: "10%" }}> </CTableHeaderCell>
                       <CTableHeaderCell style={{ width: "10%" }}> </CTableHeaderCell>
                     </CTableRow>
@@ -92,6 +94,7 @@ function StaffCourses() {
                       <CTableRow key={item.id}>
                         <CTableHeaderCell>{item.id}</CTableHeaderCell>
                         <CTableHeaderCell>{item.course}</CTableHeaderCell>
+                        <CTableDataCell><CButton color='warning' component="a" href="#/staff/universitycourses">View More</CButton></CTableDataCell>
                         <CTableDataCell><CButton color='warning'>Edit</CButton></CTableDataCell>
                         <CTableDataCell><CButton color='danger'><CIcon icon= {cilDelete}></CIcon></CButton></CTableDataCell>
                       </CTableRow>

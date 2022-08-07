@@ -23,38 +23,31 @@ import { cilSearch } from '@coreui/icons'
 import { cilFilter } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
-function AppliedStudents() {
+function Selected() {
 
-  const appliedStudentsList = [
+  const selectedList = [
     {
       id: 1,
-      indexNumber: '1162667',
-      nameWithInitials: 'B.F.Ilma',
-      stream: 'Physical Science',
-      zscore: '1.5247',
-      district: "Colombo",
-      school: "St.Paul's Girls' School, Milagiriya",
-      status: 'Government',
+      unicode: '112A',
+      course: 'Medicine',
+      totalIntake: '786',
       _cellProps: { id: { scope: 'row' } },
     },
     {
       id: 2,
-      indexNumber: '1124623',
-      nameWithInitials: 'K.N.Perera',
-      stream: 'Biological Science',
-      zscore: '1.8447',
-      district: "Ratnapura",
-      school: "Lyceum International School, Ratnapura",
-      status: 'Private',
+      unicode: '112A',
+      course: 'Engineering',
+      totalIntake: '865',
       _cellProps: { id: { scope: 'row' } },
     }
   ]
+
   return (
     <div>
       <CRow>
         <CCol xs>
           <CCard className="mb-4">
-            <CCardHeader>Applicants of degree programmes</CCardHeader>
+            <CCardHeader>Students selected for courses</CCardHeader>
             <CCardBody>
               <CRow className="py-2 bg-light rounded">
                 <CCol md={6}>
@@ -62,12 +55,10 @@ function AppliedStudents() {
                     <CInputGroupText>Filter By</CInputGroupText>
                     <CFormSelect aria-label="filterByOption1">
                       <option value="all">All</option>
-                      <option value="zscore">ZScore</option>
-                      <option value="school">School</option>
-                      <option value="district">District</option>
-                      <option value="stream">Stream</option>
                       <option value="course">Course</option>
                       <option value="university">University</option>
+                      <option value="zscore">Intake</option>
+                      <option value="school">Eligible Count</option>
                     </CFormSelect>
                     <CInputGroupText> in </CInputGroupText>
                     <CFormSelect aria-label="filterByOption1">
@@ -96,27 +87,20 @@ function AppliedStudents() {
                 <CTable bordered>
                   <CTableHead color="dark">
                     <CTableRow>
-                      <CTableHeaderCell>Index Number</CTableHeaderCell>
-                      <CTableHeaderCell>Name</CTableHeaderCell>
-                      <CTableHeaderCell>Stream</CTableHeaderCell>
-                      <CTableHeaderCell>Z Score</CTableHeaderCell>
-                      <CTableHeaderCell>District</CTableHeaderCell>
-                      <CTableHeaderCell>School</CTableHeaderCell>
-                      <CTableHeaderCell>Status</CTableHeaderCell>
-
+                      <CTableHeaderCell>Unicode</CTableHeaderCell>
+                      <CTableHeaderCell>Course</CTableHeaderCell>
+                      <CTableHeaderCell>Total Intake</CTableHeaderCell>
+                      <CTableHeaderCell style={{ width: "15%" }}></CTableHeaderCell>
                     </CTableRow>
                   </CTableHead>
                   <CTableBody>
-                    {appliedStudentsList.map((item) => (
+                    {selectedList.map((item) => (
                       // <NavLink to="/staff/univerityprofile" style={{ textDecoration: 'none', color: 'inherit' }}>
                       <CTableRow key={item.id}>
-                        <CTableHeaderCell>{item.indexNumber}</CTableHeaderCell>
-                        <CTableDataCell>{item.nameWithInitials}</CTableDataCell>
-                        <CTableDataCell>{item.stream}</CTableDataCell>
-                        <CTableDataCell>{item.zscore}</CTableDataCell>
-                        <CTableDataCell>{item.district}</CTableDataCell>
-                        <CTableDataCell>{item.school}</CTableDataCell>
-                        <CTableDataCell>{item.status}</CTableDataCell>
+                        <CTableHeaderCell>{item.unicode}</CTableHeaderCell>
+                        <CTableDataCell>{item.course}</CTableDataCell>
+                        <CTableDataCell>{item.totalIntake}</CTableDataCell>
+                        <CTableDataCell><CButton color='warning' component="a" href="#/staff/selected/courses">View Course</CButton></CTableDataCell>
                       </CTableRow>
                     ))}
                   </CTableBody>
@@ -130,4 +114,4 @@ function AppliedStudents() {
   )
 }
 
-export default AppliedStudents
+export default Selected

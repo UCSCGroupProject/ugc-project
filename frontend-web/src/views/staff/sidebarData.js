@@ -59,20 +59,20 @@ const _nav = [
   },
   {
     component: CNavItem,
-    name: 'Selected Students',
-    to: '/staff/selectedstudents',
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
-  },
-  {
-    component: CNavItem,
-    name: 'Applied Students',
+    name: 'Applicants',
     to: '/staff/appliedstudents',
     icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
   },
   {
     component: CNavItem,
-    name: 'Eligible Students',
-    to: '/staff/eligiblestudents',
+    name: 'Eligible',
+    to: '/staff/eligible',
+    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Selected Students',
+    to: '/staff/selected',
     icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
   },
   {
