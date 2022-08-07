@@ -54,6 +54,11 @@ public class StaffController {
         };
     }
 
+    @GetMapping("/isStaff")
+    public boolean isStaff(@RequestParam String email) {
+        return staffService.isStaff(email);
+    }
+
     @GetMapping(path = "appliedStudents")
     public List<AppliedStudent> getAppliedStudents(){
         return staffService.getAppliedStudents();

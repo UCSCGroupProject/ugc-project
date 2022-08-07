@@ -12,7 +12,13 @@ import {
   CRow,
   CSpinner,
   CAlert,
+  CInputGroup,
+  CInputGroupText,
+  CFormLabel,
+  CFormFeedback,
 } from '@coreui/react'
+
+import { FaEye, FaEyeSlash } from 'react-icons/fa'
 
 import { v_email, v_required } from '../../utils/validator'
 
@@ -29,6 +35,13 @@ const Login = () => {
     email: '',
     password: '',
   })
+
+  // Password Show/Hide toggler
+  const [showPassword, setShowPassword] = useState(true)
+
+  const onEyeClick = () => {
+    setShowPassword(!showPassword)
+  }
 
   // Update the form data while input
   const onUpdateInput = (e) => {
@@ -122,20 +135,34 @@ const Login = () => {
                   </div>
 
                   <div className="mb-3">
-                    <CFormInput
-                      type="password"
-                      id="validationServer02"
-                      label="Password"
-                      name="password"
-                      onChange={onUpdateInput}
-                      value={loginForm.password}
-                      feedback={loginFormErrors.passwordError}
-                      invalid={loginFormErrors.passwordError ? true : false}
-                    />
+                    <CFormLabel htmlFor="validationPassword">Password</CFormLabel>
+                    <CInputGroup>
+                      <CFormInput
+                        type={showPassword ? 'password' : 'text'}
+                        id="validationPassword"
+                        // label="Password"
+                        name="password"
+                        onChange={onUpdateInput}
+                        value={loginForm.password}
+                        // feedback={loginFormErrors.passwordError}
+                        invalid={loginFormErrors.passwordError ? true : false}
+                      />
+                      <CInputGroupText onClick={onEyeClick}>
+                        {showPassword ? (
+                          <FaEye className="fs-4" />
+                        ) : (
+                          <FaEyeSlash className="fs-4" />
+                        )}
+                      </CInputGroupText>
+                      <CFormFeedback invalid>{loginFormErrors.passwordError}</CFormFeedback>
+                    </CInputGroup>
+                    <div className="mt-2 mb-3">
+                      <Link to="/forgotPassword">Forgot password?</Link>
+                    </div>
                   </div>
 
                   <div className="d-grid">
-                    <CButton color="success" size="lg" type="submit">
+                    <CButton color="success" size="md" type="submit" className="py-2">
                       <div className="text-white">
                         {loading && <CSpinner size="sm" />}
                         Login
@@ -143,11 +170,8 @@ const Login = () => {
                     </CButton>
                   </div>
 
-                  <div className="m-4 text-center">
-                    <Link to="/forgotpassword">Forgot password?</Link>
-                  </div>
-                  <div className="mb-4 text-center">
-                    <Link to="/studentregister">Create an account?</Link>
+                  <div className="my-4 text-center">
+                    Don't have an account? <Link to="/studentregister">Sign up now</Link>
                   </div>
                 </CForm>
               </CCardBody>

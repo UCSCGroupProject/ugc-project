@@ -25,3 +25,13 @@
   background: rgb(82, 14, 18);
   background: linear-gradient(180deg, rgba(82, 14, 18, 1) 0%, rgba(62, 13, 16, 1) 100%);
 }
+
+// Login forms
+.password-toggler {
+  cursor: pointer;
+  text-align: center;
+  opacity: 0.8;
+  position: relative;
+  top: 10px;
+  background-color: red;
+}

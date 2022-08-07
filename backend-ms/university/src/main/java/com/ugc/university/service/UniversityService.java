@@ -50,6 +50,13 @@ public class UniversityService {
         roleRepository.save(studentRole);
     }
 
+    public boolean isUniversity(String email) {
+        if(universityRepository.existsByEmail(email))
+            return true;
+        else
+            return false;
+    }
+
     public void initUniversity() {
         this.universityRegister(new UniversityRegisterRequest(
                 "University of Colombo",

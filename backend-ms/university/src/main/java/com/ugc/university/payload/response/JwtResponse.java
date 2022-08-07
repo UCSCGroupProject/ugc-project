@@ -9,7 +9,8 @@ import java.util.List;
 @Setter
 public class JwtResponse {
     private String token;
-    private String type = "Bearer";
+//    private String type = "Bearer";
+    private String type = "university";
     private Long id;
     private String username;
     private String email;

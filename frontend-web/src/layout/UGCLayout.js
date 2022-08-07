@@ -1,5 +1,5 @@
 import React from 'react'
-import { CButton, CToast, CToastHeader, CToastBody, CToaster } from '@coreui/react'
+import { CToast, CToastHeader, CToastBody, CToaster } from '@coreui/react'
 import { useState, useEffect, useRef } from 'react'
 import { AppContent } from '../components/'
 import AppHeader from '../components/header/AppHeader'
@@ -36,24 +36,28 @@ function UGCLayout() {
   // Set user details
   const [userDetails, setUserDetails] = useState({
     username: '',
-    actortype: '',
+    actortype: 'student',
   })
 
   useEffect(() => {
     const user = authService.getCurrentUser()
-    console.log(user)
+
+    if (user !== null) {
+      console.log(user.type)
+      setUserDetails({ username: user.username, actortype: user.type })
+    }
 
     // Set the role
-    if (user !== null) {
-      if (user.roles.includes('ROLE_STUDENT')) {
-        setUserDetails({ username: user.username, actortype: 'student' })
-      }
-    }
+    // if (user !== null) {
+    //   if (user.roles.includes('ROLE_STUDENT')) {
+    //     setUserDetails({ username: user.username, actortype: user.type })
+    //   }
+    // }
   }, [])
 
   return (
     <div>
-      <AppSidebar actor="student" />
+      <AppSidebar actor={userDetails.actortype} />
       <CToaster ref={toaster} push={toast} placement="top-end" />
       <div className="wrapper d-flex flex-column min-vh-100 bg-light">
         <AppHeader details={userDetails} />

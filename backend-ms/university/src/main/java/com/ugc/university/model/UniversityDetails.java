@@ -1,12 +1,10 @@
 package com.ugc.university.model;
 
-import com.ugc.university.model.course.UniversityCourse;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -23,9 +21,6 @@ public class UniversityDetails {
     private String islandRank;
     private String worldRank;
     private String phone;
-
-    @OneToMany(mappedBy = "university_details")
-    Set<UniversityCourse> universityCourses;
 
     public UniversityDetails(String name, String address, String islandRank, String worldRank, String phone) {
         this.name = name;

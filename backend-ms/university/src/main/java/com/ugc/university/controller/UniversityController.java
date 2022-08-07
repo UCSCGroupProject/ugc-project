@@ -34,6 +34,11 @@ public class UniversityController {
         return "Working!";
     }
 
+    @GetMapping("/isUniversity")
+    public boolean isUniversity(@RequestParam String email) {
+        return universityService.isUniversity(email);
+    }
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest){
         return universityService.login(loginRequest);

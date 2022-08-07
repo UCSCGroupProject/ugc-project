@@ -108,6 +108,13 @@ public class StaffService {
 
     }
 
+    public boolean isStaff(String email) {
+        if(staffRepository.existsByEmail(email))
+            return true;
+        else
+            return false;
+    }
+
     public List<AppliedStudent> getAppliedStudents() {
         return appliedStudentRepository.findAll();
     }

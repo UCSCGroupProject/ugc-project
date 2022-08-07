@@ -13,7 +13,7 @@ const UGCLayout = React.lazy(() => import('./layout/UGCLayout'))
 
 // Pages
 const Login = React.lazy(() => import('./views/user/Login'))
-const Test_Registration = React.lazy(() => import('./views/user/Test_Registration'))
+const ForgotPassword = React.lazy(() => import('./views/user/ForgotPassword'))
 const StudentRegistration = React.lazy(() => import('./views/student/StudentRegistration'))
 const StaffRegistration = React.lazy(() => import('./views/staff/StaffRegistration'))
 const UniversityRegistration = React.lazy(() => import('./views/university/UniRegistration'))
@@ -25,19 +25,19 @@ class App extends Component {
         <Suspense fallback={loading}>
           <Routes>
             <Route path="/login" name="Login" element={<Login />} />
-            <Route path="/test_register" name="Login" element={<Test_Registration />} />
+            <Route path="/forgotPassword" name="ForgotPassword" element={<ForgotPassword />} />
             <Route
-              path="/studentregister"
+              path="/studentRegister"
               name="Student Registration"
               element={<StudentRegistration />}
             />
             <Route
-              path="/staffregister"
+              path="/staffRegister"
               name="Staff Registration"
               element={<StaffRegistration />}
             />
             <Route
-              path="/universityregister"
+              path="/universityRegister"
               name="University Registration"
               element={<UniversityRegistration />}
             />

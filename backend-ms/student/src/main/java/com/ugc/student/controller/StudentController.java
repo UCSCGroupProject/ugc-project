@@ -35,8 +35,8 @@ public class StudentController {
     }
 
     @GetMapping("/isStudent")
-    public boolean isStudent(@RequestBody UserTypeRequest userTypeRequest) {
-        return studentService.isStudent(userTypeRequest.getEmail());
+    public boolean isStudent(@RequestParam String email) {
+        return studentService.isStudent(email);
     }
 
     @PostMapping("/login")
