@@ -14,6 +14,7 @@ const Staff_UserDetails_UserProfile = React.lazy(() =>
 const Staff_Universities = React.lazy(() => import('./views/staff/universities/Universities'))
 const Staff_UniversityProfiles = React.lazy(() => import('./views/staff/universities/Profile'))
 const Staff_Courses = React.lazy(() => import('./views/staff/courses/Courses'))
+const Staff_University_Courses = React.lazy(() => import('./views/staff/courses/UniversityCourses'))
 const Staff_OLResults = React.lazy(() => import('./views/staff/results/OLResults'))
 const Staff_ALResults = React.lazy(() => import('./views/staff/results/ALResults'))
 const Staff_AptitudeTests_Upcoming = React.lazy(() =>
@@ -100,6 +101,7 @@ const routes = [
     element: Staff_UniversityProfiles,
   },
   { path: '/staff/courses', name: 'Courses', element: Staff_Courses },
+  { path: '/staff/universitycourses', name: 'University Courses', element: Staff_University_Courses },
   { path: '/staff/results/ol', name: 'O/L Results', element: Staff_OLResults },
   { path: '/staff/results/al', name: 'A/L Results', element: Staff_ALResults },
   {

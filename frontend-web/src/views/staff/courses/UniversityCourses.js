@@ -23,20 +23,20 @@ import { cilSearch } from '@coreui/icons'
 import { cilFilter, cilDelete, cibAddthis } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
-
-function StaffCourses() {
-
+function StaffUniversityCourses() {
   const courseList = [
     {
       id: 1,
-      course: 'Medicine',
+      degree: 'Medicine',
+      university: 'University of Colombo',
       _cellProps: { id: { scope: 'row' } },
     },
     {
       id: 2,
-      course: 'Engineering',
+      degree: 'Medicine',
+      university: 'University of Sri Jayewardenepura',
       _cellProps: { id: { scope: 'row' } },
-    }
+    },
   ]
 
   return (
@@ -44,7 +44,7 @@ function StaffCourses() {
       <CRow>
         <CCol xs>
           <CCard className="mb-4">
-            <CCardHeader>All Courses</CCardHeader>
+            <CCardHeader>Medicine</CCardHeader>
             <CCardBody>
               <CRow className="py-2 bg-light rounded">
                 <CCol md={6}>
@@ -82,10 +82,9 @@ function StaffCourses() {
                   <CTableHead color="dark">
                     <CTableRow>
                       <CTableHeaderCell>#</CTableHeaderCell>
-                      <CTableHeaderCell>Course</CTableHeaderCell>
-                      <CTableHeaderCell style={{ width: "15%" }}>Action</CTableHeaderCell>
-                      <CTableHeaderCell style={{ width: "10%" }}> </CTableHeaderCell>
-                      <CTableHeaderCell style={{ width: "10%" }}> </CTableHeaderCell>
+                      <CTableHeaderCell>Degree Programme</CTableHeaderCell>
+                      <CTableHeaderCell>University</CTableHeaderCell>
+                      <CTableHeaderCell style={{ width: '10%' }}> </CTableHeaderCell>
                     </CTableRow>
                   </CTableHead>
                   <CTableBody>
@@ -93,10 +92,11 @@ function StaffCourses() {
                       // <NavLink to="/staff/univerityprofile" style={{ textDecoration: 'none', color: 'inherit' }}>
                       <CTableRow key={item.id}>
                         <CTableHeaderCell>{item.id}</CTableHeaderCell>
-                        <CTableHeaderCell>{item.course}</CTableHeaderCell>
-                        <CTableDataCell><CButton color='warning' component="a" href="#/staff/universitycourses">View More</CButton></CTableDataCell>
-                        <CTableDataCell><CButton color='warning'>Edit</CButton></CTableDataCell>
-                        <CTableDataCell><CButton color='danger'><CIcon icon= {cilDelete}></CIcon></CButton></CTableDataCell>
+                        <CTableHeaderCell>{item.degree}</CTableHeaderCell>
+                        <CTableDataCell>{item.university}</CTableDataCell>
+                        <CTableDataCell>
+                          <CButton color="warning">View</CButton>
+                        </CTableDataCell>
                       </CTableRow>
                     ))}
                   </CTableBody>
@@ -106,13 +106,8 @@ function StaffCourses() {
           </CCard>
         </CCol>
       </CRow>
-
-      <div style={{textAlign: 'right'}}>
-      <CButton color='success'><CIcon icon={cibAddthis}></CIcon> Add Course</CButton>
-      </div>
-
     </div>
   )
 }
 
-export default StaffCourses
+export default StaffUniversityCourses
