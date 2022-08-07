@@ -54,7 +54,7 @@ function AppliedStudents() {
       <CRow>
         <CCol xs>
           <CCard className="mb-4">
-            <CCardHeader>Applicants for degree programmes</CCardHeader>
+            <CCardHeader>Applicants of degree programmes</CCardHeader>
             <CCardBody>
               <CRow className="py-2 bg-light rounded">
                 <CCol md={6}>

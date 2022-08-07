@@ -123,7 +123,7 @@ const routes = [
     element: Staff_AptitudeTests_Completed,
   },
   { path: '/staff/selectedstudents', name: 'Selected Students', element: Staff_Selected_Students },
-  { path: '/staff/appliedstudents', name: 'Applied Students', element: Staff_Applied_Students },
+  { path: '/staff/appliedstudents', name: 'Applicants', element: Staff_Applied_Students },
   { path: '/staff/eligible', name: 'Eligible', element: Staff_Eligible },
   { path: '/staff/eligible/courses', name: 'Courses', element: Staff_Eligible_Courses },
   { path: '/staff/eligible/courses/students', name: 'Students', element: Staff_Eligible_Students },
