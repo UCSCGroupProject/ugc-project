@@ -23,25 +23,23 @@ import { cilSearch } from '@coreui/icons'
 import { cilFilter } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
-function SelectedStudents() {
+function SelectedCourses() {
 
-  const selectedStudentsList = [
+  const selectedCoursesList = [
     {
       id: 1,
       unicode: '112A',
-      course: 'Medicine',
+      degree: 'Medicine',
       university: 'University of Colombo',
-      intake: '200',
-      selectedCount: '198',
+      totalIntake: '250',
       _cellProps: { id: { scope: 'row' } },
     },
     {
-      id: 2,
+      id: 1,
       unicode: '112A',
-      course: 'Engineering',
-      university: 'University of Moratuwa',
-      intake: '200',
-      selectedCount: '198',
+      degree: 'Medicine',
+      university: 'University of Sri Jayewardenepura',
+      totalIntake: '250',
       _cellProps: { id: { scope: 'row' } },
     }
   ]
@@ -51,7 +49,7 @@ function SelectedStudents() {
       <CRow>
         <CCol xs>
           <CCard className="mb-4">
-            <CCardHeader>Students selected for degree programmes</CCardHeader>
+            <CCardHeader>Students selected for Medicine</CCardHeader>
             <CCardBody>
               <CRow className="py-2 bg-light rounded">
                 <CCol md={6}>
@@ -92,21 +90,21 @@ function SelectedStudents() {
                   <CTableHead color="dark">
                     <CTableRow>
                       <CTableHeaderCell>Unicode</CTableHeaderCell>
-                      <CTableHeaderCell>Course</CTableHeaderCell>
+                      <CTableHeaderCell>Degree Programme</CTableHeaderCell>
                       <CTableHeaderCell>University</CTableHeaderCell>
-                      <CTableHeaderCell>Intake</CTableHeaderCell>
-                      <CTableHeaderCell>No. of Selected Students</CTableHeaderCell>
+                      <CTableHeaderCell>Total Intake</CTableHeaderCell>
+                      <CTableHeaderCell></CTableHeaderCell>
                     </CTableRow>
                   </CTableHead>
                   <CTableBody>
-                    {selectedStudentsList.map((item) => (
+                    {selectedCoursesList.map((item) => (
                       // <NavLink to="/staff/univerityprofile" style={{ textDecoration: 'none', color: 'inherit' }}>
                       <CTableRow key={item.id}>
                         <CTableHeaderCell>{item.unicode}</CTableHeaderCell>
-                        <CTableDataCell>{item.course}</CTableDataCell>
+                        <CTableDataCell>{item.degree}</CTableDataCell>
                         <CTableDataCell>{item.university}</CTableDataCell>
-                        <CTableDataCell>{item.intake}</CTableDataCell>
-                        <CTableDataCell>{item.selectedCount}</CTableDataCell>
+                        <CTableDataCell>{item.totalIntake}</CTableDataCell>
+                        <CTableDataCell><CButton color='warning' component="a" href="#/staff/selected/courses/students">View Students</CButton></CTableDataCell>
                       </CTableRow>
                     ))}
                   </CTableBody>
@@ -120,4 +118,4 @@ function SelectedStudents() {
   )
 }
 
-export default SelectedStudents
+export default SelectedCourses
