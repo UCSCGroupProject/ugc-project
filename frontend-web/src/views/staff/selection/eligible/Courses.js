@@ -23,25 +23,27 @@ import { cilSearch } from '@coreui/icons'
 import { cilFilter } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
-function EligibleStudents() {
+function EligibleCourses() {
 
-  const eligibleStudentsList = [
+  const eligibleDegreeList = [
     {
       id: 1,
       unicode: '112A',
-      course: 'Medicine',
+      degree: 'Medicine',
       university: 'University of Colombo',
-      intake: '200',
-      eligibleCount: '500',
+      totalIntake: '250',
+      appliedCount: '546',
+      eligibleCount: '324',
       _cellProps: { id: { scope: 'row' } },
     },
     {
       id: 1,
       unicode: '112A',
-      course: 'Engineering',
-      university: 'University of Moratuwa',
-      intake: '200',
-      eligibleCount: '500',
+      degree: 'Medicine',
+      university: 'University of Sri Jayewardenepura',
+      totalIntake: '250',
+      appliedCount: '546',
+      eligibleCount: '324',
       _cellProps: { id: { scope: 'row' } },
     }
   ]
@@ -51,7 +53,7 @@ function EligibleStudents() {
       <CRow>
         <CCol xs>
           <CCard className="mb-4">
-            <CCardHeader>Students eligible for degree programmes</CCardHeader>
+            <CCardHeader>Students eligible for Medicine</CCardHeader>
             <CCardBody>
               <CRow className="py-2 bg-light rounded">
                 <CCol md={6}>
@@ -92,21 +94,25 @@ function EligibleStudents() {
                   <CTableHead color="dark">
                     <CTableRow>
                       <CTableHeaderCell>Unicode</CTableHeaderCell>
-                      <CTableHeaderCell>Course</CTableHeaderCell>
+                      <CTableHeaderCell>Degree Programme</CTableHeaderCell>
                       <CTableHeaderCell>University</CTableHeaderCell>
-                      <CTableHeaderCell>Intake</CTableHeaderCell>
+                      <CTableHeaderCell>Total Intake</CTableHeaderCell>
+                      <CTableHeaderCell>No. of Applicants</CTableHeaderCell>
                       <CTableHeaderCell>No. of Eligible Students</CTableHeaderCell>
+                      <CTableHeaderCell></CTableHeaderCell>
                     </CTableRow>
                   </CTableHead>
                   <CTableBody>
-                    {eligibleStudentsList.map((item) => (
+                    {eligibleDegreeList.map((item) => (
                       // <NavLink to="/staff/univerityprofile" style={{ textDecoration: 'none', color: 'inherit' }}>
                       <CTableRow key={item.id}>
                         <CTableHeaderCell>{item.unicode}</CTableHeaderCell>
-                        <CTableDataCell>{item.course}</CTableDataCell>
+                        <CTableDataCell>{item.degree}</CTableDataCell>
                         <CTableDataCell>{item.university}</CTableDataCell>
-                        <CTableDataCell>{item.intake}</CTableDataCell>
+                        <CTableDataCell>{item.totalIntake}</CTableDataCell>
+                        <CTableDataCell>{item.appliedCount}</CTableDataCell>
                         <CTableDataCell>{item.eligibleCount}</CTableDataCell>
+                        <CTableDataCell><CButton color='warning' component="a" href="#/staff/eligible/course/students">View Students</CButton></CTableDataCell>
                       </CTableRow>
                     ))}
                   </CTableBody>
@@ -120,4 +126,4 @@ function EligibleStudents() {
   )
 }
 
-export default EligibleStudents
+export default EligibleCourses
