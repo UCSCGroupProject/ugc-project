@@ -1,4 +1,5 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 import {
   CCard,
   CCardBody,
@@ -15,7 +16,7 @@ import {
   CRow,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilChartLine, cilArrowTop, cilOptions,cilArrowBottom } from '@coreui/icons'
+import { cilChartLine, cilArrowTop, cilOptions, cilArrowBottom } from '@coreui/icons'
 import { CChartLine } from '@coreui/react-chartjs'
 
 function Overview() {
@@ -59,7 +60,14 @@ function Overview() {
                     <CIcon icon={cilOptions} className="text-high-emphasis-inverse" />
                   </CDropdownToggle>
                   <CDropdownMenu>
-                    <CDropdownItem>View More</CDropdownItem>
+                    <CDropdownItem>
+                      <NavLink
+                        to="/staff/useroverview/users"
+                        style={{ textDecoration: 'none', color: 'inherit' }}
+                      >
+                        View More
+                      </NavLink>
+                    </CDropdownItem>
                   </CDropdownMenu>
                 </CDropdown>
               }

@@ -8,6 +8,7 @@ const Adm_Authorize_StaffRegistration = React.lazy(() =>
 const Adm_Authorize_Privileges = React.lazy(() => import('./views/staff/admin/Privileges'))
 //
 const Staff_UserDetails_Overview = React.lazy(() => import('./views/staff/userDetails/Overview'))
+const Staff_UserDetails_Users = React.lazy(() => import('./views/staff/userDetails/Users'))
 const Staff_UserDetails_UserProfile = React.lazy(() =>
   import('./views/staff/userDetails/UserProfile'),
 )
@@ -99,6 +100,7 @@ const routes = [
   { path: '/admin/staffregistration', name: 'Dashboard', element: Adm_Authorize_StaffRegistration },
   { path: '/admin/privileges', name: 'Dashboard', element: Adm_Authorize_Privileges },
   { path: '/staff/useroverview', name: 'User Overview', element: Staff_UserDetails_Overview },
+  { path: '/staff/useroverview/users', name: 'Users', element: Staff_UserDetails_Users },
   { path: '/staff/userprofile', name: 'User Profile', element: Staff_UserDetails_UserProfile },
   { path: '/staff/universities', name: 'All Universities', element: Staff_Universities },
   {
