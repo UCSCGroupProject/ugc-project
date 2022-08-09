@@ -44,6 +44,7 @@ const Staff_Achievement_Validation = React.lazy(() =>
   import('./views/staff/validation/Achievement'),
 )
 const Staff_Complaints = React.lazy(() => import('./views/staff/complaints/Complaints'))
+const Staff_Complaints_View = React.lazy(() => import('./views/staff/complaints/Complaint'))
 
 // Student views
 // Settings
@@ -149,6 +150,7 @@ const routes = [
     element: Staff_Achievement_Validation,
   },
   { path: '/staff/complaints', name: 'Complaints', element: Staff_Complaints },
+  { path: '/staff/complaints/view', name: 'Complaint', element: Staff_Complaints_View },
 
   // Student routes
   // Settings
