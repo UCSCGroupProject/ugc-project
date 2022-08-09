@@ -14,19 +14,24 @@ import java.util.Date;
 @NoArgsConstructor
 public class SchoolDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long schoolId;
     private String name;
     private String address;
     private String district;
     private String phone;
 
-    public SchoolDetails(Long schoolId, String name, String address, String district, String phone) {
-        this.schoolId = schoolId;
+    // Foreign key from Student - Refer id column of the Student table as stu_id
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "sch_id", referencedColumnName = "id")
+    private School school;
+
+    public SchoolDetails(String name, String address, String district, String phone, School school) {
         this.name = name;
         this.address = address;
         this.district = district;
         this.phone = phone;
+        this.school = school;
+        this.school.setSchoolDetails(this);
     }
 }

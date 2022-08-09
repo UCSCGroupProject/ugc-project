@@ -79,7 +79,7 @@ public class UniversityController {
     }
 
     @PostMapping("/universityRegister")
-    public ResponseEntity<?> studentRegister(@Valid @RequestBody UniversityRegisterRequest universityRegisterRequest) {
+    public ResponseEntity<?> universityRegister(@Valid @RequestBody UniversityRegisterRequest universityRegisterRequest) {
         String result = universityService.universityRegister(universityRegisterRequest);
 
         return ResponseEntity.ok(new MessageResponse(result));

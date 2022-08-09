@@ -14,19 +14,26 @@ import java.util.Set;
 @NoArgsConstructor
 public class UniversityDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long uniId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
     private String address;
     private String islandRank;
     private String worldRank;
     private String phone;
 
-    public UniversityDetails(String name, String address, String islandRank, String worldRank, String phone) {
+    // Foreign key from Student - Refer id column of the Student table as stu_id
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "uni_id", referencedColumnName = "id")
+    private University university;
+
+    public UniversityDetails(String name, String address, String islandRank, String worldRank, String phone, University university) {
         this.name = name;
         this.address = address;
         this.islandRank = islandRank;
         this.worldRank = worldRank;
         this.phone = phone;
+        this.university = university;
+        this.university.setUniversityDetails(this);
     }
 }

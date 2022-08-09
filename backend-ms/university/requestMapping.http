@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
   "email": "ucsc@gmail.com",
-  "password": "2254890"
+  "password": "ucsc@UNI123456"
 }
 
 ### University registration - Entire registration form submittion
@@ -17,7 +17,8 @@ Content-Type: application/json
   "islandRank": "1",
   "worldRank": "1000",
   "phone": "0362254890",
-  "email": "ucsc@gmail.com",
+
   "username": "ucsc",
-  "password": "2254890"
+  "email": "ucsc@gmail.com",
+  "password": "ucsc@UNI123456"
 }

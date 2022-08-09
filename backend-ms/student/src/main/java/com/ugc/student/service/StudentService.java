@@ -128,11 +128,11 @@ public class StudentService {
         student.setRoles(roles);
 
         // Save student login details
-        Student savedStudent = studentRepository.save(student);
+        studentRepository.save(student);
 
         // Save student details
         StudentDetails studentDetails = new StudentDetails(
-                savedStudent.getId(),
+//                savedStudent.getId(),
                 studentRegisterRequest.getTitle(),
                 studentRegisterRequest.getNameWithInitials(),
                 studentRegisterRequest.getFullName(),
@@ -140,7 +140,8 @@ public class StudentService {
                 studentRegisterRequest.getPob(),
                 studentRegisterRequest.getCivilStatus(),
                 studentRegisterRequest.getGender(),
-                studentRegisterRequest.getPhone()
+                studentRegisterRequest.getPhone(),
+                student
         );
         studentDetailsRepository.save(studentDetails);
 
@@ -152,7 +153,8 @@ public class StudentService {
                 studentRegisterRequest.getUsedIDType(),
                 studentRegisterRequest.getUsedIDNo(),
                 studentRegisterRequest.getUsedIDDateOfIssue(),
-                studentRegisterRequest.getUsedIDCopy()
+                studentRegisterRequest.getUsedIDCopy(),
+                student
         );
         nicAndExamDetailsRepository.save(nicAndExamDetails);
 

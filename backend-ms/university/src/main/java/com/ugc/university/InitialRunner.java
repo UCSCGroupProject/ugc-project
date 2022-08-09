@@ -21,6 +21,6 @@ public class InitialRunner implements CommandLineRunner {
         streamService.initStreams();
         courseService.initCourses();
         universityService.initRoles();
-        universityService.initUniversity();
+//        universityService.initUniversity();
     }
 }

@@ -47,8 +47,11 @@ public class School {
     )
     private Set<Role> roles = new HashSet<>();
 
-    // Constructor
+    // For the foreign key referenced from StudentDetails
+    @OneToOne(mappedBy = "school")
+    private SchoolDetails schoolDetails;
 
+    // Constructor
     public School(String username, String email, String password) {
         this.username = username;
         this.email = email;

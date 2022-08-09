@@ -15,8 +15,8 @@ import java.util.Date;
 @NoArgsConstructor
 public class NICAndExamDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long stuId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String nic;
     private Date nicDateOfIssue;
     private String indexNo;
@@ -25,7 +25,12 @@ public class NICAndExamDetails {
     private Date usedIDDateOfIssue;
     private String usedIDCopy;
 
-    public NICAndExamDetails(String nic, Date nicDateOfIssue, String indexNo, String usedIDType, String usedIDNo, Date usedIDDateOfIssue, String usedIDCopy) {
+    // Foreign key from Student - Refer id column of the Student table as stu_id
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "stu_id", referencedColumnName = "id")
+    private Student student;
+
+    public NICAndExamDetails(String nic, Date nicDateOfIssue, String indexNo, String usedIDType, String usedIDNo, Date usedIDDateOfIssue, String usedIDCopy, Student student) {
         this.nic = nic;
         this.nicDateOfIssue = nicDateOfIssue;
         this.indexNo = indexNo;
@@ -33,5 +38,7 @@ public class NICAndExamDetails {
         this.usedIDNo = usedIDNo;
         this.usedIDDateOfIssue = usedIDDateOfIssue;
         this.usedIDCopy = usedIDCopy;
+        this.student = student;
+        this.student.setNicAndExamDetails(this);
     }
 }

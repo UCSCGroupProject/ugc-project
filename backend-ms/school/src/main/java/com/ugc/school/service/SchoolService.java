@@ -121,15 +121,15 @@ public class SchoolService {
         school.setRoles(roles);
 
         // Save school login details
-        School savedSchool = schoolRepository.save(school);
+        schoolRepository.save(school);
 
         // Save school details
         SchoolDetails schoolDetails = new SchoolDetails(
-                savedSchool.getId(),
                 schoolRegisterRequest.getName(),
                 schoolRegisterRequest.getAddress(),
                 schoolRegisterRequest.getDistrict(),
-                schoolRegisterRequest.getPhone()
+                schoolRegisterRequest.getPhone(),
+                school
         );
         schoolDetailsRepository.save(schoolDetails);
 

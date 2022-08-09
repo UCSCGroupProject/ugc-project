@@ -12,9 +12,8 @@ import java.util.Date;
 @NoArgsConstructor
 public class StudentDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long stuId;
     private String title;
     private String nameWithInitials;
     private String fullName;
@@ -24,8 +23,14 @@ public class StudentDetails {
     private String gender;
     private String phone;
 
-    public StudentDetails(Long stuId, String title, String nameWithInitials, String fullName, Date dob, String pob, String civilStatus, String gender, String phone) {
-        this.stuId = stuId;
+    // private Long stuId;
+    // Foreign key from Student - Refer id column of the Student table as stu_id
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "stu_id", referencedColumnName = "id")
+    private Student student;
+
+    public StudentDetails(String title, String nameWithInitials, String fullName, Date dob, String pob, String civilStatus, String gender, String phone, Student student) {
+//        this.stuId = stuId;
         this.title = title;
         this.nameWithInitials = nameWithInitials;
         this.fullName = fullName;
@@ -34,5 +39,7 @@ public class StudentDetails {
         this.civilStatus = civilStatus;
         this.gender = gender;
         this.phone = phone;
+        this.student = student;
+        this.student.setStudentDetails(this);
     }
 }

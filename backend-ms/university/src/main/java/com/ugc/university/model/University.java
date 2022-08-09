@@ -47,8 +47,11 @@ public class University {
     )
     private Set<Role> roles = new HashSet<>();
 
-    // Constructor
+    // For the foreign key referenced from NICAndExamDetails
+    @OneToOne(mappedBy = "university")
+    private UniversityDetails universityDetails;
 
+    // Constructor
     public University(String username, String email, String password) {
         this.username = username;
         this.email = email;
