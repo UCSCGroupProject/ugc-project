@@ -65,7 +65,7 @@ function Overview() {
                         to="/staff/useroverview/users"
                         style={{ textDecoration: 'none', color: 'inherit' }}
                       >
-                        View More
+                        View Details
                       </NavLink>
                     </CDropdownItem>
                   </CDropdownMenu>
@@ -132,6 +132,8 @@ function Overview() {
               }
             />
           </CCol>
+        </CRow>
+        <CRow>
           <CCol sm={6}>
             <CWidgetStatsA
               className="mb-4"
@@ -151,7 +153,30 @@ function Overview() {
                     <CIcon icon={cilOptions} className="text-high-emphasis-inverse" />
                   </CDropdownToggle>
                   <CDropdownMenu>
-                    <CDropdownItem>View More</CDropdownItem>
+                    <CDropdownItem>
+                      <NavLink
+                        to="/staff/useroverview/students"
+                        style={{ textDecoration: 'none', color: 'inherit' }}
+                      >
+                        View Details
+                      </NavLink>
+                    </CDropdownItem>
+                    <CDropdownItem>
+                      <NavLink
+                        to="/staff/useroverview/governmentstudents"
+                        style={{ textDecoration: 'none', color: 'inherit' }}
+                      >
+                        View Government Students
+                      </NavLink>
+                    </CDropdownItem>
+                    <CDropdownItem>
+                      <NavLink
+                        to="/staff/useroverview/privatestudents"
+                        style={{ textDecoration: 'none', color: 'inherit' }}
+                      >
+                        View Private Students
+                      </NavLink>
+                    </CDropdownItem>
                   </CDropdownMenu>
                 </CDropdown>
               }
@@ -168,91 +193,6 @@ function Overview() {
                         borderColor: 'rgba(255,255,255,.55)',
                         pointBackgroundColor: '#39f',
                         data: [40, 58, 69, 67, 74, 72, 81],
-                      },
-                    ],
-                  }}
-                  options={{
-                    plugins: {
-                      legend: {
-                        display: false,
-                      },
-                    },
-                    maintainAspectRatio: false,
-                    scales: {
-                      x: {
-                        grid: {
-                          display: false,
-                          drawBorder: false,
-                        },
-                        ticks: {
-                          display: false,
-                        },
-                      },
-                      y: {
-                        min: 19,
-                        max: 109,
-                        display: false,
-                        grid: {
-                          display: false,
-                        },
-                        ticks: {
-                          display: false,
-                        },
-                      },
-                    },
-                    elements: {
-                      line: {
-                        borderWidth: 1,
-                      },
-                      point: {
-                        radius: 4,
-                        hitRadius: 10,
-                        hoverRadius: 4,
-                      },
-                    },
-                  }}
-                />
-              }
-            />
-          </CCol>
-        </CRow>
-        <CRow>
-          <CCol sm={6}>
-            <CWidgetStatsA
-              className="mb-4"
-              color="info"
-              value={
-                <>
-                  3564{' '}
-                  <span className="fs-6 fw-normal">
-                    (34.9% <CIcon icon={cilArrowBottom} />)
-                  </span>
-                </>
-              }
-              title="Schools"
-              action={
-                <CDropdown alignment="end">
-                  <CDropdownToggle color="transparent" caret={false} className="p-0">
-                    <CIcon icon={cilOptions} className="text-high-emphasis-inverse" />
-                  </CDropdownToggle>
-                  <CDropdownMenu>
-                    <CDropdownItem>View More</CDropdownItem>
-                  </CDropdownMenu>
-                </CDropdown>
-              }
-              chart={
-                <CChartLine
-                  className="mt-3 mx-3"
-                  style={{ height: '100px' }}
-                  data={{
-                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                    datasets: [
-                      {
-                        label: 'My First dataset',
-                        backgroundColor: 'transparent',
-                        borderColor: 'rgba(255,255,255,.55)',
-                        pointBackgroundColor: '#39f',
-                        data: [40, 58, 69, 85, 74, 72, 40],
                       },
                     ],
                   }}
