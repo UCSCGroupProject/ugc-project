@@ -21,6 +21,7 @@
     <module>gateway</module>
     <module>user</module>
     <module>staff</module>
+      <module>school</module>
   </modules>
 
   <name>backend-ms</name>

@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
   "email": "dhanushkasandakelum711@gmail.com",
-  "password": "ds2254890A@"
+  "password": "dhanu@STU123456"
 }
 
 
@@ -43,9 +43,8 @@ POST http://localhost:8081/api/student/loginDetailsFormCheck
 Content-Type: application/json
 
 {
-  "confirmPassword": "ds2254890A@",
   "email": "dhanushkasandakelum711@gmail.com",
-  "password": "ds2254890A@",
+  "password": "dhanu@STU123456"
 }
 
 ### Student registration - Entire registration form submittion
@@ -73,5 +72,5 @@ Content-Type: application/json
 
   "username": "Dhanushka",
   "email": "dhanushkasandakelum711@gmail.com",
-  "password": "ds2254890A@"
+  "password": "dhanu@STU123456"
 }

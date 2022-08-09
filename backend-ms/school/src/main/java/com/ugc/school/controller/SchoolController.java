@@ -1,14 +1,14 @@
-package com.ugc.university.controller;
+package com.ugc.school.controller;
 
-import com.ugc.university.payload.request.LoginRequest;
-import com.ugc.university.payload.request.PasswordResetRequest;
-import com.ugc.university.payload.request.universityRegistration.LoginDetailsRequest;
-import com.ugc.university.payload.request.universityRegistration.UniversityDetailsRequest;
-import com.ugc.university.payload.request.universityRegistration.UniversityRegisterRequest;
-import com.ugc.university.payload.response.MessageResponse;
-import com.ugc.university.repository.RoleRepository;
-import com.ugc.university.repository.UniversityRepository;
-import com.ugc.university.service.UniversityService;
+import com.ugc.school.payload.request.LoginRequest;
+import com.ugc.school.payload.request.PasswordResetRequest;
+import com.ugc.school.payload.request.schoolRegistration.LoginDetailsRequest;
+import com.ugc.school.payload.request.schoolRegistration.SchoolDetailsRequest;
+import com.ugc.school.payload.request.schoolRegistration.SchoolRegisterRequest;
+import com.ugc.school.payload.response.MessageResponse;
+import com.ugc.school.repository.RoleRepository;
+import com.ugc.school.repository.SchoolRepository;
+import com.ugc.school.service.SchoolService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,38 +16,37 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Set;
 
-//@CrossOrigin(origins = "http://localhost:3001", maxAge = 3600)
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/university")
-public class UniversityController {
+@RequestMapping("/api/school")
+public class SchoolController {
     @Autowired
-    UniversityRepository universityRepository;
-
+    SchoolRepository schoolRepository;
     @Autowired
     RoleRepository roleRepository;
 
     @Autowired
-    UniversityService universityService;
+    SchoolService schoolService;
+
 
     @GetMapping("/check")
     public String checkStatus() {
         return "Working!";
     }
 
-    @GetMapping("/isUniversity")
-    public boolean isUniversity(@RequestParam String email) {
-        return universityService.isUniversity(email);
+    @GetMapping("/isSchool")
+    public boolean isSchool(@RequestParam String email) {
+        return schoolService.isSchool(email);
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest){
-        return universityService.login(loginRequest);
+        return schoolService.login(loginRequest);
     }
 
-    @PostMapping("/uniDetailsFormCheck")
-    public ResponseEntity<?> uniDetailsFormCheck(@Valid @RequestBody UniversityDetailsRequest universityDetailsRequest) {
-        if(universityService.isPhoneAlreadyExists(universityDetailsRequest.getPhone())){
+    @PostMapping("/schoolDetailsFormCheck")
+    public ResponseEntity<?> schoolDetailsFormCheck(@Valid @RequestBody SchoolDetailsRequest schoolDetailsRequest) {
+        if(schoolService.isPhoneAlreadyExists(schoolDetailsRequest.getPhone())){
             return ResponseEntity.ok(new MessageResponse("Phone number already exists"));
         }
 
@@ -56,11 +55,11 @@ public class UniversityController {
 
     @PostMapping("/loginDetailsFormCheck")
     public ResponseEntity<?> loginDetailsFormCheck(@Valid @RequestBody LoginDetailsRequest loginDetailsRequest) {
-        if(universityRepository.existsByUsername(loginDetailsRequest.getUsername())){
+        if(schoolRepository.existsByUsername(loginDetailsRequest.getUsername())){
             return ResponseEntity.badRequest().body(new MessageResponse("Username is already taken"));
         }
 
-        if(universityRepository.existsByEmail(loginDetailsRequest.getEmail())){
+        if(schoolRepository.existsByEmail(loginDetailsRequest.getEmail())){
             return ResponseEntity.badRequest().body(new MessageResponse("Email is already in use"));
         }
 
@@ -78,16 +77,16 @@ public class UniversityController {
         return ResponseEntity.ok(new MessageResponse("Section 3 validation passed"));
     }
 
-    @PostMapping("/universityRegister")
-    public ResponseEntity<?> studentRegister(@Valid @RequestBody UniversityRegisterRequest universityRegisterRequest) {
-        String result = universityService.universityRegister(universityRegisterRequest);
+    @PostMapping("/schoolRegister")
+    public ResponseEntity<?> schoolRegister(@Valid @RequestBody SchoolRegisterRequest schoolRegisterRequest) {
+        String result = schoolService.schoolRegister(schoolRegisterRequest);
 
         return ResponseEntity.ok(new MessageResponse(result));
     }
 
     @PostMapping("/passwordReset")
     public ResponseEntity<?> passwordReset(@RequestBody PasswordResetRequest passwordResetRequest) {
-        String result = universityService.passwordReset(passwordResetRequest);
+        String result = schoolService.passwordReset(passwordResetRequest);
 
         return ResponseEntity.ok(new MessageResponse(result));
     }

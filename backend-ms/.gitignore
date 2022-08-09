@@ -6,6 +6,7 @@
 /eureka-server/target
 /gateway/target
 /notification/target
+/school/target
 /selection-process/target
 /staff/target
 /student/target

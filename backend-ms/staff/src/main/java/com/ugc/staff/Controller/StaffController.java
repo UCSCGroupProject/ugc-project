@@ -1,12 +1,10 @@
 package com.ugc.staff.Controller;
 
-import com.ugc.staff.Model.Enums.E_OfficeDept;
 import com.ugc.staff.Payload.Request.Email.CodeRequest;
 import com.ugc.staff.Payload.Request.Email.EmailRequest;
 import com.ugc.staff.Payload.Request.LoginRequest;
 import com.ugc.staff.Payload.Request.OTP.OTPRequest;
 import com.ugc.staff.Payload.Request.OTP.SmsRequest;
-import com.ugc.staff.Payload.Request.SignUpRequest;
 import com.ugc.staff.Model.ALPassedStudent;
 import com.ugc.staff.Model.ATPassedStudent;
 import com.ugc.staff.Model.AppliedStudent;
@@ -25,9 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api/staff")

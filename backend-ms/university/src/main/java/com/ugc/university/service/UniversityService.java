@@ -5,6 +5,7 @@ import com.ugc.university.model.University;
 import com.ugc.university.model.UniversityDetails;
 import com.ugc.university.model.enums.E_Role;
 import com.ugc.university.payload.request.LoginRequest;
+import com.ugc.university.payload.request.PasswordResetRequest;
 import com.ugc.university.payload.request.universityRegistration.UniversityRegisterRequest;
 import com.ugc.university.payload.response.JwtResponse;
 import com.ugc.university.payload.response.MessageResponse;
@@ -21,6 +22,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -387,5 +389,13 @@ public class UniversityService {
         universityDetailsRepository.save(universityDetails);
 
         return "Registered successfully !";
+    }
+
+    @Transactional
+    public String passwordReset(PasswordResetRequest passwordResetRequest){
+        String encryptedPassword = encoder.encode(passwordResetRequest.getPassword());
+        universityRepository.updatePasswordByEmail(passwordResetRequest.getEmail(), encryptedPassword);
+
+        return "Password changed sucessfully using email";
     }
 }

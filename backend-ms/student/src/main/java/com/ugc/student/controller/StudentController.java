@@ -2,7 +2,6 @@ package com.ugc.student.controller;
 
 import com.ugc.student.payload.request.LoginRequest;
 import com.ugc.student.payload.request.PasswordResetRequest;
-import com.ugc.student.payload.request.UserTypeRequest;
 import com.ugc.student.payload.request.studentRegistration.LoginDetailsRequest;
 import com.ugc.student.payload.request.studentRegistration.NICAndExamDetailsRequest;
 import com.ugc.student.payload.request.studentRegistration.StudentDetailsRequest;

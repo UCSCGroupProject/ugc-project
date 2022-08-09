@@ -1,0 +1,43 @@
+### Login registered school
+POST http://localhost:8084/api/school/login
+Content-Type: application/json
+
+{
+  "email": "hrcc@gmail.com",
+  "password": "hrcc@SCH123456"
+}
+
+### School registration - Section 1 Form check
+POST http://localhost:8084/api/school/schoolDetailsFormCheck
+Content-Type: application/json
+
+{
+  "name": "Hanwella Rajasinghe Central College",
+  "address": "123, School Rd, Hanwella",
+  "district": "colombo",
+  "phone": "1597538462"
+}
+
+### School registration - Section 2 Form check
+POST http://localhost:8084/api/school/loginDetailsFormCheck
+Content-Type: application/json
+
+{
+  "email": "hrcc@gmail.com",
+  "password": "hrcc@SCH123456"
+}
+
+### Student registration - Entire registration form submittion
+POST http://localhost:8084/api/school/schoolRegister
+Content-Type: application/json
+
+{
+  "name": "Hanwella Rajasinghe Central College",
+  "address": "123, School Rd, Hanwella",
+  "district": "colombo",
+  "phone": "1597538462",
+
+  "username": "HRCC",
+  "email": "hrcc@gmail.com",
+  "password": "hrcc@SCH123456"
+}

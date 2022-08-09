@@ -1,11 +1,17 @@
 DROP DATABASE IF EXISTS student_db;
-CREATE DATABASE student_db;
-USE student_db;
-
 DROP DATABASE IF EXISTS staff_db;
-CREATE DATABASE staff_db;
-USE staff_db;
-
+DROP DATABASE IF EXISTS university_db;
+DROP DATABASE IF EXISTS school_db;
+DROP DATABASE IF EXISTS notification_db;
+DROP DATABASE IF EXISTS email_db;
 DROP DATABASE IF EXISTS zscore_db;
+DROP DATABASE IF EXISTS blockchain_db;
+
+CREATE DATABASE student_db;
+CREATE DATABASE staff_db;
+CREATE DATABASE university_db;
+CREATE DATABASE school_db;
+CREATE DATABASE notification_db;
+CREATE DATABASE email_db;
 CREATE DATABASE zscore_db;
-USE zscore_db;
+CREATE DATABASE blockchain_db;

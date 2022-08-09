@@ -1,6 +1,6 @@
-package com.ugc.university.repository;
+package com.ugc.school.repository;
 
-import com.ugc.university.model.University;
+import com.ugc.school.model.School;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -11,10 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Repository
-public interface UniversityRepository extends JpaRepository<University, Long> {
-    Optional<University> findByUsername(String username);
+public interface SchoolRepository extends JpaRepository<School, Long> {
+    Optional<School> findByUsername(String username);
 
-    Optional<University> findByEmail(String email);
+    Optional<School> findByEmail(String email);
 
     Boolean existsByUsername(String username);
 
@@ -22,6 +22,6 @@ public interface UniversityRepository extends JpaRepository<University, Long> {
 
     @Transactional
     @Modifying
-    @Query("UPDATE University SET password = :password WHERE email = :email")
+    @Query("UPDATE School SET password = :password WHERE email = :email")
     void updatePasswordByEmail(@Param("email") String email, @Param("password") String password);
 }
