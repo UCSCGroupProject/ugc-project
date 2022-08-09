@@ -1,6 +1,7 @@
 package com.ugc.student.controller;
 
 import com.ugc.student.payload.request.LoginRequest;
+import com.ugc.student.payload.request.PasswordResetRequest;
 import com.ugc.student.payload.request.UserTypeRequest;
 import com.ugc.student.payload.request.studentRegistration.LoginDetailsRequest;
 import com.ugc.student.payload.request.studentRegistration.NICAndExamDetailsRequest;
@@ -93,6 +94,13 @@ public class StudentController {
     @PostMapping("/studentRegister")
     public ResponseEntity<?> studentRegister(@Valid @RequestBody StudentRegisterRequest studentRegisterRequest) {
         String result = studentService.studentRegister(studentRegisterRequest);
+
+        return ResponseEntity.ok(new MessageResponse(result));
+    }
+
+    @PostMapping("/passwordReset")
+    public ResponseEntity<?> passwordReset(@RequestBody PasswordResetRequest passwordResetRequest) {
+        String result = studentService.passwordReset(passwordResetRequest);
 
         return ResponseEntity.ok(new MessageResponse(result));
     }

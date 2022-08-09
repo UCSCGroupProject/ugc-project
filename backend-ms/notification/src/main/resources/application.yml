@@ -25,6 +25,6 @@ eureka:
 # OTP Sending
 twilio:
   account_sid: ACcdb49e06af08237f6ab779f845249856
-  auth_token: 52128fc7888e3028ce793b785969d2e2
+  auth_token: e0436e36e37880da662a88e20828802d
   trail_number: +12398429286
 

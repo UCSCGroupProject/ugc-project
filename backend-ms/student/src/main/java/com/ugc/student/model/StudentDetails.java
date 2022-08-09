@@ -1,8 +1,6 @@
 package com.ugc.student.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -15,6 +13,7 @@ import java.util.Date;
 public class StudentDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private Long stuId;
     private String title;
     private String nameWithInitials;
@@ -25,7 +24,8 @@ public class StudentDetails {
     private String gender;
     private String phone;
 
-    public StudentDetails(String title, String nameWithInitials, String fullName, Date dob, String pob, String civilStatus, String gender, String phone) {
+    public StudentDetails(Long stuId, String title, String nameWithInitials, String fullName, Date dob, String pob, String civilStatus, String gender, String phone) {
+        this.stuId = stuId;
         this.title = title;
         this.nameWithInitials = nameWithInitials;
         this.fullName = fullName;

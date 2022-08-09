@@ -6,6 +6,7 @@ import com.ugc.student.model.Student;
 import com.ugc.student.model.StudentDetails;
 import com.ugc.student.model.enums.E_Role;
 import com.ugc.student.payload.request.LoginRequest;
+import com.ugc.student.payload.request.PasswordResetRequest;
 import com.ugc.student.payload.request.studentRegistration.StudentRegisterRequest;
 import com.ugc.student.payload.response.JwtResponse;
 import com.ugc.student.repository.NICAndExamDetailsRepository;
@@ -22,6 +23,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -126,10 +128,11 @@ public class StudentService {
         student.setRoles(roles);
 
         // Save student login details
-        studentRepository.save(student);
+        Student savedStudent = studentRepository.save(student);
 
         // Save student details
         StudentDetails studentDetails = new StudentDetails(
+                savedStudent.getId(),
                 studentRegisterRequest.getTitle(),
                 studentRegisterRequest.getNameWithInitials(),
                 studentRegisterRequest.getFullName(),
@@ -154,5 +157,13 @@ public class StudentService {
         nicAndExamDetailsRepository.save(nicAndExamDetails);
 
         return "Registered!";
+    }
+
+    @Transactional
+    public String passwordReset(PasswordResetRequest passwordResetRequest){
+        String encryptedPassword = encoder.encode(passwordResetRequest.getPassword());
+        studentRepository.updatePasswordByEmail(passwordResetRequest.getEmail(), encryptedPassword);
+
+        return "Password changed sucessfully using email";
     }
 }
