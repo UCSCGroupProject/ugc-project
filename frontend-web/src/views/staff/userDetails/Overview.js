@@ -1,4 +1,5 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 import {
   CCard,
   CCardBody,
@@ -7,10 +8,16 @@ import {
   CCardText,
   CCardTitle,
   CCol,
+  CWidgetStatsA,
+  CDropdown,
+  CDropdownToggle,
+  CDropdownMenu,
+  CDropdownItem,
   CRow,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilChartLine, cilArrowTop } from '@coreui/icons'
+import { cilChartLine, cilArrowTop, cilOptions, cilArrowBottom } from '@coreui/icons'
+import { CChartLine } from '@coreui/react-chartjs'
 
 function Overview() {
   const studentDetails = {
@@ -30,91 +37,295 @@ function Overview() {
   }
 
   return (
-    <CRow xs={{ cols: 1, gutter: 4 }} md={{ cols: 2 }}>
-      <CCol xs>
-        <CCard color={'primary'} textColor={'white'} className="mb-3">
-          <CCardHeader>
-            Users
-          </CCardHeader>
-          <CCardBody>
-            <CCardTitle>
-              {' '}
-              26K (12.4% ) <CIcon icon={cilArrowTop} size="xl" />
-            </CCardTitle>
-            <CCardText>
-            {<br></br>}
-              {<br></br>}
-            </CCardText>
-          </CCardBody>
-          <CCardFooter>
-            <small className="card-text">Last updated 3 mins ago</small>
-          </CCardFooter>
-        </CCard>
-      </CCol>
-      <CCol xs>
-        <CCard color={'info'} textColor={'white'} className="mb-3">
-          <CCardHeader>
-            Students
-            
-          </CCardHeader>
-          <CCardBody>
-            <CCardTitle>
-              {' '}
-              [Total {studentDetails.totalCount}] <CIcon icon={cilChartLine} size="xl" />
-            </CCardTitle>
-            <CCardText>
-              Government Students - {studentDetails.governmentStudents} {<br></br>}
-              Private Students - {studentDetails.privateStudents}
-            </CCardText>
-          </CCardBody>
-          <CCardFooter>
-            <small className="card-text">Last updated 3 mins ago</small>
-          </CCardFooter>
-        </CCard>
-      </CCol>
-
-      <CCol xs>
-        <CCard color={'secondary'} className="mb-3">
-          <CCardHeader>
-            Schools
-          </CCardHeader>
-          <CCardBody>
-            <CCardTitle>
-              {' '}
-              [Total {schoolDetails.totalCount}] <CIcon icon={cilChartLine} size="xl" />
-            </CCardTitle>
-            <CCardText>
-              Government Schools - {schoolDetails.governmentSchools} {<br></br>}
-              Private Schools - {schoolDetails.privateSchools}
-            </CCardText>
-          </CCardBody>
-          <CCardFooter>
-            <small className="card-text">Last updated 3 mins ago</small>
-          </CCardFooter>
-        </CCard>
-      </CCol>
-      <CCol xs>
-        <CCard color={'dark'} textColor={'white'} className="mb-3">
-          <CCardHeader>
-            Universities
-            
-          </CCardHeader>
-          <CCardBody>
-            <CCardTitle>
-              {' '}
-              [Total {universityDetails.totalCount}] <CIcon icon={cilChartLine} size="xl" />
-            </CCardTitle>
-            <CCardText>
-              {<br></br>}
-              {<br></br>}
-            </CCardText>
-          </CCardBody>
-          <CCardFooter>
-            <small className="card-text">Last updated 3 mins ago</small>
-          </CCardFooter>
-        </CCard>
-      </CCol>
-    </CRow>
+    <CCard className="mb-4">
+      <CCardHeader>User Statisticss</CCardHeader>
+      <CCardBody>
+        <CRow>
+          <CCol sm={6}>
+            <CWidgetStatsA
+              className="mb-4"
+              color="primary"
+              value={
+                <>
+                  19853{' '}
+                  <span className="fs-6 fw-normal">
+                    (40.9% <CIcon icon={cilArrowTop} />)
+                  </span>
+                </>
+              }
+              title="Users"
+              action={
+                <CDropdown alignment="end">
+                  <CDropdownToggle color="transparent" caret={false} className="p-0">
+                    <CIcon icon={cilOptions} className="text-high-emphasis-inverse" />
+                  </CDropdownToggle>
+                  <CDropdownMenu>
+                    <CDropdownItem>
+                      <NavLink
+                        to="/staff/useroverview/users"
+                        style={{ textDecoration: 'none', color: 'inherit' }}
+                      >
+                        View Details
+                      </NavLink>
+                    </CDropdownItem>
+                  </CDropdownMenu>
+                </CDropdown>
+              }
+              chart={
+                <CChartLine
+                  className="mt-3 mx-3"
+                  style={{ height: '100px' }}
+                  data={{
+                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                    datasets: [
+                      {
+                        label: 'My First dataset',
+                        backgroundColor: 'transparent',
+                        borderColor: 'rgba(255,255,255,.55)',
+                        pointBackgroundColor: '#321fdb',
+                        data: [45, 59, 84, 84, 75, 82, 80],
+                      },
+                    ],
+                  }}
+                  options={{
+                    plugins: {
+                      legend: {
+                        display: false,
+                      },
+                    },
+                    maintainAspectRatio: false,
+                    scales: {
+                      x: {
+                        grid: {
+                          display: false,
+                          drawBorder: false,
+                        },
+                        ticks: {
+                          display: false,
+                        },
+                      },
+                      y: {
+                        min: 30,
+                        max: 89,
+                        display: false,
+                        grid: {
+                          display: false,
+                        },
+                        ticks: {
+                          display: false,
+                        },
+                      },
+                    },
+                    elements: {
+                      line: {
+                        borderWidth: 1,
+                        tension: 0.4,
+                      },
+                      point: {
+                        radius: 4,
+                        hitRadius: 10,
+                        hoverRadius: 4,
+                      },
+                    },
+                  }}
+                />
+              }
+            />
+          </CCol>
+        </CRow>
+        <CRow>
+          <CCol sm={6}>
+            <CWidgetStatsA
+              className="mb-4"
+              color="info"
+              value={
+                <>
+                  15026{' '}
+                  <span className="fs-6 fw-normal">
+                    (67.9% <CIcon icon={cilArrowTop} />)
+                  </span>
+                </>
+              }
+              title="Students"
+              action={
+                <CDropdown alignment="end">
+                  <CDropdownToggle color="transparent" caret={false} className="p-0">
+                    <CIcon icon={cilOptions} className="text-high-emphasis-inverse" />
+                  </CDropdownToggle>
+                  <CDropdownMenu>
+                    <CDropdownItem>
+                      <NavLink
+                        to="/staff/useroverview/students"
+                        style={{ textDecoration: 'none', color: 'inherit' }}
+                      >
+                        View Details
+                      </NavLink>
+                    </CDropdownItem>
+                    <CDropdownItem>
+                      <NavLink
+                        to="/staff/useroverview/governmentstudents"
+                        style={{ textDecoration: 'none', color: 'inherit' }}
+                      >
+                        View Government Students
+                      </NavLink>
+                    </CDropdownItem>
+                    <CDropdownItem>
+                      <NavLink
+                        to="/staff/useroverview/privatestudents"
+                        style={{ textDecoration: 'none', color: 'inherit' }}
+                      >
+                        View Private Students
+                      </NavLink>
+                    </CDropdownItem>
+                  </CDropdownMenu>
+                </CDropdown>
+              }
+              chart={
+                <CChartLine
+                  className="mt-3 mx-3"
+                  style={{ height: '100px' }}
+                  data={{
+                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                    datasets: [
+                      {
+                        label: 'My First dataset',
+                        backgroundColor: 'transparent',
+                        borderColor: 'rgba(255,255,255,.55)',
+                        pointBackgroundColor: '#39f',
+                        data: [40, 58, 69, 67, 74, 72, 81],
+                      },
+                    ],
+                  }}
+                  options={{
+                    plugins: {
+                      legend: {
+                        display: false,
+                      },
+                    },
+                    maintainAspectRatio: false,
+                    scales: {
+                      x: {
+                        grid: {
+                          display: false,
+                          drawBorder: false,
+                        },
+                        ticks: {
+                          display: false,
+                        },
+                      },
+                      y: {
+                        min: 19,
+                        max: 109,
+                        display: false,
+                        grid: {
+                          display: false,
+                        },
+                        ticks: {
+                          display: false,
+                        },
+                      },
+                    },
+                    elements: {
+                      line: {
+                        borderWidth: 1,
+                      },
+                      point: {
+                        radius: 4,
+                        hitRadius: 10,
+                        hoverRadius: 4,
+                      },
+                    },
+                  }}
+                />
+              }
+            />
+          </CCol>
+          <CCol sm={6}>
+            <CWidgetStatsA
+              className="mb-4"
+              color="info"
+              value={
+                <>
+                  17{' '}
+                  <span className="fs-6 fw-normal">
+                    (10.9% <CIcon icon={cilArrowBottom} />)
+                  </span>
+                </>
+              }
+              title="Universities"
+              action={
+                <CDropdown alignment="end">
+                  <CDropdownToggle color="transparent" caret={false} className="p-0">
+                    <CIcon icon={cilOptions} className="text-high-emphasis-inverse" />
+                  </CDropdownToggle>
+                  <CDropdownMenu>
+                    <CDropdownItem>View More</CDropdownItem>
+                  </CDropdownMenu>
+                </CDropdown>
+              }
+              chart={
+                <CChartLine
+                  className="mt-3 mx-3"
+                  style={{ height: '100px' }}
+                  data={{
+                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                    datasets: [
+                      {
+                        label: 'My First dataset',
+                        backgroundColor: 'transparent',
+                        borderColor: 'rgba(255,255,255,.55)',
+                        pointBackgroundColor: '#39f',
+                        data: [40, 58, 69, 85, 74, 72, 40],
+                      },
+                    ],
+                  }}
+                  options={{
+                    plugins: {
+                      legend: {
+                        display: false,
+                      },
+                    },
+                    maintainAspectRatio: false,
+                    scales: {
+                      x: {
+                        grid: {
+                          display: false,
+                          drawBorder: false,
+                        },
+                        ticks: {
+                          display: false,
+                        },
+                      },
+                      y: {
+                        min: 19,
+                        max: 109,
+                        display: false,
+                        grid: {
+                          display: false,
+                        },
+                        ticks: {
+                          display: false,
+                        },
+                      },
+                    },
+                    elements: {
+                      line: {
+                        borderWidth: 1,
+                      },
+                      point: {
+                        radius: 4,
+                        hitRadius: 10,
+                        hoverRadius: 4,
+                      },
+                    },
+                  }}
+                />
+              }
+            />
+          </CCol>
+        </CRow>
+      </CCardBody>
+    </CCard>
   )
 }
 

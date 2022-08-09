@@ -8,6 +8,10 @@ const Adm_Authorize_StaffRegistration = React.lazy(() =>
 const Adm_Authorize_Privileges = React.lazy(() => import('./views/staff/admin/Privileges'))
 //
 const Staff_UserDetails_Overview = React.lazy(() => import('./views/staff/userDetails/Overview'))
+const Staff_UserDetails_Users = React.lazy(() => import('./views/staff/userDetails/Users'))
+const Staff_UserDetails_Students = React.lazy(() => import('./views/staff/userDetails/Students'))
+const Staff_UserDetails_Government_Students = React.lazy(() => import('./views/staff/userDetails/GovernmentStudents'))
+const Staff_UserDetails_Private_Students = React.lazy(() => import('./views/staff/userDetails/PrivateStudents'))
 const Staff_UserDetails_UserProfile = React.lazy(() =>
   import('./views/staff/userDetails/UserProfile'),
 )
@@ -40,6 +44,7 @@ const Staff_Achievement_Validation = React.lazy(() =>
   import('./views/staff/validation/Achievement'),
 )
 const Staff_Complaints = React.lazy(() => import('./views/staff/complaints/Complaints'))
+const Staff_Complaints_View = React.lazy(() => import('./views/staff/complaints/Complaint'))
 
 // Student views
 // Settings
@@ -99,6 +104,10 @@ const routes = [
   { path: '/admin/staffregistration', name: 'Dashboard', element: Adm_Authorize_StaffRegistration },
   { path: '/admin/privileges', name: 'Dashboard', element: Adm_Authorize_Privileges },
   { path: '/staff/useroverview', name: 'User Overview', element: Staff_UserDetails_Overview },
+  { path: '/staff/useroverview/users', name: 'Users', element: Staff_UserDetails_Users },
+  { path: '/staff/useroverview/students', name: 'Students', element: Staff_UserDetails_Students },
+  { path: '/staff/useroverview/governmentstudents', name: 'Government Students', element: Staff_UserDetails_Government_Students },
+  { path: '/staff/useroverview/privatestudents', name: 'Private Students', element: Staff_UserDetails_Private_Students },
   { path: '/staff/userprofile', name: 'User Profile', element: Staff_UserDetails_UserProfile },
   { path: '/staff/universities', name: 'All Universities', element: Staff_Universities },
   {
@@ -141,6 +150,7 @@ const routes = [
     element: Staff_Achievement_Validation,
   },
   { path: '/staff/complaints', name: 'Complaints', element: Staff_Complaints },
+  { path: '/staff/complaints/view', name: 'Complaint', element: Staff_Complaints_View },
 
   // Student routes
   // Settings
