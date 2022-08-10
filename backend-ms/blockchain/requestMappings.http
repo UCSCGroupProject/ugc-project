@@ -1,5 +1,5 @@
 ### Adding a new block to the blockchain
-POST http://localhost:8/blockchain/addblock
+POST http://localhost:5/blockchain/addblock
 Content-Type: application/json
 
 {
@@ -29,7 +29,7 @@ Content-Type: application/json
 
 
 ### Getting the entire blockchain
-GET http://localhost:8/blockchain/getblockchain
+GET http://localhost:5/blockchain/getblockchain
 
 
 ### Verifying a specific block in the blockchain

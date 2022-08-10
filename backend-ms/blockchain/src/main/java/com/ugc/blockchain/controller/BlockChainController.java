@@ -1,9 +1,6 @@
 package com.ugc.blockchain.controller;
 
-import com.ugc.blockchain.crypto.blockchain.Block;
 import com.ugc.blockchain.crypto.blockchain.BlockChain;
-import com.ugc.blockchain.crypto.signing.ECDSAHelper;
-import com.ugc.blockchain.crypto.wallet.Wallet;
 import com.ugc.blockchain.payload.request.ReqBlockValidity;
 import com.ugc.blockchain.payload.response.ResBlockChain;
 import com.ugc.blockchain.payload.response.ResBlockValidityMessage;

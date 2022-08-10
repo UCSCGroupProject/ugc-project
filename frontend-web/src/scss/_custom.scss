@@ -35,3 +35,13 @@
   top: 10px;
   background-color: red;
 }
+
+// Notifications
+.dashboard-notification {
+  transition: 0.2s all;
+}
+
+.dashboard-notification:hover {
+  cursor: pointer;
+  background-color: rgb(235, 235, 235);
+}
