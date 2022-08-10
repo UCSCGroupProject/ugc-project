@@ -13,10 +13,23 @@ const CourseStatistics = () => {
       course: 'Enginering',
       appliedAmount: '100',
     },
+    {
+      course: 'Enginering',
+      appliedAmount: '100',
+    },
+    {
+      course: 'Enginering',
+      appliedAmount: '100',
+    },
+    {
+      course: 'Enginering',
+      appliedAmount: '100',
+    },
   ])
+
   return (
     <CRow>
-      <CCol>
+      <CCol md={8}>
         <CCard className="mb-4">
           <CCardHeader>Course Statistics</CCardHeader>
           <CCardBody>

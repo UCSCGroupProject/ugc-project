@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   CRow,
   CCol,
@@ -22,15 +22,20 @@ import { cilSearch } from '@coreui/icons'
 import { cilFilter } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
-const allCoursesData = [
-  {
-    id: '1',
-    unicode: '112A',
-    courseOfStudy: 'Medicine',
-  },
-]
+const MyCourses = () => {
+  const [allCoursesData, setAllCoursesData] = useState([
+    {
+      id: '1',
+      unicode: '112A',
+      courseOfStudy: 'Medicine',
+    },
+    {
+      id: '1',
+      unicode: '112A',
+      courseOfStudy: 'Medicine',
+    },
+  ]) 
 
-function MyCourses() {
   return (
     <div>
       <CRow>
