@@ -17,6 +17,7 @@ const ForgotPassword = React.lazy(() => import('./views/user/ForgotPassword'))
 const StudentRegistration = React.lazy(() => import('./views/student/StudentRegistration'))
 const StaffRegistration = React.lazy(() => import('./views/staff/StaffRegistration'))
 const UniversityRegistration = React.lazy(() => import('./views/university/UniRegistration'))
+const SchoolRegistration = React.lazy(() => import('./views/school/SchoolRegistration'))
 
 class App extends Component {
   render() {
@@ -40,6 +41,11 @@ class App extends Component {
               path="/universityRegister"
               name="University Registration"
               element={<UniversityRegistration />}
+            />
+            <Route
+              path="/schoolRegister"
+              name="School Registration"
+              element={<SchoolRegistration />}
             />
             <Route path="*" name="Home" element={<UGCLayout />} />
           </Routes>
