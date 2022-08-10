@@ -10,8 +10,10 @@ const loading = (
 
 // Containers
 const UGCLayout = React.lazy(() => import('./layout/UGCLayout'))
+const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))
 
 // Pages
+const Home = React.lazy(() => import('./views/user/Home'))
 const Login = React.lazy(() => import('./views/user/Login'))
 const ForgotPassword = React.lazy(() => import('./views/user/ForgotPassword'))
 const StudentRegistration = React.lazy(() => import('./views/student/StudentRegistration'))
@@ -25,14 +27,21 @@ class App extends Component {
       <HashRouter>
         <Suspense fallback={loading}>
           <Routes>
-            <Route path="/login" name="Login" element={<Login />} />
-            <Route path="/forgotPassword" name="ForgotPassword" element={<ForgotPassword />} />
-            <Route
+            <Route path="/login" name="Login" element={<DefaultLayout page={<Login />} />} />
+            <Route path="/forgotPassword" name="Forgot Password" element={<DefaultLayout page={<ForgotPassword />} />} />
+            <Route path="/studentRegister" name="Student Registration" element={<DefaultLayout page={<StudentRegistration />} />} />
+            <Route path="/staffRegister" name="Staff Registration" element={<DefaultLayout page={<StaffRegistration />} />} />
+            <Route path="/universityRegister" name="University Registration" element={<DefaultLayout page={<UniversityRegistration />} />} />
+            <Route path="/schoolRegister" name="School Registration" element={<DefaultLayout page={<SchoolRegistration />} />} />
+            <Route path="*" name="Home" element={<UGCLayout />} />
+            {/* <Route path="/login" name="Login" element={<Login />} /> */}
+            {/* <Route path="/forgotPassword" name="ForgotPassword" element={<ForgotPassword />} /> */}
+            {/* <Route
               path="/studentRegister"
               name="Student Registration"
               element={<StudentRegistration />}
-            />
-            <Route
+            /> */}
+            {/* <Route
               path="/staffRegister"
               name="Staff Registration"
               element={<StaffRegistration />}
@@ -46,8 +55,8 @@ class App extends Component {
               path="/schoolRegister"
               name="School Registration"
               element={<SchoolRegistration />}
-            />
-            <Route path="*" name="Home" element={<UGCLayout />} />
+            /> */}
+            {/* <Route path="/" name="Home" element={<Home />} /> */}
           </Routes>
         </Suspense>
       </HashRouter>
