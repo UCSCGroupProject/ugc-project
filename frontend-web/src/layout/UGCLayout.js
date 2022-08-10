@@ -36,7 +36,7 @@ function UGCLayout() {
   // Set user details
   const [userDetails, setUserDetails] = useState({
     username: '',
-    actortype: 'student',
+    actortype: 'university',
   })
 
   useEffect(() => {

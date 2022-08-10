@@ -85,6 +85,7 @@ const Stu_AptitudeTests_TestDetails_Progress = React.lazy(() =>
 )
 
 // University views
+const Uni_Registration = React.lazy(() => import('./views/university/UniRegistration'))
 const Uni_Dashboard = React.lazy(() => import('./views/university/dashboard/Dashboard'))
 const Uni_Courses_MyCourses = React.lazy(() => import('./views/university/courses/MyCourses'))
 const Uni_Courses_CourseDetails_Statistics = React.lazy(() =>
@@ -204,7 +205,8 @@ const routes = [
     element: Stu_AptitudeTests_TestDetails_Progress,
   },
 
-  // University routes
+  // University routes 
+  { path: '/university/registration', name: 'Registration', element: Uni_Registration },
   { path: '/university/dashboard', name: 'Dashboard', element: Uni_Dashboard },
   { path: '/university/courses/my', name: 'Courses', element: Uni_Courses_MyCourses },
   {
