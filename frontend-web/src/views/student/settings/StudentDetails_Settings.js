@@ -23,17 +23,17 @@ function StudentDetails_Settings() {
       <header>
         <CNav variant="tabs">
           <CNavItem>
-            <NavLink to="/student/nic_and_exam_details_settings" style={{ textDecoration: 'none' }}>
+            <NavLink to="/student/settings/nicandexamdetails" style={{ textDecoration: 'none' }}>
               <CNavLink>NIC and Exam details</CNavLink>
             </NavLink>
           </CNavItem>
           <CNavItem>
-            <NavLink to="/student/student_details_settings" style={{ textDecoration: 'none' }}>
+            <NavLink to="/student/settings/studentdetails" style={{ textDecoration: 'none' }}>
               <CNavLink active>Student details</CNavLink>
             </NavLink>
           </CNavItem>
           <CNavItem>
-            <NavLink to="/student/login_details_settings" style={{ textDecoration: 'none' }}>
+            <NavLink to="/student/settings/logindetails" style={{ textDecoration: 'none' }}>
               <CNavLink>Login details</CNavLink>
             </NavLink>
           </CNavItem>

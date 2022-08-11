@@ -476,7 +476,7 @@ const ForgotPassword = () => {
                   {sectionIndex === 1 && createNewPasswordSection()}
 
                   <div className="my-4 text-center">
-                    Don't have an account? <Link to="/studentregister">Sign up now</Link>
+                    Don't have an account? <Link to="/register">Sign up now</Link>
                   </div>
                 </CForm>
               </CCardBody>

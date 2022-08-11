@@ -8,9 +8,9 @@ spring:
       blockchain
   data:
     mongodb:
-      authentication-database: admin
-      username: root
-      password: root
+#      authentication-database: admin
+#      username: root
+#      password: root
       database: blockchain_db
       port: 27017
       host: localhost

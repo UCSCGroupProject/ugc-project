@@ -27,7 +27,7 @@ import logo from '../../assets/brand/logo.png'
 
 import authService from '../../services/authService'
 
-function AppHeader(props) {
+function DefaultAppHeader(props) {
   // User status
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false)
   useEffect(() => {
@@ -45,14 +45,14 @@ function AppHeader(props) {
   return (
     <CHeader position="sticky" className="mb-4">
       <CContainer fluid>
-        {isUserLoggedIn && (
+        {/* {isUserLoggedIn && (
           <CHeaderToggler
             className="ps-1"
             onClick={() => dispatch({ type: 'set', sidebarShow: !sidebarShow })}
           >
             <CIcon icon={cilMenu} size="lg" />
           </CHeaderToggler>
-        )}
+        )} */}
 
         {/* Brand Logo */}
         <CHeaderBrand className="mx-auto d-md-none" to="/">
@@ -108,7 +108,7 @@ function AppHeader(props) {
                 <div className="text-white">Login</div>
               </CButton>
             </Link>
-            <Link to="/studentRegister">
+            <Link to="/register">
               <CButton color="info" size="sm" className="py-2">
                 <div className="text-white">Signup </div>
               </CButton>
@@ -116,18 +116,18 @@ function AppHeader(props) {
           </div>
         )}
 
-        {isUserLoggedIn && (
+        {/* {isUserLoggedIn && (
           // Header Breadcrumb
           <>
             <CHeaderDivider />
             <CContainer fluid>
-              <AppBreadcrumb actorType={props.userDetails.actorType} />
+              <AppBreadcrumb />
             </CContainer>
           </>
-        )}
+        )} */}
       </CContainer>
     </CHeader>
   )
 }
 
-export default AppHeader
+export default DefaultAppHeader

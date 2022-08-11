@@ -10,8 +10,12 @@ const Adm_Authorize_Privileges = React.lazy(() => import('./views/staff/admin/Pr
 const Staff_UserDetails_Overview = React.lazy(() => import('./views/staff/userDetails/Overview'))
 const Staff_UserDetails_Users = React.lazy(() => import('./views/staff/userDetails/Users'))
 const Staff_UserDetails_Students = React.lazy(() => import('./views/staff/userDetails/Students'))
-const Staff_UserDetails_Government_Students = React.lazy(() => import('./views/staff/userDetails/GovernmentStudents'))
-const Staff_UserDetails_Private_Students = React.lazy(() => import('./views/staff/userDetails/PrivateStudents'))
+const Staff_UserDetails_Government_Students = React.lazy(() =>
+  import('./views/staff/userDetails/GovernmentStudents'),
+)
+const Staff_UserDetails_Private_Students = React.lazy(() =>
+  import('./views/staff/userDetails/PrivateStudents'),
+)
 const Staff_UserDetails_UserProfile = React.lazy(() =>
   import('./views/staff/userDetails/UserProfile'),
 )
@@ -29,7 +33,9 @@ const Staff_AptitudeTests_Completed = React.lazy(() =>
 )
 const Staff_Selected = React.lazy(() => import('./views/staff/selection/selected/Selected'))
 const Staff_Selected_Courses = React.lazy(() => import('./views/staff/selection/selected/Courses'))
-const Staff_Selected_Students = React.lazy(() => import('./views/staff/selection/selected/Students'))
+const Staff_Selected_Students = React.lazy(() =>
+  import('./views/staff/selection/selected/Students'),
+)
 const Staff_Applied_Students = React.lazy(() => import('./views/staff/selection/AppliedStudents'))
 const Staff_Eligible = React.lazy(() => import('./views/staff/selection/eligible/Eligible'))
 const Staff_Eligible_Courses = React.lazy(() => import('./views/staff/selection/eligible/Courses'))
@@ -85,24 +91,27 @@ const Stu_AptitudeTests_TestDetails_Progress = React.lazy(() =>
 )
 
 // University views
-const Uni_Registration = React.lazy(() => 
-  import('./views/university/UniRegistration'))
-const Uni_Dashboard = React.lazy(() => 
-  import('./views/university/dashboard/Dashboard'))
-const Uni_Courses_MyCourses = React.lazy(() => 
-  import('./views/university/courses/MyCourses'))
-const Uni_Courses_CourseDetails_Statistics = React.lazy(() => 
-  import('./views/university/courses/CourseStatistics'))
-const Uni_Courses_CourseDetails_AppliedStudents = React.lazy(() => 
-  import('./views/university/courses/MyCoursesAppliedStudents'))
-const Uni_AptitudeTests_MyTests = React.lazy(() =>  
-  import('./views/university/aptitudeTests/MyTests'))
-const Uni_AptitudeTests_AppliedStudents = React.lazy(() =>  
-  import('./views/university/aptitudeTests/MyTestsAppliedStudents'))
-const Uni_AptitudeTests_TestDetails_Progress = React.lazy(() => 
-  import('./views/university/aptitudeTests/AptitudeTestProgress'))
-const Uni_AptitudeTests_TestDetails_Results = React.lazy(() => 
-  import('./views/university/aptitudeTests/AptitudeTestResults'))
+const Uni_Registration = React.lazy(() => import('./views/university/UniRegistration'))
+const Uni_Dashboard = React.lazy(() => import('./views/university/dashboard/Dashboard'))
+const Uni_Courses_MyCourses = React.lazy(() => import('./views/university/courses/MyCourses'))
+const Uni_Courses_CourseDetails_Statistics = React.lazy(() =>
+  import('./views/university/courses/CourseStatistics'),
+)
+const Uni_Courses_CourseDetails_AppliedStudents = React.lazy(() =>
+  import('./views/university/courses/MyCoursesAppliedStudents'),
+)
+const Uni_AptitudeTests_MyTests = React.lazy(() =>
+  import('./views/university/aptitudeTests/MyTests'),
+)
+const Uni_AptitudeTests_AppliedStudents = React.lazy(() =>
+  import('./views/university/aptitudeTests/MyTestsAppliedStudents'),
+)
+const Uni_AptitudeTests_TestDetails_Progress = React.lazy(() =>
+  import('./views/university/aptitudeTests/AptitudeTestProgress'),
+)
+const Uni_AptitudeTests_TestDetails_Results = React.lazy(() =>
+  import('./views/university/aptitudeTests/AptitudeTestResults'),
+)
 
 // User views
 
@@ -113,8 +122,16 @@ const routes = [
   { path: '/staff/useroverview', name: 'User Overview', element: Staff_UserDetails_Overview },
   { path: '/staff/useroverview/users', name: 'Users', element: Staff_UserDetails_Users },
   { path: '/staff/useroverview/students', name: 'Students', element: Staff_UserDetails_Students },
-  { path: '/staff/useroverview/governmentstudents', name: 'Government Students', element: Staff_UserDetails_Government_Students },
-  { path: '/staff/useroverview/privatestudents', name: 'Private Students', element: Staff_UserDetails_Private_Students },
+  {
+    path: '/staff/useroverview/governmentstudents',
+    name: 'Government Students',
+    element: Staff_UserDetails_Government_Students,
+  },
+  {
+    path: '/staff/useroverview/privatestudents',
+    name: 'Private Students',
+    element: Staff_UserDetails_Private_Students,
+  },
   { path: '/staff/userprofile', name: 'User Profile', element: Staff_UserDetails_UserProfile },
   { path: '/staff/universities', name: 'All Universities', element: Staff_Universities },
   {
@@ -160,40 +177,39 @@ const routes = [
   { path: '/staff/complaints/view', name: 'Complaint', element: Staff_Complaints_View },
 
   // Student routes
-  // Settings
-  {
-    path: '/student/nic_and_exam_details_settings',
-    name: 'Settings',
-    element: Stu_NICAndExamDetails_Settings,
-  },
-  {
-    path: '/student/student_details_settings',
-    name: 'Settings',
-    element: Stu_StudentDetails_Settings,
-  },
-  { path: '/student/login_details_settings', name: 'Settings', element: Stu_LoginDetails_Settings },
-  { path: '/student/dashboard', name: 'Dashboard', element: Stu_Dashboard },
+  // Settings 
+  { path: '/student', name: 'Student', element: Stu_Dashboard },
+  { path: '/student/settings', name: 'Settings', element: Stu_NICAndExamDetails_Settings },
+  { path: '/student/settings/nicandexamdetails', name: 'NIC and Exam Details', element: Stu_NICAndExamDetails_Settings },
+  { path: '/student/settings/studentdetails', name: 'Student Details', element: Stu_StudentDetails_Settings },
+  { path: '/student/settings/logindetails', name: 'Login Details', element: Stu_LoginDetails_Settings },
+  { path: '/student/courses', name: 'Courses', element: Stu_Courses_Apply },
   { path: '/student/courses/apply', name: 'Apply', element: Stu_Courses_Apply },
-  { path: '/student/courses/my', name: 'My Courses', element: Stu_Courses_CourseDetails_MyCourses },
+  { path: '/student/courses/my', name: 'My', element: Stu_Courses_CourseDetails_MyCourses },
   {
     path: '/student/courses/recomended',
-    name: 'Recommended Courses',
+    name: 'Recommended',
     element: Stu_Courses_CourseDetails_RecommendedCourses,
   },
   {
     path: '/student/courses/all',
-    name: 'All Courses',
+    name: 'All',
     element: Stu_Courses_CourseDetails_AllCourses,
   },
   {
     path: '/student/university',
-    name: 'All Universities',
+    name: 'University',
     element: Stu_University_UniversityDetails_AllUniversities,
   },
   {
     path: '/student/university/profile',
     name: 'Profile',
     element: Stu_University_UniversityDetails_Profile,
+  },
+  {
+    path: '/student/aptitudetests',
+    name: 'Aptitude Tests',
+    element: Stu_AptitudeTests_TestDetails_MyTests,
   },
   {
     path: '/student/aptitudetests/my',
@@ -211,21 +227,21 @@ const routes = [
     element: Stu_AptitudeTests_TestDetails_Progress,
   },
 
-  // University routes 
-  { 
-    path: '/university/registration', 
-    name: 'Registration', 
-    element: Uni_Registration 
+  // University routes
+  {
+    path: '/university/registration',
+    name: 'Registration',
+    element: Uni_Registration,
   },
-  { 
-    path: '/university/dashboard', 
-    name: 'Dashboard', 
-    element: Uni_Dashboard 
+  {
+    path: '/university/dashboard',
+    name: 'Dashboard',
+    element: Uni_Dashboard,
   },
-  { 
-    path: '/university/courses/my', 
-    name: 'Courses', 
-    element: Uni_Courses_MyCourses 
+  {
+    path: '/university/courses/my',
+    name: 'Courses',
+    element: Uni_Courses_MyCourses,
   },
   {
     path: '/university/courses/statistics',

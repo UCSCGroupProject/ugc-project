@@ -9,6 +9,7 @@ import {
   CDropdownItem,
   CDropdownMenu,
   CDropdownToggle,
+  CNavLink,
 } from '@coreui/react'
 import {
   cilBell,
@@ -39,17 +40,16 @@ const AppHeaderDropdown = (props) => {
     <CDropdown variant="nav-item">
       <CDropdownToggle placement="bottom-end" className="py-0" caret={false}>
         <CAvatar src={prof_pic} size="md" />
-        <span className="ms-2 fs-6">{props.details.username}</span>
+        <span className="ms-2 fs-6">{props.userDetails.username}</span>
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">
         <CDropdownHeader className="bg-light fw-semibold py-2">Account</CDropdownHeader>
-        <CDropdownItem href="#">
-          <CIcon icon={cilBell} className="me-2" />
-          Updates
-          <CBadge color="info" className="ms-2">
-            42
-          </CBadge>
-        </CDropdownItem>
+        <NavLink to="/student" style={{ textDecoration: 'none' }}>
+          <CDropdownItem>
+            <CIcon icon={cilBell} className="me-2" />
+            Dashboard
+          </CDropdownItem>
+        </NavLink>
         <CDropdownItem href="#">
           <CIcon icon={cilEnvelopeOpen} className="me-2" />
           Messages
@@ -72,7 +72,7 @@ const AppHeaderDropdown = (props) => {
           </CBadge>
         </CDropdownItem>
         <CDropdownHeader className="bg-light fw-semibold py-2">Settings</CDropdownHeader>
-        <NavLink to="/student/nic_and_exam_details_settings" style={{ textDecoration: 'none' }}>
+        <NavLink to="/student/settings" style={{ textDecoration: 'none' }}>
           <CDropdownItem>
             <CIcon icon={cilSettings} className="me-2" />
             Settings

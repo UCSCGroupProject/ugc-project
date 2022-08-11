@@ -33,10 +33,10 @@ GET http://localhost:5/blockchain/getblockchain
 
 
 ### Verifying a specific block in the blockchain
-GET http://localhost:8/blockchain/verifyblock/
+GET http://localhost:5/blockchain/verifyblock/
 Content-Type: application/json
 
 {
     "blockId": 2,
-    "publicKey": "MEYwEAYHKoZIzj0CAQYFK4EEAB8DMgAEBOzy5UtQYct6MatnIby6jfpqHHeqK44kBYkqiQF28f1ohQ/5o0nd9acbRrASEGgg"
+    "publicKey": "MEYwEAYHKoZIzj0CAQYFK4EEAB8DMgAE7El7OLvk+tDdy8DaQatpWAPu3oGLHAaI9uM+ul4VvBC7wmfKfKM5TRjVi4HObhLH"
 }

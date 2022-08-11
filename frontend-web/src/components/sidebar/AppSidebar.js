@@ -38,9 +38,9 @@ const AppSidebar = (props) => {
       </CSidebarBrand>
       <CSidebarNav className="ugc-sidebar">
         <SimpleBar>
-          {props.actor === 'student' && <AppSidebarNav items={studentNavigation} />}
-          {props.actor === 'staff' && <AppSidebarNav items={staffNavigation} />}
-          {props.actor === 'university' && <AppSidebarNav items={universityNavigation} />}
+          {props.actorType === 'student' && <AppSidebarNav items={studentNavigation} />}
+          {props.actorType === 'staff' && <AppSidebarNav items={staffNavigation} />}
+          {props.actorType === 'university' && <AppSidebarNav items={universityNavigation} />}
         </SimpleBar>
       </CSidebarNav>
       <CSidebarToggler

@@ -37,7 +37,7 @@ function UGCLayout() {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false)
   const [userDetails, setUserDetails] = useState({
     username: '',
-    actortype: 'university',
+    actorType: 'university',
   })
 
   useEffect(() => {
@@ -46,24 +46,17 @@ function UGCLayout() {
     if (user !== null) {
       setIsUserLoggedIn(true)
       console.log(user)
-      setUserDetails({ username: user.username, actortype: user.type })
+      setUserDetails({ username: user.username, actorType: user.type })
     }
-
-    // Set the role
-    // if (user !== null) {
-    //   if (user.roles.includes('ROLE_STUDENT')) {
-    //     setUserDetails({ username: user.username, actortype: user.type })
-    //   }
-    // }
   }, [])
 
   return (
     <div>
-      {isUserLoggedIn && <AppSidebar actor={userDetails.actortype} />}
+      {isUserLoggedIn && <AppSidebar actorType={userDetails.actorType} />}
 
       <CToaster ref={toaster} push={toast} placement="top-end" />
       <div className="wrapper d-flex flex-column min-vh-100 bg-light">
-        <AppHeader details={userDetails} />
+        <AppHeader userDetails={userDetails} />
         <div className="body flex-grow-1 px-3">
           {/* <CButton onClick={() => addToast(exampleToast)}>Send a toast</CButton> */}
           <AppContent />
