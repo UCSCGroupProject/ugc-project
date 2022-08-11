@@ -22,6 +22,7 @@ import {
   CInputGroupText,
 } from '@coreui/react'
 
+import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import CIcon from '@coreui/icons-react'
 import { cilCheckAlt, cilTask } from '@coreui/icons'
 
@@ -53,6 +54,17 @@ const StaffRegistration = () => {
 
   const decrementSection = () => {
     setSectionIndex((sectionIndex - 1) % 4)
+  }
+
+  // Password Show/Hide toggler
+  const [showPassword, setShowPassword] = useState(true)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(true)
+
+  const onEyeClick = () => {
+    setShowPassword(!showPassword)
+  }
+  const onEyeClickOnConfirmPassword = () => {
+    setShowConfirmPassword(!showConfirmPassword)
   }
 
   /**
@@ -920,18 +932,6 @@ const StaffRegistration = () => {
                   invalid={staffLoginDetailsFormErrors.usernameError ? true : false}
                 />
               </CCol>
-              {/* <CCol md={6}>
-                <CFormInput
-                  type="text"
-                  id="validationEmail"
-                  label="Email"
-                  name="email"
-                  onChange={onUpdateInputInsetStaffLoginDetailsForm}
-                  value={staffLoginDetailsForm.email}
-                  feedback={staffLoginDetailsFormErrors.emailError}
-                  invalid={staffLoginDetailsFormErrors.emailError ? true : false}
-                />
-              </CCol> */}
               <CCol md={4}>
                 <CFormLabel htmlFor="validationEmail">Email</CFormLabel>
                 <CInputGroup className="has-validation">
@@ -1004,16 +1004,23 @@ const StaffRegistration = () => {
                 </CCol>
               )}
               <CCol md={6}>
-                <CFormInput
-                  type="password"
-                  id="validationPassword"
-                  label="Password"
-                  name="password"
-                  onChange={onUpdateInputInsetStaffLoginDetailsForm}
-                  value={staffLoginDetailsForm.password}
-                  feedback={staffLoginDetailsFormErrors.passwordError}
-                  invalid={staffLoginDetailsFormErrors.passwordError ? true : false}
-                />
+                <CFormLabel htmlFor="validationPassword">Password</CFormLabel>
+                <CInputGroup>
+                  <CFormInput
+                    type={showPassword ? 'password' : 'text'}
+                    id="validationPassword"
+                    // label="Password"
+                    name="password"
+                    onChange={onUpdateInputInsetStaffLoginDetailsForm}
+                    value={staffLoginDetailsForm.password}
+                    // feedback={staffLoginDetailsFormErrors.passwordError}
+                    invalid={staffLoginDetailsFormErrors.passwordError ? true : false}
+                  />
+                  <CInputGroupText onClick={onEyeClick}>
+                    {showPassword ? <FaEye className="fs-4" /> : <FaEyeSlash className="fs-4" />}
+                  </CInputGroupText>
+                  <CFormFeedback invalid>{staffLoginDetailsFormErrors.passwordError}</CFormFeedback>
+                </CInputGroup>
                 <div className="p-2">
                   <div className={pwd_guideline_length ? 'text-success fw-bold' : ''}>
                     {pwd_guideline_length && (
@@ -1048,16 +1055,29 @@ const StaffRegistration = () => {
                 </div>
               </CCol>
               <CCol md={6}>
-                <CFormInput
-                  type="password"
-                  id="validationConfirmPassword"
-                  label="Confirm Password"
-                  name="confirmPassword"
-                  onChange={onUpdateInputInsetStaffLoginDetailsForm}
-                  value={staffLoginDetailsForm.confirmPassword}
-                  feedback={staffLoginDetailsFormErrors.confirmPasswordError}
-                  invalid={staffLoginDetailsFormErrors.confirmPasswordError ? true : false}
-                />
+                <CFormLabel htmlFor="validationConfirmPassword">Confirm Password</CFormLabel>
+                <CInputGroup>
+                  <CFormInput
+                    type={showConfirmPassword ? 'password' : 'text'}
+                    id="validationConfirmPassword"
+                    // label="Confirm Password"
+                    name="confirmPassword"
+                    onChange={onUpdateInputInsetStaffLoginDetailsForm}
+                    value={staffLoginDetailsForm.confirmPassword}
+                    // feedback={staffLoginDetailsFormErrors.confirmPasswordError}
+                    invalid={staffLoginDetailsFormErrors.confirmPasswordError ? true : false}
+                  />
+                  <CInputGroupText onClick={onEyeClickOnConfirmPassword}>
+                    {showConfirmPassword ? (
+                      <FaEye className="fs-4" />
+                    ) : (
+                      <FaEyeSlash className="fs-4" />
+                    )}
+                  </CInputGroupText>
+                  <CFormFeedback invalid>
+                    {staffLoginDetailsFormErrors.confirmPasswordError}
+                  </CFormFeedback>
+                </CInputGroup>
               </CCol>
             </CRow>
           </CCardBody>
@@ -1169,30 +1189,30 @@ const StaffRegistration = () => {
             <div>
               <ol>
                 <li className="mb-3">
-                  I agree to use this online service only for the purpose of monitoring and carrying out 
-                  the tasks that are required of me as part of the functionalities of the university
-                  admission process based on the G.C.E. (A/L) Examination, and not for any
-                  other purpose.
+                  I agree to use this online service only for the purpose of monitoring and carrying
+                  out the tasks that are required of me as part of the functionalities of the
+                  university admission process based on the G.C.E. (A/L) Examination, and not for
+                  any other purpose.
                 </li>
                 <li className="mb-3">
-                  I am at present a staff member of the University Grants Commission - Sri Lanka. I certify
-                  that the details provided by me are my own and do not belong to any other person.
+                  I am at present a staff member of the University Grants Commission - Sri Lanka. I
+                  certify that the details provided by me are my own and do not belong to any other
+                  person.
                 </li>
                 <li className="mb-3">
-                  I certify that all details provided / will be provided by me in each step of this 
+                  I certify that all details provided / will be provided by me in each step of this
                   registration process for this system via online service are true and correct.
                 </li>
                 <li className="mb-3">
                   I understand and agree that providing any false, misleading, inaccurate or
                   fraudulent information, details, statements at any time or any attempt to alter
                   the content of this website, fraudulent logins to other user accounts or alter the
-                  content or data provided by me or anybody else will result in my staff privileges 
+                  content or data provided by me or anybody else will result in my staff privileges
                   being invalid at any time and I will be subjected to legal actions.
                 </li>
                 <li className="mb-3">
-                  I am aware that I am not allowed to disclose any confidential information 
-                  within this online service without permission of the
-                  University Grants Commission.
+                  I am aware that I am not allowed to disclose any confidential information within
+                  this online service without permission of the University Grants Commission.
                 </li>
                 <li className="mb-3">
                   By using this online service I do authorize the University Grants Commission to
@@ -1247,7 +1267,7 @@ const StaffRegistration = () => {
   }
 
   return (
-    <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
+    // <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
         <CRow className="justify-content-center">
           <CCol md={11}>
@@ -1267,7 +1287,7 @@ const StaffRegistration = () => {
           </CCol>
         </CRow>
       </CContainer>
-    </div>
+    // </div>
   )
 }
 

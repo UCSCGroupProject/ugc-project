@@ -387,14 +387,14 @@ const ForgotPassword = () => {
               name="password"
               onChange={onUpdateCreateNewPasswordForm}
               value={userCreateNewPasswordForm.password}
-              feedback={userCreateNewPasswordFormErrors.passwordError}
+              // feedback={userCreateNewPasswordFormErrors.passwordError}
               invalid={userCreateNewPasswordFormErrors.passwordError ? true : false}
             />
             <CInputGroupText onClick={onEyeClick}>
               {showPassword ? <FaEye className="fs-4" /> : <FaEyeSlash className="fs-4" />}
             </CInputGroupText>
             <CFormFeedback invalid>
-              {userCreateNewPasswordFormErrors.confirmPasswordError}
+              {userCreateNewPasswordFormErrors.passwordError}
             </CFormFeedback>
           </CInputGroup>
 
@@ -464,7 +464,7 @@ const ForgotPassword = () => {
   }
 
   return (
-    <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
+    // <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
         <CRow className="justify-content-center">
           <CCol md={7} lg={6} xl={5}>
@@ -484,7 +484,7 @@ const ForgotPassword = () => {
           </CCol>
         </CRow>
       </CContainer>
-    </div>
+    // </div>
   )
 }
 

@@ -34,6 +34,7 @@ function UGCLayout() {
   )
 
   // Set user details
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState(false)
   const [userDetails, setUserDetails] = useState({
     username: '',
     actortype: 'university',
@@ -43,7 +44,8 @@ function UGCLayout() {
     const user = authService.getCurrentUser()
 
     if (user !== null) {
-      console.log(user.type)
+      setIsUserLoggedIn(true)
+      console.log(user)
       setUserDetails({ username: user.username, actortype: user.type })
     }
 
@@ -57,7 +59,8 @@ function UGCLayout() {
 
   return (
     <div>
-      <AppSidebar actor={userDetails.actortype} />
+      {isUserLoggedIn && <AppSidebar actor={userDetails.actortype} />}
+
       <CToaster ref={toaster} push={toast} placement="top-end" />
       <div className="wrapper d-flex flex-column min-vh-100 bg-light">
         <AppHeader details={userDetails} />

@@ -22,6 +22,7 @@ import {
   CInputGroupText,
 } from '@coreui/react'
 
+import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import { cilCheckAlt, cilTask } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
@@ -47,7 +48,7 @@ const StudentRegistration = () => {
   let navigate = useNavigate()
 
   // For the Section transitions
-  const [sectionIndex, setSectionIndex] = useState(1)
+  const [sectionIndex, setSectionIndex] = useState(0)
 
   const incrementSection = () => {
     setSectionIndex((sectionIndex + 1) % 4)
@@ -55,6 +56,17 @@ const StudentRegistration = () => {
 
   const decrementSection = () => {
     setSectionIndex((sectionIndex - 1) % 4)
+  }
+
+  // Password Show/Hide toggler
+  const [showPassword, setShowPassword] = useState(true)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(true)
+
+  const onEyeClick = () => {
+    setShowPassword(!showPassword)
+  }
+  const onEyeClickOnConfirmPassword = () => {
+    setShowConfirmPassword(!showConfirmPassword)
   }
 
   /**
@@ -1079,19 +1091,6 @@ const StudentRegistration = () => {
                   invalid={stuLoginDetailsFormErrors.usernameError ? true : false}
                 />
               </CCol>
-              {/* <CCol md={4}>
-                <CFormInput
-                  type="text"
-                  id="validationEmail"
-                  label="Email"
-                  name="email"
-                  onChange={onUpdateInputInsetStuLoginDetailsForm}
-                  value={stuLoginDetailsForm.email}
-                  feedback={stuLoginDetailsFormErrors.emailError}
-                  invalid={stuLoginDetailsFormErrors.emailError ? true : false}
-                />
-              </CCol> */}
-              {/* below new */}
               <CCol md={4}>
                 <CFormLabel htmlFor="validationEmail">Email</CFormLabel>
                 <CInputGroup className="has-validation">
@@ -1168,16 +1167,23 @@ const StudentRegistration = () => {
               )}
               {/* above new */}
               <CCol md={6}>
-                <CFormInput
-                  type="password"
-                  id="validationPassword"
-                  label="Password"
-                  name="password"
-                  onChange={onUpdateInputInsetStuLoginDetailsForm}
-                  value={stuLoginDetailsForm.password}
-                  feedback={stuLoginDetailsFormErrors.passwordError}
-                  invalid={stuLoginDetailsFormErrors.passwordError ? true : false}
-                />
+                <CFormLabel htmlFor="validationPassword">Password</CFormLabel>
+                <CInputGroup>
+                  <CFormInput
+                    type={showPassword ? 'password' : 'text'}
+                    id="validationPassword"
+                    // label="Password"
+                    name="password"
+                    onChange={onUpdateInputInsetStuLoginDetailsForm}
+                    value={stuLoginDetailsForm.password}
+                    // feedback={stuLoginDetailsFormErrors.passwordError}
+                    invalid={stuLoginDetailsFormErrors.passwordError ? true : false}
+                  />
+                  <CInputGroupText onClick={onEyeClick}>
+                    {showPassword ? <FaEye className="fs-4" /> : <FaEyeSlash className="fs-4" />}
+                  </CInputGroupText>
+                  <CFormFeedback invalid>{stuLoginDetailsFormErrors.passwordError}</CFormFeedback>
+                </CInputGroup>
                 <div className="p-2">
                   <div className={pwd_guideline_length ? 'text-success fw-bold' : ''}>
                     {pwd_guideline_length && (
@@ -1212,16 +1218,29 @@ const StudentRegistration = () => {
                 </div>
               </CCol>
               <CCol md={6}>
-                <CFormInput
-                  type="password"
-                  id="validationConfirmPassword"
-                  label="Confirm Password"
-                  name="confirmPassword"
-                  onChange={onUpdateInputInsetStuLoginDetailsForm}
-                  value={stuLoginDetailsForm.confirmPassword}
-                  feedback={stuLoginDetailsFormErrors.confirmPasswordError}
-                  invalid={stuLoginDetailsFormErrors.confirmPasswordError ? true : false}
-                />
+                <CFormLabel htmlFor="validationConfirmPassword">Confirm Password</CFormLabel>
+                <CInputGroup>
+                  <CFormInput
+                    type={showConfirmPassword ? 'password' : 'text'}
+                    id="validationConfirmPassword"
+                    // label="Confirm Password"
+                    name="confirmPassword"
+                    onChange={onUpdateInputInsetStuLoginDetailsForm}
+                    value={stuLoginDetailsForm.confirmPassword}
+                    // feedback={stuLoginDetailsFormErrors.confirmPasswordError}
+                    invalid={stuLoginDetailsFormErrors.confirmPasswordError ? true : false}
+                  />
+                  <CInputGroupText onClick={onEyeClickOnConfirmPassword}>
+                    {showConfirmPassword ? (
+                      <FaEye className="fs-4" />
+                    ) : (
+                      <FaEyeSlash className="fs-4" />
+                    )}
+                  </CInputGroupText>
+                  <CFormFeedback invalid>
+                    {stuLoginDetailsFormErrors.confirmPasswordError}
+                  </CFormFeedback>
+                </CInputGroup>
               </CCol>
             </CRow>
           </CCardBody>
@@ -1438,7 +1457,7 @@ const StudentRegistration = () => {
   }
 
   return (
-    <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
+    // <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
         <CRow className="justify-content-center">
           <CCol md={11}>
@@ -1457,7 +1476,7 @@ const StudentRegistration = () => {
           </CCol>
         </CRow>
       </CContainer>
-    </div>
+    // </div>
   )
 }
 

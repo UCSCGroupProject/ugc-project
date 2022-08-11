@@ -22,6 +22,7 @@ import {
   CInputGroupText,
 } from '@coreui/react'
 
+import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import { cilCheckAlt, cilTask } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
@@ -55,6 +56,17 @@ const SchoolRegistration = () => {
 
   const decrementSection = () => {
     setSectionIndex((sectionIndex - 1) % 3)
+  }
+
+  // Password Show/Hide toggler
+  const [showPassword, setShowPassword] = useState(true)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(true)
+
+  const onEyeClick = () => {
+    setShowPassword(!showPassword)
+  }
+  const onEyeClickOnConfirmPassword = () => {
+    setShowConfirmPassword(!showConfirmPassword)
   }
 
   /**
@@ -747,16 +759,25 @@ const SchoolRegistration = () => {
               )}
               {/* above new */}
               <CCol md={6}>
-                <CFormInput
-                  type="password"
-                  id="validationPassword"
-                  label="Password"
-                  name="password"
-                  onChange={onUpdateInputInsetSchoolLoginDetailsForm}
-                  value={schoolLoginDetailsForm.password}
-                  feedback={schoolLoginDetailsFormErrors.passwordError}
-                  invalid={schoolLoginDetailsFormErrors.passwordError ? true : false}
-                />
+                <CFormLabel htmlFor="validationPassword">Password</CFormLabel>
+                <CInputGroup>
+                  <CFormInput
+                    type={showPassword ? 'password' : 'text'}
+                    id="validationPassword"
+                    // label="Password"
+                    name="password"
+                    onChange={onUpdateInputInsetSchoolLoginDetailsForm}
+                    value={schoolLoginDetailsForm.password}
+                    // feedback={schoolLoginDetailsFormErrors.passwordError}
+                    invalid={schoolLoginDetailsFormErrors.passwordError ? true : false}
+                  />
+                  <CInputGroupText onClick={onEyeClick}>
+                    {showPassword ? <FaEye className="fs-4" /> : <FaEyeSlash className="fs-4" />}
+                  </CInputGroupText>
+                  <CFormFeedback invalid>
+                    {schoolLoginDetailsFormErrors.passwordError}
+                  </CFormFeedback>
+                </CInputGroup>
                 <div className="p-2">
                   <div className={pwd_guideline_length ? 'text-success fw-bold' : ''}>
                     {pwd_guideline_length && (
@@ -791,16 +812,29 @@ const SchoolRegistration = () => {
                 </div>
               </CCol>
               <CCol md={6}>
-                <CFormInput
-                  type="password"
-                  id="validationConfirmPassword"
-                  label="Confirm Password"
-                  name="confirmPassword"
-                  onChange={onUpdateInputInsetSchoolLoginDetailsForm}
-                  value={schoolLoginDetailsForm.confirmPassword}
-                  feedback={schoolLoginDetailsFormErrors.confirmPasswordError}
-                  invalid={schoolLoginDetailsFormErrors.confirmPasswordError ? true : false}
-                />
+                <CFormLabel htmlFor="validationConfirmPassword">Confirm Password</CFormLabel>
+                <CInputGroup>
+                  <CFormInput
+                    type={showConfirmPassword ? 'password' : 'text'}
+                    id="validationConfirmPassword"
+                    // label="Confirm Password"
+                    name="confirmPassword"
+                    onChange={onUpdateInputInsetSchoolLoginDetailsForm}
+                    value={schoolLoginDetailsForm.confirmPassword}
+                    // feedback={schoolLoginDetailsFormErrors.confirmPasswordError}
+                    invalid={schoolLoginDetailsFormErrors.confirmPasswordError ? true : false}
+                  />
+                  <CInputGroupText onClick={onEyeClickOnConfirmPassword}>
+                    {showConfirmPassword ? (
+                      <FaEye className="fs-4" />
+                    ) : (
+                      <FaEyeSlash className="fs-4" />
+                    )}
+                  </CInputGroupText>
+                  <CFormFeedback invalid>
+                    {schoolLoginDetailsFormErrors.confirmPasswordError}
+                  </CFormFeedback>
+                </CInputGroup>
               </CCol>
             </CRow>
           </CCardBody>
@@ -997,7 +1031,7 @@ const SchoolRegistration = () => {
   }
 
   return (
-    <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
+    // <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
         <CRow className="justify-content-center">
           <CCol md={10}>
@@ -1016,7 +1050,7 @@ const SchoolRegistration = () => {
           </CCol>
         </CRow>
       </CContainer>
-    </div>
+    // </div>
   )
 }
 
