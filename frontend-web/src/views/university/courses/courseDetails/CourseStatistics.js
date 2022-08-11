@@ -29,7 +29,7 @@ const CourseStatistics = () => {
 
   return (
     <CRow>
-      <CCol md={8}>
+      <CCol>
         <CCard className="mb-4">
           <CCardHeader>Course Statistics</CCardHeader>
           <CCardBody>
@@ -51,7 +51,7 @@ const CourseStatistics = () => {
                 ])
               }}
             >
-              asdasd s
+              ok
             </CButton> */}
 
             <CChart
