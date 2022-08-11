@@ -2,7 +2,7 @@ import React from 'react'
 
 const AptitudeTestResults = () => {
   return (
-    <div>AptitudeTestResults</div>
+    <div>Aptitude Test Results</div>
   )
 }
 

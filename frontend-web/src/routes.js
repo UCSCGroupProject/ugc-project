@@ -85,18 +85,24 @@ const Stu_AptitudeTests_TestDetails_Progress = React.lazy(() =>
 )
 
 // University views
-const Uni_Registration = React.lazy(() => import('./views/university/UniRegistration'))
-const Uni_Dashboard = React.lazy(() => import('./views/university/dashboard/Dashboard'))
-const Uni_Courses_MyCourses = React.lazy(() => import('./views/university/courses/MyCourses'))
-const Uni_Courses_CourseDetails_Statistics = React.lazy(() =>
-  import('./views/university/courses/courseDetails/CourseStatistics'),
-)
-const Uni_AptitudeTests_MyTests = React.lazy(() =>
-  import('./views/university/aptitudeTests/MyTests'),
-)
-const Uni_AptitudeTests_TestDetails_Progress = React.lazy(() =>
-  import('./views/university/aptitudeTests/testDetails/AptitudeTestStatistics'),
-)
+const Uni_Registration = React.lazy(() => 
+  import('./views/university/UniRegistration'))
+const Uni_Dashboard = React.lazy(() => 
+  import('./views/university/dashboard/Dashboard'))
+const Uni_Courses_MyCourses = React.lazy(() => 
+  import('./views/university/courses/MyCourses'))
+const Uni_Courses_CourseDetails_Statistics = React.lazy(() => 
+  import('./views/university/courses/CourseStatistics'))
+const Uni_Courses_CourseDetails_AppliedStudents = React.lazy(() => 
+  import('./views/university/courses/MyCoursesAppliedStudents'))
+const Uni_AptitudeTests_MyTests = React.lazy(() =>  
+  import('./views/university/aptitudeTests/MyTests'))
+const Uni_AptitudeTests_AppliedStudents = React.lazy(() =>  
+  import('./views/university/aptitudeTests/MyTestsAppliedStudents'))
+const Uni_AptitudeTests_TestDetails_Progress = React.lazy(() => 
+  import('./views/university/aptitudeTests/AptitudeTestProgress'))
+const Uni_AptitudeTests_TestDetails_Results = React.lazy(() => 
+  import('./views/university/aptitudeTests/AptitudeTestResults'))
 
 // User views
 
@@ -206,13 +212,30 @@ const routes = [
   },
 
   // University routes 
-  { path: '/university/registration', name: 'Registration', element: Uni_Registration },
-  { path: '/university/dashboard', name: 'Dashboard', element: Uni_Dashboard },
-  { path: '/university/courses/my', name: 'Courses', element: Uni_Courses_MyCourses },
+  { 
+    path: '/university/registration', 
+    name: 'Registration', 
+    element: Uni_Registration 
+  },
+  { 
+    path: '/university/dashboard', 
+    name: 'Dashboard', 
+    element: Uni_Dashboard 
+  },
+  { 
+    path: '/university/courses/my', 
+    name: 'Courses', 
+    element: Uni_Courses_MyCourses 
+  },
   {
     path: '/university/courses/statistics',
     name: 'Courses Details',
     element: Uni_Courses_CourseDetails_Statistics,
+  },
+  {
+    path: '/university/courses/appliedstudents',
+    name: 'Courses Applied Students',
+    element: Uni_Courses_CourseDetails_AppliedStudents,
   },
   {
     path: '/university/aptitudetests/my',
@@ -220,9 +243,19 @@ const routes = [
     element: Uni_AptitudeTests_MyTests,
   },
   {
+    path: '/university/aptitudetests/appliedstudents',
+    name: 'Tests Applied Students',
+    element: Uni_AptitudeTests_AppliedStudents,
+  },
+  {
     path: '/university/aptitudetests/progress',
     name: 'Aptitude Tests',
     element: Uni_AptitudeTests_TestDetails_Progress,
+  },
+  {
+    path: '/university/aptitudetests/results',
+    name: 'Aptitude Tests',
+    element: Uni_AptitudeTests_TestDetails_Results,
   },
 
   // User routes

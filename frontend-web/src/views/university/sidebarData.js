@@ -42,6 +42,11 @@ const _nav = [
         name: 'Statistics',
         to: '/university/courses/statistics',
       },
+      {
+        component: CNavItem,
+        name: 'Applied Students',
+        to: '/university/courses/appliedstudents',
+      },
     ],
   },
   {
@@ -62,8 +67,18 @@ const _nav = [
     items: [
       {
         component: CNavItem,
+        name: 'Applied Students',
+        to: '/university/aptitudetests/appliedstudents',
+      },
+      {
+        component: CNavItem,
         name: 'Progress',
         to: '/university/aptitudetests/progress',
+      },
+      {
+        component: CNavItem,
+        name: 'Test Results',
+        to: '/university/aptitudetests/results',
       },
     ],
   },
