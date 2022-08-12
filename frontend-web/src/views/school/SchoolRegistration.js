@@ -224,7 +224,11 @@ const SchoolRegistration = () => {
     if (!v_required(schoolDetailsForm.phone)) {
       phoneError = 'Phone Number cannot be empty.'
     } else if (!otpState.isEnteredOtpValid) {
-      phoneError = 'Phone number should be validated using OTP.'
+      if (process.env.REACT_APP_ENABLE_OTP_VALIDATION === 'true') {
+        phoneError = 'Phone number should be validated using OTP.'
+      } else {
+        console.log('Phone OTP validation disabled')
+      }
     }
 
     // If errors exist, show errors
@@ -605,7 +609,11 @@ const SchoolRegistration = () => {
     } else if (!v_email(schoolLoginDetailsForm.email)) {
       emailError = 'Email is not valid.'
     } else if (!codeState.isEnteredCodeValid) {
-      emailError = 'Email should be validated using Code.'
+      if (process.env.REACT_APP_ENABLE_CODE_VALIDATION === 'true') {
+        emailError = 'Email should be validated using Code.'
+      } else {
+        console.log('Email Code validation disabled')
+      }
     }
 
     if (!v_required(schoolLoginDetailsForm.password)) {
@@ -909,7 +917,7 @@ const SchoolRegistration = () => {
 
       schoolService.schoolRegister(completeData).then(
         () => {
-          navigate('/')
+          navigate('/login')
           // console.log(authService.getCurrentUser())
           console.log('Registered successfully')
         },
@@ -1032,24 +1040,24 @@ const SchoolRegistration = () => {
 
   return (
     // <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
-      <CContainer>
-        <CRow className="justify-content-center">
-          <CCol md={10}>
-            <CCard className="mx-4">
-              <CCardBody className="p-5">
-                <CForm onSubmit={handleSubmitSchool}>
-                  <h1 className="text-center">School Signup</h1>
+    <CContainer>
+      <CRow className="justify-content-center">
+        <CCol md={10}>
+          <CCard className="mx-4">
+            <CCardBody className="p-5">
+              <CForm onSubmit={handleSubmitSchool}>
+                <h1 className="text-center">School Signup</h1>
 
-                  {/* Sections */}
-                  {sectionIndex === 0 && schoolDetailsSection()}
-                  {sectionIndex === 1 && loginDetailsSection()}
-                  {sectionIndex === 2 && termsAndConditionsSection()}
-                </CForm>
-              </CCardBody>
-            </CCard>
-          </CCol>
-        </CRow>
-      </CContainer>
+                {/* Sections */}
+                {sectionIndex === 0 && schoolDetailsSection()}
+                {sectionIndex === 1 && loginDetailsSection()}
+                {sectionIndex === 2 && termsAndConditionsSection()}
+              </CForm>
+            </CCardBody>
+          </CCard>
+        </CCol>
+      </CRow>
+    </CContainer>
     // </div>
   )
 }

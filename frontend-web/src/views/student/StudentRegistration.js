@@ -552,7 +552,11 @@ const StudentRegistration = () => {
     if (!v_required(stuDetailsForm.phone)) {
       phoneError = 'Phone can not be empty.'
     } else if (!otpState.isEnteredOtpValid) {
-      phoneError = 'Phone number should be validated using OTP.'
+      if (process.env.REACT_APP_ENABLE_OTP_VALIDATION === 'true') {
+        phoneError = 'Phone number should be validated using OTP.'
+      } else {
+        console.log('Phone OTP validation disabled')
+      }
     }
 
     // If errors exist, show errors
@@ -1014,7 +1018,11 @@ const StudentRegistration = () => {
     } else if (!v_email(stuLoginDetailsForm.email)) {
       emailError = 'Email is not valid.'
     } else if (!codeState.isEnteredCodeValid) {
-      emailError = 'Email should be validated using Code.'
+      if (process.env.REACT_APP_ENABLE_CODE_VALIDATION === 'true') {
+        emailError = 'Email should be validated using Code.'
+      } else {
+        console.log('Email Code validation disabled')
+      }
     }
 
     if (!v_required(stuLoginDetailsForm.password)) {
@@ -1326,7 +1334,7 @@ const StudentRegistration = () => {
 
       studentService.studentRegister(completeData).then(
         () => {
-          navigate('/')
+          navigate('/login')
           // console.log(authService.getCurrentUser())
           console.log('Registered successfully')
         },
@@ -1458,24 +1466,24 @@ const StudentRegistration = () => {
 
   return (
     // <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
-      <CContainer>
-        <CRow className="justify-content-center">
-          <CCol md={11}>
-            <CCard className="mx-4">
-              <CCardBody className="p-4">
-                <CForm onSubmit={handleSubmit}>
-                  <h1 className="text-center">Student Signup</h1>
-                  {/* Sections */}
-                  {sectionIndex === 0 && nicAndExamDetailsSection()}
-                  {sectionIndex === 1 && studentDetailsSection()}
-                  {sectionIndex === 2 && loginDetailsSection()}
-                  {sectionIndex === 3 && termsAndConditionsSection()}
-                </CForm>
-              </CCardBody>
-            </CCard>
-          </CCol>
-        </CRow>
-      </CContainer>
+    <CContainer>
+      <CRow className="justify-content-center">
+        <CCol md={11}>
+          <CCard className="mx-4">
+            <CCardBody className="p-4">
+              <CForm onSubmit={handleSubmit}>
+                <h1 className="text-center">Student Signup</h1>
+                {/* Sections */}
+                {sectionIndex === 0 && nicAndExamDetailsSection()}
+                {sectionIndex === 1 && studentDetailsSection()}
+                {sectionIndex === 2 && loginDetailsSection()}
+                {sectionIndex === 3 && termsAndConditionsSection()}
+              </CForm>
+            </CCardBody>
+          </CCard>
+        </CCol>
+      </CRow>
+    </CContainer>
     // </div>
   )
 }

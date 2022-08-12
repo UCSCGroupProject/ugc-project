@@ -266,7 +266,11 @@ const UniRegistration = () => {
     if (!v_required(uniDetailsForm.phone)) {
       phoneError = 'Phone Number cannot be empty.'
     } else if (!otpState.isEnteredOtpValid) {
-      phoneError = 'Phone number should be validated using OTP.'
+      if (process.env.REACT_APP_ENABLE_OTP_VALIDATION === 'true') {
+        phoneError = 'Phone number should be validated using OTP.'
+      } else {
+        console.log('Phone OTP validation disabled')
+      }
     }
 
     // If errors exist, show errors
@@ -935,7 +939,11 @@ const UniRegistration = () => {
     } else if (!v_email(uniLoginDetailsForm.email)) {
       emailError = 'Email is not valid.'
     } else if (!codeState.isEnteredCodeValid) {
-      emailError = 'Email should be validated using Code.'
+      if (process.env.REACT_APP_ENABLE_CODE_VALIDATION === 'true') {
+        emailError = 'Email should be validated using Code.'
+      } else {
+        console.log('Email Code validation disabled')
+      }
     }
 
     if (!v_required(uniLoginDetailsForm.password)) {
@@ -1242,9 +1250,9 @@ const UniRegistration = () => {
         password: uniLoginDetailsForm.password,
       }
 
-      uniService.uniRegister(completeData).then(
+      uniService.universityRegister(completeData).then(
         () => {
-          navigate('/')
+          navigate('/login')
           // console.log(authService.getCurrentUser())
           console.log('Registered successfully')
         },
@@ -1367,25 +1375,25 @@ const UniRegistration = () => {
 
   return (
     // <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
-      <CContainer>
-        <CRow className="justify-content-center">
-          <CCol md={10}>
-            <CCard className="mx-4">
-              <CCardBody className="p-5">
-                <CForm onSubmit={handleSubmitStaff}>
-                  <h1 className="text-center">Government University Signup</h1>
+    <CContainer>
+      <CRow className="justify-content-center">
+        <CCol md={10}>
+          <CCard className="mx-4">
+            <CCardBody className="p-5">
+              <CForm onSubmit={handleSubmitStaff}>
+                <h1 className="text-center">Government University Signup</h1>
 
-                  {/* Sections */}
-                  {sectionIndex === 0 && uniDetailsSection()}
-                  {/* {sectionIndex === 1 && uniOtherDetailsSection()} */}
-                  {sectionIndex === 1 && loginDetailsSection()}
-                  {sectionIndex === 2 && termsAndConditionsSection()}
-                </CForm>
-              </CCardBody>
-            </CCard>
-          </CCol>
-        </CRow>
-      </CContainer>
+                {/* Sections */}
+                {sectionIndex === 0 && uniDetailsSection()}
+                {/* {sectionIndex === 1 && uniOtherDetailsSection()} */}
+                {sectionIndex === 1 && loginDetailsSection()}
+                {sectionIndex === 2 && termsAndConditionsSection()}
+              </CForm>
+            </CCardBody>
+          </CCard>
+        </CCol>
+      </CRow>
+    </CContainer>
     // </div>
   )
 }

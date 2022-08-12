@@ -87,8 +87,21 @@ const Login = () => {
 
       authService.login(loginForm.email, loginForm.password).then(
         () => {
-          navigate('/')
-          console.log(authService.getCurrentUser())
+          const user = authService.getCurrentUser()
+          console.log(user)
+
+          if (user.type === 'student') {
+            navigate('/student')
+          } else if (user.type === 'university') {
+            navigate('/university')
+          } else if (user.type === 'staff') {
+            navigate('/staff')
+          } else if (user.type === 'school') {
+            navigate('/school')
+          } else {
+            console.log('Undefine user login redirection')
+            navigate('/home')
+          }
         },
         (error) => {
           const res =
@@ -163,10 +176,7 @@ const Login = () => {
 
                   <div className="d-grid">
                     <CButton color="success" size="md" type="submit" className="py-2">
-                      <div className="text-white">
-                        {loading && <CSpinner size="sm" />}
-                        Login
-                      </div>
+                      <div className="text-white">Login {loading && <CSpinner size="sm" />}</div>
                     </CButton>
                   </div>
 

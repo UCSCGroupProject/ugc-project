@@ -431,7 +431,11 @@ const StaffRegistration = () => {
     if (!v_required(staffPersonalDetailsForm.phone)) {
       phoneError = 'Phone number cannot be empty.'
     } else if (!otpState.isEnteredOtpValid) {
-      phoneError = 'Phone number should be validated using OTP.'
+      if (process.env.REACT_APP_ENABLE_OTP_VALIDATION === "true") {
+        phoneError = 'Phone number should be validated using OTP.'
+      } else {
+        console.log('Phone OTP validation disabled')
+      }
     }
 
     if (!v_required(staffPersonalDetailsForm.homeNumber)) {
@@ -860,7 +864,11 @@ const StaffRegistration = () => {
     } else if (!v_email(staffLoginDetailsForm.email)) {
       emailError = 'Email is not valid.'
     } else if (!codeState.isEnteredCodeValid) {
-      emailError = 'Email should be validated using code.'
+      if (process.env.REACT_APP_ENABLE_CODE_VALIDATION === 'true') {
+        emailError = 'Email should be validated using Code.'
+      } else {
+        console.log('Email Code validation disabled')
+      }
     }
 
     if (!v_required(staffLoginDetailsForm.password)) {
@@ -1151,7 +1159,7 @@ const StaffRegistration = () => {
 
       staffService.staffRegister(completeData).then(
         () => {
-          navigate('/')
+          navigate('/login')
           // console.log(authService.getCurrentUser())
           console.log('Registered successfully')
         },

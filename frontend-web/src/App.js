@@ -13,7 +13,7 @@ const UGCLayout = React.lazy(() => import('./layout/UGCLayout'))
 const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))
 
 // Pages
-const Home = React.lazy(() => import('./views/user/Home'))
+const Home = React.lazy(() => import('./views/user/home/Home'))
 const About = React.lazy(() => import('./views/user/About'))
 const Login = React.lazy(() => import('./views/user/Login'))
 const ForgotPassword = React.lazy(() => import('./views/user/ForgotPassword'))
