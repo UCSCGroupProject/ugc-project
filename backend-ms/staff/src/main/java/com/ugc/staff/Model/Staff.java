@@ -59,18 +59,24 @@ public class Staff {
             inverseJoinColumns = @JoinColumn(name = "office_dept_id"))
     private Set<OfficeDept> officeDept = new HashSet<>();;
 
+    // For the foreign key referenced from PersonDetails
+    @OneToOne(mappedBy = "staff")
+    private PersonalDetails personalDetails;
 
-//    @NotBlank
-//    @Size(max = 120)
-//    private E_OfficeDept officeDept;
 
-    public Staff(String username, String email, String password, Set<Role> role, Set<OfficeDept> officeDept) {
+
+//    public Staff(String username, String email, String password, Set<Role> role, Set<OfficeDept> officeDept) {
+//        this.username = username;
+//        this.email = email;
+//        this.password = password;
+//        this.role = role;
+//        this.officeDept = officeDept;
+//    }
+
+    // I Added
+    public Staff(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.role = role;
-        this.officeDept = officeDept;
     }
-
-
 }

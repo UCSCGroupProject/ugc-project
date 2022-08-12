@@ -94,7 +94,7 @@ public class StudentService {
         );
     }
 
-    public String studentRegister(StudentRegisterRequest studentRegisterRequest){
+    public String register(StudentRegisterRequest studentRegisterRequest){
         Student student = new Student(
                 studentRegisterRequest.getUsername(),
                 studentRegisterRequest.getEmail(),

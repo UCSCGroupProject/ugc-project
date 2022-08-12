@@ -65,7 +65,7 @@ class AuthService {
       console.log('university login')
       API_URL = 'http://localhost:8082/api/university'
     } else if (isStaff) {
-      console.log('university login')
+      console.log('staff login')
       API_URL = 'http://localhost:8083/api/staff'
     } else if (isSchool) {
       console.log('university login')

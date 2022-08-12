@@ -1,0 +1,65 @@
+### Login registered staff
+POST http://localhost:8083/api/staff/login
+Content-Type: application/json
+
+{
+  "email": "dhanmgmail.com",
+  "password": "test123"
+}
+
+
+### Staff registration - Section 1 Form check
+POST http://localhost:8083/api/staff/roleDetailsFormCheck
+Content-Type: application/json
+
+{
+  "officeDept": "default",
+  "role": "staff"
+}
+
+### Staff registration - Section 2 Form check
+POST http://localhost:8083/api/staff/personalDetailsFormCheck
+Content-Type: application/json
+
+{
+  "title": "Mr",
+  "nameWithInitials": "DHANSUHAK",
+  "fullName": "Dhanushka sandakelumm",
+  "dob": "2022-07-15",
+  "address": "Kaluaggla",
+  "phoneNumber": "0775642956",
+  "homeNumber": "0775642956",
+  "gender": "male"
+}
+
+### Staff registration - Section 3 Form check
+POST http://localhost:8083/api/staff/loginDetailsFormCheck
+Content-Type: application/json
+
+{
+  "email": "dhanmgmail.com",
+  "password": "test123"
+}
+
+### Staff registration - Entire registration form submittion
+POST http://localhost:8083/api/staff/register
+Content-Type: application/json
+
+{
+  "officeDept": "default",
+  "role": "staff",
+
+  "title": "Mr",
+  "nameWithInitials": "DHANSUHAK",
+  "fullName": "Dhanushka sandakelumm",
+  "dob": "2022-07-15",
+  "address": "Kaluaggla",
+  "phoneNumber": "0775642956",
+  "homeNumber": "0775642956",
+  "gender": "male",
+
+  "username": "dhanm",
+  "email": "dhanmgmail.com",
+  "password": "test123"
+
+}

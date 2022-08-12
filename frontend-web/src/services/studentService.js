@@ -25,7 +25,7 @@ class StudentService {
   }
 
   studentRegister(completeData) {
-    return axios.post(API_URL + '/studentRegister', completeData).then((response) => {
+    return axios.post(API_URL + '/register', completeData).then((response) => {
       console.log(response.data)
       return response.data
     })

@@ -87,7 +87,7 @@ public class SchoolService {
         );
     }
 
-    public String schoolRegister(SchoolRegisterRequest schoolRegisterRequest){
+    public String register(SchoolRegisterRequest schoolRegisterRequest){
         School school = new School(
                 schoolRegisterRequest.getUsername(),
                 schoolRegisterRequest.getEmail(),

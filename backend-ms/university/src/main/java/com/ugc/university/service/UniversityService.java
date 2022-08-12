@@ -341,7 +341,7 @@ public class UniversityService {
         );
     }
 
-    public String universityRegister(UniversityRegisterRequest universityRegisterRequest){
+    public String register(UniversityRegisterRequest universityRegisterRequest){
         University university = new University(
                 universityRegisterRequest.getUsername(),
                 universityRegisterRequest.getEmail(),

@@ -15,7 +15,7 @@ import java.util.Date;
 public class PersonalDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long staffId;
+    private Long id;
 
     private String title;
 
@@ -33,7 +33,12 @@ public class PersonalDetails {
 
     private String gender;
 
-    public PersonalDetails(String title, String nameWithInitials, String fullName, Date dob, String address, String phoneNumber, String homeNumber, String gender) {
+    // Foreign key from Staff - Refer id column of the Staff table as staff_id
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "staff_id", referencedColumnName = "id")
+    private Staff staff;
+
+    public PersonalDetails(String title, String nameWithInitials, String fullName, Date dob, String address, String phoneNumber, String homeNumber, String gender, Staff staff) {
         this.title = title;
         this.nameWithInitials = nameWithInitials;
         this.fullName = fullName;
@@ -42,5 +47,7 @@ public class PersonalDetails {
         this.phoneNumber = phoneNumber;
         this.homeNumber = homeNumber;
         this.gender = gender;
+        this.staff = staff;
+        this.staff.setPersonalDetails(this);
     }
 }

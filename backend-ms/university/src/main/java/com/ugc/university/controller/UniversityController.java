@@ -78,9 +78,9 @@ public class UniversityController {
         return ResponseEntity.ok(new MessageResponse("Section 3 validation passed"));
     }
 
-    @PostMapping("/universityRegister")
-    public ResponseEntity<?> universityRegister(@Valid @RequestBody UniversityRegisterRequest universityRegisterRequest) {
-        String result = universityService.universityRegister(universityRegisterRequest);
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@Valid @RequestBody UniversityRegisterRequest universityRegisterRequest) {
+        String result = universityService.register(universityRegisterRequest);
 
         return ResponseEntity.ok(new MessageResponse(result));
     }

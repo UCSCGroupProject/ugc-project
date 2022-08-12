@@ -20,7 +20,7 @@ class UniService {
   }
 
   universityRegister(completeData) {
-    return axios.post(API_URL + '/universityRegister', completeData).then((response) => {
+    return axios.post(API_URL + '/register', completeData).then((response) => {
       console.log(response.data)
       return response.data
     })

@@ -77,9 +77,9 @@ public class SchoolController {
         return ResponseEntity.ok(new MessageResponse("Section 3 validation passed"));
     }
 
-    @PostMapping("/schoolRegister")
-    public ResponseEntity<?> schoolRegister(@Valid @RequestBody SchoolRegisterRequest schoolRegisterRequest) {
-        String result = schoolService.schoolRegister(schoolRegisterRequest);
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@Valid @RequestBody SchoolRegisterRequest schoolRegisterRequest) {
+        String result = schoolService.register(schoolRegisterRequest);
 
         return ResponseEntity.ok(new MessageResponse(result));
     }

@@ -20,7 +20,7 @@ class SchoolService {
   }
 
   schoolRegister(completeData) {
-    return axios.post(API_URL + '/schoolRegister', completeData).then((response) => {
+    return axios.post(API_URL + '/register', completeData).then((response) => {
       console.log(response.data)
       return response.data
     })

@@ -30,6 +30,7 @@ class App extends Component {
       <Router>
         <Suspense fallback={loading}>
           <Routes>
+            <Route path="/" name="Home" element={<DefaultLayout page={<Home />} />} />
             <Route path="/home" name="Home" element={<DefaultLayout page={<Home />} />} />
             <Route path="/about" name="About" element={<DefaultLayout page={<About />} />} />
             <Route path="/login" name="Login" element={<DefaultLayout page={<Login />} />} />

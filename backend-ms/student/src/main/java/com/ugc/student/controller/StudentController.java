@@ -90,9 +90,9 @@ public class StudentController {
         return ResponseEntity.ok(new MessageResponse("Section 3 validation passed"));
     }
 
-    @PostMapping("/studentRegister")
-    public ResponseEntity<?> studentRegister(@Valid @RequestBody StudentRegisterRequest studentRegisterRequest) {
-        String result = studentService.studentRegister(studentRegisterRequest);
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@Valid @RequestBody StudentRegisterRequest studentRegisterRequest) {
+        String result = studentService.register(studentRegisterRequest);
 
         return ResponseEntity.ok(new MessageResponse(result));
     }

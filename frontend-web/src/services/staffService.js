@@ -4,7 +4,7 @@ const API_URL = 'http://localhost:8083/api/staff'
 
 class StaffService {
   staffRoleDetailsFormCheck(staffRoleDetailsForm) {
-    return axios.post(API_URL + '/RoleDetailsFormCheck', staffRoleDetailsForm).then((response) => {
+    return axios.post(API_URL + '/roleDetailsFormCheck', staffRoleDetailsForm).then((response) => {
       console.log(response.data)
       return response.data
     })
@@ -12,7 +12,7 @@ class StaffService {
 
   staffPersonalDetailsFormCheck(staffPersonalDetailsForm) {
     return axios
-      .post(API_URL + '/PersonalDetailsFormCheck', staffPersonalDetailsForm)
+      .post(API_URL + '/personalDetailsFormCheck', staffPersonalDetailsForm)
       .then((response) => {
         console.log(response.data)
         return response.data
@@ -21,7 +21,7 @@ class StaffService {
 
   staffLoginDetailsFormCheck(staffLoginDetailsForm) {
     return axios
-      .post(API_URL + '/LoginDetailsFormCheck', staffLoginDetailsForm)
+      .post(API_URL + '/loginDetailsFormCheck', staffLoginDetailsForm)
       .then((response) => {
         console.log(response.data)
         return response.data
