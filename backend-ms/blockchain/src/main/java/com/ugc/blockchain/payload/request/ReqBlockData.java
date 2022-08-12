@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.security.PrivateKey;
 import java.util.List;
 
 @Data
@@ -15,5 +16,5 @@ public class ReqBlockData {
     private String creatorName;
     private String creatorAddress;
     private String creatorPublicKey;
-    private String creatorSignature;
+    private String creatorPrivateKey;
 }

@@ -14,8 +14,10 @@ import com.ugc.blockchain.repository.BlockChainRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -26,6 +28,8 @@ public class BlockChainService {
     BlockChain blockChain = new BlockChain();
     Miner miner = new Miner();
     List<Transaction> transactions = new ArrayList<>();
+
+    public void clearBlockchain() {blockChainRepository.deleteAll();}
 
     public void addGenesisBlockToBlockChain(){
         List<Transaction> transactions = new ArrayList<>();
@@ -38,7 +42,7 @@ public class BlockChainService {
         System.out.println(lender.getPublicKey());
         System.out.println(lender.getPrivateKey());
 
-        Block block0 = new Block(0,
+        Block block0 = new Block(1,
                                 transactions,
                                 "UGC",
                                 "UGC",
@@ -52,20 +56,36 @@ public class BlockChainService {
     }
 
     public void addBlockToBlockChain(ReqBlockData reqBlockData){
-        Wallet userA = new Wallet();
-
         Block block = new Block(
-                2,
+                blockChain.size()+1,
                 reqBlockData.getTransactions(),
                 reqBlockData.getCreatorName(),
                 reqBlockData.getCreatorAddress(),
-                userA.getPublicKeyAsString(),
+                reqBlockData.getCreatorPublicKey(),
                 blockChain.getBlockChain().get(blockChain.size() - 1).getHash());
 
-        Block b = miner.mine(block, blockChain, userA.getPrivateKey());
+        // Convert String to private key
+        PrivateKey privateKey = ECDSAHelper.generatePrivateKeyFromString(reqBlockData.getCreatorPrivateKey());
+
+        Block b = miner.mine(block, blockChain, privateKey); // Currently, this service itself mine the block
 
         // Save on the public ledger (MongoDB)
         saveBlockOnBlockChain(b);
+
+//        Wallet userA = new Wallet();
+//
+//        Block block = new Block(
+//                2,
+//                reqBlockData.getTransactions(),
+//                reqBlockData.getCreatorName(),
+//                reqBlockData.getCreatorAddress(),
+//                userA.getPublicKeyAsString(),
+//                blockChain.getBlockChain().get(blockChain.size() - 1).getHash());
+//
+//        Block b = miner.mine(block, blockChain, userA.getPrivateKey());
+//
+//        // Save on the public ledger (MongoDB)
+//        saveBlockOnBlockChain(b);
     }
 
     public BlockChain getBlockChain(){
@@ -129,7 +149,12 @@ public class BlockChainService {
     // I added
     public ResKeyPair generateKeyPair() {
         Wallet user = new Wallet();
+        ResKeyPair resKeyPair = new ResKeyPair(user.getPrivateKeyAsString(), user.getPublicKeyAsString());
 
-        return user.getKeypairAsString();
+        System.out.println("GENERATED KEYS");
+        System.out.println("Public: " + resKeyPair.getPublicKey());
+        System.out.println("Private: " + resKeyPair.getPrivateKey());
+
+        return resKeyPair;
     }
 }

@@ -6,6 +6,7 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import java.security.*;
 import java.security.spec.ECGenParameterSpec;
 import java.security.spec.EncodedKeySpec;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
@@ -60,6 +61,25 @@ public class ECDSAHelper {
 
             return ecdsaVerify.verify(Base64.getDecoder().decode(signature));
         } catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    // I Added
+    // IDEA (Source:- https://stackoverflow.com/questions/27682618/1convert-the-ecdsa-private-public-key-2verification-by-ecdsa)
+    // IF String Private key THEN use PKCS --> To generate original Elliptic curve Private key
+    // IF String Public key THEN use X.509 --> To generate original Elliptic curve Public key
+    // KeyFactor is used for Retrieve those original keys.
+    public static PrivateKey generatePrivateKeyFromString(String stringPrivateKey){
+        try {
+            KeyFactory keyFactory = KeyFactory.getInstance("ECDSA", "BC");
+
+            PKCS8EncodedKeySpec privateKeySpec = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(stringPrivateKey));
+
+            PrivateKey priKey = keyFactory.generatePrivate(privateKeySpec);
+
+            return priKey;
+        }catch (Exception e){
             throw new RuntimeException(e);
         }
     }

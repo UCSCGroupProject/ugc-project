@@ -1,7 +1,6 @@
 package com.ugc.blockchain.crypto.wallet;
 
 import com.ugc.blockchain.crypto.signing.ECDSAHelper;
-import com.ugc.blockchain.payload.response.ResKeyPair;
 import lombok.Data;
 
 import java.security.KeyPair;
@@ -27,12 +26,10 @@ public class Wallet {
         return pub;
     }
 
-    // I added later to send School service
-    public ResKeyPair getKeypairAsString() {
-        ResKeyPair resKeyPair = new ResKeyPair();
-        resKeyPair.setPrivateKey(Base64.getEncoder().encodeToString(this.privateKey.getEncoded()));
-        resKeyPair.setPublicKey(Base64.getEncoder().encodeToString(this.publicKey.getEncoded()));
+    // I added
+    public String getPrivateKeyAsString(){
+        String pub = Base64.getEncoder().encodeToString(this.privateKey.getEncoded());
 
-        return resKeyPair;
+        return pub;
     }
 }

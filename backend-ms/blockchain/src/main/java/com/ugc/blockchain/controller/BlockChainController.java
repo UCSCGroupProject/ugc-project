@@ -21,17 +21,12 @@ public class BlockChainController {
     @Autowired
     BlockChainService blockChainService;
 
-    // Default functions to run initially
-//    @Bean
-//    CommandLineRunner runner(){
-//        return  args -> {
-//            blockChainService.addGenesisBlockToBlockChain();
-//        };
-//    }
 
     @PostMapping("/addblock")
-    public void addBlockToBlockChain(@RequestBody ReqBlockData reqBlockData){
+    public String addBlockToBlockChain(@RequestBody ReqBlockData reqBlockData){
         blockChainService.addBlockToBlockChain(reqBlockData);
+
+        return "Block added successfully";
     }
 
     @GetMapping("/getblockchain")

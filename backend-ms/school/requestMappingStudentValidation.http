@@ -1,0 +1,29 @@
+### Sending a validated list to the blockchain to be published
+### Body contains student list and the School username
+### Then it searches username on DB and find school's public key and private key.
+### Then create a block object and sends to the blockchain service
+POST http://localhost:8084/api/school/student/validateAndPublishStudentList
+Content-Type: application/json
+
+{
+  "transactions": [
+    {
+      "transactionId": "1",
+      "index": "1236547",
+      "fullName": "L.A.D.D.S. GUNAWARDHANA",
+      "nic": "199931712165",
+      "dateOfAdmission": "2011-10-03",
+      "dateOfLeave": "2015-3-06"
+    },
+    {
+      "transactionId": "2",
+      "index": "9875462",
+      "fullName": "D.C. PATHIRAGE",
+      "nic": "200016548965315",
+      "dateOfAdmission": "2012-10-08",
+      "dateOfLeave": "2015-8-16"
+    }
+  ],
+  "creatorName": "HRCC"
+}
+
