@@ -48,7 +48,7 @@ Content-Type: application/json
 }
 
 ### Student registration - Entire registration form submittion
-POST http://localhost:8081/api/student/studentRegister
+POST http://localhost:8081/api/student/register
 Content-Type: application/json
 
 {

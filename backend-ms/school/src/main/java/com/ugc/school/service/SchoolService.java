@@ -1,13 +1,16 @@
 package com.ugc.school.service;
 
+import com.ugc.school.model.Keypair;
 import com.ugc.school.model.Role;
 import com.ugc.school.model.School;
 import com.ugc.school.model.SchoolDetails;
 import com.ugc.school.model.enums.E_Role;
 import com.ugc.school.payload.request.LoginRequest;
 import com.ugc.school.payload.request.PasswordResetRequest;
+import com.ugc.school.payload.request.schoolRegistration.ReqKeyPair;
 import com.ugc.school.payload.request.schoolRegistration.SchoolRegisterRequest;
 import com.ugc.school.payload.response.JwtResponse;
+import com.ugc.school.repository.KeypairRepository;
 import com.ugc.school.repository.RoleRepository;
 import com.ugc.school.repository.SchoolDetailsRepository;
 import com.ugc.school.repository.SchoolRepository;
@@ -37,6 +40,8 @@ public class SchoolService {
     SchoolDetailsRepository schoolDetailsRepository;
     @Autowired
     SchoolRepository schoolRepository;
+    @Autowired
+    KeypairRepository keypairRepository;
 
     // Utility Services
     @Autowired
@@ -87,7 +92,7 @@ public class SchoolService {
         );
     }
 
-    public String register(SchoolRegisterRequest schoolRegisterRequest){
+    public String register(SchoolRegisterRequest schoolRegisterRequest, ReqKeyPair reqKeyPair){
         School school = new School(
                 schoolRegisterRequest.getUsername(),
                 schoolRegisterRequest.getEmail(),
@@ -132,6 +137,14 @@ public class SchoolService {
                 school
         );
         schoolDetailsRepository.save(schoolDetails);
+
+        // Save key pair
+        Keypair keypair = new Keypair(
+                reqKeyPair.getPrivateKey(),
+                reqKeyPair.getPublicKey(),
+                school
+        );
+        keypairRepository.save(keypair);
 
         return "Registered!";
     }

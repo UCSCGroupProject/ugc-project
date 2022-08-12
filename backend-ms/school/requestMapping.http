@@ -27,8 +27,8 @@ Content-Type: application/json
   "password": "hrcc@SCH123456"
 }
 
-### Student registration - Entire registration form submittion
-POST http://localhost:8084/api/school/schoolRegister
+### School registration - Entire registration form submittion
+POST http://localhost:8084/api/school/register
 Content-Type: application/json
 
 {

@@ -7,7 +7,7 @@ import {
   CImage,
 } from '@coreui/react'
 
-import temp1 from '../../../../assets/images/pages/user/home/carousel/temp2.jpg'
+import temp1 from '../../../../assets/images/pages/user/home/carousel/temp1.jpg'
 import temp2 from '../../../../assets/images/pages/user/home/carousel/temp2.jpg'
 import temp3 from '../../../../assets/images/pages/user/home/carousel/temp3.jpg'
 

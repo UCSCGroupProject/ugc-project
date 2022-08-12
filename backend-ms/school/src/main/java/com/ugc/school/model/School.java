@@ -51,6 +51,10 @@ public class School {
     @OneToOne(mappedBy = "school")
     private SchoolDetails schoolDetails;
 
+    // For the foreign key referenced from StudentDetails
+    @OneToOne(mappedBy = "school")
+    private Keypair keypair;
+
     // Constructor
     public School(String username, String email, String password) {
         this.username = username;

@@ -40,3 +40,8 @@ Content-Type: application/json
     "blockId": 2,
     "publicKey": "MEYwEAYHKoZIzj0CAQYFK4EEAB8DMgAE7El7OLvk+tDdy8DaQatpWAPu3oGLHAaI9uM+ul4VvBC7wmfKfKM5TRjVi4HObhLH"
 }
+
+### Generate a keypair
+GET http://localhost:5/blockchain/generateKeypair
+Content-Type: application/json
+

@@ -3,6 +3,7 @@ package com.ugc.school.controller;
 import com.ugc.school.payload.request.LoginRequest;
 import com.ugc.school.payload.request.PasswordResetRequest;
 import com.ugc.school.payload.request.schoolRegistration.LoginDetailsRequest;
+import com.ugc.school.payload.request.schoolRegistration.ReqKeyPair;
 import com.ugc.school.payload.request.schoolRegistration.SchoolDetailsRequest;
 import com.ugc.school.payload.request.schoolRegistration.SchoolRegisterRequest;
 import com.ugc.school.payload.response.MessageResponse;
@@ -12,6 +13,7 @@ import com.ugc.school.service.SchoolService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
 import java.util.Set;
@@ -27,6 +29,9 @@ public class SchoolController {
 
     @Autowired
     SchoolService schoolService;
+
+    @Autowired
+    RestTemplate restTemplate;
 
 
     @GetMapping("/check")
@@ -79,7 +84,10 @@ public class SchoolController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody SchoolRegisterRequest schoolRegisterRequest) {
-        String result = schoolService.register(schoolRegisterRequest);
+        ReqKeyPair keyPair = restTemplate.getForObject("http://localhost:5/blockchain/generateKeypair", ReqKeyPair.class);
+        System.out.println(keyPair.getPublicKey());
+
+        String result = schoolService.register(schoolRegisterRequest, keyPair);
 
         return ResponseEntity.ok(new MessageResponse(result));
     }

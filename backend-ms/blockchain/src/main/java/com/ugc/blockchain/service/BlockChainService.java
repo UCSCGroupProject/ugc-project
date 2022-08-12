@@ -9,6 +9,7 @@ import com.ugc.blockchain.crypto.signing.ECDSAHelper;
 import com.ugc.blockchain.crypto.wallet.Wallet;
 import com.ugc.blockchain.payload.request.ReqBlockData;
 import com.ugc.blockchain.payload.response.ResBlockValidityMessage;
+import com.ugc.blockchain.payload.response.ResKeyPair;
 import com.ugc.blockchain.repository.BlockChainRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -122,5 +123,13 @@ public class BlockChainService {
         newBlock.setTimeStamp(block.getTimeStamp());
 
         blockChainRepository.save(newBlock);
+    }
+
+
+    // I added
+    public ResKeyPair generateKeyPair() {
+        Wallet user = new Wallet();
+
+        return user.getKeypairAsString();
     }
 }

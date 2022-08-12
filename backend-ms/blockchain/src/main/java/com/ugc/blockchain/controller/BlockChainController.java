@@ -4,6 +4,7 @@ import com.ugc.blockchain.crypto.blockchain.BlockChain;
 import com.ugc.blockchain.payload.request.ReqBlockValidity;
 import com.ugc.blockchain.payload.response.ResBlockChain;
 import com.ugc.blockchain.payload.response.ResBlockValidityMessage;
+import com.ugc.blockchain.payload.response.ResKeyPair;
 import com.ugc.blockchain.service.BlockChainService;
 import com.ugc.blockchain.payload.request.ReqBlockData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +22,12 @@ public class BlockChainController {
     BlockChainService blockChainService;
 
     // Default functions to run initially
-    @Bean
-    CommandLineRunner runner(){
-        return  args -> {
-            blockChainService.addGenesisBlockToBlockChain();
-        };
-    }
+//    @Bean
+//    CommandLineRunner runner(){
+//        return  args -> {
+//            blockChainService.addGenesisBlockToBlockChain();
+//        };
+//    }
 
     @PostMapping("/addblock")
     public void addBlockToBlockChain(@RequestBody ReqBlockData reqBlockData){
@@ -48,5 +49,10 @@ public class BlockChainController {
     @GetMapping("/verifyblock")
     public ResBlockValidityMessage verifyBlock(@RequestBody ReqBlockValidity reqBlockValidity){
         return blockChainService.verifyBlock(reqBlockValidity.getBlockId(), reqBlockValidity.getPublicKey());
+    }
+
+    @GetMapping("/generateKeypair")
+    public ResKeyPair generateKeypair() {
+        return blockChainService.generateKeyPair();
     }
 }

@@ -113,6 +113,10 @@ const Uni_AptitudeTests_TestDetails_Results = React.lazy(() =>
   import('./views/university/aptitudeTests/AptitudeTestResults'),
 )
 
+// School views
+const Sch_Dashboard = React.lazy(() => import('./views/school/dashboard/Dashboard'))
+const Sch_Students_ValidateList = React.lazy(() => import('./views/school/students/ValidateStudents'))
+
 // User views
 
 const routes = [
@@ -273,6 +277,11 @@ const routes = [
     name: 'Aptitude Tests',
     element: Uni_AptitudeTests_TestDetails_Results,
   },
+
+  // School Routes
+  { path: '/school', name: 'School', element: Sch_Dashboard },
+  { path: '/school/students', name: 'Students', element: Sch_Students_ValidateList },
+  { path: '/school/students/validate', name: 'Validate List', element: Sch_Students_ValidateList },
 
   // User routes
   { path: '/', exact: true, name: 'Home' },
