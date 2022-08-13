@@ -1,3 +1,6 @@
+### Get student validation list
+GET http://localhost:8084/api/school/student/getStudentValidationList
+
 ### Sending a validated list to the blockchain to be published
 ### Body contains student list and the School username
 ### Then it searches username on DB and find school's public key and private key.
@@ -24,6 +27,6 @@ Content-Type: application/json
       "dateOfLeave": "2015-8-16"
     }
   ],
-  "creatorName": "HRCC"
+  "creatorName": "Dhanushka"
 }
 
