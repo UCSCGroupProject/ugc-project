@@ -1,43 +1,30 @@
 package com.ugc.selections.Entity;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "SelectedStudent")
+@Table(
+        name = "selectedStudents",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "indexNumber")
+        }
+)
+@Getter
+@Setter
+@NoArgsConstructor
 public class SelectedStudent {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
-    private String name;
 
-    public SelectedStudent(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public SelectedStudent(String name) {
-        this.name = name;
-    }
-
-    public SelectedStudent() {
-
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
+    @NotBlank
+    @Size(max = 100)
+    @Column(name = "indexNumber")
+    private String indexNumber;
 }
