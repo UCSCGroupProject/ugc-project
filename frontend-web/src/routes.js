@@ -54,6 +54,21 @@ const Staff_Complaints_View = React.lazy(() => import('./views/staff/complaints/
 
 // Student views
 // Settings
+const Stu_Registration_UniversityAdmission = React.lazy(() =>
+  import('./views/student/registration/UniversityAdmission'),
+)
+const Stu_Registration_UniversityAdmission_Step1 = React.lazy(() =>
+  import('./views/student/registration/Step1Page'),
+)
+const Stu_Registration_UniversityAdmission_Step2 = React.lazy(() =>
+  import('./views/student/registration/Step2Page'),
+)
+const Stu_Registration_UniversityAdmission_Step3 = React.lazy(() =>
+  import('./views/student/registration/Step3Page'),
+)
+const Stu_Registration_UniversityAdmission_Step4 = React.lazy(() =>
+  import('./views/student/registration/Step4Page'),
+)
 const Stu_NICAndExamDetails_Settings = React.lazy(() =>
   import('./views/student/settings/NICAndExamDetails_Settings'),
 )
@@ -186,7 +201,12 @@ const routes = [
   { path: '/student/settings', name: 'Settings', element: Stu_NICAndExamDetails_Settings },
   { path: '/student/settings/nicandexamdetails', name: 'NIC and Exam Details', element: Stu_NICAndExamDetails_Settings },
   { path: '/student/settings/studentdetails', name: 'Student Details', element: Stu_StudentDetails_Settings },
-  { path: '/student/settings/logindetails', name: 'Login Details', element: Stu_LoginDetails_Settings },
+  { path: '/student/settings/logindetails', name: 'Login Details', element: Stu_LoginDetails_Settings },  
+  { path: '/student/registration', name: 'Registration', element: Stu_Registration_UniversityAdmission },
+  { path: '/student/registration/step1', name: 'Step 1', element: Stu_Registration_UniversityAdmission_Step1 },
+  { path: '/student/registration/step2', name: 'Step 2', element: Stu_Registration_UniversityAdmission_Step2 },
+  { path: '/student/registration/step3', name: 'Step 3', element: Stu_Registration_UniversityAdmission_Step3 },
+  { path: '/student/registration/step4', name: 'Step 4', element: Stu_Registration_UniversityAdmission_Step4 },
   { path: '/student/courses', name: 'Courses', element: Stu_Courses_Apply },
   { path: '/student/courses/apply', name: 'Apply', element: Stu_Courses_Apply },
   { path: '/student/courses/my', name: 'My', element: Stu_Courses_CourseDetails_MyCourses },

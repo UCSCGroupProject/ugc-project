@@ -23,6 +23,16 @@ const _nav = [
   // },
   {
     component: CNavTitle,
+    name: 'Registration',
+  },
+  {
+    component: CNavItem,
+    name: 'University Admission',
+    to: '/student/registration',
+    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavTitle,
     name: 'Courses',
   },
   {
