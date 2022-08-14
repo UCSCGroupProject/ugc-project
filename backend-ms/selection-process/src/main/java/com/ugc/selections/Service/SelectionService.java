@@ -1,63 +1,22 @@
 package com.ugc.selections.Service;
 
-import com.ugc.selections.Entity.ATPassedStudent;
-import com.ugc.selections.Entity.SelectedStudent;
-import com.ugc.selections.Repository.ALPassedStudentRepository;
-import com.ugc.selections.Repository.ATPassedStudentRepository;
-import com.ugc.selections.Repository.AppliedStudentRepository;
-import com.ugc.selections.Entity.ALPassedStudent;
-import com.ugc.selections.Entity.AppliedStudent;
-import com.ugc.selections.Repository.SelectedStudentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.ugc.selections.Payload.Request.ALPassedRequest;
+import com.ugc.selections.Payload.Request.ApplicantRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-
+import java.util.stream.Collectors;
 
 @Service
-public class SelectionService{
+public class SelectionService {
+    public List<String> getEligible(ApplicantRequest applicants, ALPassedRequest alResultRequest) {
 
-    private final AppliedStudentRepository appliedStudentRepository;
-    private final ALPassedStudentRepository alPassedStudentRepository;
-    private final SelectedStudentRepository selectedStudentRepository;
-    private final ATPassedStudentRepository atPassedStudentRepository;
+        //Get the intersection of the two lists
+        List<String> eligibleIndexList = applicants.getIndexNumbers()
+                .stream().distinct()
+                .filter(alResultRequest.getIndexNumbers()::contains)
+                .collect(Collectors.toList());
 
-    @Autowired
-    public SelectionService(AppliedStudentRepository appliedStudentRepository, ALPassedStudentRepository alPassedStudentRepository, SelectedStudentRepository selectedStudentRepository, ATPassedStudentRepository atPassedStudentRepository){
-        this.appliedStudentRepository = appliedStudentRepository;
-        this.alPassedStudentRepository = alPassedStudentRepository;
-        this.selectedStudentRepository = selectedStudentRepository;
-        this.atPassedStudentRepository = atPassedStudentRepository;
-
-    }
-
-    public List<AppliedStudent> getAppliedStudents() {
-
-        return appliedStudentRepository.findAll();
-    }
-
-    public List<ALPassedStudent> getALPassedStudents() {
-
-        return alPassedStudentRepository.findAll();
-    }
-
-    public List<SelectedStudent> selectedStudents() {
-
-        return selectedStudentRepository.findAll();
-    }
-
-    public List<ATPassedStudent> getATPassedStudents() {
-
-        return atPassedStudentRepository.findAll();
-    }
-
-    public void selectStudents(List<AppliedStudent> appliedStudents, List<ALPassedStudent> alPassedStudents, List<ATPassedStudent> atPassedStudents) {
-//        Find eligible students for selection process
-//        Must satisfy 3 conditions
-//        1. Must have applied
-//        2. Must have passed AL
-//        3. Must have passed AT for relevant courses
-
+        return eligibleIndexList;
     }
 }
