@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -41,10 +43,7 @@ public class SelectionController  {
         ALPassedRequest alResultRequest = restTemplate.getForObject("http://localhost:8083/staff/alPassed", ALPassedRequest.class);
 
         // Filter and get the students who are eligible by A/L Results
-        List<String> eligibleStudents = selectionService.getEligible(applicants, alResultRequest);
-
-        // Map index numbers to streams
-        StreamRequest streamRequest = restTemplate.getForObject("http://localhost:8081/student/getStreams", StreamRequest.class);
+        Map<String, String> eligibleStudents = selectionService.getEligible(applicants, alResultRequest);
 
         // Execute selection algo for each stream
 

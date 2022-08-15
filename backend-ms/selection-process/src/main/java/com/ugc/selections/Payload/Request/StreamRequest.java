@@ -9,5 +9,5 @@ import java.util.List;
 @Getter
 @Setter
 public class StreamRequest {
-    List<Pair<String, String>> eligibleIndexStream;
+    List<Pair<String, String>> stream;
 }
