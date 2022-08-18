@@ -3,6 +3,7 @@ package com.ugc.selections.Controller;
 import com.ugc.selections.Entity.SelectedStudent;
 import com.ugc.selections.Payload.Request.ALPassedRequest;
 import com.ugc.selections.Payload.Request.ApplicantRequest;
+import com.ugc.selections.Payload.Request.ZScoreRequest;
 import com.ugc.selections.Service.SelectionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -31,7 +32,7 @@ public class SelectionController  {
     }
 
     @GetMapping(path = "selectStudents")
-    public List<SelectedStudent> selectStudents(){
+    public void selectStudents(){
 
         // Get all the applicants
         ApplicantRequest applicants = restTemplate.getForObject("http://localhost:8081/student/applicants", ApplicantRequest.class);
@@ -41,27 +42,13 @@ public class SelectionController  {
         ALPassedRequest alResultRequest = restTemplate.getForObject("http://localhost:8083/staff/alPassed", ALPassedRequest.class);
 
         // Filter and get the students who are eligible by A/L Results
-        Map<String, String> eligibleStudents = selectionService.getEligible(applicants, alResultRequest);
+        List<String> eligibleStudents = selectionService.getEligible(applicants, alResultRequest);
 
-        // Separate students of each stream
-        List<String> physicsStream = eligibleStudents.entrySet()
-                .stream().distinct().filter(e-> e.getValue() == "Physics")
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
-                .values().stream().toList();
+        //Sort according to ZScore
+        ZScoreRequest zScoreRequest = restTemplate.getForObject("http://localhost:8083/staff/getZScore", ZScoreRequest.class);
+        List<String> sortedStudents = selectionService.sortZScore(eligibleStudents, zScoreRequest);
 
-        List<String> biologyStream = eligibleStudents.entrySet()
-                .stream().distinct().filter(e-> e.getValue() == "Biology")
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
-                .values().stream().toList();
-
-        List<String> commerceStream = eligibleStudents.entrySet()
-                .stream().distinct().filter(e-> e.getValue() == "Commerce")
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
-                .values().stream().toList();
-
-        List<String> artStream = eligibleStudents.entrySet()
-                .stream().distinct().filter(e-> e.getValue() == "Art")
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
-                .values().stream().toList();
+        //Perform selection
+        selectionService.select(sortedStudents);
     }
 }
