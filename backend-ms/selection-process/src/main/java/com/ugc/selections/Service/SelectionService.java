@@ -23,7 +23,12 @@ public class SelectionService {
     }
 
     public List<String> sortZScore(List<String> listOfStudents, ZScoreRequest zScoreRequest) {
-
+        return zScoreRequest.getZscores()
+                .entrySet()
+                .stream().distinct()
+                .filter(e-> listOfStudents.contains(e))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
+                .keySet().stream().toList();
     }
 
     public void select(List<String> listOfStudents) {
