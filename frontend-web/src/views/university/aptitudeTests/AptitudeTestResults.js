@@ -20,6 +20,9 @@ import {
 
 import { cilSearch } from '@coreui/icons'
 import { cilFilter } from '@coreui/icons'
+import { cilFile } from '@coreui/icons'
+import { cilVerticalAlignTop } from '@coreui/icons'
+import { cilPencil } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
 const AptitudeTestResults = () => {
@@ -27,14 +30,23 @@ const AptitudeTestResults = () => {
     {
       id: '1',
       unicode: '112A',
-      courseOfStudy: 'Medicine',
+      courseOfStudy: 'Architecture',
       status: 'Done',
+      resultfile: 'archi.csv',
     },
     {
       id: '1',
       unicode: '112A',
-      courseOfStudy: 'Medicine',
+      courseOfStudy: 'IS',
       status: 'Progress',
+      resultfile: 'Is.csv',
+    },
+    {
+      id: '1',
+      unicode: '112A',
+      courseOfStudy: 'IS',
+      status: 'Progress',
+      resultfile: '',
     },
   ])
 
@@ -43,7 +55,7 @@ const AptitudeTestResults = () => {
       <CRow>
         <CCol xs>
           <CCard className="mb-4">
-            <CCardHeader>All Aptitude Test</CCardHeader>
+            <CCardHeader>Aptitude Test Results</CCardHeader>
             <CCardBody>
               <CRow className="py-2 bg-light rounded">
                 <CCol md={6}>
@@ -88,6 +100,7 @@ const AptitudeTestResults = () => {
                       <CTableHeaderCell>Unicode</CTableHeaderCell>
                       <CTableHeaderCell>Course</CTableHeaderCell>
                       <CTableHeaderCell>Status</CTableHeaderCell>
+                      <CTableHeaderCell>File Name</CTableHeaderCell>
                       {/* <CTableHeaderCell>University</CTableHeaderCell> */}
                     </CTableRow>
                   </CTableHead>
@@ -98,7 +111,36 @@ const AptitudeTestResults = () => {
                         <CTableDataCell>{item.unicode}</CTableDataCell>
                         <CTableDataCell>{item.courseOfStudy}</CTableDataCell>
                         <CTableDataCell>{item.status}</CTableDataCell>
-                        {/* <CTableDataCell>{item.university}</CTableDataCell> */}
+                        <CTableDataCell>
+                          {item.resultfile ? (
+                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                              <div>
+                                <CIcon icon={cilFile} />
+                                {item.resultfile}
+                              </div>
+                              <CButton
+                                color="btn btn-primary btn-sm"
+                                type="button"
+                                className="text-white"
+                              >
+                                <CIcon icon={cilPencil} />
+                                <span>{'  '}Edit</span>
+                              </CButton>
+                            </div>
+                          ) : (
+                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                              -
+                              <CButton
+                                color="btn btn-primary btn-sm"
+                                type="button"
+                                className="text-white"
+                              >
+                                <CIcon icon={cilVerticalAlignTop} />
+                                <span>{'  '}Upload</span>
+                              </CButton>
+                            </div>
+                          )}
+                        </CTableDataCell>
                       </CTableRow>
                     ))}
                   </CTableBody>

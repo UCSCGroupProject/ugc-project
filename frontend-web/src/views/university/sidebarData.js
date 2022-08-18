@@ -37,15 +37,15 @@ const _nav = [
     to: '',
     icon: <CIcon icon={cilSpreadsheet} customClassName="nav-icon" />,
     items: [
+      {                                                                                                                                                                                                                                                                                                                                                                                                                                              
+        component: CNavItem,
+        name: 'Applied Students',
+        to: '/university/courses/appliedstudents',
+      },
       {
         component: CNavItem,
         name: 'Statistics',
         to: '/university/courses/statistics',
-      },
-      {
-        component: CNavItem,
-        name: 'Applied Students',
-        to: '/university/courses/appliedstudents',
       },
     ],
   },

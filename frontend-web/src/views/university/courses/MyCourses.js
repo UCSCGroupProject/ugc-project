@@ -30,7 +30,7 @@ const MyCourses = () => {
       courseOfStudy: 'Medicine',
     },
     {
-      id: '1',
+      id: '2',
       unicode: '112A',
       courseOfStudy: 'Medicine',
     },
