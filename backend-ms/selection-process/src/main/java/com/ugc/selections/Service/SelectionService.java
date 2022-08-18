@@ -6,8 +6,7 @@ import com.ugc.selections.Payload.Request.ZScoreRequest;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,12 +22,26 @@ public class SelectionService {
     }
 
     public List<String> sortZScore(List<String> listOfStudents, ZScoreRequest zScoreRequest) {
-        return zScoreRequest.getZscores()
+        Map<String, Double> eligibleZScores =  zScoreRequest.getZscores()
                 .entrySet()
-                .stream().distinct()
-                .filter(e-> listOfStudents.contains(e))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
-                .keySet().stream().toList();
+                .stream()
+                .filter(map->listOfStudents.contains(map.getKey()))
+                .collect(Collectors.toMap(map->map.getKey(), map->map.getValue()));
+
+//        for (String name: eligibleZScores.keySet()) {
+//            String key = name.toString();
+//            String value = eligibleZScores.get(name).toString();
+//            System.out.println(key + " " + value);
+//        }
+
+        LinkedHashMap<String, Double> reverseSortedMap = new LinkedHashMap<>();
+         eligibleZScores
+                .entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
+
+        return reverseSortedMap.keySet().stream().toList();
     }
 
     public void select(List<String> listOfStudents) {
