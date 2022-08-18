@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { NavLink, Link } from 'react-router-dom'
 import {
   CNav,
@@ -26,20 +26,7 @@ import {
   CTableBody,
 } from '@coreui/react'
 
-const courses = ['Medicine', 'Dental Surgery']
-const universities = [
-  'University of Colombo',
-  'University of Peradeniya',
-  'University of Sri Jayawardhenepura',
-  'University of Kelaniya',
-  'University of Jaffna',
-  'University of Ruhuna',
-  'University of Moratuwa',
-  'Eastern University, Sri Lanka',
-  'Rajarata University of Sri Lanka',
-  'Sabaragamuwa University of Sri Lanka',
-  'Wayamba University of Sri Lanka',
-]
+import { v_required } from '../../../utils/validator'
 
 const courseData = [
   {
@@ -110,65 +97,180 @@ const courseData = [
 ]
 
 function Step4Page() {
-  const getRelevantUniversitiesForCourse = (course) => {
-    var universityList = []
+  // const getRelevantUniversitiesForCourse = (course) => {
+  //   var universityList = []
 
-    courseData.forEach((item) => {
-      if (item.courseOfStudy === course) {
-        universityList.push(item.university)
-      }
-    })
+  //   courseData.forEach((item) => {
+  //     if (item.courseOfStudy === course) {
+  //       universityList.push(item.university)
+  //     }
+  //   })
 
-    return universityList
-  }
+  //   return universityList
+  // }
 
-  const getRelevantUnicode = (course, university) => {
-    var unicode = ''
+  // const getRelevantUnicode = (course, university) => {
+  //   var unicode = ''
 
-    courseData.forEach((item) => {
-      if (item.courseOfStudy === course && item.university === university) {
-        unicode = item.uniCode
-        return
-      }
-    })
+  //   courseData.forEach((item) => {
+  //     if (item.courseOfStudy === course && item.university === university) {
+  //       unicode = item.uniCode
+  //       return
+  //     }
+  //   })
 
-    return unicode
-  }
+  //   return unicode
+  // }
 
-  // Form data
-  const [selectedCourse, setSelectedCourse] = useState(courses[0])
-  const [selectedUniversity, setSelectedUniversity] = useState(universities[0])
+  // // Form data
+  // const [selectedCourse, setSelectedCourse] = useState(courses[0])
+  // const [selectedUniversity, setSelectedUniversity] = useState(universities[0])
 
-  const [selectableUniList, setSelectableUniList] = useState(
-    getRelevantUniversitiesForCourse(courses[0]),
-  )
+  // const [selectableUniList, setSelectableUniList] = useState(
+  //   getRelevantUniversitiesForCourse(courses[0]),
+  // )
 
-  const [orderOfPreference, setOrderOfPreference] = useState([])
+  // const [orderOfPreference, setOrderOfPreference] = useState([])
+
+  // // Update the form data while input
+  // const onUpdateSelectedCourse = (e) => {
+  //   setSelectedCourse(e.target.value)
+  //   console.log(e.target.value)
+
+  //   setSelectableUniList(getRelevantUniversitiesForCourse(e.target.value))
+  // }
+
+  // const onUpdateSelectedUniversity = (e) => {
+  //   setSelectedUniversity(e.target.value)
+  // }
+
+  // const addToOrderOfPreferences = () => {
+  //   console.log('UNICODE', getRelevantUnicode(selectedCourse, selectedUniversity))
+  //   setOrderOfPreference((prev) => [
+  //     ...prev,
+  //     {
+  //       id: orderOfPreference.length + 1,
+  //       unicode: getRelevantUnicode(selectedCourse, selectedUniversity),
+  //       courseOfStudy: selectedCourse,
+  //       university: selectedUniversity,
+  //     },
+  //   ])
+
+  //   console.log(orderOfPreference)
+  // }
+
+  const [universityCourses, setUniversityCourses] = useState([])
+
+  const [universityCourseForm, setUniversityCourseForm] = useState({
+    course: '',
+    university: '',
+  })
 
   // Update the form data while input
-  const onUpdateSelectedCourse = (e) => {
-    setSelectedCourse(e.target.value)
-    console.log(e.target.value)
-
-    setSelectableUniList(getRelevantUniversitiesForCourse(e.target.value))
-  }
-
-  const onUpdateSelectedUniversity = (e) => {
-    setSelectedUniversity(e.target.value)
-  }
-
-  const addToOrderOfPreferences = () => {
-    setOrderOfPreference((prev) => [
+  const onUniversityCourseUpdateInput = (e) => {
+    setUniversityCourseForm((prev) => ({
       ...prev,
-      {
-        id: orderOfPreference.length + 1,
-        unicode: getRelevantUnicode(selectedCourse, selectedUniversity),
-        courseOfStudy: selectedCourse,
-        university: selectedUniversity,
-      },
-    ])
+      [e.target.name]: e.target.value,
+    }))
+  }
 
-    console.log(orderOfPreference)
+  const [universityCourseFormError, setUniversityCourseFormErrors] = useState({
+    courseError: '',
+    universityError: '',
+  })
+
+  const [index, setIndex] = useState(1)
+
+  const incIndex = () => {
+    setIndex(index + 1)
+  }
+  const decIndex = () => {
+    setIndex(index - 1)
+  }
+
+  const [selectableCourseList, setSelectableCourseList] = useState([])
+
+  useEffect(() => {
+    var temp = []
+
+    courseData.forEach((item) => {
+      if (!temp.includes(item.courseOfStudy)) {
+        temp.push(item.courseOfStudy)
+      }
+    })
+
+    setSelectableCourseList(temp)
+  }, [])
+
+  const [selectableUniversityList, setSelectableUniversityList] = useState([])
+
+  useEffect(() => {
+    var temp = []
+
+    courseData.forEach((item) => {
+      if (item.courseOfStudy === universityCourseForm.course) {
+        temp.push(item.university)
+      }
+    })
+
+    setSelectableUniversityList(temp)
+  }, [universityCourseForm.course])
+
+  // Validate the data and
+  // If valid send to the server
+  // else show the errors
+  const handleUniversityCourseFormSubmit = async (e) => {
+    e.preventDefault()
+
+    // University course Details
+    let courseError = ''
+    let universityError = ''
+
+    if (!v_required(universityCourseForm.course)) {
+      courseError = 'Course can not be empty.'
+    }
+
+    if (!v_required(universityCourseForm.university)) {
+      universityError = 'University can not be empty.'
+    }
+
+    // If errors exist, show errors
+    setUniversityCourseFormErrors({
+      courseError,
+      universityError,
+    })
+
+    console.log(universityCourseFormError)
+
+    // If no errors exist, send to the server
+    if (!(courseError || universityError)) {
+      var unicode = ''
+
+      courseData.forEach((item) => {
+        if (
+          item.courseOfStudy === universityCourseForm.course &&
+          item.university === universityCourseForm.university
+        ) {
+          unicode = item.uniCode
+        }
+      })
+
+      setUniversityCourses((prev) => [
+        ...prev,
+        {
+          recordId: index,
+          unicode: unicode,
+          course: universityCourseForm.course,
+          university: universityCourseForm.university,
+        },
+      ])
+
+      incIndex()
+    }
+  }
+
+  const handleUniversityCourseTableClear = () => {
+    setUniversityCourses([])
   }
 
   return (
@@ -208,26 +310,32 @@ function Step4Page() {
                 <CForm className="row g-3 needs-validation" noValidate>
                   <CCol sm={5}>
                     <CFormSelect
-                      aria-label="courseSelect"
                       label="Course"
-                      name="selectedCourse"
-                      onChange={onUpdateSelectedCourse}
-                      value={selectedCourse}
+                      aria-label="course-select"
+                      name="course"
+                      onChange={onUniversityCourseUpdateInput}
+                      value={universityCourseForm.course}
+                      feedback={universityCourseFormError.courseError}
+                      invalid={universityCourseFormError.courseError ? true : false}
                     >
-                      {courses.map((item) => (
+                      <option selected>Choose...</option>
+                      {selectableCourseList.map((item) => (
                         <option value={item}>{item}</option>
                       ))}
                     </CFormSelect>
                   </CCol>
                   <CCol sm={5}>
                     <CFormSelect
-                      aria-label="universitySelect"
                       label="University"
-                      name="selectedUniversity"
-                      onChange={onUpdateSelectedUniversity}
-                      value={selectedUniversity}
+                      aria-label="university-select"
+                      name="university"
+                      onChange={onUniversityCourseUpdateInput}
+                      value={universityCourseForm.university}
+                      feedback={universityCourseFormError.universityError}
+                      invalid={universityCourseFormError.universityError ? true : false}
                     >
-                      {selectableUniList.map((item) => (
+                      <option selected>Choose...</option>
+                      {selectableUniversityList.map((item) => (
                         <option value={item}>{item}</option>
                       ))}
                     </CFormSelect>
@@ -237,7 +345,7 @@ function Step4Page() {
                       color="primary"
                       shape="rounded-0"
                       className="w-100 mt-3 h-75"
-                      onClick={addToOrderOfPreferences}
+                      onClick={handleUniversityCourseFormSubmit}
                     >
                       Add
                     </CButton>
@@ -250,15 +358,27 @@ function Step4Page() {
                         <CTableHeaderCell>Unicode</CTableHeaderCell>
                         <CTableHeaderCell>Course</CTableHeaderCell>
                         <CTableHeaderCell>University</CTableHeaderCell>
+                        <CTableHeaderCell>
+                          {universityCourses.length !== 0 && (
+                            <CButton
+                              color="warning"
+                              type="button"
+                              className="p-0 float-end"
+                              onClick={handleUniversityCourseTableClear}
+                            >
+                              <span className="px-2">Clear Table</span>
+                            </CButton>
+                          )}
+                        </CTableHeaderCell>
                       </CTableRow>
                     </CTableHead>
                     <CTableBody>
-                      {orderOfPreference.map((item) => (
-                        <CTableRow key={item.id}>
-                          <CTableHeaderCell>{item.id}</CTableHeaderCell>
+                      {universityCourses.map((item) => (
+                        <CTableRow key={item.recordId}>
+                          <CTableHeaderCell>{item.recordId}</CTableHeaderCell>
                           <CTableDataCell>{item.unicode}</CTableDataCell>
-                          <CTableDataCell>{item.courseOfStudy}</CTableDataCell>
-                          <CTableDataCell>{item.university}</CTableDataCell>
+                          <CTableDataCell>{item.course}</CTableDataCell>
+                          <CTableDataCell colSpan={2}>{item.university}</CTableDataCell>
                         </CTableRow>
                       ))}
                     </CTableBody>

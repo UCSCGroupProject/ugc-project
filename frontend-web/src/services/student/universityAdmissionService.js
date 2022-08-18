@@ -9,6 +9,20 @@ class UniversityAdmissionService {
       return response.data
     })
   }
+
+  step2FormCheckAndSubmit(data) {
+    return axios.post(API_URL + '/step2FormCheckAndSubmit', data).then((response) => {
+      console.log(response.data)
+      return response.data
+    })
+  }
+
+  step3FormCheckAndSubmit(data) {
+    return axios.post(API_URL + '/step3FormCheckAndSubmit', data).then((response) => {
+      console.log(response.data)
+      return response.data
+    })
+  }
 }
 
 export default new UniversityAdmissionService()
