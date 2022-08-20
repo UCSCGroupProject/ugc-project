@@ -3,7 +3,10 @@ package com.ugc.staff.Service;
 import com.ugc.staff.Model.Course;
 import com.ugc.staff.Repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CourseService {
@@ -135,5 +138,9 @@ public class CourseService {
         courseRepository.save(new Course("Arts - Information Technology"));
         courseRepository.save(new Course("Aquatic Bio resources"));
         courseRepository.save(new Course("Urban Bio Resources"));
+    }
+
+    public List<Course> getCourses() {
+        return courseRepository.findAll();
     }
 }
