@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Routes, Route, useNavigate } from 'react-router-dom'
 import {
   CRow,
   CCol,
@@ -20,9 +21,12 @@ import {
 
 import { cilSearch } from '@coreui/icons'
 import { cilFilter } from '@coreui/icons'
+import { cilPencil } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
 const MyCourses = () => {
+  const navigate = useNavigate()
+
   const [allCoursesData, setAllCoursesData] = useState([
     {
       id: '1',
@@ -34,7 +38,7 @@ const MyCourses = () => {
       unicode: '112A',
       courseOfStudy: 'Medicine',
     },
-  ]) 
+  ])
 
   return (
     <div>
@@ -92,8 +96,25 @@ const MyCourses = () => {
                       <CTableRow key={item.id}>
                         <CTableHeaderCell>{item.id}</CTableHeaderCell>
                         <CTableDataCell>{item.unicode}</CTableDataCell>
-                        <CTableDataCell>{item.courseOfStudy}</CTableDataCell>
-                        {/* <CTableDataCell>{item.university}</CTableDataCell> */}
+                        <CTableDataCell>
+                          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            {item.courseOfStudy}
+                            <CButton
+                              id="mypopup"
+                              color="btn btn-primary btn-sm"
+                              type="button"
+                              className="text-white"
+                              // onClick={() => {navigate('/university/courses/my/edit');}}
+                              onClick={() => {
+                                var popup = document.getElementById('mypopup')
+                                popup.classList.toggle('show')
+                              }}
+                            >
+                              <CIcon icon={cilPencil} />
+                              <span> Edit</span>
+                            </CButton>
+                          </div>
+                        </CTableDataCell>
                       </CTableRow>
                     ))}
                   </CTableBody>

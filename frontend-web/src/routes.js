@@ -127,10 +127,15 @@ const Uni_AptitudeTests_TestDetails_Progress = React.lazy(() =>
 const Uni_AptitudeTests_TestDetails_Results = React.lazy(() =>
   import('./views/university/aptitudeTests/AptitudeTestResults'),
 )
+const Uni_Courses_MyCourses_Edit = React.lazy(() =>
+  import('./views/university/courses/MyCoursesEdit'),
+)
 
 // School views
 const Sch_Dashboard = React.lazy(() => import('./views/school/dashboard/Dashboard'))
-const Sch_Students_ValidateList = React.lazy(() => import('./views/school/students/ValidateStudents'))
+const Sch_Students_ValidateList = React.lazy(() =>
+  import('./views/school/students/ValidateStudents'),
+)
 
 // User views
 
@@ -196,17 +201,49 @@ const routes = [
   { path: '/staff/complaints/view', name: 'Complaint', element: Staff_Complaints_View },
 
   // Student routes
-  // Settings 
+  // Settings
   { path: '/student', name: 'Student', element: Stu_Dashboard },
   { path: '/student/settings', name: 'Settings', element: Stu_NICAndExamDetails_Settings },
-  { path: '/student/settings/nicandexamdetails', name: 'NIC and Exam Details', element: Stu_NICAndExamDetails_Settings },
-  { path: '/student/settings/studentdetails', name: 'Student Details', element: Stu_StudentDetails_Settings },
-  { path: '/student/settings/logindetails', name: 'Login Details', element: Stu_LoginDetails_Settings },  
-  { path: '/student/registration', name: 'Registration', element: Stu_Registration_UniversityAdmission },
-  { path: '/student/registration/step1', name: 'Step 1', element: Stu_Registration_UniversityAdmission_Step1 },
-  { path: '/student/registration/step2', name: 'Step 2', element: Stu_Registration_UniversityAdmission_Step2 },
-  { path: '/student/registration/step3', name: 'Step 3', element: Stu_Registration_UniversityAdmission_Step3 },
-  { path: '/student/registration/step4', name: 'Step 4', element: Stu_Registration_UniversityAdmission_Step4 },
+  {
+    path: '/student/settings/nicandexamdetails',
+    name: 'NIC and Exam Details',
+    element: Stu_NICAndExamDetails_Settings,
+  },
+  {
+    path: '/student/settings/studentdetails',
+    name: 'Student Details',
+    element: Stu_StudentDetails_Settings,
+  },
+  {
+    path: '/student/settings/logindetails',
+    name: 'Login Details',
+    element: Stu_LoginDetails_Settings,
+  },
+  {
+    path: '/student/registration',
+    name: 'Registration',
+    element: Stu_Registration_UniversityAdmission,
+  },
+  {
+    path: '/student/registration/step1',
+    name: 'Step 1',
+    element: Stu_Registration_UniversityAdmission_Step1,
+  },
+  {
+    path: '/student/registration/step2',
+    name: 'Step 2',
+    element: Stu_Registration_UniversityAdmission_Step2,
+  },
+  {
+    path: '/student/registration/step3',
+    name: 'Step 3',
+    element: Stu_Registration_UniversityAdmission_Step3,
+  },
+  {
+    path: '/student/registration/step4',
+    name: 'Step 4',
+    element: Stu_Registration_UniversityAdmission_Step4,
+  },
   { path: '/student/courses', name: 'Courses', element: Stu_Courses_Apply },
   { path: '/student/courses/apply', name: 'Apply', element: Stu_Courses_Apply },
   { path: '/student/courses/my', name: 'My', element: Stu_Courses_CourseDetails_MyCourses },
@@ -266,6 +303,11 @@ const routes = [
     path: '/university/courses/my',
     name: 'Courses',
     element: Uni_Courses_MyCourses,
+  },
+  {
+    path: '/university/courses/my/edit',
+    name: 'Courses Edit',
+    element: Uni_Courses_MyCourses_Edit,
   },
   {
     path: '/university/courses/statistics',
