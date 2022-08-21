@@ -1,9 +1,6 @@
 package com.ugc.selections.Service;
 
-import com.ugc.selections.Payload.Request.ALPassedRequest;
-import com.ugc.selections.Payload.Request.ApplicantRequest;
-import com.ugc.selections.Payload.Request.AptitudeTestResultRequest;
-import com.ugc.selections.Payload.Request.ZScoreRequest;
+import com.ugc.selections.Payload.Request.*;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -28,12 +25,6 @@ public class SelectionService {
                 .filter(map->listOfStudents.contains(map.getKey()))
                 .collect(Collectors.toMap(map->map.getKey(), map->map.getValue()));
 
-//        for (String name: eligibleZScores.keySet()) {
-//            String key = name.toString();
-//            String value = eligibleZScores.get(name).toString();
-//            System.out.println(key + " " + value);
-//        }
-
         LinkedHashMap<String, Double> reverseSortedMap = new LinkedHashMap<>();
          eligibleZScores
                 .entrySet()
@@ -44,7 +35,41 @@ public class SelectionService {
         return reverseSortedMap.keySet().stream().toList();
     }
 
-    public void meritSelection(List<String> meritStudents, ApplicantRequest meritApplications, AptitudeTestResultRequest meritAptitudeTestResults) {
-
+    public void meritSelection(List<String> meritStudents, ApplicationRequest meritApplications, AptitudeTestResultRequest meritAptitudeTestResults, CourseIntakeRequest courseIntakeRequest) {
+        boolean selected = false;
+        for (String student : meritStudents) {
+            List<String> unicodeList = meritApplications
+                    .getApplications()
+                    .get(student);
+            for (String unicode: unicodeList){
+                //Check if the course has an aptitude test
+                if(meritAptitudeTestResults.getTestResults().keySet().contains(unicode)){
+                    List<String> passedStudents = meritAptitudeTestResults.getTestResults().get(unicode);
+                    //Check if student passed the test
+                    if(passedStudents.contains(student)){
+                        //Check if the course intake amount exceeded
+                        if(courseIntakeRequest.getCourseIntake().get(unicode) != 0) {
+                            System.out.println(student + " is selected for " + unicode);
+                            selected = true;
+                            courseIntakeRequest.getCourseIntake().put(unicode, courseIntakeRequest.getCourseIntake().get(unicode)-1 );
+                            break;
+                        }
+                    }
+                }
+                else{
+                    // Course does not have an aptitude test
+                    // In this case, check only the intake amount
+                    if(courseIntakeRequest.getCourseIntake().get(unicode) != 0){
+                        System.out.println(student + " is selected for " + unicode);
+                        selected = true;
+                        courseIntakeRequest.getCourseIntake().put(unicode, courseIntakeRequest.getCourseIntake().get(unicode)-1 );
+                        break;
+                    }
+                }
+                if(!selected){
+                    System.out.println(student + " was not selected for any course");
+                }
+            }
+        }
     }
 }
