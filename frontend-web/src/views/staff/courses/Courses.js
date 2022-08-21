@@ -23,6 +23,7 @@ import { cilSearch } from '@coreui/icons'
 import { cilFilter, cilDelete, cibAddthis } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
+import courseService from '../../../services/staff/courseService'
 
 function StaffCourses() {
 
@@ -39,6 +40,9 @@ function StaffCourses() {
     }
   ]
 
+  const courseList2 = courseService.getCourses();
+  console.log(courseList2);
+  
   return (
     <div>
       <CRow>
