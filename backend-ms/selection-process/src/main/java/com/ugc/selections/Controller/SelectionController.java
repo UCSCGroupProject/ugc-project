@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.ugc.selections.Entity.SelectedStudent;
 import com.ugc.selections.Payload.Request.ALPassedRequest;
 import com.ugc.selections.Payload.Request.ApplicantRequest;
+import com.ugc.selections.Payload.Request.AptitudeTestResultRequest;
 import com.ugc.selections.Payload.Request.ZScoreRequest;
 import com.ugc.selections.Service.SelectionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,8 +57,13 @@ public class SelectionController  {
         List<List<String>> subSets = Lists.partition(sortedStudents, meritPartition);
         List<String> meritStudents = subSets.get(0);
 
+        //Get the applications of merits
+        ApplicantRequest meritApplications = restTemplate.getForObject("http://localhost:8081/student/applications", ApplicantRequest.class);
 
-        selectionService.meritSelection(meritStudents);
+        //Get the aptitude test results
+        AptitudeTestResultRequest meritAptitudeTestResults = restTemplate.getForObject("http://localhost:8082/university/aptitudeTestResults", AptitudeTestResultRequest.class);
+
+        selectionService.meritSelection(meritStudents, meritApplications, meritAptitudeTestResults);
 
         //-----------------TESTING-------------------------//
 

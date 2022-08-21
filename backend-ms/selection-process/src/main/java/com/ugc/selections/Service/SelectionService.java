@@ -2,8 +2,8 @@ package com.ugc.selections.Service;
 
 import com.ugc.selections.Payload.Request.ALPassedRequest;
 import com.ugc.selections.Payload.Request.ApplicantRequest;
+import com.ugc.selections.Payload.Request.AptitudeTestResultRequest;
 import com.ugc.selections.Payload.Request.ZScoreRequest;
-import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -44,7 +44,7 @@ public class SelectionService {
         return reverseSortedMap.keySet().stream().toList();
     }
 
-    public void meritSelection(List<String> meritStudents) {
+    public void meritSelection(List<String> meritStudents, ApplicantRequest meritApplications, AptitudeTestResultRequest meritAptitudeTestResults) {
 
     }
 }
