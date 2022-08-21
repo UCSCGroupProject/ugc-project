@@ -37,7 +37,7 @@ function UGCLayout() {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false)
   const [userDetails, setUserDetails] = useState({
     username: '',
-    actorType: 'university',
+    actorType: 'staff',
   })
 
   useEffect(() => {

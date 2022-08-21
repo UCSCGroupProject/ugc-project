@@ -24,6 +24,7 @@ import {
 import { v_required, v_match } from '../../../utils/validator'
 
 import universityAdmissionService from '../../../services/student/universityAdmissionService'
+import authService from '../../../services/authService'
 
 function Step1Page() {
   // For the server side requests and responses
@@ -61,10 +62,30 @@ function Step1Page() {
     }))
   }
 
+  useEffect(() => {
+    const user = authService.getCurrentUser()
+
+    universityAdmissionService.getStep1Form(user.username).then(
+      (res) => {
+        setLoading(false)
+        setStep1Form(res)
+      },
+      (error) => {
+        const res =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString()
+
+        // After recieving the server request
+        setResMessage(res)
+        setLoading(false)
+      },
+    )
+  }, [])
+
   const [contactPersonTypeText, setContactPersonTypeText] = useState('Father')
 
   useEffect(() => {
-    console.log(step1Form.contactPersonType)
     setContactPersonTypeText(step1Form.contactPersonType)
   }, [step1Form.contactPersonType])
 
@@ -229,13 +250,16 @@ function Step1Page() {
       )
     ) {
       console.log('STEP 1 PAGE')
-      console.log(step1Form)
 
       // Sending to the server
       setLoading(true)
       setResMessage('')
-      universityAdmissionService.step1FormCheckAndSubmit(step1Form).then(
+
+      const user = authService.getCurrentUser()
+
+      universityAdmissionService.step1FormCheckAndSubmit(step1Form, user.username).then(
         () => {
+          console.log(step1Form)
           setLoading(false)
           navigate('/student/registration/step2')
         },
