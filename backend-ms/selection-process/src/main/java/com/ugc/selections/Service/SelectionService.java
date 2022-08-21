@@ -44,10 +44,7 @@ public class SelectionService {
         return reverseSortedMap.keySet().stream().toList();
     }
 
-    public void select(List<String> listOfStudents) {
+    public void meritSelection(List<String> meritStudents) {
 
     }
-
-
-
 }
