@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { NavLink, Link } from 'react-router-dom'
+import { NavLink, Link, useNavigate } from 'react-router-dom'
 import {
   CNav,
   CNavItem,
@@ -24,9 +24,14 @@ import {
   CTableHeaderCell,
   CTableDataCell,
   CTableBody,
+  CAlert,
+  CSpinner,
 } from '@coreui/react'
 
 import { v_required } from '../../../utils/validator'
+
+import authService from '../../../services/authService'
+import universityAdmissionService from '../../../services/student/universityAdmissionService'
 
 const courseData = [
   {
@@ -97,67 +102,10 @@ const courseData = [
 ]
 
 function Step4Page() {
-  // const getRelevantUniversitiesForCourse = (course) => {
-  //   var universityList = []
-
-  //   courseData.forEach((item) => {
-  //     if (item.courseOfStudy === course) {
-  //       universityList.push(item.university)
-  //     }
-  //   })
-
-  //   return universityList
-  // }
-
-  // const getRelevantUnicode = (course, university) => {
-  //   var unicode = ''
-
-  //   courseData.forEach((item) => {
-  //     if (item.courseOfStudy === course && item.university === university) {
-  //       unicode = item.uniCode
-  //       return
-  //     }
-  //   })
-
-  //   return unicode
-  // }
-
-  // // Form data
-  // const [selectedCourse, setSelectedCourse] = useState(courses[0])
-  // const [selectedUniversity, setSelectedUniversity] = useState(universities[0])
-
-  // const [selectableUniList, setSelectableUniList] = useState(
-  //   getRelevantUniversitiesForCourse(courses[0]),
-  // )
-
-  // const [orderOfPreference, setOrderOfPreference] = useState([])
-
-  // // Update the form data while input
-  // const onUpdateSelectedCourse = (e) => {
-  //   setSelectedCourse(e.target.value)
-  //   console.log(e.target.value)
-
-  //   setSelectableUniList(getRelevantUniversitiesForCourse(e.target.value))
-  // }
-
-  // const onUpdateSelectedUniversity = (e) => {
-  //   setSelectedUniversity(e.target.value)
-  // }
-
-  // const addToOrderOfPreferences = () => {
-  //   console.log('UNICODE', getRelevantUnicode(selectedCourse, selectedUniversity))
-  //   setOrderOfPreference((prev) => [
-  //     ...prev,
-  //     {
-  //       id: orderOfPreference.length + 1,
-  //       unicode: getRelevantUnicode(selectedCourse, selectedUniversity),
-  //       courseOfStudy: selectedCourse,
-  //       university: selectedUniversity,
-  //     },
-  //   ])
-
-  //   console.log(orderOfPreference)
-  // }
+  // For the server side requests and responses
+  const [loading, setLoading] = useState(false)
+  const [resMessage, setResMessage] = useState('')
+  let navigate = useNavigate()
 
   const [universityCourses, setUniversityCourses] = useState([])
 
@@ -191,6 +139,7 @@ function Step4Page() {
   const [selectableCourseList, setSelectableCourseList] = useState([])
 
   useEffect(() => {
+    // Course Data setup
     var temp = []
 
     courseData.forEach((item) => {
@@ -200,6 +149,46 @@ function Step4Page() {
     })
 
     setSelectableCourseList(temp)
+
+    // Order of Preferences Table setup
+    const user = authService.getCurrentUser()
+
+    universityAdmissionService.getStep4Form(user.username).then(
+      (res) => {
+        setLoading(false)
+
+        setIndex(0)
+
+        let unicodeList = res.unicodes
+
+        unicodeList.forEach((u) => {
+          // Find the course data
+          courseData.forEach((courseUniItem) => {
+            if (courseUniItem.uniCode === u) {
+              setUniversityCourses((prev) => [
+                ...prev,
+                {
+                  recordId: index,
+                  unicode: courseUniItem.uniCode,
+                  course: courseUniItem.courseOfStudy,
+                  university: courseUniItem.university,
+                },
+              ])
+            }
+          })
+        })
+      },
+      (error) => {
+        const res =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString()
+
+        // After recieving the server request
+        setResMessage(res)
+        setLoading(false)
+      },
+    )
   }, [])
 
   const [selectableUniversityList, setSelectableUniversityList] = useState([])
@@ -216,9 +205,7 @@ function Step4Page() {
     setSelectableUniversityList(temp)
   }, [universityCourseForm.course])
 
-  // Validate the data and
-  // If valid send to the server
-  // else show the errors
+  // Validate the data and add to the order of preferences table
   const handleUniversityCourseFormSubmit = async (e) => {
     e.preventDefault()
 
@@ -271,6 +258,53 @@ function Step4Page() {
 
   const handleUniversityCourseTableClear = () => {
     setUniversityCourses([])
+  }
+
+  // Validate the data and
+  // If valid send to the server
+  // else show the errors
+  const handleOrderOfPreferencesTableSubmit = async (e) => {
+    e.preventDefault()
+
+    if (universityCourses.length === 0) {
+      setLoading(true)
+      setResMessage('Order of Preferences table is empty')
+      setLoading(false)
+    }
+
+    // If no errors exist, send to the server
+    if (universityCourses.length !== 0) {
+      console.log('STEP 4 PAGE')
+
+      // Sending to the server
+      setLoading(true)
+      setResMessage('')
+
+      const user = authService.getCurrentUser()
+
+      let unicodes = []
+
+      universityCourses.forEach((item) => {
+        unicodes.push(item.unicode)
+      })
+
+      universityAdmissionService.step4FormCheckAndSubmit(unicodes, user.username).then(
+        () => {
+          console.log(universityCourses)
+          setLoading(false)
+          navigate('/student/registration')
+        },
+        (error) => {
+          const res =
+            (error.response && error.response.data && error.response.data.message) ||
+            error.message ||
+            error.toString()
+          // After recieving the server request
+          setResMessage(res)
+          setLoading(false)
+        },
+      )
+    }
   }
 
   return (
@@ -343,7 +377,6 @@ function Step4Page() {
                   <CCol sm={2}>
                     <CButton
                       color="primary"
-                      shape="rounded-0"
                       className="w-100 mt-3 h-75"
                       onClick={handleUniversityCourseFormSubmit}
                     >
@@ -383,22 +416,14 @@ function Step4Page() {
                       ))}
                     </CTableBody>
                   </CTable>
-
-                  {/* <CRow>
-                    <CCol md={3} className="ms-auto">
-                      <CButton color="primary" shape="rounded-0" className="w-100 mt-3 h-75">
-                        Confirm
-                      </CButton>
-                    </CCol>
-                  </CRow> */}
                 </CForm>
               </div>
 
-              {/* {resMessage && (
+              {resMessage && (
                 <CAlert color="danger" className="text-center">
                   {resMessage}
                 </CAlert>
-              )} */}
+              )}
 
               <br />
               <CRow>
@@ -415,16 +440,15 @@ function Step4Page() {
                       color="primary"
                       type="button"
                       className="p-2"
-                      //   onClick={handleStuNicAndExamFormSubmit}
+                      onClick={handleOrderOfPreferencesTableSubmit}
                     >
-                      Save
-                      {/* {loading ? (
+                      {loading ? (
                         <span>
                           <CSpinner size="sm" /> Validating
                         </span>
                       ) : (
                         <span>Next</span>
-                      )} */}
+                      )}
                     </CButton>
                   </CButtonGroup>
                 </CCol>

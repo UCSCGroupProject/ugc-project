@@ -1,5 +1,6 @@
 package com.ugc.student.model;
 
+import com.ugc.student.model.universityAdmission.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -54,6 +55,38 @@ public class Student {
     // For the foreign key referenced from NICAndExamDetails
     @OneToOne(mappedBy = "student")
     private NICAndExamDetails nicAndExamDetails;
+
+    // UNIVERSITY ADMISSION Related
+    // STEP 1
+    // For the foreign key referenced from ResidenceDetails
+    @OneToOne(mappedBy = "student")
+    private ResidenceDetails residenceDetails;
+
+    // For the foreign key referenced from ParentDetails
+    @OneToOne(mappedBy = "student")
+    private ParentDetails parentDetails;
+
+    // For the foreign key referenced from ResidenceDetails
+    @OneToOne(mappedBy = "student")
+    private ContactPersonDetails contactPersonDetails;
+
+    // STEP 3
+    // For the foreign key referenced from SchoolDetails
+    @OneToOne(mappedBy = "student")
+    private SchoolDetails schoolDetails;
+
+    // For the foreign key referenced from AdditionalSchoolDetails
+    @OneToMany(mappedBy = "student")
+    private Set<AdditionalSchoolDetails> additionalSchoolDetails;
+
+    // For the foreign key referenced from OtherDetails
+    @OneToOne(mappedBy = "student")
+    private OtherDetails otherDetails;
+
+    // STEP 4
+    // For the foreign key referenced from OrderOfPreference
+    @OneToMany(mappedBy = "student")
+    private Set<OrderOfPreference> orderOfPreferences;
 
     // Constructor
     public Student(String username, String email, String password) {

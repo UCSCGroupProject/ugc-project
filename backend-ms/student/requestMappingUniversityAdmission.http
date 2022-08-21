@@ -1,0 +1,78 @@
+### Get step 1 form
+GET http://localhost:8081/api/student/universityAdmission/step1Form?username=Dhanushka
+
+### Submit step 1 form
+POST http://localhost:8081/api/student/universityAdmission/step1Form
+Content-Type: application/json
+
+{
+  "permanentAddress": "131/c Kahatapitiya hanwella",
+  "administrativeDistrict": "Colombo",
+  "fixedTelephone": "0775642956",
+  "residenceStartLivingDate": "2020-10-12",
+  "race": "Sinhala",
+  "religion": "Buddhism",
+  "citizenByDescent": "Yes",
+  "contactAddress": "131/c Kahatapitiya hanwella",
+  "postalCode": "10650",
+
+  "fatherFullname": "Dhanushka sandakelum",
+  "motherFullname": "asfsdg sandakelum",
+  "guardianFullname": "Dhanushka sandakelum",
+
+  "contactPersonType": "Father",
+  "contactPersonAddress": "131/c Kahatapitiya hanwella",
+  "contactPersonFixedTelephone": "0775642956",
+  "contactPersonMobile": "0775642956",
+
+  "username": "Dhanushka"
+}
+
+
+### Submit step 3 form
+POST http://localhost:8081/api/student/universityAdmission/step3Form
+Content-Type: application/json
+
+{
+  "candidateType": "School",
+
+  "schoolName": "HRCC",
+  "schoolAddress": "131/ C Kahatapitiya",
+  "schoolAdministrativeDistrict": "Colombo",
+  "schoolTelephone": "0775642956",
+  "schoolDateOfAdmission": "1999-11-12",
+
+  "additionalSchools": [
+    {
+      "additionalSchoolName": "ABC",
+      "additionalSchoolDistrict": "Colombo",
+      "additionalSchoolFrom": "2000-05-12",
+      "additionalSchoolTo": "2005-05-03"
+    },
+    {
+      "additionalSchoolName": "DEF",
+      "additionalSchoolDistrict": "Polonnaruwa",
+      "additionalSchoolFrom": "2000-05-12",
+      "additionalSchoolTo": "2005-05-03"
+    }
+  ],
+
+  "alreadyRegisteredAsInternalStudent": "false",
+  "alreadyReceivedForeignScholarships": "true",
+
+  "username": "Dhanushka"
+}
+
+### Submit step 4 form
+POST http://localhost:8081/api/student/universityAdmission/step4Form
+Content-Type: application/json
+
+{
+  "unicodes": [
+    "000A",
+    "001A",
+    "002B"
+  ],
+
+  "username": "Dhanushka"
+}

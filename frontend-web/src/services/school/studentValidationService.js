@@ -4,18 +4,10 @@ const API_URL = 'http://localhost:8084/api/school/student'
 
 class StudentValidationService {
   getStudentValidationList() {
-    return axios
-      .get(API_URL + '/getStudentValidationList')
-      .then((res) => {
-        console.log('recieved', res.data)
-        return res.data
-      })
-      .catch((error) => {
-        if (error.response) {
-          console.log('Error recieving student validation list')
-          return false
-        }
-      })
+    return axios.get(API_URL + '/getStudentValidationList').then((res) => {
+      console.log('recieved', res.data)
+      return res.data
+    })
   }
 
   validateAndPublishStudentList = async (studentList, username) => {

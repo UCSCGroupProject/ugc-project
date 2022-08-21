@@ -30,6 +30,7 @@ import {
 
 import { v_required, v_match } from '../../../utils/validator'
 
+import authService from '../../../services/authService'
 import universityAdmissionService from '../../../services/student/universityAdmissionService'
 
 function Step3Page() {
@@ -40,11 +41,14 @@ function Step3Page() {
 
   const [step3Form, setStep3Form] = useState({
     // School Details
+    candidateType: 'School',
     schoolName: '',
-    schoolAdress: '',
+    schoolAddress: '',
     schoolAdministrativeDistrict: 'Colombo',
     schoolTelephone: '',
     schoolDateOfAdmission: '',
+    alreadyRegisteredAsInternalStudent: 'false',
+    alreadyReceivedForeignScholarships: 'false',
   })
 
   // Update the form data while input
@@ -55,11 +59,37 @@ function Step3Page() {
     }))
   }
 
+  useEffect(() => {
+    const user = authService.getCurrentUser()
+
+    universityAdmissionService.getStep3Form(user.username).then(
+      (res) => {
+        setLoading(false)
+        console.log('RES', res)
+
+        console.log('SETTINGS ADDITIONAL SCHOOLS')
+        setAdditionalSchools(res.additionalSchools)
+
+        setStep3Form(res)
+      },
+      (error) => {
+        const res =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString()
+
+        // After recieving the server request
+        setResMessage(res)
+        setLoading(false)
+      },
+    )
+  }, [])
+
   // For data errors
   const [step3FormErrors, setStep3FormErrors] = useState({
     // Redidence Details
     schoolNameError: '',
-    schoolAdressError: '',
+    schoolAddressError: '',
     schoolAdministrativeDistrictError: '',
     schoolTelephoneError: '',
     schoolDateOfAdmissionError: '',
@@ -73,7 +103,7 @@ function Step3Page() {
 
     // Redidence Details
     let schoolNameError = ''
-    let schoolAdressError = ''
+    let schoolAddressError = ''
     let schoolAdministrativeDistrictError = ''
     let schoolTelephoneError = ''
     let schoolDateOfAdmissionError = ''
@@ -82,8 +112,8 @@ function Step3Page() {
       schoolNameError = 'School name can not be empty.'
     }
 
-    if (!v_required(step3Form.schoolAdress)) {
-      schoolAdressError = 'School address can not be empty.'
+    if (!v_required(step3Form.schoolAddress)) {
+      schoolAddressError = 'School address can not be empty.'
     }
 
     if (!v_required(step3Form.schoolAdministrativeDistrict)) {
@@ -101,7 +131,7 @@ function Step3Page() {
     // If errors exist, show errors
     setStep3FormErrors({
       schoolNameError,
-      schoolAdressError,
+      schoolAddressError,
       schoolAdministrativeDistrictError,
       schoolTelephoneError,
       schoolDateOfAdmissionError,
@@ -113,7 +143,7 @@ function Step3Page() {
     if (
       !(
         schoolNameError ||
-        schoolAdressError ||
+        schoolAddressError ||
         schoolAdministrativeDistrictError ||
         schoolTelephoneError ||
         schoolDateOfAdmissionError
@@ -125,21 +155,26 @@ function Step3Page() {
       // Sending to the server
       setLoading(true)
       setResMessage('')
-      universityAdmissionService.step3FormCheckAndSubmit(step3Form).then(
-        () => {
-          setLoading(false)
-          navigate('/student/registration/step4')
-        },
-        (error) => {
-          const res =
-            (error.response && error.response.data && error.response.data.message) ||
-            error.message ||
-            error.toString()
-          // After recieving the server request
-          setResMessage(res)
-          setLoading(false)
-        },
-      )
+
+      const user = authService.getCurrentUser()
+
+      universityAdmissionService
+        .step3FormCheckAndSubmit(step3Form, additionalSchools, user.username)
+        .then(
+          () => {
+            setLoading(false)
+            navigate('/student/registration/step4')
+          },
+          (error) => {
+            const res =
+              (error.response && error.response.data && error.response.data.message) ||
+              error.message ||
+              error.toString()
+            // After recieving the server request
+            setResMessage(res)
+            setLoading(false)
+          },
+        )
     }
   }
 
@@ -283,6 +318,7 @@ function Step3Page() {
               <CCardTitle>School Details</CCardTitle>
               <hr />
               <div>
+                {/* School Details */}
                 <CForm className="row g-3 needs-validation" noValidate>
                   <CCol md={12}>
                     <p>
@@ -293,19 +329,22 @@ function Step3Page() {
                       <CFormCheck
                         inline
                         type="radio"
-                        name="inlineRadioOptions"
-                        id="inlineCheckbox1"
-                        value="option1"
+                        name="candidateType"
+                        id="candidateType_1"
+                        value="School"
                         label="School Candidate"
-                        defaultChecked
+                        onChange={onUpdateInput}
+                        checked={step3Form.candidateType === 'School'}
                       />
                       <CFormCheck
                         inline
                         type="radio"
-                        name="inlineRadioOptions"
-                        id="inlineCheckbox2"
-                        value="option2"
+                        name="candidateType"
+                        id="candidateType_2"
+                        value="Private"
                         label="Private Candidate"
+                        onChange={onUpdateInput}
+                        checked={step3Form.candidateType === 'Private'}
                       />
                     </div>
                   </CCol>
@@ -326,11 +365,11 @@ function Step3Page() {
                       type="text"
                       id="validationSchoolAddress"
                       label="Address of the School"
-                      name="schoolAdress"
+                      name="schoolAddress"
                       onChange={onUpdateInput}
-                      value={step3Form.schoolAdress}
-                      feedback={step3FormErrors.schoolAdressError}
-                      invalid={step3FormErrors.schoolAdressError ? true : false}
+                      value={step3Form.schoolAddress}
+                      feedback={step3FormErrors.schoolAddressError}
+                      invalid={step3FormErrors.schoolAddressError ? true : false}
                     />
                   </CCol>
                   <CCol md={4}>
@@ -394,152 +433,134 @@ function Step3Page() {
                       invalid={step3FormErrors.schoolDateOfAdmissionError ? true : false}
                     />
                   </CCol>
-
-                  <div className="border border-light p-3 row g-3">
-                    <CCol md={12}>
-                      If you had joined that school on any date after 1st October 2017, give
-                      particulars in respect of each School you had attended during the 5 year
-                      period prior to that date.
-                    </CCol>
-                    <CCol md={4}>
-                      <CFormSelect
-                        label="District"
-                        aria-label="additionalSchoolDistrict-select"
-                        name="additionalSchoolDistrict"
-                        onChange={onAdditionalSchoolUpdateInput}
-                        value={additionalSchoolForm.additionalSchoolDistrict}
-                        feedback={additionalSchoolFormErrors.additionalSchoolDistrictError}
-                        invalid={additionalSchoolFormErrors.additionalSchoolDistrict ? true : false}
-                      >
-                        <option value="Colombo">Colombo</option>
-                        <option value="Gampaha">Gampaha</option>
-                        <option value="Kalutara">Kalutara</option>
-                        <option value="Kandy">Kandy</option>
-                        <option value="Matale">Matale</option>
-                        <option value="Nuwara Eliya">Nuwara Eliya</option>
-                        <option value="Galle">Galle</option>
-                        <option value="Matara">Matara</option>
-                        <option value="Hambantota">Hambantota</option>
-                        <option value="Jaffna">Jaffna</option>
-                        <option value="Kilinochchi">Kilinochchi</option>
-                        <option value="Mannar">Mannar</option>
-                        <option value="Vavuniya">Vavuniya</option>
-                        <option value="Mullaitivu">Mullaitivu</option>
-                        <option value="Batticaloa">Batticaloa</option>
-                        <option value="Ampara">Ampara</option>
-                        <option value="Trincomalee">Trincomalee</option>
-                        <option value="Kurunegala">Kurunegala</option>
-                        <option value="Puttalam">Puttalam</option>
-                        <option value="Anuradhapura">Anuradhapura</option>
-                        <option value="Polonnaruwa">Polonnaruwa</option>
-                        <option value="Badulla">Badulla</option>
-                        <option value="Moneragala">Moneragala</option>
-                        <option value="Ratnapura">Ratnapura</option>
-                        <option value="Kegalle">Kegalle</option>
-                      </CFormSelect>
-                    </CCol>
-                    <CCol md={6}>
-                      <CFormInput
-                        type="text"
-                        id="validationAdditionalSchoolName"
-                        label="Name of the School"
-                        name="additionalSchoolName"
-                        onChange={onAdditionalSchoolUpdateInput}
-                        value={additionalSchoolForm.additionalSchoolName}
-                        feedback={additionalSchoolFormErrors.additionalSchoolNameError}
-                        invalid={
-                          additionalSchoolFormErrors.additionalSchoolNameError ? true : false
-                        }
-                      />
-                    </CCol>
-                    <CCol md={4}>
-                      <CFormInput
-                        type="date"
-                        id="validationAdditionalSchoolFrom"
-                        label="From"
-                        name="additionalSchoolFrom"
-                        onChange={onAdditionalSchoolUpdateInput}
-                        value={additionalSchoolForm.additionalSchoolFrom}
-                        feedback={additionalSchoolFormErrors.additionalSchoolFromError}
-                        invalid={
-                          additionalSchoolFormErrors.additionalSchoolFromError ? true : false
-                        }
-                      />
-                    </CCol>
-                    <CCol md={4}>
-                      <CFormInput
-                        type="date"
-                        id="validationAdditionalSchoolTo"
-                        label="To"
-                        name="additionalSchoolTo"
-                        onChange={onAdditionalSchoolUpdateInput}
-                        value={additionalSchoolForm.additionalSchoolTo}
-                        feedback={additionalSchoolFormErrors.additionalSchoolToError}
-                        invalid={additionalSchoolFormErrors.additionalSchoolToError ? true : false}
-                      />
-                    </CCol>
-                    <CCol md={12}>
-                      <CButton
-                        color="primary"
-                        type="button"
-                        className="p-2"
-                        onClick={handleAdditionalSchoolFormSubmit}
-                      >
-                        Add
-                      </CButton>
-                    </CCol>
-                    <CTable bordered>
-                      <CTableHead color="dark">
-                        <CTableRow>
-                          <CTableHeaderCell>Name of School</CTableHeaderCell>
-                          <CTableHeaderCell>Administrative District</CTableHeaderCell>
-                          <CTableHeaderCell>From</CTableHeaderCell>
-                          <CTableHeaderCell>To</CTableHeaderCell>
-                          <CTableHeaderCell>
-                            {additionalSchools.length !== 0 && (
-                              <CButton
-                                color="warning"
-                                type="button"
-                                className="p-0 float-end"
-                                onClick={handleAdditionalSchoolFormClear}
-                              >
-                                <span className="px-2">Clear Table</span>
-                              </CButton>
-                            )}
-                          </CTableHeaderCell>
-                        </CTableRow>
-                      </CTableHead>
-                      <CTableBody>
-                        {/* {additionalSchools[0].additionalSchoolForm} */}
-                        {additionalSchools.map((item) => (
-                          <CTableRow id={item.additionalSchoolId}>
-                            <CTableHeaderCell>{item.additionalSchoolName}</CTableHeaderCell>
-                            <CTableDataCell>{item.additionalSchoolDistrict}</CTableDataCell>
-                            <CTableDataCell>{item.additionalSchoolFrom}</CTableDataCell>
-                            <CTableDataCell colSpan={2}>{item.additionalSchoolTo}</CTableDataCell>
-                          </CTableRow>
-                        ))}
-                        {/* <CTableRow>
-                        <CTableHeaderCell>Hanwella Rajasinghe Central College</CTableHeaderCell>
-                        <CTableDataCell>Colombo</CTableDataCell>
-                        <CTableDataCell>2015-08-07</CTableDataCell>
-                        <CTableDataCell>2017-05-14</CTableDataCell>
-                        <CTableDataCell>
-                          <strong className="text-danger">Delete</strong>
-                        </CTableDataCell>
-                      </CTableRow> */}
-                        {/* {allCoursesData.map((item) => (
-                        <CTableRow key={item.id}>
-                          <CTableHeaderCell>{item.id}</CTableHeaderCell>
-                          <CTableDataCell>{item.unicode}</CTableDataCell>
-                          <CTableDataCell>{item.courseOfStudy}</CTableDataCell>
-                          <CTableDataCell>{item.university}</CTableDataCell>
-                        </CTableRow>
-                      ))} */}
-                      </CTableBody>
-                    </CTable>
-                  </div>
                 </CForm>
+              </div>
+              <div>
+                {/* Additional School Details */}
+                <div className="border border-light p-3 row g-3">
+                  <CCol md={12}>
+                    If you had joined that school on any date after 1st October 2017, give
+                    particulars in respect of each School you had attended during the 5 year period
+                    prior to that date.
+                  </CCol>
+                  <CCol md={4}>
+                    <CFormSelect
+                      label="District"
+                      aria-label="additionalSchoolDistrict-select"
+                      name="additionalSchoolDistrict"
+                      onChange={onAdditionalSchoolUpdateInput}
+                      value={additionalSchoolForm.additionalSchoolDistrict}
+                      feedback={additionalSchoolFormErrors.additionalSchoolDistrictError}
+                      invalid={additionalSchoolFormErrors.additionalSchoolDistrict ? true : false}
+                    >
+                      <option value="Colombo">Colombo</option>
+                      <option value="Gampaha">Gampaha</option>
+                      <option value="Kalutara">Kalutara</option>
+                      <option value="Kandy">Kandy</option>
+                      <option value="Matale">Matale</option>
+                      <option value="Nuwara Eliya">Nuwara Eliya</option>
+                      <option value="Galle">Galle</option>
+                      <option value="Matara">Matara</option>
+                      <option value="Hambantota">Hambantota</option>
+                      <option value="Jaffna">Jaffna</option>
+                      <option value="Kilinochchi">Kilinochchi</option>
+                      <option value="Mannar">Mannar</option>
+                      <option value="Vavuniya">Vavuniya</option>
+                      <option value="Mullaitivu">Mullaitivu</option>
+                      <option value="Batticaloa">Batticaloa</option>
+                      <option value="Ampara">Ampara</option>
+                      <option value="Trincomalee">Trincomalee</option>
+                      <option value="Kurunegala">Kurunegala</option>
+                      <option value="Puttalam">Puttalam</option>
+                      <option value="Anuradhapura">Anuradhapura</option>
+                      <option value="Polonnaruwa">Polonnaruwa</option>
+                      <option value="Badulla">Badulla</option>
+                      <option value="Moneragala">Moneragala</option>
+                      <option value="Ratnapura">Ratnapura</option>
+                      <option value="Kegalle">Kegalle</option>
+                    </CFormSelect>
+                  </CCol>
+                  <CCol md={8}>
+                    <CFormInput
+                      type="text"
+                      id="validationAdditionalSchoolName"
+                      label="Name of the School"
+                      name="additionalSchoolName"
+                      onChange={onAdditionalSchoolUpdateInput}
+                      value={additionalSchoolForm.additionalSchoolName}
+                      feedback={additionalSchoolFormErrors.additionalSchoolNameError}
+                      invalid={additionalSchoolFormErrors.additionalSchoolNameError ? true : false}
+                    />
+                  </CCol>
+                  <CCol md={5}>
+                    <CFormInput
+                      type="date"
+                      id="validationAdditionalSchoolFrom"
+                      label="From"
+                      name="additionalSchoolFrom"
+                      onChange={onAdditionalSchoolUpdateInput}
+                      value={additionalSchoolForm.additionalSchoolFrom}
+                      feedback={additionalSchoolFormErrors.additionalSchoolFromError}
+                      invalid={additionalSchoolFormErrors.additionalSchoolFromError ? true : false}
+                    />
+                  </CCol>
+                  <CCol md={5}>
+                    <CFormInput
+                      type="date"
+                      id="validationAdditionalSchoolTo"
+                      label="To"
+                      name="additionalSchoolTo"
+                      onChange={onAdditionalSchoolUpdateInput}
+                      value={additionalSchoolForm.additionalSchoolTo}
+                      feedback={additionalSchoolFormErrors.additionalSchoolToError}
+                      invalid={additionalSchoolFormErrors.additionalSchoolToError ? true : false}
+                    />
+                  </CCol>
+                  <CCol md={2}>
+                    <CButton
+                      color="primary"
+                      type="button"
+                      className="p-2"
+                      className="w-100 mt-3 h-75"
+                      onClick={handleAdditionalSchoolFormSubmit}
+                    >
+                      Add
+                    </CButton>
+                  </CCol>
+                  <CTable bordered>
+                    <CTableHead color="dark">
+                      <CTableRow>
+                        <CTableHeaderCell>Name of School</CTableHeaderCell>
+                        <CTableHeaderCell>Administrative District</CTableHeaderCell>
+                        <CTableHeaderCell>From</CTableHeaderCell>
+                        <CTableHeaderCell>To</CTableHeaderCell>
+                        <CTableHeaderCell>
+                          {additionalSchools.length !== 0 && (
+                            <CButton
+                              color="warning"
+                              type="button"
+                              className="p-0 float-end"
+                              onClick={handleAdditionalSchoolFormClear}
+                            >
+                              <span className="px-2">Clear Table</span>
+                            </CButton>
+                          )}
+                        </CTableHeaderCell>
+                      </CTableRow>
+                    </CTableHead>
+                    <CTableBody>
+                      {/* {additionalSchools[0].additionalSchoolForm} */}
+                      {additionalSchools.map((item) => (
+                        <CTableRow id={item.additionalSchoolName}>
+                          <CTableHeaderCell>{item.additionalSchoolName}</CTableHeaderCell>
+                          <CTableDataCell>{item.additionalSchoolDistrict}</CTableDataCell>
+                          <CTableDataCell>{item.additionalSchoolFrom}</CTableDataCell>
+                          <CTableDataCell colSpan={2}>{item.additionalSchoolTo}</CTableDataCell>
+                        </CTableRow>
+                      ))}
+                    </CTableBody>
+                  </CTable>
+                </div>
               </div>
               <br />
               <br />
@@ -558,19 +579,22 @@ function Step3Page() {
                       <CFormCheck
                         inline
                         type="radio"
-                        name="inlineRadioOptions"
-                        id="inlineCheckbox1"
-                        value="option1"
+                        name="alreadyRegisteredAsInternalStudent"
+                        id="alreadyRegisteredAsInternalStudent_1"
+                        value="true"
                         label="Yes"
-                        defaultChecked
+                        onChange={onUpdateInput}
+                        checked={step3Form.alreadyRegisteredAsInternalStudent ? 'true' : 'false'}
                       />
                       <CFormCheck
                         inline
                         type="radio"
-                        name="inlineRadioOptions"
-                        id="inlineCheckbox2"
-                        value="option2"
+                        name="alreadyRegisteredAsInternalStudent"
+                        id="alreadyRegisteredAsInternalStudent_2"
+                        value="false"
                         label="No"
+                        onChange={onUpdateInput}
+                        checked={step3Form.alreadyRegisteredAsInternalStudent ? 'true' : 'false'}
                       />
                     </div>
                   </CCol>
@@ -584,19 +608,22 @@ function Step3Page() {
                       <CFormCheck
                         inline
                         type="radio"
-                        name="inlineRadioOptions"
-                        id="inlineCheckbox1"
-                        value="option1"
+                        name="alreadyReceivedForeignScholarships"
+                        id="alreadyReceivedForeignScholarships_1"
+                        value="true"
                         label="Yes"
-                        defaultChecked
+                        onChange={onUpdateInput}
+                        checked={step3Form.alreadyReceivedForeignScholarships ? 'true' : 'false'}
                       />
                       <CFormCheck
                         inline
                         type="radio"
-                        name="inlineRadioOptions"
-                        id="inlineCheckbox2"
-                        value="option2"
+                        name="alreadyReceivedForeignScholarships"
+                        id="alreadyReceivedForeignScholarships_2"
+                        value="false"
                         label="No"
+                        onChange={onUpdateInput}
+                        checked={step3Form.alreadyReceivedForeignScholarships ? 'true' : 'false'}
                       />
                     </div>
                   </CCol>
