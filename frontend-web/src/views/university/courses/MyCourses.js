@@ -38,17 +38,27 @@ const MyCourses = () => {
 
   const [allCoursesData, setAllCoursesData] = useState([
     {
-      id: '1',
+      id: 1,
       unicode: '112N',
       courseOfStudy: 'Medicine',
     },
     {
-      id: '2',
+      id: 2,
       unicode: '112A',
       courseOfStudy: 'Medicine',
     },
   ])
+
+  const updatecourse = () => {
+    let temp = allCoursesData.slice()
+    temp[currentItemIndex] = currentItem
+    setAllCoursesData(temp)
+  }
+
   const [currentItem, setCurrentItem] = useState(null)
+
+  const [currentItemIndex, setCurrentItemIndex] = useState(null)
+
   return (
     <div>
       <CRow>
@@ -101,7 +111,7 @@ const MyCourses = () => {
                     </CTableRow>
                   </CTableHead>
                   <CTableBody>
-                    {allCoursesData.map((item) => (
+                    {allCoursesData.map((item, index) => (
                       <CTableRow key={item.id}>
                         <CTableHeaderCell>{item.id}</CTableHeaderCell>
                         <CTableDataCell>{item.unicode}</CTableDataCell>
@@ -115,6 +125,7 @@ const MyCourses = () => {
                               className="text-white"
                               onClick={() => {
                                 setCurrentItem(item)
+                                setCurrentItemIndex(index)
                                 setVisible(!visible)
                               }}
                             >
@@ -132,7 +143,7 @@ const MyCourses = () => {
           </CCard>
         </CCol>
       </CRow>
-      <CModal scrollable visible={visible} onClose={() => setVisible(false)}>
+      <CModal scrollable visible={visible} size="lg" onClose={() => setVisible(false)}>
         <CModalHeader>
           <CModalTitle>Course Edit</CModalTitle>
         </CModalHeader>
@@ -144,9 +155,14 @@ const MyCourses = () => {
               </CFormLabel>
               <CCol sm={12}>
                 <CFormInput
+                  onChange={(e) => {
+                    let temp = currentItem
+                    temp.unicode = e.target.value
+                    setCurrentItem(temp)
+                  }}
                   type="text"
                   id="inputunicode"
-                  value={currentItem ? currentItem.unicode : 'loading...'}
+                  defaultValue={currentItem ? currentItem.unicode : 'loading...'}
                 />
               </CCol>
             </CRow>
@@ -158,7 +174,12 @@ const MyCourses = () => {
                 <CFormInput
                   type="text"
                   id="inputcourse"
-                  value={currentItem ? currentItem.courseOfStudy : 'loading...'}
+                  defaultValue={currentItem ? currentItem.courseOfStudy : 'loading...'}
+                  onChange={(e) => {
+                    let temp = currentItem
+                    temp.courseOfStudy = e.target.value
+                    setCurrentItem(temp)
+                  }}
                 />
               </CCol>
             </CRow>
@@ -175,7 +196,7 @@ const MyCourses = () => {
                 Requirements
               </CFormLabel>
               <CRow>
-                <CCol sm={5}>
+                <CCol sm={6}>
                   <CFormSelect size="sm" className="mb-2" aria-label="Small select example">
                     <option>Select a Subject</option>
                     <option value="1">Combined Mathematics</option>
@@ -186,7 +207,7 @@ const MyCourses = () => {
                     <option value="6">Agriculture</option>
                   </CFormSelect>
                 </CCol>
-                <CCol sm={7}>
+                <CCol sm={6}>
                   <CFormCheck
                     inline
                     type="radio"
@@ -231,7 +252,7 @@ const MyCourses = () => {
                 </CCol>
               </CRow>
               <CRow>
-                <CCol sm={5}>
+                <CCol sm={6}>
                   <CFormSelect size="sm" className="mb-2" aria-label="Small select example">
                     <option>Select a Subject</option>
                     <option value="1">Combined Mathematics</option>
@@ -242,7 +263,7 @@ const MyCourses = () => {
                     <option value="6">Agriculture</option>
                   </CFormSelect>
                 </CCol>
-                <CCol sm={7}>
+                <CCol sm={6}>
                   <CFormCheck
                     inline
                     type="radio"
@@ -287,7 +308,7 @@ const MyCourses = () => {
                 </CCol>
               </CRow>
               <CRow>
-                <CCol sm={5}>
+                <CCol sm={6}>
                   <CFormSelect size="sm" className="mb-2" aria-label="Small select example">
                     <option>Select a Subject</option>
                     <option value="1">Combined Mathematics</option>
@@ -298,7 +319,7 @@ const MyCourses = () => {
                     <option value="6">Agriculture</option>
                   </CFormSelect>
                 </CCol>
-                <CCol sm={8}>
+                <CCol sm={6}>
                   <CFormCheck
                     inline
                     type="radio"
@@ -351,42 +372,21 @@ const MyCourses = () => {
                 <CFormTextarea id="exampleFormControlTextarea1" rows="5"></CFormTextarea>
               </CCol>
             </CRow>
-
-            {/* <fieldset className="row mb-3">
-              <legend className="col-form-label col-sm-2 pt-0">Radios</legend>
-              <CCol sm={10}>
-                <CFormCheck
-                  type="radio"
-                  name="gridRadios"
-                  id="gridRadios1"
-                  value="option1"
-                  label="First radio"
-                  defaultChecked
-                />
-                <CFormCheck
-                  type="radio"
-                  name="gridRadios"
-                  id="gridRadios2"
-                  value="option2"
-                  label="Second radio"
-                />
-                <CFormCheck
-                  type="radio"
-                  name="gridRadios"
-                  id="gridRadios3"
-                  value="option3"
-                  label="Third disabled radio"
-                  disabled
-                />
-              </CCol>
-            </fieldset> */}
           </CForm>
         </CModalBody>
         <CModalFooter>
           <CButton color="secondary" onClick={() => setVisible(false)}>
             Close
           </CButton>
-          <CButton color="primary">Save changes</CButton>
+          <CButton
+            color="primary"
+            onClick={() => {
+              updatecourse()
+              setVisible(false)
+            }}
+          >
+            Save changes
+          </CButton>
         </CModalFooter>
       </CModal>
     </div>
