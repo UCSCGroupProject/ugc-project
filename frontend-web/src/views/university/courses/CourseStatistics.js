@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { CRow, CCol, CCard, CCardBody, CCardHeader, CButton } from '@coreui/react'
+import { CRow, CCol, CCard, CCardBody, CCardHeader} from '@coreui/react'
 
 import { CChart } from '@coreui/react-chartjs'
 
