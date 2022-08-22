@@ -67,6 +67,7 @@ const Uni_AptitudeTests_TestDetails_Progress = React.lazy(() => import('./views/
 const Uni_AptitudeTests_TestDetails_Results = React.lazy(() => import('./views/university/aptitudeTests/AptitudeTestResults'))
 const Uni_Courses_MyCourses_Edit = React.lazy(() => import('./views/university/courses/MyCoursesEdit'))
 
+
 // School views
 const Sch_Dashboard = React.lazy(() => import('./views/school/dashboard/Dashboard'))
 const Sch_Students_ValidateList = React.lazy(() => import('./views/school/students/ValidateStudents'))
