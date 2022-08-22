@@ -2,13 +2,11 @@ package com.ugc.student.controller;
 
 import com.ugc.student.model.universityAdmission.*;
 import com.ugc.student.payload.request.universityAdmission.Step1FormRequest;
+import com.ugc.student.payload.request.universityAdmission.Step2FormRequest;
 import com.ugc.student.payload.request.universityAdmission.Step3FormRequest;
 import com.ugc.student.payload.request.universityAdmission.Step4FormRequest;
 import com.ugc.student.payload.response.MessageResponse;
-import com.ugc.student.payload.response.universityAdmission.AdditionalSchoolResponse;
-import com.ugc.student.payload.response.universityAdmission.Step1FormResponse;
-import com.ugc.student.payload.response.universityAdmission.Step3FormResponse;
-import com.ugc.student.payload.response.universityAdmission.Step4FormResponse;
+import com.ugc.student.payload.response.universityAdmission.*;
 import com.ugc.student.service.UniversityAdmissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -59,6 +57,36 @@ public class UniversityAdmissionController {
     @PostMapping("/step1Form")
     public ResponseEntity<?> step1FormCheckAndSubmit(@Valid @RequestBody Step1FormRequest step1FormRequest){
         String result = universityAdmissionService.saveStep1Form(step1FormRequest);
+
+        return ResponseEntity.ok(new MessageResponse(result));
+    }
+
+    // STEP 2
+    @GetMapping("/step2Form")
+    public ResponseEntity<?> getStep2Form(@RequestParam(name = "username") String username){
+        System.out.println(username);
+
+        OLDetails olDetails = universityAdmissionService.getOLDetailsByUsername(username);
+        ALDetails alDetails = universityAdmissionService.getALDetailsByUsername(username);
+
+        return ResponseEntity.ok(new Step2FormResponse(
+                olDetails.getOLCategory(),
+                olDetails.getOLYear(),
+                olDetails.getOLIndex(),
+                olDetails.getOLNameUsed(),
+                olDetails.getOLResultsAcceptance(),
+
+                alDetails.getALAdministrativeDistrictTaken(),
+                alDetails.getALAdministrativeDistrictConsidered(),
+                alDetails.getALResultsAcceptance()
+        ));
+    }
+
+    @PostMapping("/step2Form")
+    public ResponseEntity<?> step2FormCheckAndSubmit(@Valid @RequestBody Step2FormRequest step2FormRequest){
+        System.out.println(step2FormRequest.toString());
+
+        String result = universityAdmissionService.saveStep2Form(step2FormRequest);
 
         return ResponseEntity.ok(new MessageResponse(result));
     }

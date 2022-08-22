@@ -63,6 +63,8 @@ function Step1Page() {
   }
 
   useEffect(() => {
+    setLoading(true)
+
     const user = authService.getCurrentUser()
 
     universityAdmissionService.getStep1Form(user.username).then(
@@ -77,7 +79,8 @@ function Step1Page() {
           error.toString()
 
         // After recieving the server request
-        setResMessage(res)
+        // setResMessage(res)
+        console.log(res)
         setLoading(false)
       },
     )

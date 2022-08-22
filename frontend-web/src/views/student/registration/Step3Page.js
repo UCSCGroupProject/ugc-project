@@ -16,7 +16,6 @@ import {
   CButton,
   CForm,
   CFormCheck,
-  CCardText,
   CButtonGroup,
   CTable,
   CTableHead,
@@ -28,7 +27,7 @@ import {
   CSpinner,
 } from '@coreui/react'
 
-import { v_required, v_match } from '../../../utils/validator'
+import { v_required } from '../../../utils/validator'
 
 import authService from '../../../services/authService'
 import universityAdmissionService from '../../../services/student/universityAdmissionService'
@@ -41,14 +40,14 @@ function Step3Page() {
 
   const [step3Form, setStep3Form] = useState({
     // School Details
-    candidateType: 'School',
+    candidateType: 'Private',
     schoolName: '',
     schoolAddress: '',
     schoolAdministrativeDistrict: 'Colombo',
     schoolTelephone: '',
     schoolDateOfAdmission: '',
-    alreadyRegisteredAsInternalStudent: 'false',
-    alreadyReceivedForeignScholarships: 'false',
+    alreadyRegisteredAsInternalStudent: 'true',
+    alreadyReceivedForeignScholarships: 'true',
   })
 
   // Update the form data while input
@@ -60,6 +59,8 @@ function Step3Page() {
   }
 
   useEffect(() => {
+    setLoading(true)
+
     const user = authService.getCurrentUser()
 
     universityAdmissionService.getStep3Form(user.username).then(
@@ -79,7 +80,8 @@ function Step3Page() {
           error.toString()
 
         // After recieving the server request
-        setResMessage(res)
+        // setResMessage(res)
+        console.log(res)
         setLoading(false)
       },
     )
@@ -208,9 +210,6 @@ function Step3Page() {
 
   const incIndex = () => {
     setIndex(index + 1)
-  }
-  const decIndex = () => {
-    setIndex(index - 1)
   }
 
   // Validate the data and
@@ -520,8 +519,7 @@ function Step3Page() {
                     <CButton
                       color="primary"
                       type="button"
-                      className="p-2"
-                      className="w-100 mt-3 h-75"
+                      className="p-2 w-100 mt-3 h-75"
                       onClick={handleAdditionalSchoolFormSubmit}
                     >
                       Add

@@ -17,14 +17,42 @@ spring:
             allowedMethods: "*"
             allowedHeaders: "*"
       routes:
-        - id: user
-          uri: lb://USER
-          predicates:
-              - Path=/api/user/**
         - id: student
           uri: lb://STUDENT
           predicates:
             - Path=/api/student/**
+        - id: university
+          uri: lb://UNIVERSITY
+          predicates:
+            - Path=/api/university/**
+        - id: staff
+          uri: lb://STAFF
+          predicates:
+            - Path=/api/staff/**
+        - id: school
+          uri: lb://SCHOOL
+          predicates:
+            - Path=/api/school/**
+        - id: email
+          uri: lb://EMAIL
+          predicates:
+            - Path=/api/email/**
+        - id: notification
+          uri: lb://NOTIFICATION
+          predicates:
+            - Path=/api/notification/**
+        - id: selection-process
+          uri: lb://SELECTION-PROCESS
+          predicates:
+            - Path=/api/selection-process/**
+        - id: zscore
+          uri: lb://ZSCORE
+          predicates:
+            - Path=/api/zscore/**
+        - id: blockchain
+          uri: lb://BLOCKCHAIN
+          predicates:
+            - Path=/api/blockchain/**
 
 eureka:
   client:

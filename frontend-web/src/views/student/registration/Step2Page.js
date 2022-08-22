@@ -28,8 +28,9 @@ import {
   CSpinner,
 } from '@coreui/react'
 
-import { v_required, v_match } from '../../../utils/validator'
+import { v_required } from '../../../utils/validator'
 
+import authService from '../../../services/authService'
 import universityAdmissionService from '../../../services/student/universityAdmissionService'
 
 function Step2Page() {
@@ -40,13 +41,15 @@ function Step2Page() {
 
   const [step2Form, setStep2Form] = useState({
     // OL Results
-    OLCategory: 'localOL',
-    OLYear: '2016',
-    OLIndex: '',
-    OLNameUsed: '',
+    olCategory: 'localOL',
+    olYear: '2016',
+    olIndex: '',
+    olNameUsed: '',
+    olResultsAcceptance: 'true',
     //AL Results
-    ALAdministrativeDistrictTaken: 'Colombo',
-    ALAdministrativeDistrictConsidered: 'Colombo',
+    alAdministrativeDistrictTaken: 'Colombo',
+    alAdministrativeDistrictConsidered: 'Colombo',
+    alResultsAcceptance: 'true',
   })
 
   // Update the form data while input
@@ -57,16 +60,40 @@ function Step2Page() {
     }))
   }
 
+  useEffect(() => {
+    setLoading(true)
+
+    const user = authService.getCurrentUser()
+
+    universityAdmissionService.getStep2Form(user.username).then(
+      (res) => {
+        setLoading(false)
+        setStep2Form(res)
+      },
+      (error) => {
+        const res =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString()
+
+        // After recieving the server request
+        // setResMessage(res)
+        console.log(res)
+        setLoading(false)
+      },
+    )
+  }, [])
+
   // For data errors
   const [step2FormErrors, setStep2FormErrors] = useState({
     // OL Results
-    OLCategoryError: '',
-    OLYearError: '',
-    OLIndexError: '',
-    OLNameUsedError: '',
+    olCategoryError: '',
+    olYearError: '',
+    olIndexError: '',
+    olNameUsedError: '',
     //AL Results
-    ALAdministrativeDistrictTakenError: '',
-    ALAdministrativeDistrictConsideredError: '',
+    alAdministrativeDistrictTakenError: '',
+    alAdministrativeDistrictConsideredError: '',
   })
 
   // Validate the data and
@@ -76,49 +103,49 @@ function Step2Page() {
     e.preventDefault()
 
     // OL Results
-    let OLCategoryError = ''
-    let OLYearError = ''
-    let OLIndexError = ''
-    let OLNameUsedError = ''
+    let olCategoryError = ''
+    let olYearError = ''
+    let olIndexError = ''
+    let olNameUsedError = ''
     //AL Results
-    let ALAdministrativeDistrictTakenError = ''
-    let ALAdministrativeDistrictConsideredError = ''
+    let alAdministrativeDistrictTakenError = ''
+    let alAdministrativeDistrictConsideredError = ''
 
     console.log(step2Form)
 
-    if (!v_required(step2Form.OLCategory)) {
-      OLCategoryError = 'OL category can not be empty.'
+    if (!v_required(step2Form.olCategory)) {
+      olCategoryError = 'OL category can not be empty.'
     }
 
-    if (!v_required(step2Form.OLYear)) {
-      OLYearError = 'OL Year can not be empty.'
+    if (!v_required(step2Form.olYear)) {
+      olYearError = 'OL Year can not be empty.'
     }
 
-    if (!v_required(step2Form.OLIndex)) {
-      OLIndexError = 'OL Index can not be empty.'
+    if (!v_required(step2Form.olIndex)) {
+      olIndexError = 'OL Index can not be empty.'
     }
 
-    if (!v_required(step2Form.OLNameUsed)) {
-      OLNameUsedError = 'OL name used can not be empty.'
+    if (!v_required(step2Form.olNameUsed)) {
+      olNameUsedError = 'OL name used can not be empty.'
     }
 
-    if (!v_required(step2Form.ALAdministrativeDistrictTaken)) {
-      ALAdministrativeDistrictTakenError = 'Administrative district taken can not be empty.'
+    if (!v_required(step2Form.alAdministrativeDistrictTaken)) {
+      alAdministrativeDistrictTakenError = 'Administrative district taken can not be empty.'
     }
 
-    if (!v_required(step2Form.ALAdministrativeDistrictConsidered)) {
-      ALAdministrativeDistrictConsideredError =
+    if (!v_required(step2Form.alAdministrativeDistrictConsidered)) {
+      alAdministrativeDistrictConsideredError =
         'Administrative district considered can not be empty.'
     }
 
     // If errors exist, show errors
     setStep2FormErrors({
-      OLCategoryError,
-      OLYearError,
-      OLIndexError,
-      OLNameUsedError,
-      ALAdministrativeDistrictTakenError,
-      ALAdministrativeDistrictConsideredError,
+      olCategoryError,
+      olYearError,
+      olIndexError,
+      olNameUsedError,
+      alAdministrativeDistrictTakenError,
+      alAdministrativeDistrictConsideredError,
     })
 
     console.log(step2FormErrors)
@@ -126,12 +153,12 @@ function Step2Page() {
     // If no errors exist, send to the server
     if (
       !(
-        OLCategoryError ||
-        OLYearError ||
-        OLIndexError ||
-        OLNameUsedError ||
-        ALAdministrativeDistrictTakenError ||
-        ALAdministrativeDistrictConsideredError
+        olCategoryError ||
+        olYearError ||
+        olIndexError ||
+        olNameUsedError ||
+        alAdministrativeDistrictTakenError ||
+        alAdministrativeDistrictConsideredError
       )
     ) {
       console.log('STEP 2 PAGE')
@@ -140,7 +167,10 @@ function Step2Page() {
       // Sending to the server
       setLoading(true)
       setResMessage('')
-      universityAdmissionService.step2FormCheckAndSubmit(step2Form).then(
+
+      const user = authService.getCurrentUser()
+
+      universityAdmissionService.step2FormCheckAndSubmit(step2Form, user.username).then(
         () => {
           setLoading(false)
           navigate('/student/registration/step3')
@@ -197,11 +227,11 @@ function Step2Page() {
                     <CFormSelect
                       label="Category of G.C.E. (O/L)"
                       aria-label="OLCategory-select"
-                      name="OLCategory"
+                      name="olCategory"
                       onChange={onUpdateInput}
-                      value={step2Form.OLCategory}
-                      feedback={step2FormErrors.OLCategoryError}
-                      invalid={step2FormErrors.OLCategoryError ? true : false}
+                      value={step2Form.olCategory}
+                      feedback={step2FormErrors.olCategoryError}
+                      invalid={step2FormErrors.olCategoryError ? true : false}
                     >
                       <option value="localOL">Local G.C.E. (O/l)</option>
                     </CFormSelect>
@@ -210,11 +240,11 @@ function Step2Page() {
                     <CFormSelect
                       label="Year"
                       aria-label="OLYear-select"
-                      name="OLYear"
+                      name="olYear"
                       onChange={onUpdateInput}
-                      value={step2Form.OLYear}
-                      feedback={step2FormErrors.OLYearError}
-                      invalid={step2FormErrors.OLYearError ? true : false}
+                      value={step2Form.olYear}
+                      feedback={step2FormErrors.olYearError}
+                      invalid={step2FormErrors.olYearError ? true : false}
                     >
                       <option value="2016">2016</option>
                       <option value="2017">2017</option>
@@ -230,11 +260,11 @@ function Step2Page() {
                       type="text"
                       id="validationOLIndex"
                       label="Index number"
-                      name="OLIndex"
+                      name="olIndex"
                       onChange={onUpdateInput}
-                      value={step2Form.OLIndex}
-                      feedback={step2FormErrors.OLIndexError}
-                      invalid={step2FormErrors.OLIndexError ? true : false}
+                      value={step2Form.olIndex}
+                      feedback={step2FormErrors.olIndexError}
+                      invalid={step2FormErrors.olIndexError ? true : false}
                     />
                   </CCol>
                   <CCol md={12}>
@@ -242,11 +272,11 @@ function Step2Page() {
                       type="text"
                       id="validationOLIndex"
                       label="Named used in G.C.E.(O/L) Examination"
-                      name="OLIndex"
+                      name="olNameUsed"
                       onChange={onUpdateInput}
-                      value={step2Form.OLNameUsed}
-                      feedback={step2FormErrors.OLNameUsedError}
-                      invalid={step2FormErrors.OLNameUsedError ? true : false}
+                      value={step2Form.olNameUsed}
+                      feedback={step2FormErrors.olNameUsedError}
+                      invalid={step2FormErrors.olNameUsedError ? true : false}
                     />
                   </CCol>
                   <CTable bordered>
@@ -274,19 +304,22 @@ function Step2Page() {
                     <CFormCheck
                       inline
                       type="radio"
-                      name="inlineRadioOptions"
-                      id="inlineCheckbox1"
-                      value="option1"
+                      name="olResultsAcceptance"
+                      id="olResultsAcceptance_1"
+                      value="true"
                       label="Accept"
-                      defaultChecked
+                      onChange={onUpdateInput}
+                      checked={step2Form.olResultsAcceptance === 'true' ? true : false}
                     />
                     <CFormCheck
                       inline
                       type="radio"
-                      name="inlineRadioOptions"
-                      id="inlineCheckbox2"
-                      value="option2"
+                      name="olResultsAcceptance"
+                      id="olResultsAcceptance_2"
+                      value="false"
                       label="Change"
+                      onChange={onUpdateInput}
+                      checked={step2Form.olResultsAcceptance === 'false' ? true : false}
                     />
                   </CCol>
                 </CForm>
@@ -303,11 +336,11 @@ function Step2Page() {
                     <CFormSelect
                       label="Administrative District from which G.C.E. (A/L) was taken"
                       aria-label="ALAdministrativeDistrictTaken-select"
-                      name="ALAdministrativeDistrictTaken"
+                      name="alAdministrativeDistrictTaken"
                       onChange={onUpdateInput}
-                      value={step2Form.ALAdministrativeDistrictTaken}
-                      feedback={step2FormErrors.ALAdministrativeDistrictTakenError}
-                      invalid={step2FormErrors.ALAdministrativeDistrictTakenError ? true : false}
+                      value={step2Form.alAdministrativeDistrictTaken}
+                      feedback={step2FormErrors.alAdministrativeDistrictTakenError}
+                      invalid={step2FormErrors.alAdministrativeDistrictTakenError ? true : false}
                     >
                       <option value="Colombo">Local G.C.E. (O/l)</option>
                     </CFormSelect>
@@ -316,12 +349,12 @@ function Step2Page() {
                     <CFormSelect
                       label="From which administrative district should you be considered ?"
                       aria-label="ALAdministrativeDistrictConsidered-select"
-                      name="ALAdministrativeDistrictConsidered"
+                      name="alAdministrativeDistrictConsidered"
                       onChange={onUpdateInput}
-                      value={step2Form.ALAdministrativeDistrictConsidered}
-                      feedback={step2FormErrors.ALAdministrativeDistrictConsideredError}
+                      value={step2Form.alAdministrativeDistrictConsidered}
+                      feedback={step2FormErrors.alAdministrativeDistrictConsideredError}
                       invalid={
-                        step2FormErrors.ALAdministrativeDistrictConsideredError ? true : false
+                        step2FormErrors.alAdministrativeDistrictConsideredError ? true : false
                       }
                     >
                       <option value="Colombo">Colombo</option>
@@ -392,19 +425,22 @@ function Step2Page() {
                     <CFormCheck
                       inline
                       type="radio"
-                      name="inlineRadioOptions"
-                      id="inlineCheckbox1"
-                      value="option1"
+                      name="alResultsAcceptance"
+                      id="alResultsAcceptance_1"
+                      value="true"
                       label="Accept"
-                      defaultChecked
+                      onChange={onUpdateInput}
+                      checked={step2Form.alResultsAcceptance === 'true' ? true : false}
                     />
                     <CFormCheck
                       inline
                       type="radio"
-                      name="inlineRadioOptions"
-                      id="inlineCheckbox2"
-                      value="option2"
+                      name="alResultsAcceptance"
+                      id="alResultsAcceptance_2"
+                      value="false"
                       label="Change"
+                      onChange={onUpdateInput}
+                      checked={step2Form.alResultsAcceptance === 'false' ? true : false}
                     />
                   </CCol>
                   <CCardText>Particulars of G.C.E (A/L)Examination - Previous Attempts</CCardText>

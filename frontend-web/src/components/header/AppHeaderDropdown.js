@@ -9,14 +9,12 @@ import {
   CDropdownItem,
   CDropdownMenu,
   CDropdownToggle,
-  CNavLink,
 } from '@coreui/react'
 import {
   cilBell,
   cilCreditCard,
   cilCommentSquare,
   cilEnvelopeOpen,
-  cilFile,
   cilLockLocked,
   cilSettings,
   cilTask,
@@ -44,7 +42,7 @@ const AppHeaderDropdown = (props) => {
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">
         <CDropdownHeader className="bg-light fw-semibold py-2">Account</CDropdownHeader>
-        <NavLink to="/student" style={{ textDecoration: 'none' }}>
+        <NavLink to={`/${props.userDetails.actorType}`} style={{ textDecoration: 'none' }}>
           <CDropdownItem>
             <CIcon icon={cilBell} className="me-2" />
             Dashboard
@@ -72,7 +70,7 @@ const AppHeaderDropdown = (props) => {
           </CBadge>
         </CDropdownItem>
         <CDropdownHeader className="bg-light fw-semibold py-2">Settings</CDropdownHeader>
-        <NavLink to="/student/settings" style={{ textDecoration: 'none' }}>
+        <NavLink to={`/${props.userDetails.actorType}/settings`} style={{ textDecoration: 'none' }}>
           <CDropdownItem>
             <CIcon icon={cilSettings} className="me-2" />
             Settings
@@ -82,13 +80,6 @@ const AppHeaderDropdown = (props) => {
           <CIcon icon={cilCreditCard} className="me-2" />
           Payments
           <CBadge color="secondary" className="ms-2">
-            42
-          </CBadge>
-        </CDropdownItem>
-        <CDropdownItem href="#">
-          <CIcon icon={cilFile} className="me-2" />
-          Projects
-          <CBadge color="primary" className="ms-2">
             42
           </CBadge>
         </CDropdownItem>

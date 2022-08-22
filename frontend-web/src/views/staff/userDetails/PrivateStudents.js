@@ -1,5 +1,4 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
 import {
   CCard,
   CTable,
@@ -20,7 +19,7 @@ import {
 } from '@coreui/react'
 
 import { cilSearch } from '@coreui/icons'
-import { cilFilter, cilDelete, cibAddthis } from '@coreui/icons'
+import { cilFilter} from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
 

@@ -16,7 +16,6 @@ import {
   CInputGroup,
   CFormInput,
   CInputGroupText,
-  CBadge,
 } from '@coreui/react'
 
 import { cilSearch } from '@coreui/icons'

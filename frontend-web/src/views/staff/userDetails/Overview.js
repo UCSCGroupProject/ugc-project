@@ -3,10 +3,7 @@ import { NavLink } from 'react-router-dom'
 import {
   CCard,
   CCardBody,
-  CCardFooter,
   CCardHeader,
-  CCardText,
-  CCardTitle,
   CCol,
   CWidgetStatsA,
   CDropdown,
@@ -16,25 +13,10 @@ import {
   CRow,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilChartLine, cilArrowTop, cilOptions, cilArrowBottom } from '@coreui/icons'
+import { cilArrowTop, cilOptions, cilArrowBottom } from '@coreui/icons'
 import { CChartLine } from '@coreui/react-chartjs'
 
 function Overview() {
-  const studentDetails = {
-    totalCount: '71388',
-    governmentStudents: '47268',
-    privateStudents: '24120',
-  }
-
-  const schoolDetails = {
-    totalCount: '71388',
-    governmentSchools: '47268',
-    privateSchools: '24120',
-  }
-
-  const universityDetails = {
-    totalCount: '17',
-  }
 
   return (
     <CCard className="mb-4">

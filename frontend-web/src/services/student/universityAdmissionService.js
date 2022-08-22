@@ -23,6 +23,28 @@ class UniversityAdmissionService {
     })
   }
 
+  getStep2Form(username) {
+    return axios.get(API_URL + '/step2Form', { params: { username: username } }).then((res) => {
+      console.log(res.data)
+      return res.data
+    })
+  }
+
+  step2FormCheckAndSubmit(data, username) {
+    console.log(data)
+
+    const payload = {
+      ...data,
+      username: username,
+    }
+
+    console.log('PAYLOAD', payload)
+
+    return axios.post(API_URL + '/step2Form', payload).then((response) => {
+      return response.data
+    })
+  }
+
   getStep3Form(username) {
     return axios.get(API_URL + '/step3Form', { params: { username: username } }).then((res) => {
       console.log(res.data)

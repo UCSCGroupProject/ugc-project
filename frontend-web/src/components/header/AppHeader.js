@@ -17,7 +17,7 @@ import {
   CButton,
 } from '@coreui/react'
 
-import { cilBell, cilEnvelopeOpen, cilList, cilMenu } from '@coreui/icons'
+import { cilMenu } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
 import AppHeaderDropdown from './AppHeaderDropdown'

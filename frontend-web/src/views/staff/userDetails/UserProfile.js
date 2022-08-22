@@ -2,21 +2,10 @@ import React from 'react'
 
 import {
   CCard,
-  CTable,
   CCol,
-  CTableHead,
-  CFormInput,
   CCardBody,
   CButton,
-  CFormSelect,
-  CCardHeader,
-  CTableRow,
-  CInputGroupText,
-  CTableHeaderCell,
-  CInputGroup,
   CRow,
-  CTableBody,
-  CTableDataCell,
   CCardTitle,
 } from '@coreui/react'
 
