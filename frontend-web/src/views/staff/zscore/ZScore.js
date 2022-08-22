@@ -1,5 +1,4 @@
 import React, {useState} from 'react'
-import CIcon from '@coreui/icons-react'
 import {
   CButton,
   CModal,
@@ -7,13 +6,7 @@ import {
   CModalTitle,
   CModalBody,
   CModalFooter,
-  CForm,
   CFormInput,
-  CContainer,
-  CTable,
-  CTableBody,
-  CTableDataCell,
-  CTableRow,
   CButtonGroup,
   CRow,
   CCol,

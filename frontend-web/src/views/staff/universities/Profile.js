@@ -1,33 +1,22 @@
 import React from 'react'
 import {
-  CCard,
   CTable,
   CCol,
   CTableHead,
-  CFormInput,
-  CCardBody,
   CButton,
-  CFormSelect,
-  CCardHeader,
   CTableRow,
-  CInputGroupText,
   CTableHeaderCell,
-  CInputGroup,
   CRow,
   CContainer,
   CImage,
   CTableBody,
   CTableDataCell,
-  CCardTitle,
 } from '@coreui/react'
 
 import uoc_img from '../../../assets/images/university/wall/university_of_colombo_bg.jpg'
-import uoc_logo_img from '../../../assets/images/university/logo/university_of_colombo_logo.png'
 
 function StaffUniversityProfile() {
-  const text = [
-    'The University of Colombo (informally Colombo University or UoC) is a public research university located primarily in Colombo, Sri Lanka. It is the oldest institution of modern higher education in Sri Lanka. Specialised in the fields of natural, social, and applied sciences as well as mathematics, computer sciences, and law. It is ranked among the top 10 universities in South Asia.[2] The University of Colombo was founded in 1921 as University College Colombo, affiliated to the University of London. Degrees were issued to its students from 1923 onwards. The university traces its roots to 1870 when the Ceylon Medical School was established.[3] UoC has produced notable alumni in the fields of science, law, economics, business, literature, and politics.',
-  ]
+  
   return (
     <CContainer className="bg-white border rounded-3">
       <CImage src={uoc_img} className="w-100 wall-image mt-3 rounded-top" />
