@@ -107,6 +107,7 @@ const routes = [
 
   // Student routes
   // Settings
+
   { path: '/student',                             name: 'Student',                element: Stu_Dashboard },
   { path: '/student/settings',                    name: 'Settings',               element: Stu_NICAndExamDetails_Settings },
   { path: '/student/settings/nicandexamdetails',  name: 'NIC and Exam Details',   element: Stu_NICAndExamDetails_Settings},
@@ -126,6 +127,7 @@ const routes = [
   { path: '/student/aptitudetests/my',            name: 'My Tests',               element: Stu_AptitudeTests_TestDetails_MyTests},
   { path: '/student/aptitudetests/results',       name: 'Results',                element: Stu_AptitudeTests_TestDetails_Results},
   { path: '/student/aptitudetests/progress',      name: 'Progress',               element: Stu_AptitudeTests_TestDetails_Progress},
+
 
   // University routes
   { path: '/university/registration',                   name: 'Registration',             element: Uni_Registration},
