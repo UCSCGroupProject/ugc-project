@@ -163,7 +163,7 @@ function Complaints() {
                             <CTableDataCell>{item.time}</CTableDataCell>
                             <CTableDataCell>{item.issue}</CTableDataCell>
                             <CTableDataCell>
-                              <CButton color="warning" component="a" href="#/staff/complaints/view">
+                              <CButton color="warning" component="a" href="/staff/complaints/view">
                                 View More
                               </CButton>
                             </CTableDataCell>

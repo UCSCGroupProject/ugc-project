@@ -127,31 +127,9 @@ const _nav = [
     name: 'Validation',
   },
   {
-    component: CNavGroup,
-    name: 'Validation Requests',
-    to: '',
-    icon: <CIcon icon={cilChartLine} customClassName="nav-icon" />,
-    items: [
-      {
-        component: CNavItem,
-        name: 'Student Status',
-        to: '/staff/validation/status',
-      },
-      {
-        component: CNavItem,
-        name: 'Student Achievements',
-        to: '/staff/validation/achievement',
-      },
-    ],
-  },
-  {
-    component: CNavTitle,
-    name: 'Analytics',
-  },
-  {
     component: CNavItem,
-    name: 'System Analytics',
-    to: '/staff/analytics',
+    name: 'Student Status',
+    to: '/staff/validation/status',
     icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
   },
   {
