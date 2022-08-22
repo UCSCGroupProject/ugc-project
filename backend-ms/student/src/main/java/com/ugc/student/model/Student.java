@@ -70,6 +70,15 @@ public class Student {
     @OneToOne(mappedBy = "student")
     private ContactPersonDetails contactPersonDetails;
 
+    // STEP 2
+    // For the foreign key referenced from OLDetails
+    @OneToOne(mappedBy = "student")
+    private OLDetails olDetails;
+
+    // For the foreign key referenced from ALDetails
+    @OneToOne(mappedBy = "student")
+    private ALDetails alDetails;
+
     // STEP 3
     // For the foreign key referenced from SchoolDetails
     @OneToOne(mappedBy = "student")
@@ -87,6 +96,8 @@ public class Student {
     // For the foreign key referenced from OrderOfPreference
     @OneToMany(mappedBy = "student")
     private Set<OrderOfPreference> orderOfPreferences;
+
+
 
     // Constructor
     public Student(String username, String email, String password) {

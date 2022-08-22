@@ -11,12 +11,9 @@ import {
   CCard,
   CCardBody,
   CCardTitle,
-  CCardText,
-  CFormInput,
   CFormSelect,
   CButton,
   CForm,
-  CFormCheck,
   CButtonGroup,
   CTable,
   CTableHead,
@@ -132,13 +129,12 @@ function Step4Page() {
   const incIndex = () => {
     setIndex(index + 1)
   }
-  const decIndex = () => {
-    setIndex(index - 1)
-  }
 
   const [selectableCourseList, setSelectableCourseList] = useState([])
 
   useEffect(() => {
+    setLoading(true)
+
     // Course Data setup
     var temp = []
 
@@ -175,6 +171,8 @@ function Step4Page() {
                 },
               ])
             }
+
+            incIndex()
           })
         })
       },
@@ -185,7 +183,8 @@ function Step4Page() {
           error.toString()
 
         // After recieving the server request
-        setResMessage(res)
+        // setResMessage(res)
+        console.log(res)
         setLoading(false)
       },
     )

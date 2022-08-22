@@ -2,10 +2,7 @@ package com.ugc.student.service;
 
 import com.ugc.student.model.Student;
 import com.ugc.student.model.universityAdmission.*;
-import com.ugc.student.payload.request.universityAdmission.AdditionalSchoolRequest;
-import com.ugc.student.payload.request.universityAdmission.Step1FormRequest;
-import com.ugc.student.payload.request.universityAdmission.Step3FormRequest;
-import com.ugc.student.payload.request.universityAdmission.Step4FormRequest;
+import com.ugc.student.payload.request.universityAdmission.*;
 import com.ugc.student.repository.StudentRepository;
 import com.ugc.student.repository.universityAdmission.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +24,13 @@ public class UniversityAdmissionService {
 
     @Autowired
     ContactPersonDetailsRepository contactPersonDetailsRepository;
+
+    // STEP 2 Related Repos
+    @Autowired
+    OLDetailsRepository olDetailsRepository;
+
+    @Autowired
+    ALDetailsRepository alDetailsRepository;
 
     // STEP 3 Related Repos
     @Autowired
@@ -107,7 +111,52 @@ public class UniversityAdmissionService {
         return "Form saved successfully";
     }
 
+
     // STEP 2 Related
+    public OLDetails getOLDetailsByUsername(String username){
+        Student student = studentRepository.findByUsername(username);
+
+        OLDetails olDetails = olDetailsRepository.findByStudent(student);
+
+        return olDetails;
+    }
+
+    public ALDetails getALDetailsByUsername(String username){
+        Student student = studentRepository.findByUsername(username);
+
+        ALDetails alDetails = alDetailsRepository.findByStudent(student);
+
+        return alDetails;
+    }
+
+    public String saveStep2Form(Step2FormRequest step2FormRequest){
+        Student student = studentRepository.findByUsername(step2FormRequest.getUsername());
+
+        if(student == null){
+            return "User not exists";
+        }
+
+        olDetailsRepository.save(new OLDetails(
+                step2FormRequest.getOlCategory(),
+                step2FormRequest.getOlYear(),
+                step2FormRequest.getOlIndex(),
+                step2FormRequest.getOlNameUsed(),
+                step2FormRequest.getOlResultsAcceptance(),
+                student
+        ));
+
+        alDetailsRepository.save(new ALDetails(
+                step2FormRequest.getAlAdministrativeDistrictTaken(),
+                step2FormRequest.getAlAdministrativeDistrictConsidered(),
+                step2FormRequest.getAlResultsAcceptance(),
+                student
+        ));
+
+        return "Form saved successfully";
+    }
+
+
+    // STEP 3 Related
     public SchoolDetails getSchoolDetailsByUsername(String username){
         Student student = studentRepository.findByUsername(username);
 
@@ -171,6 +220,7 @@ public class UniversityAdmissionService {
 
         return "Form saved successfully";
     }
+
 
     // STEP 4 Related
     public List<OrderOfPreference> getOrderOfPreferencesByUsername(String username){

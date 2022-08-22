@@ -80,7 +80,6 @@ const Stu_LoginDetails_Settings = React.lazy(() =>
   import('./views/student/settings/LoginDetails_Settings'),
 )
 const Stu_Dashboard = React.lazy(() => import('./views/student/dashboard/Dashboard'))
-const Stu_Courses_Apply = React.lazy(() => import('./views/student/courses/Apply'))
 const Stu_Courses_CourseDetails_MyCourses = React.lazy(() =>
   import('./views/student/courses/courseDetails/MyCourses'),
 )
@@ -206,6 +205,7 @@ const routes = [
   // Settings
   { path: '/student', name: 'Student', element: Stu_Dashboard },
   { path: '/student/settings', name: 'Settings', element: Stu_NICAndExamDetails_Settings },
+<<<<<<< Updated upstream
   {
     path: '/student/settings/nicandexamdetails',
     name: 'NIC and Exam Details',
@@ -248,6 +248,16 @@ const routes = [
   },
   { path: '/student/courses', name: 'Courses', element: Stu_Courses_Apply },
   { path: '/student/courses/apply', name: 'Apply', element: Stu_Courses_Apply },
+=======
+  { path: '/student/settings/nicandexamdetails', name: 'NIC and Exam Details', element: Stu_NICAndExamDetails_Settings },
+  { path: '/student/settings/studentdetails', name: 'Student Details', element: Stu_StudentDetails_Settings },
+  { path: '/student/settings/logindetails', name: 'Login Details', element: Stu_LoginDetails_Settings },  
+  { path: '/student/registration', name: 'Registration', element: Stu_Registration_UniversityAdmission },
+  { path: '/student/registration/step1', name: 'Step 1', element: Stu_Registration_UniversityAdmission_Step1 },
+  { path: '/student/registration/step2', name: 'Step 2', element: Stu_Registration_UniversityAdmission_Step2 },
+  { path: '/student/registration/step3', name: 'Step 3', element: Stu_Registration_UniversityAdmission_Step3 },
+  { path: '/student/registration/step4', name: 'Step 4', element: Stu_Registration_UniversityAdmission_Step4 },
+>>>>>>> Stashed changes
   { path: '/student/courses/my', name: 'My', element: Stu_Courses_CourseDetails_MyCourses },
   {
     path: '/student/courses/recomended',

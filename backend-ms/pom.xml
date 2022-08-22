@@ -19,7 +19,6 @@
     <module>eureka-server</module>
     <module>blockchain</module>
     <module>gateway</module>
-    <module>user</module>
     <module>staff</module>
       <module>school</module>
   </modules>

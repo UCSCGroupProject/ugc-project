@@ -945,8 +945,9 @@ const SchoolRegistration = () => {
 
         <CCard className="p-4 mb-3">
           <CCardSubtitle className="text-decoration-underline">
-            Terms and Conditions for the users of this online service of University Grants
-            Commission
+            YOU MUST AGREE TO THE FOLLOWING TERMS AND CONDITIONS IN ORDER TO USE OUR WEBSITE. THESE
+            ARE TO GOVERN YOUR ACTIONS WITHIN THE WEBSITE. PLEASE READ THEM CAREFULLY BEFORE
+            AGREEING.
           </CCardSubtitle>
           <CCardBody>
             {/* <CRow className="g-3 needs-validation">
@@ -955,35 +956,44 @@ const SchoolRegistration = () => {
             <div>
               <ol>
                 <li className="mb-3">
-                  I agree to use this online service only for the purpose of monitoring and carrying
-                  out the tasks that are required of me as part of the functionalities of the
-                  university admission process based on the G.C.E. (A/L) Examination, and not for
-                  any other purpose.
+                  I agree to use this online service only for the purposes relating to uploading and
+                  maintaining school information and not for any other purpose.
                 </li>
                 <li className="mb-3">
-                  I am at present a staff member of the University Grants Commission - Sri Lanka. I
-                  certify that the details provided by me are my own and do not belong to any other
-                  person.
+                  I certify that our school is a registered school under the Ministry of Education
+                  in Sri Lanka and am also a certified school representative. I certify that the
+                  phone number and email address provided by me are the school's own and does not
+                  belong to any other person or organization.
                 </li>
                 <li className="mb-3">
-                  I certify that all details provided / will be provided by me in each step of this
-                  registration process for this system via online service are true and correct.
+                  I certify that all details provided / will be provided by me in the registration
+                  and in each step of this application process uploading school information via
+                  online service are true and correct.
                 </li>
                 <li className="mb-3">
                   I understand and agree that providing any false, misleading, inaccurate or
                   fraudulent information, details, statements at any time or any attempt to alter
                   the content of this website, fraudulent logins to other user accounts or alter the
-                  content or data provided by me or anybody else will result in my staff privileges
+                  content or data provided by me or anybody else will result in my user account
                   being invalid at any time and I will be subjected to legal actions.
                 </li>
                 <li className="mb-3">
-                  I am aware that I am not allowed to disclose any confidential information within
-                  this online service without permission of the University Grants Commission.
+                  I am aware that information given by me is authorized by the system administrator
+                  before access is given to my account.
                 </li>
                 <li className="mb-3">
-                  By using this online service I do authorize the University Grants Commission to
-                  contact me via given email address, mobile phone number, by way of postal letters
-                  or any other electronic and non-electronic means of communication.
+                  By using this online service I do authorize the administrators to contact me via
+                  given email address, mobile phone number, by way of postal letters, or any other
+                  electronic and non-electronic means of communication.
+                </li>
+                <li className="mb-3">
+                  I understand my responsibility of not sharing any website/confidential information
+                  with any other third party outside the website users and am aware of the
+                  consequence.
+                </li>
+                <li className="mb-3">
+                  I certify that I’m aware of my own actions and am responsible for any functions
+                  done through my account.
                 </li>
               </ol>
             </div>

@@ -1362,8 +1362,9 @@ const StudentRegistration = () => {
 
         <CCard className="p-4 mb-3">
           <CCardSubtitle className="text-decoration-underline">
-            Terms and Conditions for the users of this online service of University Grants
-            Commission
+            YOU MUST AGREE TO THE FOLLOWING TERMS AND CONDITIONS IN ORDER TO USE OUR WEBSITE. THESE
+            ARE TO GOVERN YOUR ACTIONS WITHIN THE WEBSITE. PLEASE READ THEM CAREFULLY BEFORE
+            AGREEING.
           </CCardSubtitle>
           <CCardBody>
             {/* <CRow className="g-3 needs-validation">

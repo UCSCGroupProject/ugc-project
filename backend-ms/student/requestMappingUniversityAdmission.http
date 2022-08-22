@@ -28,6 +28,24 @@ Content-Type: application/json
   "username": "Dhanushka"
 }
 
+### Submit step 2 form
+POST http://localhost:8081/api/student/universityAdmission/step2Form
+Content-Type: application/json
+
+{
+  "olCategory": "localOL",
+  "olYear": "2016",
+  "olIndex": "19000553",
+  "olNameUsed": "Dhanushka sandakelum",
+  "olResultsAcceptance": "true",
+
+  "alAdministrativeDistrictTaken": "Colombo",
+  "alAdministrativeDistrictConsidered": "Colombo",
+  "alResultsAcceptance": "true",
+
+  "username": "Dhanushka"
+}
+
 
 ### Submit step 3 form
 POST http://localhost:8081/api/student/universityAdmission/step3Form

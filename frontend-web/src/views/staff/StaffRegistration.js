@@ -431,7 +431,7 @@ const StaffRegistration = () => {
     if (!v_required(staffPersonalDetailsForm.phone)) {
       phoneError = 'Phone number cannot be empty.'
     } else if (!otpState.isEnteredOtpValid) {
-      if (process.env.REACT_APP_ENABLE_OTP_VALIDATION === "true") {
+      if (process.env.REACT_APP_ENABLE_OTP_VALIDATION === 'true') {
         phoneError = 'Phone number should be validated using OTP.'
       } else {
         console.log('Phone OTP validation disabled')
@@ -1187,8 +1187,9 @@ const StaffRegistration = () => {
 
         <CCard className="p-4 mb-3">
           <CCardSubtitle className="text-decoration-underline">
-            Terms and Conditions for the users of this online service of University Grants
-            Commission
+          YOU MUST AGREE TO THE FOLLOWING TERMS AND CONDITIONS IN ORDER TO USE OUR WEBSITE. THESE
+            ARE TO GOVERN YOUR ACTIONS WITHIN THE WEBSITE. PLEASE READ THEM CAREFULLY BEFORE
+            AGREEING.
           </CCardSubtitle>
           <CCardBody>
             {/* <CRow className="g-3 needs-validation">
@@ -1197,35 +1198,44 @@ const StaffRegistration = () => {
             <div>
               <ol>
                 <li className="mb-3">
-                  I agree to use this online service only for the purpose of monitoring and carrying
-                  out the tasks that are required of me as part of the functionalities of the
-                  university admission process based on the G.C.E. (A/L) Examination, and not for
-                  any other purpose.
+                  I agree to use this online service only for the purposes relating to the selection
+                  of students for universities based on the G.C.E. (A/L) examination, held in the
+                  year 2020, and not for any other purpose.
                 </li>
                 <li className="mb-3">
-                  I am at present a staff member of the University Grants Commission - Sri Lanka. I
-                  certify that the details provided by me are my own and do not belong to any other
-                  person.
+                  I am a certified member of the UGC staff. I certify that the email address
+                  provided by me are my own and does not belong to any other person.
                 </li>
                 <li className="mb-3">
-                  I certify that all details provided / will be provided by me in each step of this
-                  registration process for this system via online service are true and correct.
+                  I certify that all details provided / will be provided by me in the registration
+                  and in each step of this application process for the student selection process for
+                  university via online service are true and correct.
                 </li>
                 <li className="mb-3">
                   I understand and agree that providing any false, misleading, inaccurate or
                   fraudulent information, details, statements at any time or any attempt to alter
                   the content of this website, fraudulent logins to other user accounts or alter the
-                  content or data provided by me or anybody else will result in my staff privileges
+                  content or data provided by me or anybody else will result in my user account
                   being invalid at any time and I will be subjected to legal actions.
                 </li>
                 <li className="mb-3">
-                  I am aware that I am not allowed to disclose any confidential information within
-                  this online service without permission of the University Grants Commission.
+                  I am aware that I am not allowed to change/alter any information provided by the
+                  applicants after the submission of their application during the selection process
+                  nor hold any bias toward applicants based on personal factors.
                 </li>
                 <li className="mb-3">
-                  By using this online service I do authorize the University Grants Commission to
-                  contact me via given email address, mobile phone number, by way of postal letters
-                  or any other electronic and non-electronic means of communication.
+                  I am aware that I am not allowed to change/alter any information provided by the
+                  applicants after the submission of their application during the selection process
+                  nor hold any bias toward applicants based on personal factors.
+                </li>
+                <li className="mb-3">
+                  I understand my responsibility of not sharing any website/confidential information
+                  with any other third party outside the website users and am aware of the
+                  consequences.
+                </li>
+                <li className="mb-3">
+                  I certify that I’m aware of my own actions and am responsible for any functions
+                  done through my account.
                 </li>
               </ol>
             </div>
@@ -1276,25 +1286,25 @@ const StaffRegistration = () => {
 
   return (
     // <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
-      <CContainer>
-        <CRow className="justify-content-center">
-          <CCol md={11}>
-            <CCard className="mx-4">
-              <CCardBody className="p-4">
-                <CForm onSubmit={handleSubmitStaff}>
-                  <h1 className="text-center">Staff Signup</h1>
+    <CContainer>
+      <CRow className="justify-content-center">
+        <CCol md={11}>
+          <CCard className="mx-4">
+            <CCardBody className="p-4">
+              <CForm onSubmit={handleSubmitStaff}>
+                <h1 className="text-center">Staff Signup</h1>
 
-                  {/* Sections */}
-                  {sectionIndex === 0 && roleDetailsSection()}
-                  {sectionIndex === 1 && personalDetailsSection()}
-                  {sectionIndex === 2 && loginDetailsSection()}
-                  {sectionIndex === 3 && termsAndConditionsSection()}
-                </CForm>
-              </CCardBody>
-            </CCard>
-          </CCol>
-        </CRow>
-      </CContainer>
+                {/* Sections */}
+                {sectionIndex === 0 && roleDetailsSection()}
+                {sectionIndex === 1 && personalDetailsSection()}
+                {sectionIndex === 2 && loginDetailsSection()}
+                {sectionIndex === 3 && termsAndConditionsSection()}
+              </CForm>
+            </CCardBody>
+          </CCard>
+        </CCol>
+      </CRow>
+    </CContainer>
     // </div>
   )
 }
