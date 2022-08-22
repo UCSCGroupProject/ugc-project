@@ -1,5 +1,5 @@
 import React, { Component, Suspense } from 'react'
-import { HashRouter,BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import './scss/style.scss'
 
 const loading = (
@@ -34,16 +34,40 @@ class App extends Component {
             <Route path="/home" name="Home" element={<DefaultLayout page={<Home />} />} />
             <Route path="/about" name="About" element={<DefaultLayout page={<About />} />} />
             <Route path="/login" name="Login" element={<DefaultLayout page={<Login />} />} />
-            <Route path="/forgotPassword" name="Forgot Password" element={<DefaultLayout page={<ForgotPassword />} />} />
-            <Route path="/register" name="Registration" element={<DefaultLayout page={<Register />} />} />
-            <Route path="/register/student" name="Student Registration" element={<DefaultLayout page={<StudentRegistration />} />} />
-            <Route path="/register/staff" name="Staff Registration" element={<DefaultLayout page={<StaffRegistration />} />} />
-            <Route path="/register/university" name="University Registration" element={<DefaultLayout page={<UniversityRegistration />} />} />
-            <Route path="/register/school" name="School Registration" element={<DefaultLayout page={<SchoolRegistration />} />} />
+            <Route
+              path="/forgotPassword"
+              name="Forgot Password"
+              element={<DefaultLayout page={<ForgotPassword />} />}
+            />
+            <Route
+              path="/register"
+              name="Registration"
+              element={<DefaultLayout page={<Register />} />}
+            />
+            <Route
+              path="/register/student"
+              name="Student Registration"
+              element={<DefaultLayout page={<StudentRegistration />} />}
+            />
+            <Route
+              path="/register/staff"
+              name="Staff Registration"
+              element={<DefaultLayout page={<StaffRegistration />} />}
+            />
+            <Route
+              path="/register/university"
+              name="University Registration"
+              element={<DefaultLayout page={<UniversityRegistration />} />}
+            />
+            <Route
+              path="/register/school"
+              name="School Registration"
+              element={<DefaultLayout page={<SchoolRegistration />} />}
+            />
             <Route path="*" name="Home" element={<UGCLayout />} />
           </Routes>
-         </Suspense>
-        </Router>
+        </Suspense>
+      </Router>
       // </HashRouter>
     )
   }

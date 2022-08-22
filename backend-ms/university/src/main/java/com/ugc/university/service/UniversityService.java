@@ -46,10 +46,22 @@ public class UniversityService {
     PasswordEncoder encoder;
 
     public void initRoles() {
-        Role studentRole = new Role();
-        studentRole.setName(E_Role.ROLE_UNIVERSITY);
+        Role uniRole0 = new Role();
+        uniRole0.setName(E_Role.ROLE_UNI_STAFF);
 
-        roleRepository.save(studentRole);
+        Role uniRole1 = new Role();
+        uniRole1.setName(E_Role.ROLE_UNI_SECRETARY);
+
+        Role uniRole2 = new Role();
+        uniRole2.setName(E_Role.ROLE_UNI_DIRECTOR);
+
+        Role uniRole3 = new Role();
+        uniRole3.setName(E_Role.ROLE_UNI_DEPUTY_DIRECTOR);
+
+        roleRepository.save(uniRole0);
+        roleRepository.save(uniRole1);
+        roleRepository.save(uniRole2);
+        roleRepository.save(uniRole3);
     }
 
     public boolean isUniversity(String email) {
@@ -348,27 +360,46 @@ public class UniversityService {
                 encoder.encode(universityRegisterRequest.getPassword())
         );
 
-        Set<String> strRoles = universityRegisterRequest.getRole();
+        String strRole = universityRegisterRequest.getRole();
         Set<Role> roles = new HashSet<>();
 
         // Check whether the role is valid or not
-        if(strRoles == null){
-            Role userRole = roleRepository.findByName(E_Role.ROLE_UNIVERSITY)
+        if(strRole == null){
+            Role userRole = roleRepository.findByName(E_Role.ROLE_UNI_STAFF)
                     .orElseThrow(
                             () -> new RuntimeException("Role is not found")
                     );
             roles.add(userRole);
         } else {
-            strRoles.forEach(role -> {
-                switch (role){
-                    case "student":
-                        Role studentRole = roleRepository.findByName(E_Role.ROLE_UNIVERSITY).orElseThrow(
-                                ()-> new RuntimeException("Role is not found")
-                        );
-                        roles.add(studentRole);
-                        break;
-                }
-            });
+            switch (strRole){
+                case "ROLE_UNI_STAFF":
+                    Role staffRole = roleRepository.findByName(E_Role.ROLE_UNI_STAFF).orElseThrow(
+                            ()-> new RuntimeException("Role is not found")
+                    );
+                    roles.add(staffRole);
+                    break;
+
+                case "ROLE_UNI_SECRETARY":
+                    Role secretaryRole = roleRepository.findByName(E_Role.ROLE_UNI_SECRETARY).orElseThrow(
+                            ()-> new RuntimeException("Role is not found")
+                    );
+                    roles.add(secretaryRole);
+                    break;
+
+                case "ROLE_UNI_DEPUTY_DIRECTOR":
+                    Role deputyDirectorRole = roleRepository.findByName(E_Role.ROLE_UNI_DEPUTY_DIRECTOR).orElseThrow(
+                            ()-> new RuntimeException("Role is not found")
+                    );
+                    roles.add(deputyDirectorRole);
+                    break;
+
+                case "ROLE_UNI_DIRECTOR":
+                    Role directorRole = roleRepository.findByName(E_Role.ROLE_UNI_DIRECTOR).orElseThrow(
+                            ()-> new RuntimeException("Role is not found")
+                    );
+                    roles.add(directorRole);
+                    break;
+            }
         }
 
         System.out.println(roles);

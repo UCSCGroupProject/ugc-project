@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import {
   CButton,
   CCard,
@@ -73,11 +73,12 @@ const UniRegistration = () => {
   // Form data
   const [uniDetailsForm, setUniDetailsForm] = useState({
     // Role Details
-    uniName: '',
+    uniName: 'CMB',
     address: '',
     islandRank: '',
     worldRank: '',
     phone: '',
+    role: 'ROLE_UNI_STAFF',
   })
 
   const [isPhoneValid, setIsPhoneValid] = useState(false)
@@ -186,44 +187,6 @@ const UniRegistration = () => {
     }))
   }
 
-  //const [addressSet, setAddressSet] = useState([])
-
-  // useEffect(() => {
-  //   switch (uniDetailsForm.officeDept) {
-  //     case 'OC':
-  //       setAddressSet(['Chairman', 'Assistant Secretary'])
-  //       break
-
-  //     case 'OVC':
-  //       setAddressSet(['Vice-Chairman', 'Senior Assistant Secretary'])
-  //       break
-
-  //     case 'OS':
-  //       setAddressSet(['Secretary', 'Senior Assistant Secretary'])
-  //       break
-
-  //     case 'PD':
-  //       setAddressSet(['Senior Assistant Secretary'])
-  //       break
-
-  //     case 'UAD':
-  //       setAddressSet(['Senior Assistant Secretary', 'Assistant Secretary'])
-  //       break
-
-  //     case 'AAD':
-  //       setAddressSet(['Deputy Secretary', 'Senior Assistant Secretary', 'Assistant Secretary'])
-  //       break
-
-  //     case 'MISD':
-  //       setAddressSet(['Statistician', 'Assistant Statistician'])
-  //       break
-
-  //     default:
-  //       setAddressSet([])
-  //       break
-  //   }
-  // }, [uniDetailsForm.officeDept])
-
   // For data errors
   const [uniDetailsFormErrors, setUniDetailsFormErrors] = useState({
     // Role Details
@@ -232,6 +195,7 @@ const UniRegistration = () => {
     islandRankError: '',
     worldRankError: '',
     phoneError: '',
+    roleError: '',
   })
 
   // Validate the data and
@@ -246,6 +210,7 @@ const UniRegistration = () => {
     let islandRankError = ''
     let worldRankError = ''
     let phoneError = ''
+    let roleError = ''
 
     if (!v_required(uniDetailsForm.uniName)) {
       uniNameError = 'University Name cannot be empty.'
@@ -273,6 +238,10 @@ const UniRegistration = () => {
       }
     }
 
+    if (!v_required(uniDetailsForm.role)) {
+      roleError = 'Role cannot be empty.'
+    }
+
     // If errors exist, show errors
     setUniDetailsFormErrors({
       uniNameError,
@@ -280,10 +249,20 @@ const UniRegistration = () => {
       islandRankError,
       worldRankError,
       phoneError,
+      roleError,
     })
 
     // If no errors exist, send to the server
-    if (!(uniNameError || addressError || islandRankError || worldRankError || phoneError)) {
+    if (
+      !(
+        uniNameError ||
+        addressError ||
+        islandRankError ||
+        worldRankError ||
+        phoneError ||
+        roleError
+      )
+    ) {
       // Sending to the server
       setLoading(true)
       setResMessage('')
@@ -317,7 +296,7 @@ const UniRegistration = () => {
           <CCardBody>
             <CRow className="g-3 needs-validation">
               <CCol md={12}>
-                <CFormInput
+                {/* <CFormInput
                   type="text"
                   id="validationUniName"
                   label="University Name"
@@ -326,16 +305,42 @@ const UniRegistration = () => {
                   value={uniDetailsForm.uniName}
                   feedback={uniDetailsFormErrors.uniNameError}
                   invalid={uniDetailsFormErrors.uniNameError ? true : false}
+                ></CFormInput> */}
+                <CFormSelect
+                  label="University Name"
+                  aria-label="validationUniName-select"
+                  name="uniName"
+                  onChange={onUpdateInputInUniDetailsForm}
+                  value={uniDetailsForm.uniName}
+                  feedback={uniDetailsFormErrors.uniNameError}
+                  invalid={uniDetailsFormErrors.uniNameError ? true : false}
                 >
-                  {/* <option value="">Choose office</option>
-                <option value="OC">Office of the Chairman</option>
-                <option value="OVC">Office of the Vice-Chairman</option>
-                <option value="OS">Office of the Secretary</option>
-                <option value="PD">Personnel Division</option>
-                <option value="UAD">University Admissions Department</option>
-                <option value="AAD">Academic Affairs Department</option>
-                <option value="MISD">Management Information Systems Division</option> */}
-                </CFormInput>
+                  <option value="CMB">University of Colombo</option>
+                  <option value="PDN">University of Peradeniya</option>
+                  <option value="SJP">University of Sri Jayewardenepura</option>
+                  <option value="KLN">University of Kelaniya</option>
+                  <option value="MRT">University of Moratuwa</option>
+                  <option value="UJA">University of Jaffna</option>
+                  <option value="RUH">University of Ruhuna</option>
+                  <option value="EUSL">Eastern University, Sri Lanka</option>
+                  <option value="SEUSL">South Eastern University of Sri Lanka</option>
+                  <option value="RUSL"> Rajarata University of Sri Lanka</option>
+                  <option value="SUSL">Sabaragamuwa University of Sri Lanka</option>
+                  <option value="WUSL">Wayamba University of Sri Lanka</option>
+                  <option value="UWU">Uva Wellassa University of Sri Lanka</option>
+                  <option value="UVPA">University of the Visual & Performing Arts</option>
+                  <option value="GWUIM">
+                    The Gampaha Wickramarachchi University of Indigenous Medicine, Sri Lanka
+                  </option>
+                  <option value="OUSL">The Open University of Sri Lanka</option>
+                  <option value="IIM">Institute of Indigenous Medicine</option>
+                  <option value="UCSC">University of Colombo School of Computing</option>
+                  <option value="SVIAS">Swami Vipulananda Institute of Aesthetic Studies</option>
+                  <option value="RAFA">Ramanathan Academy of Fine Arts</option>
+                  <option value="SP">Sripalee Campus</option>
+                  <option value="TRINCO">Trincomalee Campus</option>
+                  <option value="VAV">Vavuniya Campus</option>
+                </CFormSelect>
               </CCol>
               <CCol md={8}>
                 <CFormInput
@@ -347,14 +352,7 @@ const UniRegistration = () => {
                   value={uniDetailsForm.address}
                   feedback={uniDetailsFormErrors.addressError}
                   invalid={uniDetailsFormErrors.addressError ? true : false}
-                >
-                  {/* <option value="">Choose Role</option>
-                {addressSet.map((item) => (
-                  <option key={item} value={item}>
-                    {item}
-                  </option>
-                ))} */}
-                </CFormInput>
+                ></CFormInput>
               </CCol>
               <CCol md={2}>
                 <CFormInput
@@ -379,6 +377,22 @@ const UniRegistration = () => {
                   feedback={uniDetailsFormErrors.worldRankError}
                   invalid={uniDetailsFormErrors.worldRankError ? true : false}
                 ></CFormInput>
+              </CCol>
+              <CCol md={5}>
+                <CFormSelect
+                  label="Role"
+                  aria-label="validationRole-select"
+                  name="role"
+                  onChange={onUpdateInputInUniDetailsForm}
+                  value={uniDetailsForm.role}
+                  feedback={uniDetailsFormErrors.roleError}
+                  invalid={uniDetailsFormErrors.roleError ? true : false}
+                >
+                  <option value="ROLE_UNI_STAFF">Staff</option>
+                  <option value="ROLE_UNI_SECRETARY">Secretary</option>
+                  <option value="ROLE_UNI_DEPUTY_DIRECTOR">Deputy Director</option>
+                  <option value="ROLE_UNI_DIRECTOR">Director</option>
+                </CFormSelect>
               </CCol>
               <CCol md={4}>
                 <CFormLabel htmlFor="validationCustomUsername">Phone number</CFormLabel>
@@ -467,9 +481,9 @@ const UniRegistration = () => {
         <CRow>
           <CCol md={4} className="ms-auto">
             <CButtonGroup size="sm" className="w-100">
-              <CButton color="dark" variant="outline" type="submit" className="p-2">
+              <Link to="/register" className="btn btn-outline-dark p-2">
                 Cancel
-              </CButton>
+              </Link>
               <CButton
                 color="primary"
                 type="button"

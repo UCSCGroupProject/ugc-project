@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import {
   CButton,
   CCard,
@@ -239,9 +239,9 @@ const StaffRegistration = () => {
         <CRow>
           <CCol md={4} className="ms-auto">
             <CButtonGroup size="sm" className="w-100">
-              <CButton color="dark" variant="outline" type="submit" className="p-2">
+              <Link to="/register" className="btn btn-outline-dark p-2">
                 Cancel
-              </CButton>
+              </Link>
               <CButton
                 color="primary"
                 type="button"
@@ -263,14 +263,14 @@ const StaffRegistration = () => {
   // Form data
   const [staffPersonalDetailsForm, setStaffPersonalDetailsForm] = useState({
     // Personal Details
-    title: '',
+    title: 'mrs',
     nameWithInitials: '',
     fullName: '',
     dob: '',
     address: '',
     phone: '',
     homeNumber: '',
-    gender: '',
+    gender: '0',
   })
 
   const [isPhoneValid, setIsPhoneValid] = useState(false)
@@ -1187,7 +1187,7 @@ const StaffRegistration = () => {
 
         <CCard className="p-4 mb-3">
           <CCardSubtitle className="text-decoration-underline">
-          YOU MUST AGREE TO THE FOLLOWING TERMS AND CONDITIONS IN ORDER TO USE OUR WEBSITE. THESE
+            YOU MUST AGREE TO THE FOLLOWING TERMS AND CONDITIONS IN ORDER TO USE OUR WEBSITE. THESE
             ARE TO GOVERN YOUR ACTIONS WITHIN THE WEBSITE. PLEASE READ THEM CAREFULLY BEFORE
             AGREEING.
           </CCardSubtitle>

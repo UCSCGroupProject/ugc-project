@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import {
   CButton,
   CCard,
@@ -419,9 +419,9 @@ const SchoolRegistration = () => {
         <CRow>
           <CCol md={4} className="ms-auto">
             <CButtonGroup size="sm" className="w-100">
-              <CButton color="dark" variant="outline" type="submit" className="p-2">
+              <Link to="/register" className="btn btn-outline-dark p-2">
                 Cancel
-              </CButton>
+              </Link>
               <CButton
                 color="primary"
                 type="button"

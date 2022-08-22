@@ -16,6 +16,6 @@ public class UniversityRegisterRequest {
 
     private String username;
     private String email;
-    private Set<String> role;
+    private String role;
     private String password;
 }

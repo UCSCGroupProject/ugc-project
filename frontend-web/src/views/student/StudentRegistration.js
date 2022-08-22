@@ -345,7 +345,7 @@ const StudentRegistration = () => {
               {/* <CButton color="dark" variant="outline" type="submit" className="p-2">
                 Cancel
               </CButton> */}
-              <Link to="/" className="btn btn-outline-dark p-2">
+              <Link to="/register" className="btn btn-outline-dark p-2">
                 Cancel
               </Link>
 
