@@ -19,7 +19,15 @@ import {
   CToastBody,
   CToaster,
   CBadge,
+  CInputGroup,
+  CInputGroupText,
+  CFormSelect,
+  CFormInput,
+  CSpinner,
 } from '@coreui/react'
+
+import { cilSearch, cilFilter } from '@coreui/icons'
+import CIcon from '@coreui/icons-react'
 
 import blockchainService from '../../../services/blockchain/blockchainService'
 
@@ -82,21 +90,15 @@ function ViewBlockchain() {
     )
   }, [])
 
-  const handleVerify = (id, publicKey) => {
+  const handleVerifyBlock = (id, publicKey) => {
     console.log(id, publicKey)
     setResMessage('')
     setLoading(true)
 
     blockchainService.verifyBlock(id, publicKey).then(
       (res) => {
-        console.log('consoling', res.message)
-        addToast(exampleToast('success', `Valid block - Block ID ${id}`, res.message))
-
-        setTimeout(() => {
-          setResMessage('')
-        }, 5000)
-
         setLoading(false)
+        addToast(exampleToast('success', `Valid block - Block ID ${id}`, res.message))
       },
       (error) => {
         const res =
@@ -105,21 +107,72 @@ function ViewBlockchain() {
           error.toString()
 
         // After recieving the server request
-        exampleToast('danger', `Invalid block - Block ID ${id}`, res)
         setLoading(false)
+        exampleToast('danger', `Invalid block - Block ID ${id}`, res)
+      },
+    )
+  }
+
+  const handleVerifyBlockchain = () => {
+    setResMessage('')
+    setLoading(true)
+
+    blockchainService.verifyBlockchain().then(
+      (res) => {
+        setLoading(false)
+        addToast(exampleToast('success', `Valid blockchain`, res.message))
+      },
+      (error) => {
+        const res =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString()
+
+        // After recieving the server request
+        setLoading(false)
+        addToast(exampleToast('danger', `Invalid blockchain`, res))
       },
     )
   }
 
   return (
     <div>
+      {/* Toast */}
+      <CToaster ref={toaster} push={toast} placement="top-end" />
+
+      <CRow className="py-2 bg-light rounded">
+        <CCol md={6}>
+          <CButton
+            color="success"
+            type="button"
+            className="text-white"
+            onClick={handleVerifyBlockchain}
+          >
+            <CIcon icon={cilFilter} />
+            <span>
+              {'  '}
+              {loading ? 'Verifying' : 'Verify Blockchain'}
+              {loading && <CSpinner size="sm" />}
+            </span>
+          </CButton>
+        </CCol>
+        <CCol md={4} className="ms-auto">
+          <CInputGroup>
+            <CFormInput type="text" name="phone" placeholder="Search..." />
+            <CButton color="warning" type="button" className="text-white">
+              <CIcon icon={cilSearch} />
+              <span>{'  '}Search</span>
+            </CButton>
+          </CInputGroup>
+        </CCol>
+      </CRow>
+      <br />
+
       {resMessage && (
         <CAlert color="danger" className="text-center">
           {resMessage}
         </CAlert>
       )}
-
-      <CToaster ref={toaster} push={toast} placement="top-end" />
 
       <CRow>
         <CCol xs>
@@ -133,7 +186,7 @@ function ViewBlockchain() {
                   type="button"
                   className="p-0 float-end"
                   onClick={() => {
-                    handleVerify(block.id, block.creatorPublicKey)
+                    handleVerifyBlock(block.id, block.creatorPublicKey)
                   }}
                 >
                   <span className="px-3">Verify</span>

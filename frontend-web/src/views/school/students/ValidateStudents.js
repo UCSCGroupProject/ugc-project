@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import {
   CRow,
   CCol,
@@ -20,6 +20,10 @@ import {
   CInputGroupText,
   CSpinner,
   CAlert,
+  CToast,
+  CToastHeader,
+  CToastBody,
+  CToaster,
 } from '@coreui/react'
 
 import { cilSearch } from '@coreui/icons'
@@ -49,6 +53,19 @@ const studentValidationListData = [
 ]
 
 function ValidateStudents() {
+  //Toast related
+  const [toast, addToast] = useState(0)
+  const toaster = useRef()
+  const exampleToast = (status, title, content) => (
+    <CToast className={`bg-fade-${status}`}>
+      <CToastHeader closeButton className={`text-white bg-${status}`}>
+        <strong className="me-auto">{title}</strong>
+        <small>Just now</small>
+      </CToastHeader>
+      <CToastBody>{content}</CToastBody>
+    </CToast>
+  )
+
   // For the server side requests and responses
   const [loading, setLoading] = useState(false)
   const [resMessage, setResMessage] = useState('')
@@ -101,14 +118,8 @@ function ValidateStudents() {
       .validateAndPublishStudentList(studentValidationList, user.username)
       .then(
         (res) => {
-          console.log('consoling', res.message)
-          setResMessage(res.message)
-
-          setTimeout(() => {
-            setResMessage('')
-          }, 2000)
-
           setLoading(false)
+          addToast(exampleToast('success', `Published Successfully`, res.message))
         },
         (error) => {
           const res =
@@ -117,14 +128,17 @@ function ValidateStudents() {
             error.toString()
 
           // After recieving the server request
-          setResMessage(res)
           setLoading(false)
+          addToast(exampleToast('danger', `Published Failed`, res))
         },
       )
   }
 
   return (
     <div>
+      {/* Toast */}
+      <CToaster ref={toaster} push={toast} placement="top-end" />
+
       <CRow>
         <CCol xs>
           <CCard className="mb-4">
@@ -166,7 +180,6 @@ function ValidateStudents() {
               </CRow>
               <br />
 
-              
               <CRow className="m-1">
                 <CTable bordered>
                   <CTableHead color="dark">
@@ -197,7 +210,7 @@ function ValidateStudents() {
               <div className="d-flex flex-row align-items-center">
                 <CContainer>
                   {resMessage && (
-                    <CAlert color="info" className="text-center">
+                    <CAlert color="danger" className="text-center">
                       {resMessage}
                     </CAlert>
                   )}
