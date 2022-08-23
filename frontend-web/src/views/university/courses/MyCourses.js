@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { Routes, Route, useNavigate } from 'react-router-dom'
 import {
   CRow,
   CCol,
@@ -40,7 +39,7 @@ const MyCourses = () => {
     {
       id: 1,
       unicode: '112N',
-      courseOfStudy: 'Medicine',
+      courseOfStudy: 'Engineering',
     },
     {
       id: 2,
@@ -58,6 +57,17 @@ const MyCourses = () => {
   const [currentItem, setCurrentItem] = useState(null)
 
   const [currentItemIndex, setCurrentItemIndex] = useState(null)
+
+  const [validated, setValidated] = useState(false)
+
+  const handleSubmit = (event) => {
+    const form = event.currentTarget
+    if (form.checkValidity() === false) {
+      event.preventDefault()
+      event.stopPropagation()
+    }
+    setValidated(true)
+  }
 
   return (
     <div>
@@ -148,7 +158,7 @@ const MyCourses = () => {
           <CModalTitle>Course Edit</CModalTitle>
         </CModalHeader>
         <CModalBody>
-          <CForm>
+          <CForm noValidate validated={validated} onSubmit={handleSubmit}>
             <CRow className="mb-3">
               <CFormLabel htmlFor="inputunicode" className="col-sm-3 col-form-label">
                 Uni Code
@@ -163,6 +173,8 @@ const MyCourses = () => {
                   type="text"
                   id="inputunicode"
                   defaultValue={currentItem ? currentItem.unicode : 'loading...'}
+                  feedbackInvalid="Please provide an uni code."
+                  required
                 />
               </CCol>
             </CRow>
@@ -180,6 +192,8 @@ const MyCourses = () => {
                     temp.courseOfStudy = e.target.value
                     setCurrentItem(temp)
                   }}
+                  feedbackInvalid="Please provide course name."
+                  required
                 />
               </CCol>
             </CRow>
@@ -188,7 +202,12 @@ const MyCourses = () => {
                 Degree
               </CFormLabel>
               <CCol sm={12}>
-                <CFormInput type="text" id="inputdegree" />
+                <CFormInput
+                  type="text"
+                  id="inputdegree"
+                  feedbackInvalid="Please provide degree name."
+                  required
+                />
               </CCol>
             </CRow>
             <CRow className="mb-3">
@@ -197,7 +216,13 @@ const MyCourses = () => {
               </CFormLabel>
               <CRow>
                 <CCol sm={6}>
-                  <CFormSelect size="sm" className="mb-2" aria-label="Small select example">
+                  <CFormSelect
+                    size="sm"
+                    className="mb-2"
+                    aria-label="Small select example"
+                    feedbackInvalid="Please provide requirements."
+                    required
+                  >
                     <option>Select a Subject</option>
                     <option value="1">Combined Mathematics</option>
                     <option value="2">Chemistry</option>

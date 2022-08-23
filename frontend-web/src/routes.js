@@ -65,7 +65,7 @@ const Uni_AptitudeTests_MyTests = React.lazy(() => import('./views/university/ap
 const Uni_AptitudeTests_AppliedStudents = React.lazy(() => import('./views/university/aptitudeTests/MyTestsAppliedStudents'))
 const Uni_AptitudeTests_TestDetails_Progress = React.lazy(() => import('./views/university/aptitudeTests/AptitudeTestProgress'))
 const Uni_AptitudeTests_TestDetails_Results = React.lazy(() => import('./views/university/aptitudeTests/AptitudeTestResults'))
-const Uni_Courses_MyCourses_Edit = React.lazy(() => import('./views/university/courses/MyCoursesEdit'))
+
 
 // School views
 const Sch_Dashboard = React.lazy(() => import('./views/school/dashboard/Dashboard'))
@@ -134,7 +134,6 @@ const routes = [
   { path: '/university/registration',                   name: 'Registration',             element: Uni_Registration},
   { path: '/university/dashboard',                      name: 'Dashboard',                element: Uni_Dashboard},
   { path: '/university/courses/my',                     name: 'Courses',                  element: Uni_Courses_MyCourses},
-  { path: '/university/courses/my/edit',                name: 'Courses Edit',             element: Uni_Courses_MyCourses_Edit},
   { path: '/university/courses/statistics',             name: 'Courses Details',          element: Uni_Courses_CourseDetails_Statistics},
   { path: '/university/courses/appliedstudents',        name: 'Courses Applied Students', element: Uni_Courses_CourseDetails_AppliedStudents},
   { path: '/university/aptitudetests/my',               name: 'Aptitude Tests',           element: Uni_AptitudeTests_MyTests},
