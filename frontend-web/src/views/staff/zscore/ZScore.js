@@ -52,7 +52,7 @@ function StaffZScore() {
 
               <div className="d-grid gap-3 col-6 mx-auto">
                 <CButtonGroup>
-                  <CButton color="primary" size="lg" type="button" variant="outline" href="#/staff/zscoretable">
+                  <CButton color="primary" size="lg" type="button" variant="outline" href="/staff/zscoretable">
                       2021
                   </CButton>
                   <CButton color="dark" size="lg" type="button" variant="outline">
