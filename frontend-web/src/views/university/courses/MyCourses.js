@@ -216,6 +216,7 @@ const MyCourses = () => {
                 <CFormInput
                   type="text"
                   id="inputdegree"
+                  defaultValue={"B.Sc in Engineering"}
                   feedbackInvalid="Please provide degree name."
                   required
                 />
@@ -413,7 +414,11 @@ const MyCourses = () => {
                 Description
               </CFormLabel>
               <CCol sm={12}>
-                <CFormTextarea id="exampleFormControlTextarea1" rows="5"></CFormTextarea>
+                <CFormTextarea
+                  id="exampleFormControlTextarea1"
+                  rows="5"
+                  defaultValue={'Good Occupation.Highere Salary.'}
+                ></CFormTextarea>
               </CCol>
             </CRow>
           </CForm>

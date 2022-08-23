@@ -1,50 +1,27 @@
-import React, { useState } from 'react'
-import {
-  CRow,
-  CCol,
-  CCard,
-  CCardBody,
-  CCardHeader,
-  CButton,
-  CFormSelect,
-  CTable,
-  CTableHead,
-  CTableRow,
-  CTableHeaderCell,
-  CTableDataCell,
-  CTableBody,
-  CInputGroup,
-  CFormInput,
-  CInputGroupText,
-} from '@coreui/react'
-
-import { cilSearch } from '@coreui/icons'
-import { cilFilter } from '@coreui/icons'
+import { cilFilter, cilSearch } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
-import { useNavigate } from 'react-router-dom'
+import { CButton, CCard, CCardBody, CCardHeader, CCol, CFormInput, CFormSelect, CInputGroup, CInputGroupText, CRow, CTable, CTableBody, CTableDataCell, CTableHead, CTableHeaderCell, CTableRow } from '@coreui/react'
+import React, { useState } from 'react'
 
-
-const MyCoursesAppliedStudents = () => {
-  let navigate = useNavigate()
-
-  const [allCoursesData, setAllCoursesData] = useState([
+const MyCoursesAppliedStudentsList = () => {
+  const [allStudentsData, setAllStudentsData] = useState([
     {
-      id: '1',
-      unicode: '112A',
-      courseOfStudy: 'Medicine',
-      appliedAmount: '250'
+      id: 1,
+      index: '1900456',
+      name: 'Achini Udara',
+      district: 'Matara',
     },
     {
-      id: '2',
-      unicode: '112A',
-      courseOfStudy: 'Engineering',
-      appliedAmount: '400'
+      id: 2,
+      index: '1900475',
+      name: 'Deshmi Vithana',
+      district: 'Colombo',
     },
     {
-      id: '3',
-      unicode: '112A',
-      courseOfStudy: 'Computer Science',
-      appliedAmount: '300'
+      id: 3,
+      index: '1900475',
+      name: 'Akila Perera',
+      district: 'Galle',
     },
   ])
 
@@ -53,7 +30,7 @@ const MyCoursesAppliedStudents = () => {
       <CRow>
         <CCol xs>
           <CCard className="mb-4">
-            <CCardHeader>Applied Students for Courses</CCardHeader>
+            <CCardHeader>Applied Students List for Aptitude Test</CCardHeader>
             <CCardBody>
               <CRow className="py-2 bg-light rounded">
                 <CCol md={6}>
@@ -61,9 +38,9 @@ const MyCoursesAppliedStudents = () => {
                     <CInputGroupText>Filter By</CInputGroupText>
                     <CFormSelect aria-label="filterByOption1">
                       <option value="all">All</option>
-                      <option value="unicode">Unicode</option>
-                      <option value="course">Course</option>
-                      {/* <option value="university">University</option> */}
+                      <option value="unicode">Index</option>
+                      <option value="course">Name</option>
+                      <option value="university">District</option>
                     </CFormSelect>
                     <CInputGroupText> in </CInputGroupText>
                     <CFormSelect aria-label="filterByOption1">
@@ -94,21 +71,24 @@ const MyCoursesAppliedStudents = () => {
                   <CTableHead color="dark">
                     <CTableRow>
                       <CTableHeaderCell>No.</CTableHeaderCell>
-                      <CTableHeaderCell>Unicode</CTableHeaderCell>
-                      <CTableHeaderCell>Course</CTableHeaderCell>
-                      <CTableHeaderCell>No.of Applicants</CTableHeaderCell>
+                      <CTableHeaderCell>Index</CTableHeaderCell>
+                      <CTableHeaderCell>Name</CTableHeaderCell>
+                      <CTableHeaderCell>District</CTableHeaderCell>
                     </CTableRow>
                   </CTableHead>
                   <CTableBody>
-                    {allCoursesData.map((item) => (
-                      <CTableRow key={item.id} onClick={() => {
-                        navigate('/university/courses/appliedstudents/list')
-                        // navigate('/student?id=' + item.id)
-                      }}>
-                        <CTableHeaderCell>{item.id}</CTableHeaderCell>
-                        <CTableDataCell>{item.unicode}</CTableDataCell>
-                        <CTableDataCell>{item.courseOfStudy}</CTableDataCell>
-                        <CTableDataCell>{item.appliedAmount}</CTableDataCell>
+                    {allStudentsData.map((item) => (
+                      <CTableRow
+                        key={item.id}
+                        // onClick={() => {
+                        //   navigate('/university/aptitudetests/appliedstudents/list')
+                        //   // navigate('/student?id=' + item.id)
+                        // }}
+                      >
+                        <CTableDataCell>{item.id}</CTableDataCell>
+                        <CTableDataCell>{item.index}</CTableDataCell>
+                        <CTableDataCell>{item.name}</CTableDataCell>
+                        <CTableDataCell>{item.district}</CTableDataCell>
                       </CTableRow>
                     ))}
                   </CTableBody>
@@ -122,4 +102,4 @@ const MyCoursesAppliedStudents = () => {
   )
 }
 
-export default MyCoursesAppliedStudents
+export default MyCoursesAppliedStudentsList
