@@ -44,13 +44,9 @@ GET http://localhost:5/blockchain/getblockchain
 ### Public key and the associated block id will be sent
 ### String format public key transformed in to EC Cordinate format private key using X.509 encoded key spec (DECODING)
 ### Then signature will be verified usign public key and the associated hash of the block
-GET http://localhost:5/blockchain/verifyblock/
-Content-Type: application/json
+### TODO: Check params. they are wrong in order
+GET http://localhost:5/blockchain/verifyBlock?publicKey=2&publicKey=MEYwEAYHKoZIzj0CAQYFK4EEAB8DMgAEP1msaL2gbpRrZhTfBJuA+HGd8+a5HFbwtdX5a9k5p3Qb1qllNl1U2xT9WlHg0OHI
 
-{
-    "blockId": 2,
-    "publicKey": "MEYwEAYHKoZIzj0CAQYFK4EEAB8DMgAEVUGlcajtoYR+6lJUEYThz4MtWX7AIH0p75GvGxeM+16K4pP1J/e4cWnOhvU0apAI"
-}
 
 ### Generate a keypair - This will be used by School service
 ### Keypair consist of Public key and Private key

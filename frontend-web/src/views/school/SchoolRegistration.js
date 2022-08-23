@@ -77,8 +77,9 @@ const SchoolRegistration = () => {
     // Role Details
     name: '',
     address: '',
-    distrct: '',
+    district: 'Colombo',
     phone: '',
+    role: 'ROLE_SCHOOL_STAFF',
   })
 
   const [isPhoneValid, setIsPhoneValid] = useState(false)
@@ -193,8 +194,9 @@ const SchoolRegistration = () => {
     // Role Details
     nameError: '',
     addressError: '',
-    distrctError: '',
+    districtError: '',
     phoneError: '',
+    roleError: '',
   })
 
   // Validate the data and
@@ -206,8 +208,9 @@ const SchoolRegistration = () => {
     // School Details errors
     let nameError = ''
     let addressError = ''
-    let distrctError = ''
+    let districtError = ''
     let phoneError = ''
+    let roleError = ''
 
     if (!v_required(schoolDetailsForm.name)) {
       nameError = 'School Name cannot be empty.'
@@ -217,8 +220,8 @@ const SchoolRegistration = () => {
       addressError = 'Address cannot be empty.'
     }
 
-    if (!v_required(schoolDetailsForm.distrct)) {
-      distrctError = 'Distrct cannot be empty.'
+    if (!v_required(schoolDetailsForm.district)) {
+      districtError = 'Distrct cannot be empty.'
     }
 
     if (!v_required(schoolDetailsForm.phone)) {
@@ -231,16 +234,21 @@ const SchoolRegistration = () => {
       }
     }
 
+    if (!v_required(schoolDetailsForm.role)) {
+      roleError = 'Role cannot be empty.'
+    }
+
     // If errors exist, show errors
     setSchoolDetailsFormErrors({
       nameError,
       addressError,
-      distrctError,
+      districtError,
       phoneError,
+      roleError,
     })
 
     // If no errors exist, send to the server
-    if (!(nameError || addressError || distrctError || phoneError)) {
+    if (!(nameError || addressError || districtError || phoneError || roleError)) {
       // Sending to the server
       setLoading(true)
       setResMessage('')
@@ -298,12 +306,12 @@ const SchoolRegistration = () => {
               <CCol md={4}>
                 <CFormSelect
                   label="District"
-                  aria-label="distrct-select"
-                  name="distrct"
+                  aria-label="district-select"
+                  name="district"
                   onChange={onUpdateInputInSchoolDetailsForm}
-                  value={schoolDetailsForm.distrct}
-                  feedback={schoolDetailsFormErrors.distrctError}
-                  invalid={schoolDetailsFormErrors.distrctError ? true : false}
+                  value={schoolDetailsForm.district}
+                  feedback={schoolDetailsFormErrors.districtError}
+                  invalid={schoolDetailsFormErrors.districtError ? true : false}
                 >
                   <option value="Colombo">Colombo</option>
                   <option value="Gampaha">Gampaha</option>
@@ -330,6 +338,22 @@ const SchoolRegistration = () => {
                   <option value="Moneragala">Moneragala</option>
                   <option value="Ratnapura">Ratnapura</option>
                   <option value="Kegalle">Kegalle</option>
+                </CFormSelect>
+              </CCol>
+              <CCol md={5}>
+                <CFormSelect
+                  label="Role"
+                  aria-label="validationRole-select"
+                  name="role"
+                  onChange={onUpdateInputInSchoolDetailsForm}
+                  value={schoolDetailsForm.role}
+                  feedback={schoolDetailsFormErrors.roleError}
+                  invalid={schoolDetailsFormErrors.roleError ? true : false}
+                >
+                  <option value="ROLE_SCHOOL_STAFF">Staff</option>
+                  <option value="ROLE_SCHOOL_SECRETARY">Secretary</option>
+                  <option value="ROLE_SCHOOL_VICE_PRINCIPLE">Vice Principle</option>
+                  <option value="ROLE_SCHOOL_PRINCIPLE">Principle</option>
                 </CFormSelect>
               </CCol>
               <CCol md={4}>

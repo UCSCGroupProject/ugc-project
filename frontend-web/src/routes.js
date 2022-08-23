@@ -70,6 +70,7 @@ const Uni_Courses_MyCourses_Edit = React.lazy(() => import('./views/university/c
 // School views
 const Sch_Dashboard = React.lazy(() => import('./views/school/dashboard/Dashboard'))
 const Sch_Students_ValidateList = React.lazy(() => import('./views/school/students/ValidateStudents'))
+const Sch_Blockchain_ViewBlockchain = React.lazy(() => import('./views/school/blockchain/ViewBlockchain'))
 
 const routes = [
   // Staff routes
@@ -145,6 +146,8 @@ const routes = [
   { path: '/school',                               name: 'School',                element: Sch_Dashboard },
   { path: '/school/students',                      name: 'Students',              element: Sch_Students_ValidateList },
   { path: '/school/students/validate',             name: 'Validate List',         element: Sch_Students_ValidateList },
+  { path: '/school/blockchain',                    name: 'Blockchain',            element: Sch_Blockchain_ViewBlockchain },
+  { path: '/school/blockchain/view',               name: 'View',                  element: Sch_Blockchain_ViewBlockchain },
 
   // User routes
   { path: '/', exact: true, name: 'Home' },
