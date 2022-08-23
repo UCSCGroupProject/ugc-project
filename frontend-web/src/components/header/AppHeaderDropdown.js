@@ -48,27 +48,15 @@ const AppHeaderDropdown = (props) => {
             Dashboard
           </CDropdownItem>
         </NavLink>
-        <CDropdownItem href="#">
-          <CIcon icon={cilEnvelopeOpen} className="me-2" />
-          Messages
-          <CBadge color="success" className="ms-2">
-            42
-          </CBadge>
-        </CDropdownItem>
-        <CDropdownItem href="#">
-          <CIcon icon={cilTask} className="me-2" />
-          Tasks
-          <CBadge color="danger" className="ms-2">
-            42
-          </CBadge>
-        </CDropdownItem>
-        <CDropdownItem href="#">
-          <CIcon icon={cilCommentSquare} className="me-2" />
-          Comments
-          <CBadge color="warning" className="ms-2">
-            42
-          </CBadge>
-        </CDropdownItem>
+        <NavLink to={`/${props.userDetails.actorType}`} style={{ textDecoration: 'none' }}>
+          <CDropdownItem>
+            <CIcon icon={cilEnvelopeOpen} className="me-2" />
+            Messages
+            <CBadge color="success" className="ms-2">
+              42
+            </CBadge>
+          </CDropdownItem>
+        </NavLink>
         <CDropdownHeader className="bg-light fw-semibold py-2">Settings</CDropdownHeader>
         <NavLink to={`/${props.userDetails.actorType}/settings`} style={{ textDecoration: 'none' }}>
           <CDropdownItem>
@@ -76,15 +64,8 @@ const AppHeaderDropdown = (props) => {
             Settings
           </CDropdownItem>
         </NavLink>
-        <CDropdownItem>
-          <CIcon icon={cilCreditCard} className="me-2" />
-          Payments
-          <CBadge color="secondary" className="ms-2">
-            42
-          </CBadge>
-        </CDropdownItem>
         <CDropdownDivider />
-        <CDropdownItem onClick={logout}>
+        <CDropdownItem onClick={logout} style={{ cursor: 'pointer' }}>
           <CIcon icon={cilLockLocked} className="me-2" />
           Logout
         </CDropdownItem>

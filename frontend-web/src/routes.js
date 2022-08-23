@@ -22,7 +22,9 @@ const Staff_AptitudeTests_Upcoming = React.lazy(() => import('./views/staff/apti
 const Staff_AptitudeTests_Completed = React.lazy(() => import('./views/staff/aptitudeTests/Completed'))
 const Staff_Selected = React.lazy(() => import('./views/staff/selection/selected/Selected'))
 const Staff_Selected_Courses = React.lazy(() => import('./views/staff/selection/selected/Courses'))
+const Staff_Selected_University = React.lazy(() => import('./views/staff/selection/selected/University'))
 const Staff_Selected_Students = React.lazy(() => import('./views/staff/selection/selected/Students'))
+const Staff_Selection_Process = React.lazy(() => import('./views/staff/selection/selected/SelectionProcess'))
 const Staff_Applied_Students = React.lazy(() => import('./views/staff/selection/AppliedStudents'))
 const Staff_Eligible = React.lazy(() => import('./views/staff/selection/eligible/Eligible'))
 const Staff_Eligible_Courses = React.lazy(() => import('./views/staff/selection/eligible/Courses'))
@@ -93,7 +95,9 @@ const routes = [
   { path: '/staff/aptitudetests/upcoming',          name: 'Upcoming Tests',         element: Staff_AptitudeTests_Upcoming},
   { path: '/staff/aptitudetests/completed',         name: 'Completed Tests',        element: Staff_AptitudeTests_Completed},
   { path: '/staff/selected',                        name: 'Selected',               element: Staff_Selected },
+  { path: '/staff/selectionprocess',                name: 'Selection Process',      element: Staff_Selection_Process },
   { path: '/staff/selected/courses',                name: 'Courses',                element: Staff_Selected_Courses },
+  { path: '/staff/selected/university',             name: 'University',             element: Staff_Selected_University },
   { path: '/staff/selected/courses/students',       name: 'Students',               element: Staff_Selected_Students },
   { path: '/staff/appliedstudents',                 name: 'Applicants',             element: Staff_Applied_Students },
   { path: '/staff/eligible',                        name: 'Eligible',               element: Staff_Eligible },

@@ -128,6 +128,22 @@ public class BlockChainService {
         return message;
     }
 
+    public ResBlockValidityMessage verifyBlockchain() {
+        ResBlockValidityMessage message = new ResBlockValidityMessage();
+
+        for(Block block: blockChain.getBlockChain()){
+            if(!block.verifyBlock()){
+                message.setValid(false);
+                message.setMessage("Blockchain is Invalid. Suspicious block ID: " + block.getId());
+                return message;
+            }
+        }
+
+        message.setValid(true);
+        message.setMessage("Blockchain is valid");
+        return message;
+    }
+
     public void saveBlockOnBlockChain(Block block){
         com.ugc.blockchain.model.Block newBlock = new com.ugc.blockchain.model.Block();
 

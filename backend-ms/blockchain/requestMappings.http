@@ -48,6 +48,10 @@ GET http://localhost:5/blockchain/getblockchain
 GET http://localhost:5/blockchain/verifyBlock?publicKey=2&publicKey=MEYwEAYHKoZIzj0CAQYFK4EEAB8DMgAEP1msaL2gbpRrZhTfBJuA+HGd8+a5HFbwtdX5a9k5p3Qb1qllNl1U2xT9WlHg0OHI
 
 
+### Verifying the entire blockchain
+GET http://localhost:5/blockchain/verifyBlockchain
+
+
 ### Generate a keypair - This will be used by School service
 ### Keypair consist of Public key and Private key
 ### Public key is a relatively short String

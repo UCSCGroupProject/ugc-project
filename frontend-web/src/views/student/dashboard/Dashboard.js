@@ -12,8 +12,6 @@ import {
   CCardHeader,
   CCardImage,
   CCardTitle,
-  CCardText,
-  CButton,
   CBadge,
   CWidgetStatsB,
   CWidgetStatsF,
@@ -24,9 +22,9 @@ import {
 import { cilChartPie } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
-import authService from '../../../services/authService'
+import AppBanner from '../../../components/banner/AppBanner'
 
-import student_banner from '../../../assets/images/dashboard/student_banner.png'
+import authService from '../../../services/authService'
 
 function Dashboard() {
   // Set user details
@@ -50,32 +48,10 @@ function Dashboard() {
     <div>
       <CRow>
         <CCol md={8}>
-          <h1 class="display-6">Hello {userDetails.username}, Welcome</h1>
-          <br />
-          <div>
-            <CCard style={{ width: '100%' }}>
-              <CCardBody>
-                <CRow>
-                  <CCol md={4}>
-                    <CCardImage orientation="top" src={student_banner} />
-                  </CCol>
-                  <CCol md={8}>
-                    <CCardTitle>Explore & Engage</CCardTitle>
-                    <p className="mb-1">
-                      As a <strong>Student</strong> you will be having following features.
-                    </p>
-                    <CListGroup flush>
-                      <CListGroupItem>Flexible university admisison</CListGroupItem>
-                      <CListGroupItem>Course and University details</CListGroupItem>
-                      <CListGroupItem>Test progress & statistics</CListGroupItem>
-                      <CListGroupItem>Calender with timelines</CListGroupItem>
-                      <CListGroupItem>Notifications & Reminders</CListGroupItem>
-                    </CListGroup>
-                  </CCol>
-                </CRow>
-              </CCardBody>
-            </CCard>
-          </div>
+          <h1 className="pb-2 display-6">Hello {userDetails.username}, Welcome</h1>
+
+          {/* Banner */}
+          <AppBanner />
           <br />
           <div>
             <CRow>

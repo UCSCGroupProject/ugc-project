@@ -52,6 +52,14 @@ public class BlockChainController {
         return ResponseEntity.ok(resBlockValidityMessage);
     }
 
+    @GetMapping("/verifyBlockchain")
+    public ResponseEntity<?> verifyBlockchain(){
+        ResBlockValidityMessage resBlockValidityMessage = blockChainService.verifyBlockchain();
+
+        System.out.println(resBlockValidityMessage);
+        return ResponseEntity.ok(resBlockValidityMessage);
+    }
+
     @GetMapping("/generateKeypair")
     public ResKeyPair generateKeypair() {
         return blockChainService.generateKeyPair();

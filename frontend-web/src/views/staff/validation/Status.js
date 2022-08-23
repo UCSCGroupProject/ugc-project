@@ -1,4 +1,5 @@
 import React from 'react'
+import { useState } from 'react'
 import {
   CCard,
   CTable,
@@ -16,31 +17,38 @@ import {
   CRow,
   CTableBody,
   CTableDataCell,
+  CContainer,
+  CAlert,
+  CSpinner,
 } from '@coreui/react'
 
-import { cilSearch } from '@coreui/icons'
-import { cilFilter} from '@coreui/icons'
+import { cilCheckAlt } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
+const studentValidationListData = [
+  {
+    transactionId: '1',
+    index: '1236547',
+    fullName: 'L.A.D.D.S. GUNAWARDHANA',
+    nic: '199931712165',
+    dateOfAdmission: '2011-10-03',
+    dateOfLeave: '2015-3-06',
+  },
+  {
+    transactionId: '2',
+    index: '9875462',
+    fullName: 'D.C. PATHIRAGE',
+    nic: '200016548965315',
+    dateOfAdmission: '2012-10-08',
+    dateOfLeave: '2015-8-16',
+  },
+]
+
 function StatusValidation() {
-  const courseList = [
-    {
-      id: 1,
-      name: 'B.F.Ilma',
-      status: 'Government',
-      school: "St. Paul's Girls' School, Milagiriya",
-      district: 'Colombo',
-      _cellProps: { id: { scope: 'row' } },
-    },
-    {
-      id: 2,
-      name: 'K.N.Perera',
-      status: 'Private',
-      school: 'Lyceum International School, Ratnapura',
-      district: 'Ratnapura',
-      _cellProps: { id: { scope: 'row' } },
-    },
-  ]
+  // For the server side requests and responses
+  const [loading, setLoading] = useState(false)
+  const [resMessage, setResMessage] = useState('')
+
   return (
     <div>
       <CRow>
@@ -48,68 +56,129 @@ function StatusValidation() {
           <CCard className="mb-4">
             <CCardHeader>All Requests</CCardHeader>
             <CCardBody>
-              <CRow className="py-2 bg-light rounded">
-                <CCol md={6}>
-                  <CInputGroup>
-                    <CInputGroupText>Filter By</CInputGroupText>
-                    <CFormSelect aria-label="filterByOption1">
-                      <option value="all">All</option>
-                      <option value="course">Course</option>
-                    </CFormSelect>
-                    <CInputGroupText> in </CInputGroupText>
-                    <CFormSelect aria-label="filterByOption1">
-                      <option value="ascending">Ascending</option>
-                      <option value="descending">Descending</option>
-                    </CFormSelect>
-                    <CInputGroupText> order </CInputGroupText>
-                    <CButton color="warning" type="button" className="text-white">
-                      <CIcon icon={cilFilter} />
-                      <span>{'  '}Filter</span>
-                    </CButton>
-                  </CInputGroup>
+              <CRow>
+                <CCol sm={5}>
+                  <CFormSelect
+                    label="Place of Birth (District)"
+                    aria-label="placeOfBirth-select"
+                    name="pob"
+                    // onChange={onUpdateInputInStuDetailsForm}
+                    // value={stuDetailsForm.pob}
+                    // feedback={stuDetailsFormErrors.pobError}
+                    // invalid={stuDetailsFormErrors.pobError ? true : false}
+                  >
+                    <option value="Colombo">Colombo</option>
+                    <option value="Gampaha">Gampaha</option>
+                    <option value="Kalutara">Kalutara</option>
+                    <option value="Kandy">Kandy</option>
+                    <option value="Matale">Matale</option>
+                    <option value="Nuwara Eliya">Nuwara Eliya</option>
+                    <option value="Galle">Galle</option>
+                    <option value="Matara">Matara</option>
+                    <option value="Hambantota">Hambantota</option>
+                    <option value="Jaffna">Jaffna</option>
+                    <option value="Kilinochchi">Kilinochchi</option>
+                    <option value="Mannar">Mannar</option>
+                    <option value="Vavuniya">Vavuniya</option>
+                    <option value="Mullaitivu">Mullaitivu</option>
+                    <option value="Batticaloa">Batticaloa</option>
+                    <option value="Ampara">Ampara</option>
+                    <option value="Trincomalee">Trincomalee</option>
+                    <option value="Kurunegala">Kurunegala</option>
+                    <option value="Puttalam">Puttalam</option>
+                    <option value="Anuradhapura">Anuradhapura</option>
+                    <option value="Polonnaruwa">Polonnaruwa</option>
+                    <option value="Badulla">Badulla</option>
+                    <option value="Moneragala">Moneragala</option>
+                    <option value="Ratnapura">Ratnapura</option>
+                    <option value="Kegalle">Kegalle</option>
+                  </CFormSelect>
                 </CCol>
-                <CCol md={4} className="ms-auto">
-                  <CInputGroup>
-                    <CFormInput type="text" name="phone" placeholder="Search..." />
-                    <CButton color="warning" type="button" className="text-white">
-                      <CIcon icon={cilSearch} />
-                      <span>{'  '}Search</span>
-                    </CButton>
-                  </CInputGroup>
+                <CCol sm={5}>
+                  <CFormSelect
+                    label="Place of Birth (District)"
+                    aria-label="placeOfBirth-select"
+                    name="pob"
+                    // onChange={onUpdateInputInStuDetailsForm}
+                    // value={stuDetailsForm.pob}
+                    // feedback={stuDetailsFormErrors.pobError}
+                    // invalid={stuDetailsFormErrors.pobError ? true : false}
+                  >
+                    <option value="Royal College">Royal College</option>
+                    <option value="Anada College">Ananda College</option>
+                  </CFormSelect>
+                </CCol>
+                <CCol sm={2}>
+                  <CButton
+                    color="primary"
+                    className="w-100 mt-3 h-75"
+                    // onClick={handleUniversityCourseFormSubmit}
+                  >
+                    Get Student List
+                  </CButton>
                 </CCol>
               </CRow>
               <br />
+
               <CRow className="m-1">
                 <CTable bordered>
                   <CTableHead color="dark">
                     <CTableRow>
-                      <CTableHeaderCell>#</CTableHeaderCell>
-                      <CTableHeaderCell>Name</CTableHeaderCell>
-                      <CTableHeaderCell>Status</CTableHeaderCell>
-                      <CTableHeaderCell>School</CTableHeaderCell>
-                      <CTableHeaderCell>District</CTableHeaderCell>
-                      <CTableHeaderCell style={{ width: '15%' }}>Action</CTableHeaderCell>
+                      <CTableHeaderCell>Id</CTableHeaderCell>
+                      <CTableHeaderCell>Index</CTableHeaderCell>
+                      <CTableHeaderCell>Fullname</CTableHeaderCell>
+                      <CTableHeaderCell>NIC</CTableHeaderCell>
+                      <CTableHeaderCell>Date of Admission</CTableHeaderCell>
+                      <CTableHeaderCell>Date of Leave</CTableHeaderCell>
                     </CTableRow>
                   </CTableHead>
                   <CTableBody>
-                    {courseList.map((item) => (
-                      // <NavLink to="/staff/univerityprofile" style={{ textDecoration: 'none', color: 'inherit' }}>
-                      <CTableRow key={item.id}>
-                        <CTableHeaderCell>{item.id}</CTableHeaderCell>
-                        <CTableDataCell>{item.name}</CTableDataCell>
-                        <CTableDataCell>{item.status}</CTableDataCell>
-                        <CTableDataCell>{item.school}</CTableDataCell>
-                        <CTableDataCell>{item.district}</CTableDataCell>
-                        <CTableDataCell>
-                          <CButton color="warning" component="a" href="">
-                            Validate
-                          </CButton>
-                        </CTableDataCell>
+                    {studentValidationListData.map((item) => (
+                      <CTableRow key={item.transactionId}>
+                        <CTableHeaderCell>{item.transactionId}</CTableHeaderCell>
+                        <CTableDataCell>{item.index}</CTableDataCell>
+                        <CTableDataCell>{item.fullName}</CTableDataCell>
+                        <CTableDataCell>{item.nic}</CTableDataCell>
+                        <CTableDataCell>{item.dateOfAdmission}</CTableDataCell>
+                        <CTableDataCell>{item.dateOfLeave}</CTableDataCell>
                       </CTableRow>
                     ))}
                   </CTableBody>
                 </CTable>
               </CRow>
+              <br />
+
+              <div className="d-flex flex-row align-items-center">
+                <CContainer>
+                  {resMessage && (
+                    <CAlert color="info" className="text-center">
+                      {resMessage}
+                    </CAlert>
+                  )}
+
+                  <CRow className="justify-content-center">
+                    <CCol md={7}>
+                      <span className="text-right">
+                        As a authorized indivial in this staff, I here by request to certify above
+                        mentioned list from the relavant school.
+                      </span>
+                    </CCol>
+                    <CCol md={2}>
+                      <CButton
+                        color="success"
+                        type="button"
+                        className="text-white"
+                        // onClick={handleSubmit}
+                      >
+                        <CIcon icon={cilCheckAlt} />
+                        <span>
+                          {'  '}Send to validate {loading && <CSpinner size="sm" />}
+                        </span>
+                      </CButton>
+                    </CCol>
+                  </CRow>
+                </CContainer>
+              </div>
             </CCardBody>
           </CCard>
         </CCol>

@@ -18,6 +18,13 @@ class BlockchainService {
         return response.data
       })
   }
+
+  verifyBlockchain = async () => {
+    return await axios.get(API_URL + '/verifyBlockchain').then((response) => {
+      console.log(response.data)
+      return response.data
+    })
+  }
 }
 
 export default new BlockchainService()

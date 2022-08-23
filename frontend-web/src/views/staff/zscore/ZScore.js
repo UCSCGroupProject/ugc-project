@@ -36,7 +36,7 @@ function StaffZScore() {
                   </CModalHeader>
                   <CModalBody>       
                     <div>
-                      <CFormInput type="file" size="sm" id="formFileSm" label="Choose your file to import as Z-score table" />
+                      <CFormInput type="file" onChange={(e)=>this.handleFile(e)} size="sm" id="formFileSm" label="Choose your file to import as Z-score table" />
                     </div><br />
                     <div><CFormInput type="text" size="sm" label="Save as" text="Please enter the year of Z-score table" aria-label="sm input example"/></div>
                     {/* <div><CFormCheck id="flexCheckChecked" label="Latest Z-table" /></div> */}
@@ -52,7 +52,7 @@ function StaffZScore() {
 
               <div className="d-grid gap-3 col-6 mx-auto">
                 <CButtonGroup>
-                  <CButton color="primary" size="lg" type="button" variant="outline" href="#/staff/zscoretable">
+                  <CButton color="primary" size="lg" type="button" variant="outline" href="/staff/zscoretable">
                       2021
                   </CButton>
                   <CButton color="dark" size="lg" type="button" variant="outline">

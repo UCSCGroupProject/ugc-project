@@ -1,67 +1,83 @@
 import React from 'react'
-import { useState } from 'react'
-import Calendar from 'react-calendar'
-import 'react-calendar/dist/Calendar.css'
+import { useState, useEffect } from 'react'
+import { CRow, CCol } from '@coreui/react'
 
-import { CContainer, CRow, CCol, CCard, CCardBody, CCardHeader, CBadge } from '@coreui/react'
+import authService from '../../../services/authService'
+
+import AppBanner from '../../../components/banner/AppBanner'
+import AppCalender from '../../../components/calender/AppCalender'
+import AppNotifications from '../../../components/notifications/AppNotifications'
+
+import bannerImg from '../../../assets/images/banners/school_banner.jpg'
+
+const bannerData = {
+  img: bannerImg,
+  title: 'Explore & Engage',
+  desc: 'As a Student you will be having following features.',
+  listItems: [
+    {
+      id: '0',
+      content: 'Flexible university admisison',
+    },
+    {
+      id: '1',
+      content: 'Course and University details',
+    },
+    {
+      id: '2',
+      content: 'Test progress & statistics',
+    },
+    {
+      id: '3',
+      content: 'Calender with timelines',
+    },
+    {
+      id: '5',
+      content: 'Notifications & Reminders',
+    },
+  ],
+}
+
+const notificationsData = [
+  {
+    id: '0',
+    title: 'Calling all the applicants',
+    content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam, alias.',
+    createdAt: 'Just now',
+  },
+]
 
 function Dashboard() {
-  const [date, setDate] = useState(new Date())
+  // Set user details
+  const [userDetails, setUserDetails] = useState({
+    username: '',
+    actorType: 'university',
+  })
+
+  useEffect(() => {
+    const user = authService.getCurrentUser()
+
+    if (user !== null) {
+      console.log(user)
+      setUserDetails({ username: user.username, actorType: user.type })
+    }
+  }, [])
 
   return (
     <div>
       <CRow>
-        <CCol md={8} className="bg-white">
-          Content needs to be added
+        <CCol md={8}>
+          <h1 className="pb-2 display-6">Hello {userDetails.username}, Welcome</h1>
+
+          {/* Banner */}
+          <AppBanner data={bannerData} />
         </CCol>
         <CCol md={4} className="">
           {/* Calendar */}
-          <CCard className="mb-3">
-            <CCardHeader>
-              Calendar <CBadge color="success">10</CBadge>
-            </CCardHeader>
-            <CCardBody>
-              <Calendar onChange={setDate} value={date} className="w-100" />
-            </CCardBody>
-          </CCard>
+          <AppCalender />
 
           {/* Notifications */}
-          <CCard className="mb-3">
-            <CCardHeader>
-              Notifications <CBadge color="warning">10</CBadge>
-            </CCardHeader>
-            {/* <CCardBody> */}
-            <div className="p-1">
-              <CContainer className="border mb-2 dashboard-notification">
-                <CRow className="justify-content-between py-1 bg-light">
-                  <CCol xs={9}>
-                    <strong>Calling all the applicants</strong>
-                  </CCol>
-                  <CCol xs={3} className="text-right ms-auto">
-                    <span className="text-muted"> 1 day ago</span>
-                  </CCol>
-                </CRow>
-                <div className="mb-2">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam, alias.
-                </div>
-              </CContainer>
-              <CContainer className="border mb-2 dashboard-notification">
-                <CRow className="justify-content-between py-1 bg-light">
-                  <CCol xs={9}>
-                    <strong>Calling all the applicants</strong>
-                  </CCol>
-                  <CCol xs={3} className="text-right ms-auto">
-                    <span className="text-muted"> 1 day ago</span>
-                  </CCol>
-                </CRow>
-                <div className="mb-2">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam, alias.
-                </div>
-              </CContainer>
-            </div>
-
-            {/* </CCardBody> */}
-          </CCard>
+          <AppNotifications notifications={notificationsData} />
         </CCol>
       </CRow>
     </div>

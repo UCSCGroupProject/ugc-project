@@ -24,8 +24,7 @@ import {
   CTabPane,
 } from '@coreui/react'
 
-import { cilSearch } from '@coreui/icons'
-import { cilFilter } from '@coreui/icons'
+import { cilSearch,cilFilter } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
 function Selected() {
@@ -231,7 +230,7 @@ function Selected() {
                                         <CButton
                                           color="warning"
                                           component="a"
-                                          href="/staff/univerityprofile"
+                                          href="/staff/selected/university"
                                         >
                                           View University
                                         </CButton>
