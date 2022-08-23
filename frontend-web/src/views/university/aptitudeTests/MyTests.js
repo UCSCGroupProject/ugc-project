@@ -16,6 +16,7 @@ import {
   CInputGroup,
   CFormInput,
   CInputGroupText,
+  CBadge,
 } from '@coreui/react'
 
 import { cilSearch } from '@coreui/icons'
@@ -25,22 +26,22 @@ import CIcon from '@coreui/icons-react'
 const MyTests = () => {
   const [allTestsData, setAllTestsData] = useState([
     {
-      id: '1',
-      unicode: '112A',
-      courseOfStudy: 'Medicine',
+      id: 1,
+      unicode: '118H',
+      courseOfStudy: 'Engineering',
       date: '2022-08-03',
       time: '10:00 AM',
-      status: 'Done'
+      status: 'Done',
     },
     {
-      id: '1',
+      id: 2,
       unicode: '112A',
       courseOfStudy: 'Medicine',
       date: '2022-08-06',
       time: '01:00 PM',
-      status: 'Progress'
+      status: 'Progress',
     },
-  ]) 
+  ])
 
   return (
     <div>
@@ -106,8 +107,10 @@ const MyTests = () => {
                         <CTableDataCell>{item.courseOfStudy}</CTableDataCell>
                         <CTableDataCell>{item.date}</CTableDataCell>
                         <CTableDataCell>{item.time}</CTableDataCell>
-                        <CTableDataCell>{item.status}</CTableDataCell>
-                        {/* <CTableDataCell>{item.university}</CTableDataCell> */}
+                        <CTableDataCell>
+                          {item.status === 'Progress' && <CBadge color="warning">{item.status}</CBadge>}
+                          {item.status === 'Done' && <CBadge color="success">{item.status}</CBadge>}
+                        </CTableDataCell>
                       </CTableRow>
                     ))}
                   </CTableBody>
