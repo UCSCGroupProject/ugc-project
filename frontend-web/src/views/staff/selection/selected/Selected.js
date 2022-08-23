@@ -230,7 +230,7 @@ function Selected() {
                                         <CButton
                                           color="warning"
                                           component="a"
-                                          href="/staff/univerityprofile"
+                                          href="/staff/selected/university"
                                         >
                                           View University
                                         </CButton>
