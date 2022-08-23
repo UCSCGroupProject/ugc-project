@@ -14,14 +14,14 @@ function StaffZScoreTable() {
                             <CTableHead color='dark'>
                                 <CTableRow>
                                     <CTableHeaderCell scope="col">District \ Course</CTableHeaderCell>
-                                    <CTableHeaderCell scope="col">Course #1</CTableHeaderCell>
-                                    <CTableHeaderCell scope="col">Course #2</CTableHeaderCell>
-                                    <CTableHeaderCell scope="col">Course #3</CTableHeaderCell>
-                                    <CTableHeaderCell scope="col">Course #4</CTableHeaderCell>
-                                    <CTableHeaderCell scope="col">Course #5</CTableHeaderCell>
-                                    <CTableHeaderCell scope="col">Course #6</CTableHeaderCell>
-                                    <CTableHeaderCell scope="col">Course #7</CTableHeaderCell>
-                                    <CTableHeaderCell scope="col">Course #8</CTableHeaderCell>
+                                    <CTableHeaderCell scope="col">Medicine University of Colombo</CTableHeaderCell>
+                                    <CTableHeaderCell scope="col">Medicine University of Peradeniya</CTableHeaderCell>
+                                    <CTableHeaderCell scope="col">Medicine University of Kelaniya</CTableHeaderCell>
+                                    <CTableHeaderCell scope="col">Medicine University of Sri Jayawardenapura</CTableHeaderCell>
+                                    <CTableHeaderCell scope="col">Medicine University of Jaffna</CTableHeaderCell>
+                                    <CTableHeaderCell scope="col">Medicine University of Ruhuna</CTableHeaderCell>
+                                    <CTableHeaderCell scope="col">Medicine University of Moratuwa</CTableHeaderCell>
+                                    <CTableHeaderCell scope="col">Medicine Eastern University of Sri Lanka</CTableHeaderCell>
                                 </CTableRow>
                             </CTableHead>
                             <CTableBody>
