@@ -52,10 +52,22 @@ public class SchoolService {
     PasswordEncoder encoder;
 
     public void initRoles() {
-        Role schoolRole = new Role();
-        schoolRole.setName(E_Role.ROLE_SCHOOL);
+        Role schoolRole0 = new Role();
+        schoolRole0.setName(E_Role.ROLE_SCHOOL_STAFF);
 
-        roleRepository.save(schoolRole);
+        Role schoolRole1 = new Role();
+        schoolRole1.setName(E_Role.ROLE_SCHOOL_SECRETARY);
+
+        Role schoolRole2 = new Role();
+        schoolRole2.setName(E_Role.ROLE_SCHOOL_VICE_PRINCIPLE);
+
+        Role schoolRole3 = new Role();
+        schoolRole3.setName(E_Role.ROLE_SCHOOL_PRINCIPLE);
+
+        roleRepository.save(schoolRole0);
+        roleRepository.save(schoolRole1);
+        roleRepository.save(schoolRole2);
+        roleRepository.save(schoolRole3);
     }
 
     public boolean isSchool(String email) {
@@ -99,27 +111,46 @@ public class SchoolService {
                 encoder.encode(schoolRegisterRequest.getPassword())
         );
 
-        Set<String> strRoles = schoolRegisterRequest.getRole();
+        String strRole = schoolRegisterRequest.getRole();
         Set<Role> roles = new HashSet<>();
 
         // Check whether the role is valid or not
-        if(strRoles == null){
-            Role userRole = roleRepository.findByName(E_Role.ROLE_SCHOOL)
+        if(strRole == null){
+            Role userRole = roleRepository.findByName(E_Role.ROLE_SCHOOL_STAFF)
                     .orElseThrow(
                             () -> new RuntimeException("Role is not found")
                     );
             roles.add(userRole);
         } else {
-            strRoles.forEach(role -> {
-                switch (role){
-                    case "school":
-                        Role schoolRole = roleRepository.findByName(E_Role.ROLE_SCHOOL).orElseThrow(
-                                ()-> new RuntimeException("Role is not found")
-                        );
-                        roles.add(schoolRole);
-                        break;
-                }
-            });
+            switch (strRole){
+                case "ROLE_SCHOOL_STAFF":
+                    Role staffRole = roleRepository.findByName(E_Role.ROLE_SCHOOL_STAFF).orElseThrow(
+                            ()-> new RuntimeException("Role is not found")
+                    );
+                    roles.add(staffRole);
+                    break;
+
+            case "ROLE_SCHOOL_SECRETARY":
+                Role secretaryRole = roleRepository.findByName(E_Role.ROLE_SCHOOL_SECRETARY).orElseThrow(
+                        ()-> new RuntimeException("Role is not found")
+                );
+                roles.add(secretaryRole);
+                break;
+
+            case "ROLE_SCHOOL_VICE_PRINCIPLE":
+                Role vicePrincipleRole = roleRepository.findByName(E_Role.ROLE_SCHOOL_VICE_PRINCIPLE).orElseThrow(
+                        ()-> new RuntimeException("Role is not found")
+                );
+                roles.add(vicePrincipleRole);
+                break;
+
+            case "ROLE_SCHOOL_PRINCIPLE":
+                Role principleRole = roleRepository.findByName(E_Role.ROLE_SCHOOL_PRINCIPLE).orElseThrow(
+                        ()-> new RuntimeException("Role is not found")
+                );
+                roles.add(principleRole);
+                break;
+            }
         }
 
         System.out.println(roles);

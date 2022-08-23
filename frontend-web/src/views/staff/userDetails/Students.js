@@ -6,6 +6,7 @@ import { CChart } from '@coreui/react-chartjs'
 function Users() {
   return (
     <CRow>
+      <CCol xs={3}></CCol>
       <CCol>
         <CCard className="mb-4">
           <CCardHeader>Students registered within the system</CCardHeader>
@@ -28,6 +29,7 @@ function Users() {
           </CCardBody>
         </CCard>
       </CCol>
+      <CCol xs={3}></CCol>
     </CRow>
   )
 }

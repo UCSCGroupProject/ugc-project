@@ -14,6 +14,16 @@ const _nav = [
     to: 'school/students/validate',
     icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
   },
+  {
+    component: CNavTitle,
+    name: 'Blockchain',
+  },
+  {
+    component: CNavItem,
+    name: 'View Blockchain',
+    to: '/school/blockchain/view',
+    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+  },
 ]
 
 export default _nav

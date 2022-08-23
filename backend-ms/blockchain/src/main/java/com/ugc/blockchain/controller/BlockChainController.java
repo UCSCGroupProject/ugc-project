@@ -10,11 +10,13 @@ import com.ugc.blockchain.payload.request.ReqBlockData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.PublicKey;
 import java.util.List;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/blockchain")
 public class BlockChainController {
@@ -30,20 +32,24 @@ public class BlockChainController {
     }
 
     @GetMapping("/getblockchain")
-    public ResBlockChain getBlockChain(){
+    public ResponseEntity<?> getBlockChain(){
         ResBlockChain resBlockChain = new ResBlockChain();
 
         BlockChain blockChain = blockChainService.getBlockChain();
         resBlockChain.setBlockChain(blockChain.getBlockChain());
 
-        System.out.println(blockChain.toString());
+//        System.out.println(blockChain.toString());
+        System.out.println(resBlockChain);
 
-        return resBlockChain;
+        return ResponseEntity.ok(resBlockChain);
     }
 
-    @GetMapping("/verifyblock")
-    public ResBlockValidityMessage verifyBlock(@RequestBody ReqBlockValidity reqBlockValidity){
-        return blockChainService.verifyBlock(reqBlockValidity.getBlockId(), reqBlockValidity.getPublicKey());
+    @GetMapping("/verifyBlock")
+    public ResponseEntity<?> verifyBlock(@RequestParam(name = "blockId") Integer blockId, @RequestParam(name = "publicKey") String publicKey){
+        ResBlockValidityMessage resBlockValidityMessage = blockChainService.verifyBlock(blockId, publicKey);
+
+        System.out.println(resBlockValidityMessage);
+        return ResponseEntity.ok(resBlockValidityMessage);
     }
 
     @GetMapping("/generateKeypair")

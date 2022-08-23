@@ -11,6 +11,8 @@ import com.ugc.school.repository.RoleRepository;
 import com.ugc.school.repository.SchoolRepository;
 import com.ugc.school.service.SchoolService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -84,12 +86,18 @@ public class SchoolController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody SchoolRegisterRequest schoolRegisterRequest) {
-        ReqKeyPair keyPair = restTemplate.getForObject("http://localhost:5/blockchain/generateKeypair", ReqKeyPair.class);
-        System.out.println(keyPair.getPublicKey());
+        try{
+            ReqKeyPair keyPair = restTemplate.getForObject("http://localhost:5/blockchain/generateKeypair", ReqKeyPair.class);
+            System.out.println(keyPair.getPublicKey());
 
-        String result = schoolService.register(schoolRegisterRequest, keyPair);
+            String result = schoolService.register(schoolRegisterRequest, keyPair);
 
-        return ResponseEntity.ok(new MessageResponse(result));
+            return ResponseEntity.ok(new MessageResponse(result));
+        } catch (Exception e){
+            System.out.println("Some error occured");
+
+            return new ResponseEntity<Object>("Key pair error", new HttpHeaders(), HttpStatus.BAD_REQUEST); // TODO: Fix this
+        }
     }
 
     @PostMapping("/passwordReset")

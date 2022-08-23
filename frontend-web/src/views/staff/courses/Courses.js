@@ -97,7 +97,7 @@ function StaffCourses() {
                       <CTableRow key={item.id}>
                         <CTableHeaderCell>{item.id}</CTableHeaderCell>
                         <CTableHeaderCell>{item.course}</CTableHeaderCell>
-                        <CTableDataCell><CButton color='warning' component="a" href="#/staff/universitycourses">View More</CButton></CTableDataCell>
+                        <CTableDataCell><CButton color='warning' component="a" href="/staff/universitycourses">View More</CButton></CTableDataCell>
                         <CTableDataCell><CButton color='warning'>Edit</CButton></CTableDataCell>
                         <CTableDataCell><CButton color='danger'><CIcon icon= {cilDelete}></CIcon></CButton></CTableDataCell>
                       </CTableRow>

@@ -103,7 +103,7 @@ function SelectedCourses() {
                         <CTableDataCell>{item.degree}</CTableDataCell>
                         <CTableDataCell>{item.university}</CTableDataCell>
                         <CTableDataCell>{item.totalIntake}</CTableDataCell>
-                        <CTableDataCell><CButton color='warning' component="a" href="#/staff/selected/courses/students">View Students</CButton></CTableDataCell>
+                        <CTableDataCell><CButton color='warning' component="a" href="/staff/selected/courses/students">View Students</CButton></CTableDataCell>
                       </CTableRow>
                     ))}
                   </CTableBody>
