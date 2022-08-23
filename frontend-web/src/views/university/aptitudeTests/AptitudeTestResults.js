@@ -21,7 +21,7 @@ import {
 import { cilSearch } from '@coreui/icons'
 import { cilFilter } from '@coreui/icons'
 import { cilFile } from '@coreui/icons'
-import { cilVerticalAlignTop } from '@coreui/icons'
+import { cilArrowThickFromTop } from '@coreui/icons'
 import { cilPencil } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
@@ -135,7 +135,7 @@ const AptitudeTestResults = () => {
                                 type="button"
                                 className="text-white"
                               >
-                                <CIcon icon={cilVerticalAlignTop} />
+                                <CIcon icon={cilArrowThickFromTop} />
                                 <span>{'  '}Upload</span>
                               </CButton>
                             </div>

@@ -25,9 +25,10 @@ import {
   CFormLabel,
   CFormCheck,
   CFormTextarea,
+  CFormSwitch,
 } from '@coreui/react'
 
-import { cilSearch } from '@coreui/icons'
+import { cilPlus, cilSearch } from '@coreui/icons'
 import { cilFilter } from '@coreui/icons'
 import { cilPencil } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
@@ -38,7 +39,7 @@ const MyCourses = () => {
   const [allCoursesData, setAllCoursesData] = useState([
     {
       id: 1,
-      unicode: '112N',
+      unicode: '117N',
       courseOfStudy: 'Engineering',
     },
     {
@@ -100,12 +101,22 @@ const MyCourses = () => {
                 </CCol>
                 <CCol md={4} className="ms-auto">
                   <CInputGroup>
-                    <CFormInput type="text" name="phone" placeholder="Search..." />
+                    <CFormInput type="text" name="searchtext" placeholder="Search..." />
                     <CButton color="warning" type="button" className="text-white">
                       <CIcon icon={cilSearch} />
                       <span>{'  '}Search</span>
                     </CButton>
                   </CInputGroup>
+                </CCol>
+              </CRow>
+              <br />
+
+              <CRow className="m-1">
+                <CCol md={4}>
+                  <CButton color="success" type="button" className="text-white">
+                    <CIcon icon={cilPlus} />
+                    <span>{'  '}ADD COURSE</span>
+                  </CButton>
                 </CCol>
               </CRow>
               <br />
@@ -389,6 +400,14 @@ const MyCourses = () => {
                 </CCol>
               </CRow>
             </CRow>
+
+            <CRow className="mb-3">
+              <CCol sm={12}>
+                <CFormSwitch id="checktest" label="Aptitude Test" />
+                <CFormSwitch id="checkOL" label="Require O/L Results" />
+              </CCol>
+            </CRow>
+
             <CRow className="mb-3">
               <CFormLabel htmlFor="inputdescrip" className="col-sm-3 col-form-label">
                 Description

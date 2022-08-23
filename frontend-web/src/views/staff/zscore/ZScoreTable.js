@@ -14,14 +14,17 @@ function StaffZScoreTable() {
                             <CTableHead color='dark'>
                                 <CTableRow>
                                     <CTableHeaderCell scope="col">District \ Course</CTableHeaderCell>
-                                    <CTableHeaderCell scope="col">Course #1</CTableHeaderCell>
-                                    <CTableHeaderCell scope="col">Course #2</CTableHeaderCell>
-                                    <CTableHeaderCell scope="col">Course #3</CTableHeaderCell>
-                                    <CTableHeaderCell scope="col">Course #4</CTableHeaderCell>
-                                    <CTableHeaderCell scope="col">Course #5</CTableHeaderCell>
-                                    <CTableHeaderCell scope="col">Course #6</CTableHeaderCell>
-                                    <CTableHeaderCell scope="col">Course #7</CTableHeaderCell>
-                                    <CTableHeaderCell scope="col">Course #8</CTableHeaderCell>
+                                    <CTableHeaderCell scope="col">Medicine University of Colombo</CTableHeaderCell>
+                                    <CTableHeaderCell scope="col">Medicine University of Peradeniya</CTableHeaderCell>
+                                    <CTableHeaderCell scope="col">Medicine University of Kelaniya</CTableHeaderCell>
+                                    <CTableHeaderCell scope="col">Medicine University of Sri Jayawardenapura</CTableHeaderCell>
+                                    <CTableHeaderCell scope="col">Medicine University of Jaffna</CTableHeaderCell>
+                                    <CTableHeaderCell scope="col">Medicine University of Ruhuna</CTableHeaderCell>
+                                    <CTableHeaderCell scope="col">Medicine University of Moratuwa</CTableHeaderCell>
+                                    <CTableHeaderCell scope="col">Medicine Eastern University of Sri Lanka</CTableHeaderCell>
+                                    <CTableHeaderCell scope="col">Medicine Rajarata University of Sri Lanka</CTableHeaderCell>
+                                    <CTableHeaderCell scope="col">Medicine Sabaragamu University of Sri Lanka</CTableHeaderCell>
+                                    <CTableHeaderCell scope="col">Medicine Wayamba University of Sri Lanka</CTableHeaderCell>
                                 </CTableRow>
                             </CTableHead>
                             <CTableBody>
@@ -32,7 +35,10 @@ function StaffZScoreTable() {
                                     <CTableDataCell>1.8456</CTableDataCell>
                                     <CTableDataCell>1.8456</CTableDataCell>
                                     <CTableDataCell>1.8456</CTableDataCell>
-                                    <CTableDataCell>NA</CTableDataCell>
+                                    <CTableDataCell>NQC</CTableDataCell>
+                                    <CTableDataCell>1.8456</CTableDataCell>
+                                    <CTableDataCell>1.8456</CTableDataCell>
+                                    <CTableDataCell>NQC</CTableDataCell>
                                     <CTableDataCell>1.8456</CTableDataCell>
                                     <CTableDataCell>1.8456</CTableDataCell>
                                 </CTableRow>
@@ -40,56 +46,71 @@ function StaffZScoreTable() {
                                     <CTableHeaderCell scope="row">Gampaha</CTableHeaderCell>
                                     <CTableDataCell>1.8456</CTableDataCell>
                                     <CTableDataCell>1.8456</CTableDataCell>
-                                    <CTableDataCell>NA</CTableDataCell>
+                                    <CTableDataCell>NQC</CTableDataCell>
                                     <CTableDataCell>1.8456</CTableDataCell>
                                     <CTableDataCell>1.8456</CTableDataCell>
-                                    <CTableDataCell>NA</CTableDataCell>
+                                    <CTableDataCell>NQC</CTableDataCell>
+                                    <CTableDataCell>1.8456</CTableDataCell>
+                                    <CTableDataCell>1.8456</CTableDataCell>
+                                    <CTableDataCell>1.8456</CTableDataCell>
+                                    <CTableDataCell>1.8456</CTableDataCell>
+                                    <CTableDataCell>1.8456</CTableDataCell>
+                                </CTableRow>
+                                <CTableRow>
+                                    <CTableHeaderCell scope="row">Kalutara</CTableHeaderCell>
+                                    <CTableDataCell>1.8456</CTableDataCell>
+                                    <CTableDataCell>NQC</CTableDataCell>
+                                    <CTableDataCell>1.8456</CTableDataCell>
+                                    <CTableDataCell>1.8456</CTableDataCell>
+                                    <CTableDataCell>1.8456</CTableDataCell>
+                                    <CTableDataCell>1.8456</CTableDataCell>
+                                    <CTableDataCell>1.8456</CTableDataCell>
+                                    <CTableDataCell>NQC</CTableDataCell>
+                                    <CTableDataCell>1.8456</CTableDataCell>
+                                    <CTableDataCell>1.8456</CTableDataCell>
+                                    <CTableDataCell>1.8456</CTableDataCell>
+                                </CTableRow>
+                                <CTableRow>
+                                    <CTableHeaderCell scope="row">Matale</CTableHeaderCell>
+                                    <CTableDataCell>1.8456</CTableDataCell>
+                                    <CTableDataCell>1.8456</CTableDataCell>
+                                    <CTableDataCell>1.8456</CTableDataCell>
+                                    <CTableDataCell>1.8456</CTableDataCell>
+                                    <CTableDataCell>1.8456</CTableDataCell>
+                                    <CTableDataCell>NQC</CTableDataCell>
+                                    <CTableDataCell>1.8456</CTableDataCell>
+                                    <CTableDataCell>1.8456</CTableDataCell>
+                                    <CTableDataCell>1.8456</CTableDataCell>
                                     <CTableDataCell>1.8456</CTableDataCell>
                                     <CTableDataCell>1.8456</CTableDataCell>
                                 </CTableRow>
                                 <CTableRow>
                                     <CTableHeaderCell scope="row">Kandy</CTableHeaderCell>
                                     <CTableDataCell>1.8456</CTableDataCell>
-                                    <CTableDataCell>NA</CTableDataCell>
+                                    <CTableDataCell>1.8456</CTableDataCell>
+                                    <CTableDataCell>NQC</CTableDataCell>
+                                    <CTableDataCell>1.8456</CTableDataCell>
+                                    <CTableDataCell>1.8456</CTableDataCell>
+                                    <CTableDataCell>NQC</CTableDataCell>
                                     <CTableDataCell>1.8456</CTableDataCell>
                                     <CTableDataCell>1.8456</CTableDataCell>
                                     <CTableDataCell>1.8456</CTableDataCell>
-                                    <CTableDataCell>1.8456</CTableDataCell>
-                                    <CTableDataCell>1.8456</CTableDataCell>
-                                    <CTableDataCell>NA</CTableDataCell>
-                                </CTableRow>
-                                <CTableRow>
-                                    <CTableHeaderCell scope="row">Galle</CTableHeaderCell>
-                                    <CTableDataCell>1.8456</CTableDataCell>
-                                    <CTableDataCell>1.8456</CTableDataCell>
-                                    <CTableDataCell>1.8456</CTableDataCell>
-                                    <CTableDataCell>1.8456</CTableDataCell>
-                                    <CTableDataCell>1.8456</CTableDataCell>
-                                    <CTableDataCell>NA</CTableDataCell>
                                     <CTableDataCell>1.8456</CTableDataCell>
                                     <CTableDataCell>1.8456</CTableDataCell>
                                 </CTableRow>
                                 <CTableRow>
-                                    <CTableHeaderCell scope="row">Ratnapura</CTableHeaderCell>
+                                    <CTableHeaderCell scope="row">Nuwara Eliya</CTableHeaderCell>
                                     <CTableDataCell>1.8456</CTableDataCell>
-                                    <CTableDataCell>1.8456</CTableDataCell>
-                                    <CTableDataCell>NA</CTableDataCell>
-                                    <CTableDataCell>1.8456</CTableDataCell>
-                                    <CTableDataCell>1.8456</CTableDataCell>
-                                    <CTableDataCell>NA</CTableDataCell>
-                                    <CTableDataCell>1.8456</CTableDataCell>
-                                    <CTableDataCell>1.8456</CTableDataCell>
-                                </CTableRow>
-                                <CTableRow>
-                                    <CTableHeaderCell scope="row">Matara</CTableHeaderCell>
-                                    <CTableDataCell>1.8456</CTableDataCell>
-                                    <CTableDataCell>NA</CTableDataCell>
+                                    <CTableDataCell>NQC</CTableDataCell>
                                     <CTableDataCell>1.8456</CTableDataCell>
                                     <CTableDataCell>1.8456</CTableDataCell>
                                     <CTableDataCell>1.8456</CTableDataCell>
                                     <CTableDataCell>1.8456</CTableDataCell>
                                     <CTableDataCell>1.8456</CTableDataCell>
-                                    <CTableDataCell>NA</CTableDataCell>
+                                    <CTableDataCell>NQC</CTableDataCell>
+                                    <CTableDataCell>1.8456</CTableDataCell>
+                                    <CTableDataCell>1.8456</CTableDataCell>
+                                    <CTableDataCell>1.8456</CTableDataCell>
                                 </CTableRow>
                             </CTableBody>
                         </CTable>
