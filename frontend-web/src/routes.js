@@ -136,8 +136,9 @@ const routes = [
 
 
   // University routes
-  { path: '/university/registration',                   name: 'Registration',             element: Uni_Registration},
+  { path: '/university',                                name: 'Dashboard',                element: Uni_Dashboard},
   { path: '/university/dashboard',                      name: 'Dashboard',                element: Uni_Dashboard},
+  { path: '/university/registration',                   name: 'Registration',             element: Uni_Registration},
   { path: '/university/courses/my',                     name: 'Courses',                  element: Uni_Courses_MyCourses},
   { path: '/university/courses/statistics',             name: 'Courses Details',          element: Uni_Courses_CourseDetails_Statistics},
   { path: '/university/courses/appliedstudents',        name: 'Courses Applied Students', element: Uni_Courses_CourseDetails_AppliedStudents},

@@ -23,8 +23,8 @@ Content-Type: application/json
 
 {
   "title": "Mr",
-  "nameWithInitials": "DHANSUHAK",
-  "fullName": "Dhanushka sandakelumm",
+  "nameWithInitials": "Noel",
+  "fullName": "Noel perera",
   "dob": "2022-07-15",
   "address": "Kaluaggla",
   "phoneNumber": "0775642956",
@@ -50,16 +50,16 @@ Content-Type: application/json
   "role": "staff",
 
   "title": "Mr",
-  "nameWithInitials": "DHANSUHAK",
-  "fullName": "Dhanushka sandakelumm",
+  "nameWithInitials": "Noel",
+  "fullName": "Noel Perera",
   "dob": "2022-07-15",
   "address": "Kaluaggla",
   "phoneNumber": "0775642956",
   "homeNumber": "0775642956",
   "gender": "male",
 
-  "username": "dhanm",
-  "email": "dhanmgmail.com",
-  "password": "test123"
+  "username": "noel",
+  "email": "noel@gmail.com",
+  "password": "TESTING@test123"
 
 }
