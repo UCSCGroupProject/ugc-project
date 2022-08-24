@@ -28,7 +28,7 @@ const MyTests = () => {
     {
       id: 1,
       unicode: '118H',
-      courseOfStudy: 'Engineering',
+      courseOfStudy: 'Architecture',
       date: '2022-08-03',
       time: '10:00 AM',
       status: 'Done',
@@ -36,10 +36,18 @@ const MyTests = () => {
     {
       id: 2,
       unicode: '112A',
-      courseOfStudy: 'Medicine',
+      courseOfStudy: 'Fashion Designing',
       date: '2022-08-06',
       time: '01:00 PM',
       status: 'Progress',
+    },
+    {
+      id: 3,
+      unicode: '115K',
+      courseOfStudy: 'INformation System',
+      date: '2022-03-06',
+      time: '02:00 PM',
+      status: 'Done',
     },
   ])
 

@@ -47,6 +47,36 @@ const MyCourses = () => {
       unicode: '112A',
       courseOfStudy: 'Medicine',
     },
+    {
+      id: 3,
+      unicode: '118M',
+      courseOfStudy: 'Computer Science',
+    },
+    {
+      id: 4,
+      unicode: '112L',
+      courseOfStudy: 'Dental',
+    },
+    {
+      id: 5,
+      unicode: '118V',
+      courseOfStudy: 'Information System',
+    },
+    {
+      id: 6,
+      unicode: '102F',
+      courseOfStudy: 'Physical Science',
+    },
+    {
+      id: 7,
+      unicode: '115N',
+      courseOfStudy: 'Servay Science',
+    },
+    {
+      id: 8,
+      unicode: '116K',
+      courseOfStudy: 'Engineering(TM)',
+    },
   ])
 
   const updatecourse = () => {
