@@ -26,6 +26,36 @@ import AppBanner from '../../../components/banner/AppBanner'
 
 import authService from '../../../services/authService'
 
+import bannerImg from '../../../assets/images/banners/school_banner.jpg'
+
+const bannerData = {
+  img: bannerImg,
+  title: 'Explore & Engage',
+  desc: 'As a Student you will be having following features.',
+  listItems: [
+    {
+      id: '0',
+      content: 'Flexible university admisison',
+    },
+    {
+      id: '1',
+      content: 'Course and University details',
+    },
+    {
+      id: '2',
+      content: 'Test progress & statistics',
+    },
+    {
+      id: '3',
+      content: 'Calender with timelines',
+    },
+    {
+      id: '5',
+      content: 'Notifications & Reminders',
+    },
+  ],
+}
+
 function Dashboard() {
   // Set user details
   const [userDetails, setUserDetails] = useState({
@@ -51,7 +81,7 @@ function Dashboard() {
           <h1 className="pb-2 display-6">Hello {userDetails.username}, Welcome</h1>
 
           {/* Banner */}
-          <AppBanner />
+          <AppBanner data={bannerData}/>
           <br />
           <div>
             <CRow>

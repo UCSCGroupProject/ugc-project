@@ -38,6 +38,8 @@ import {
 } from '../../utils/validator'
 
 import uniService from '../../services/uniService'
+import otpService from "../../services/otpService"
+import emailService from "../../services/emailService"
 
 const UniRegistration = () => {
   // For the server side requests and responses
@@ -121,7 +123,7 @@ const UniRegistration = () => {
     setIsSendingOTP(true)
     setResMessage('')
 
-    uniService.sendOtp(uniDetailsForm.phone).then(
+    otpService.sendOtp(uniDetailsForm.phone).then(
       () => {
         setOtpState((prev) => ({
           ...prev,
@@ -153,7 +155,7 @@ const UniRegistration = () => {
     setResMessage('')
     setEnteredOtpError('')
 
-    uniService.validateOtp(otpState.enteredOtp).then(
+    otpService.validateOtp(otpState.enteredOtp).then(
       (res) => {
         console.log(res)
         if (res) {
@@ -842,7 +844,7 @@ const UniRegistration = () => {
     setIsSendingCode(true)
     setResMessage('')
 
-    uniService.sendCode(uniLoginDetailsForm.email).then(
+    emailService.sendCode(uniLoginDetailsForm.email).then(
       () => {
         setCodeState((prev) => ({
           ...prev,
@@ -874,7 +876,7 @@ const UniRegistration = () => {
     setResMessage('')
     setEnteredCodeError('')
 
-    uniService.validateCode(codeState.enteredCode).then(
+    emailService.validateCode(uniLoginDetailsForm.email, codeState.enteredCode).then(
       (res) => {
         console.log(res)
         if (res) {
@@ -883,7 +885,7 @@ const UniRegistration = () => {
             isEnteredCodeValid: true,
           }))
         } else {
-          setEnteredCodeError('Entered OTP is not valid.')
+          setEnteredCodeError('Entered Code is not valid.')
         }
 
         // After recieving the server request
@@ -1101,7 +1103,7 @@ const UniRegistration = () => {
                         className="p-2 text-white"
                         onClick={handleValidateCode}
                       >
-                        {isValidatingCode && <CSpinner size="sm" />} Verify OTP
+                        {isValidatingCode && <CSpinner size="sm" />} Verify Code
                       </CButton>
                     )}
                     <CFormFeedback invalid>{enteredCodeError}</CFormFeedback>

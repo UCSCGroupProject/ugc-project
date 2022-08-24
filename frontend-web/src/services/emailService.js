@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_URL = 'http://localhost:3/api/email/verificationCode'
+const API_URL = 'http://localhost:1000/api/email/verificationCode'
 
 class StudentService {
   // Code

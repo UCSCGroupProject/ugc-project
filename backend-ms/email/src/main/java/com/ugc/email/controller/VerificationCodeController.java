@@ -20,6 +20,7 @@ public class VerificationCodeController {
     @PostMapping("/sendCode")
     public void sendOTP(@RequestBody VerificationCodeRequest verificationCodeRequest){
         int generatedCode = verificationCodeService.generateAndStoreCode(verificationCodeRequest.getEmail());
+        System.out.println(verificationCodeRequest.getEmail());
 
 //        EmailRequest emailRequest = new EmailRequest(verificationCodeRequest.getEmail(), String.valueOf(generatedCode), "", "");
 
