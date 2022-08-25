@@ -21,32 +21,7 @@ import { cilSearch } from '@coreui/icons'
 import { cilFilter } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
-const data = {
-  tableHeaders: [
-    { id: 'no', name: 'No.', sortable: false },
-    { id: 'unicode', name: 'Unicode', sortable: true },
-    { id: 'course', name: 'Course', sortable: true },
-    { id: 'university', name: 'University', sortable: true },
-  ],
-  tableContent: [
-    {
-      id: 0,
-      no: 1,
-      unicode: '112A',
-      course: 'Medicine',
-      university: 'University of Colombo',
-    },
-    {
-      id: 1,
-      no: 2,
-      unicode: '222A',
-      course: 'Computer Science',
-      university: 'University of Colombo School of Computing',
-    },
-  ],
-}
-
-function AppTable() {
+function AppTable(props) {
   const [tableHeaders, setTableHeaders] = useState([])
   const [tableContent, setTableContent] = useState([])
 
@@ -57,8 +32,8 @@ function AppTable() {
   })
 
   useEffect(() => {
-    setTableHeaders(data.tableHeaders)
-    setTableContent(data.tableContent)
+    setTableHeaders(props.tableData.tableHeaders)
+    setTableContent(props.tableData.tableContent)
   }, [])
 
   useEffect(() => {
@@ -87,7 +62,7 @@ function AppTable() {
 
       setTableContent(sortedTemp)
     } else {
-      setTableContent(data.tableContent)
+      setTableContent(props.tableData.tableContent)
     }
 
     console.log(filterOptions)
@@ -149,7 +124,7 @@ function AppTable() {
   }, [searchText])
 
   const handleSearching = () => {
-    const temp = data.tableContent
+    const temp = props.tableData.tableContent
     const searchedTemp = []
 
     console.log('called', searchText)
@@ -187,7 +162,7 @@ function AppTable() {
             <CFormInput
               type="text"
               id="searchBarInput"
-              //   placeholder="Search..."
+              placeholder="Search..."
               name="searchText"
               onChange={onSearchOptionsUpdateInput}
               value={searchText}
@@ -214,10 +189,10 @@ function AppTable() {
           <CTableBody>
             {tableContent.map((tableItem) => (
               <CTableRow key={tableItem.id}>
-                {data.tableHeaders.map((headerItem) => (
+                {props.tableData.tableHeaders.map((headerItem) => (
                   <CTableDataCell
                     key={tableItem.id + headerItem.id}
-                    className={filterOptions.field === headerItem.id ? 'bg-light' : ''}
+                    className={filterOptions.field === headerItem.id ? 'bg-light ' : ''}
                   >
                     {/* if search text is empty, show default text */}
                     {searchText === '' && <span>{tableItem[headerItem.id]}</span>}
@@ -229,7 +204,7 @@ function AppTable() {
                             .toString()
                             .toLowerCase()
                             .includes(searchText.toLowerCase())
-                            ? 'text-warning fw-bold'
+                            ? 'bg-highlight-warning'
                             : ''
                         }
                       >

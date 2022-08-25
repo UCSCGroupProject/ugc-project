@@ -1,28 +1,32 @@
 import React from 'react'
-import {
-  CRow,
-  CCol,
-  CCard,
-  CCardBody,
-  CCardHeader,
-  CButton,
-  CFormSelect,
-  CTable,
-  CTableHead,
-  CTableRow,
-  CTableHeaderCell,
-  CTableDataCell,
-  CTableBody,
-  CInputGroup,
-  CFormInput,
-  CInputGroupText,
-} from '@coreui/react'
-
-import { cilSearch } from '@coreui/icons'
-import { cilFilter } from '@coreui/icons'
-import CIcon from '@coreui/icons-react'
+import { CRow, CCol, CCard, CCardBody, CCardHeader } from '@coreui/react'
 
 import AppTable from '../../../../components/table/AppTable'
+
+const data = {
+  tableHeaders: [
+    { id: 'no', name: 'No.', sortable: false },
+    { id: 'unicode', name: 'Unicode', sortable: true },
+    { id: 'course', name: 'Course', sortable: true },
+    { id: 'university', name: 'University', sortable: true },
+  ],
+  tableContent: [
+    {
+      id: 0,
+      no: 1,
+      unicode: '112A',
+      course: 'Medicine',
+      university: 'University of Colombo',
+    },
+    {
+      id: 1,
+      no: 2,
+      unicode: '222A',
+      course: 'Computer Science',
+      university: 'University of Colombo School of Computing',
+    },
+  ],
+}
 
 const allCoursesData = [
   {
@@ -41,7 +45,7 @@ function AllCourses() {
           <CCard className="mb-4">
             <CCardHeader>All Courses</CCardHeader>
             <CCardBody>
-              <AppTable />
+              <AppTable tableData={data} />
             </CCardBody>
           </CCard>
         </CCol>
