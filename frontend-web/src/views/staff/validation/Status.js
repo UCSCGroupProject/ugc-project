@@ -59,7 +59,7 @@ function StatusValidation() {
               <CRow>
                 <CCol sm={5}>
                   <CFormSelect
-                    label="Place of Birth (District)"
+                    label="District"
                     aria-label="placeOfBirth-select"
                     name="pob"
                     // onChange={onUpdateInputInStuDetailsForm}
@@ -96,7 +96,7 @@ function StatusValidation() {
                 </CCol>
                 <CCol sm={5}>
                   <CFormSelect
-                    label="Place of Birth (District)"
+                    label="School"
                     aria-label="placeOfBirth-select"
                     name="pob"
                     // onChange={onUpdateInputInStuDetailsForm}

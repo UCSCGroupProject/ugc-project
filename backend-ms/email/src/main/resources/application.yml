@@ -1,6 +1,6 @@
 server:
   port:
-    1
+    1000
 
 spring:
   application:

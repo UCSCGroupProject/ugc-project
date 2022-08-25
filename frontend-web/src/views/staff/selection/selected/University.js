@@ -1,77 +1,48 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
-  CRow,
-  CCol,
   CCard,
+  CTable,
+  CCol,
+  CTableHead,
+  CFormInput,
   CCardBody,
-  CCardHeader,
   CButton,
   CFormSelect,
-  CTable,
-  CTableHead,
+  CCardHeader,
   CTableRow,
-  CTableHeaderCell,
-  CTableDataCell,
-  CTableBody,
-  CInputGroup,
-  CFormInput,
   CInputGroupText,
+  CTableHeaderCell,
+  CInputGroup,
+  CRow,
+  CTableBody,
+  CTableDataCell,
 } from '@coreui/react'
 
 import { cilSearch } from '@coreui/icons'
 import { cilFilter } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
-import { useNavigate } from 'react-router-dom'
-
-
-const MyCoursesAppliedStudents = () => {
-  let navigate = useNavigate()
-
-  const [allCoursesData, setAllCoursesData] = useState([
+const selectedFacultiesList = [
     {
       id: 1,
-      unicode: '112A',
-      courseOfStudy: 'Medicine',
-      appliedAmount: '250'
+      faculty: 'Medicine',
+      totalIntake: '1525',
+      _cellProps: { id: { scope: 'row' } },
     },
     {
-      id: 2,
-      unicode: '112A',
-      courseOfStudy: 'Engineering',
-      appliedAmount: '400'
-    },
-    {
-      id: 3,
-      unicode: '112A',
-      courseOfStudy: 'Computer Science',
-      appliedAmount: '300'
-    },
-    {
-      id: 4,
-      unicode: '115A',
-      courseOfStudy: 'Dental',
-      appliedAmount: '90',
-    },
-    {
-      id: 5,
-      unicode: '118A',
-      courseOfStudy: 'Information System',
-      appliedAmount: '105',
-    },
-    {
-      id: 3,
-      unicode: '113A',
-      courseOfStudy: 'Physical Science',
-      appliedAmount: '105',
-    },
-  ])
+      id: 1,
+      faculty: 'Art',
+      totalIntake: '2750',
+      _cellProps: { id: { scope: 'row' } },
+    }
+  ]
 
+function University() {
   return (
     <div>
       <CRow>
         <CCol xs>
           <CCard className="mb-4">
-            <CCardHeader>Applied Students for Courses</CCardHeader>
+            <CCardHeader>Students selected for University of Colombo</CCardHeader>
             <CCardBody>
               <CRow className="py-2 bg-light rounded">
                 <CCol md={6}>
@@ -79,9 +50,10 @@ const MyCoursesAppliedStudents = () => {
                     <CInputGroupText>Filter By</CInputGroupText>
                     <CFormSelect aria-label="filterByOption1">
                       <option value="all">All</option>
-                      <option value="unicode">Unicode</option>
                       <option value="course">Course</option>
-                      {/* <option value="university">University</option> */}
+                      <option value="university">University</option>
+                      <option value="zscore">Intake</option>
+                      <option value="school">Eligible Count</option>
                     </CFormSelect>
                     <CInputGroupText> in </CInputGroupText>
                     <CFormSelect aria-label="filterByOption1">
@@ -106,27 +78,22 @@ const MyCoursesAppliedStudents = () => {
                 </CCol>
               </CRow>
               <br />
-
               <CRow className="m-1">
                 <CTable bordered>
                   <CTableHead color="dark">
                     <CTableRow>
-                      <CTableHeaderCell>No.</CTableHeaderCell>
-                      <CTableHeaderCell>Unicode</CTableHeaderCell>
-                      <CTableHeaderCell>Course</CTableHeaderCell>
-                      <CTableHeaderCell>No.of Applicants</CTableHeaderCell>
+                      <CTableHeaderCell>Faculty</CTableHeaderCell>
+                      <CTableHeaderCell>Total Intake</CTableHeaderCell>
+                      <CTableHeaderCell style={{ width: '15%' }}></CTableHeaderCell>
                     </CTableRow>
                   </CTableHead>
                   <CTableBody>
-                    {allCoursesData.map((item) => (
-                      <CTableRow key={item.id} onClick={() => {
-                        navigate('/university/courses/appliedstudents/list')
-                        // navigate('/student?id=' + item.id)
-                      }}>
-                        <CTableHeaderCell>{item.id}</CTableHeaderCell>
-                        <CTableDataCell>{item.unicode}</CTableDataCell>
-                        <CTableDataCell>{item.courseOfStudy}</CTableDataCell>
-                        <CTableDataCell>{item.appliedAmount}</CTableDataCell>
+                    {selectedFacultiesList.map((item) => (
+                      // <NavLink to="/staff/univerityprofile" style={{ textDecoration: 'none', color: 'inherit' }}>
+                      <CTableRow key={item.id}>
+                        <CTableHeaderCell>{item.faculty}</CTableHeaderCell>
+                        <CTableDataCell>{item.totalIntake}</CTableDataCell>
+                        <CTableDataCell><CButton color='warning' component="a" href="/staff/selected/courses/students">View Students</CButton></CTableDataCell>
                       </CTableRow>
                     ))}
                   </CTableBody>
@@ -140,4 +107,4 @@ const MyCoursesAppliedStudents = () => {
   )
 }
 
-export default MyCoursesAppliedStudents
+export default University

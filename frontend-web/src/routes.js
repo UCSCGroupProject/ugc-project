@@ -22,6 +22,7 @@ const Staff_AptitudeTests_Upcoming = React.lazy(() => import('./views/staff/apti
 const Staff_AptitudeTests_Completed = React.lazy(() => import('./views/staff/aptitudeTests/Completed'))
 const Staff_Selected = React.lazy(() => import('./views/staff/selection/selected/Selected'))
 const Staff_Selected_Courses = React.lazy(() => import('./views/staff/selection/selected/Courses'))
+const Staff_Selected_University = React.lazy(() => import('./views/staff/selection/selected/University'))
 const Staff_Selected_Students = React.lazy(() => import('./views/staff/selection/selected/Students'))
 const Staff_Selection_Process = React.lazy(() => import('./views/staff/selection/selected/SelectionProcess'))
 const Staff_Applied_Students = React.lazy(() => import('./views/staff/selection/AppliedStudents'))
@@ -62,11 +63,12 @@ const Uni_Dashboard = React.lazy(() => import('./views/university/dashboard/Dash
 const Uni_Courses_MyCourses = React.lazy(() => import('./views/university/courses/MyCourses'))
 const Uni_Courses_CourseDetails_Statistics = React.lazy(() => import('./views/university/courses/CourseStatistics'))
 const Uni_Courses_CourseDetails_AppliedStudents = React.lazy(() => import('./views/university/courses/MyCoursesAppliedStudents'))
+const Uni_Courses_CourseDetails_AppliedStudents_List = React.lazy(() => import('./views/university/courses/MyCoursesAppliedStudentsList'))
 const Uni_AptitudeTests_MyTests = React.lazy(() => import('./views/university/aptitudeTests/MyTests'))
 const Uni_AptitudeTests_AppliedStudents = React.lazy(() => import('./views/university/aptitudeTests/MyTestsAppliedStudents'))
+const Uni_AptitudeTests_AppliedStudents_List = React.lazy(() => import('./views/university/aptitudeTests/MyTestsAppliedStudentsList'))
 const Uni_AptitudeTests_TestDetails_Progress = React.lazy(() => import('./views/university/aptitudeTests/AptitudeTestProgress'))
 const Uni_AptitudeTests_TestDetails_Results = React.lazy(() => import('./views/university/aptitudeTests/AptitudeTestResults'))
-
 
 // School views
 const Sch_Dashboard = React.lazy(() => import('./views/school/dashboard/Dashboard'))
@@ -95,6 +97,7 @@ const routes = [
   { path: '/staff/selected',                        name: 'Selected',               element: Staff_Selected },
   { path: '/staff/selectionprocess',                name: 'Selection Process',      element: Staff_Selection_Process },
   { path: '/staff/selected/courses',                name: 'Courses',                element: Staff_Selected_Courses },
+  { path: '/staff/selected/university',             name: 'University',             element: Staff_Selected_University },
   { path: '/staff/selected/courses/students',       name: 'Students',               element: Staff_Selected_Students },
   { path: '/staff/appliedstudents',                 name: 'Applicants',             element: Staff_Applied_Students },
   { path: '/staff/eligible',                        name: 'Eligible',               element: Staff_Eligible },
@@ -133,15 +136,19 @@ const routes = [
 
 
   // University routes
-  { path: '/university/registration',                   name: 'Registration',             element: Uni_Registration},
+  { path: '/university',                                name: 'Dashboard',                element: Uni_Dashboard},
   { path: '/university/dashboard',                      name: 'Dashboard',                element: Uni_Dashboard},
+  { path: '/university/registration',                   name: 'Registration',             element: Uni_Registration},
   { path: '/university/courses/my',                     name: 'Courses',                  element: Uni_Courses_MyCourses},
   { path: '/university/courses/statistics',             name: 'Courses Details',          element: Uni_Courses_CourseDetails_Statistics},
   { path: '/university/courses/appliedstudents',        name: 'Courses Applied Students', element: Uni_Courses_CourseDetails_AppliedStudents},
+  { path: '/university/courses/appliedstudents/list',        name: 'Courses Applied Students', element: Uni_Courses_CourseDetails_AppliedStudents_List},
   { path: '/university/aptitudetests/my',               name: 'Aptitude Tests',           element: Uni_AptitudeTests_MyTests},
   { path: '/university/aptitudetests/appliedstudents',  name: 'Tests Applied Students',   element: Uni_AptitudeTests_AppliedStudents},
-  { path: '/university/aptitudetests/progress',         name: 'Aptitude Tests',           element: Uni_AptitudeTests_TestDetails_Progress},
-  { path: '/university/aptitudetests/results',          name: 'Aptitude Tests',           element: Uni_AptitudeTests_TestDetails_Results},
+  { path: '/university/aptitudetests/appliedstudents/list',          name: 'Test Applied Students',           element: Uni_AptitudeTests_AppliedStudents_List},
+  { path: '/university/aptitudetests/progress',         name: 'Tests Progress',           element: Uni_AptitudeTests_TestDetails_Progress},
+  { path: '/university/aptitudetests/results',          name: 'Tests Results',           element: Uni_AptitudeTests_TestDetails_Results},
+
 
   // School Routes
   { path: '/school',                               name: 'School',                element: Sch_Dashboard },

@@ -948,7 +948,7 @@ const StudentRegistration = () => {
             isEnteredCodeValid: true,
           }))
         } else {
-          setEnteredCodeError('Entered OTP is not valid.')
+          setEnteredCodeError('Entered Code is not valid.')
         }
 
         // After recieving the server request

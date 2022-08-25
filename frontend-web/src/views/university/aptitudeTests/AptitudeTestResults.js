@@ -37,14 +37,14 @@ const AptitudeTestResults = () => {
     {
       id: '1',
       unicode: '112A',
-      courseOfStudy: 'IS',
+      courseOfStudy: 'INformation System',
       status: 'Progress',
       resultfile: 'Is.csv',
     },
     {
       id: '1',
       unicode: '112A',
-      courseOfStudy: 'IS',
+      courseOfStudy: 'Fashion Designing',
       status: 'Progress',
       resultfile: '',
     },
