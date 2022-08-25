@@ -1,0 +1,30 @@
+-- view ports
+docker ps
+
+-- view container images
+docker images
+
+-- run container images
+docker run IMAGE_NAME
+
+-- run container images in detached mode
+docker run -d IMAGE_NAME
+
+-- view running containers
+docker container ls
+
+-- container port mapping
+docker run -d -p 8080:80 CONTAINER_NAME
+
+-- container multiple port mapping
+docker run -d -p 8080:80 -p 3000:80 CONTAINER_NAME
+
+-- naming containers
+docker run --name CONTAINER_NAME -d -p 8080:80 nginx
+
+-- stop container
+docker stop CONTAINER_ID
+docker stop CONTAINER_NAME
+
+-- remove container
+docker rm CONTAINER_ID

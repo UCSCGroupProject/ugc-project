@@ -3,41 +3,81 @@
 version: "3.8"
 
 services:
-  mongodb:
-    image: mongo
-    container_name: mongodb
+#  mongodb:
+#    image: mongo
+#    container_name: mongodb
+#    ports:
+#      - 27017:27017
+#    volumes:
+#      - data:/data
+#    environment:
+#      - MONGO_INITDB_ROOT_USERNAME=root
+#      - MONGO_INITDB_ROOT_PASSWORD=root
+#  mongo-express:
+#    image: mongo-express
+#    container_name: mongo-express
+#    restart: always
+#    ports:
+#      - 8081:8081
+#    environment:
+#      - ME_CONFIG_MONGODB_ADMINUSERNAME=root
+#      - ME_CONFIG_MONGODB_ADMINPASSWORD=root
+#      - ME_CONFIG_MONGODB_SERVER=mongodb
+#  zipkin:
+#    image: openzipkin/zipkin
+#    container_name: zipkin
+#    ports:
+#      - 9411:9411
+#    networks:
+#      - spring
+#  rabbitmq:
+#    image: rabbitmq:3.9.11-management-alpine
+#    container_name: rabbitmq
+#    ports:
+#      - 5672:5672
+#      - 15672:15672
+  eureka-server:
+    image: dhanushka117/eureka-server:latest
+    container_name: eureka-server
     ports:
-      - 27017:27017
-    volumes:
-      - data:/data
+      - "8761:8761"
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=root
-  mongo-express:
-    image: mongo-express
-    container_name: mongo-express
-    restart: always
+      - SPRING_PROFILES_ACTIVE = docker # This runs application-docker.yml file
+    networks:
+      - spring
+#    depends_on:
+#      - zipkin
+#  gateway:
+#    image: dhanushka117/gateway:latest
+#    container_name: gateway
+#    ports:
+#      - "8080:8080"
+#    environment:
+#      - SPRING_PROFILES_ACTIVE = docker # This runs application-docker.yml file
+#    networks:
+#      - spring
+#    depends_on:
+#      - zipkin
+#      - eureka-server
+  student:
+    image: dhanushka117/student:latest
+    container_name: student
     ports:
-      - 8081:8081
+      - "8081:8081"
     environment:
-      - ME_CONFIG_MONGODB_ADMINUSERNAME=root
-      - ME_CONFIG_MONGODB_ADMINPASSWORD=root
-      - ME_CONFIG_MONGODB_SERVER=mongodb
-  zipkin:
-    image: openzipkin/zipkin
-    container_name: zipkin
-    ports:
-      - 9411:9411
-  rabbitmq:
-    image: rabbitmq:3.9.11-management-alpine
-    container_name: rabbitmq
-    ports:
-      - 5672:5672
-      - 15672:15672
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+#    depends_on:
+#      - zipkin
+#      - postgres
+#      - rabbitmq
 
-volumes:
-  data: {}
+#volumes:
+#  data: {}
 
 networks:
-  default:
-    name: mongodb_network
+#  default:
+#    name: mongodb_network
+  spring:
+    driver: bridge

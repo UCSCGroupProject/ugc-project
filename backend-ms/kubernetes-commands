@@ -1,0 +1,2 @@
+-- start minkube
+minikube start --memory=4g

@@ -1,0 +1,9 @@
+-- authenticate
+docker login
+
+-- clean and build packages
+mvn clean package -P build-docker-image
+
+--- To compose docker file
+docker compose up -d
+
