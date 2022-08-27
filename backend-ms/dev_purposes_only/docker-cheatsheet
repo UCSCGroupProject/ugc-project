@@ -28,3 +28,6 @@ docker stop CONTAINER_NAME
 
 -- remove container
 docker rm CONTAINER_ID
+
+-- login docker account
+docker login

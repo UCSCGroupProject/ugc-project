@@ -7,12 +7,12 @@ services:
 #    image: mongo
 #    container_name: mongodb
 #    ports:
-#      - 27017:27017
+#      - "27017:27017"
 #    volumes:
 #      - data:/data
 #    environment:
-#      - MONGO_INITDB_ROOT_USERNAME=root
-#      - MONGO_INITDB_ROOT_PASSWORD=root
+#      - MONGO_INITDB_ROOT_USERNAME=rootuser
+#      - MONGO_INITDB_ROOT_PASSWORD=rootpass
 #  mongo-express:
 #    image: mongo-express
 #    container_name: mongo-express
@@ -20,9 +20,38 @@ services:
 #    ports:
 #      - 8081:8081
 #    environment:
-#      - ME_CONFIG_MONGODB_ADMINUSERNAME=root
-#      - ME_CONFIG_MONGODB_ADMINPASSWORD=root
+#      - ME_CONFIG_MONGODB_ADMINUSERNAME=rootuser
+#      - ME_CONFIG_MONGODB_ADMINPASSWORD=rootpass
 #      - ME_CONFIG_MONGODB_SERVER=mongodb
+  mysqldb:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD='rootpassword'
+    ports:
+      - "3306:3306"
+    volumes:
+      - my-db:/var/lib/mysql
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "9000:8080"
+#  mysql-workbench:
+#    image: lscr.io/linuxserver/mysql-workbench:latest
+#    container_name: mysql-workbench
+#    environment:
+#      - PUID=1000
+#      - PGID=1000
+#      - TZ=Europe/London
+#    volumes:
+#      - /path/to/config:/config
+#    ports:
+#      - "3000:3000"
+#    cap_add:
+#      - IPC_LOCK
+#    restart: unless-stopped
 #  zipkin:
 #    image: openzipkin/zipkin
 #    container_name: zipkin
@@ -37,18 +66,18 @@ services:
 #      - 5672:5672
 #      - 15672:15672
   eureka-server:
-    image: dhanushka117/eureka-server:latest
+    image: ucscgroupproject/eureka-server:latest
     container_name: eureka-server
     ports:
       - "8761:8761"
     environment:
-      - SPRING_PROFILES_ACTIVE = docker # This runs application-docker.yml file
+      - SPRING_PROFILES_ACTIVE=docker # This runs application-docker.yml file
     networks:
       - spring
 #    depends_on:
 #      - zipkin
 #  gateway:
-#    image: dhanushka117/gateway:latest
+#    image: ucscgroupproject/gateway:latest
 #    container_name: gateway
 #    ports:
 #      - "8080:8080"
@@ -60,21 +89,31 @@ services:
 #      - zipkin
 #      - eureka-server
   student:
-    image: dhanushka117/student:latest
+    image: ucscgroupproject/student:latest
     container_name: student
     ports:
-      - "8081:8081"
+      - "9001:9001"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     networks:
       - spring
+    depends_on:
+      - mysqldb
+#  blockchain:
+#    image: ucscgroupproject/blockchain:latest
+#    container_name: blockchain
+#    ports:
+#      - "5000:5000"
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=docker
+#    networks:
+#      - spring
 #    depends_on:
-#      - zipkin
-#      - postgres
-#      - rabbitmq
+#      - mongodb
 
-#volumes:
+volumes:
 #  data: {}
+  my-db:
 
 networks:
 #  default:
