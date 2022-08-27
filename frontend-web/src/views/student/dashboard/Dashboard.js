@@ -26,7 +26,7 @@ import AppBanner from '../../../components/banner/AppBanner'
 
 import authService from '../../../services/authService'
 
-import bannerImg from '../../../assets/images/banners/school_banner.jpg'
+import bannerImg from '../../../assets/images/banners/student_banner.png'
 
 const bannerData = {
   img: bannerImg,
