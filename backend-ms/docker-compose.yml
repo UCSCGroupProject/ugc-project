@@ -3,41 +3,120 @@
 version: "3.8"
 
 services:
-  mongodb:
-    image: mongo
-    container_name: mongodb
-    ports:
-      - 27017:27017
-    volumes:
-      - data:/data
+#  mongodb:
+#    image: mongo
+#    container_name: mongodb
+#    ports:
+#      - "27017:27017"
+#    volumes:
+#      - data:/data
+#    environment:
+#      - MONGO_INITDB_ROOT_USERNAME=rootuser
+#      - MONGO_INITDB_ROOT_PASSWORD=rootpass
+#  mongo-express:
+#    image: mongo-express
+#    container_name: mongo-express
+#    restart: always
+#    ports:
+#      - 8081:8081
+#    environment:
+#      - ME_CONFIG_MONGODB_ADMINUSERNAME=rootuser
+#      - ME_CONFIG_MONGODB_ADMINPASSWORD=rootpass
+#      - ME_CONFIG_MONGODB_SERVER=mongodb
+  mysqldb:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=root
-  mongo-express:
-    image: mongo-express
-    container_name: mongo-express
+      - MYSQL_ROOT_PASSWORD='rootpassword'
+    ports:
+      - "3306:3306"
+    volumes:
+      - my-db:/var/lib/mysql
+  adminer:
+    image: adminer
     restart: always
     ports:
-      - 8081:8081
+      - "9000:8080"
+#  mysql-workbench:
+#    image: lscr.io/linuxserver/mysql-workbench:latest
+#    container_name: mysql-workbench
+#    environment:
+#      - PUID=1000
+#      - PGID=1000
+#      - TZ=Europe/London
+#    volumes:
+#      - /path/to/config:/config
+#    ports:
+#      - "3000:3000"
+#    cap_add:
+#      - IPC_LOCK
+#    restart: unless-stopped
+#  zipkin:
+#    image: openzipkin/zipkin
+#    container_name: zipkin
+#    ports:
+#      - 9411:9411
+#    networks:
+#      - spring
+#  rabbitmq:
+#    image: rabbitmq:3.9.11-management-alpine
+#    container_name: rabbitmq
+#    ports:
+#      - 5672:5672
+#      - 15672:15672
+  eureka-server:
+    image: ucscgroupproject/eureka-server:latest
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
     environment:
-      - ME_CONFIG_MONGODB_ADMINUSERNAME=root
-      - ME_CONFIG_MONGODB_ADMINPASSWORD=root
-      - ME_CONFIG_MONGODB_SERVER=mongodb
-  zipkin:
-    image: openzipkin/zipkin
-    container_name: zipkin
+      - SPRING_PROFILES_ACTIVE=docker # This runs application-docker.yml file
+    networks:
+      - spring
+#    depends_on:
+#      - zipkin
+#  gateway:
+#    image: ucscgroupproject/gateway:latest
+#    container_name: gateway
+#    ports:
+#      - "8080:8080"
+#    environment:
+#      - SPRING_PROFILES_ACTIVE = docker # This runs application-docker.yml file
+#    networks:
+#      - spring
+#    depends_on:
+#      - zipkin
+#      - eureka-server
+  student:
+    image: ucscgroupproject/student:latest
+    container_name: student
     ports:
-      - 9411:9411
-  rabbitmq:
-    image: rabbitmq:3.9.11-management-alpine
-    container_name: rabbitmq
-    ports:
-      - 5672:5672
-      - 15672:15672
+      - "9001:9001"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+    depends_on:
+      - mysqldb
+#  blockchain:
+#    image: ucscgroupproject/blockchain:latest
+#    container_name: blockchain
+#    ports:
+#      - "5000:5000"
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=docker
+#    networks:
+#      - spring
+#    depends_on:
+#      - mongodb
 
 volumes:
-  data: {}
+#  data: {}
+  my-db:
 
 networks:
-  default:
-    name: mongodb_network
+#  default:
+#    name: mongodb_network
+  spring:
+    driver: bridge

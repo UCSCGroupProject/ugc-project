@@ -29,22 +29,40 @@ const MyCoursesAppliedStudents = () => {
 
   const [allCoursesData, setAllCoursesData] = useState([
     {
-      id: '1',
+      id: 1,
       unicode: '112A',
       courseOfStudy: 'Medicine',
       appliedAmount: '250'
     },
     {
-      id: '2',
+      id: 2,
       unicode: '112A',
       courseOfStudy: 'Engineering',
       appliedAmount: '400'
     },
     {
-      id: '3',
+      id: 3,
       unicode: '112A',
       courseOfStudy: 'Computer Science',
       appliedAmount: '300'
+    },
+    {
+      id: 4,
+      unicode: '115A',
+      courseOfStudy: 'Dental',
+      appliedAmount: '90',
+    },
+    {
+      id: 5,
+      unicode: '118A',
+      courseOfStudy: 'Information System',
+      appliedAmount: '105',
+    },
+    {
+      id: 3,
+      unicode: '113A',
+      courseOfStudy: 'Physical Science',
+      appliedAmount: '105',
     },
   ])
 

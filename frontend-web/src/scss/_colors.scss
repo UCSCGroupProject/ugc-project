@@ -8,6 +8,8 @@
   --bg-fade-danger: #fadddd;
   --bg-fade-light: #fbfbfc;
   --bg-fade-dark: #dcdfe3;
+
+  --bg-highlight-warning: #fbf719;
 }
 
 .bg-fade-primary{background-color: var(--bg-fade-primary);}
@@ -18,3 +20,5 @@
 .bg-fade-danger{background-color: var(--bg-fade-danger);}
 .bg-fade-light{background-color: var(--bg-fade-light);}
 .bg-fade-dark{background-color: var(--bg-fade-dark);}
+
+.bg-highlight-warning{background-color: var(--bg-highlight-warning);}

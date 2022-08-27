@@ -14,7 +14,7 @@ const CourseStatistics = () => {
       appliedAmount: '100',
     },
     {
-      course: 'Coputer Sceince',
+      course: 'Computer Science',
       appliedAmount: '150',
     },
     {
@@ -24,6 +24,18 @@ const CourseStatistics = () => {
     {
       course: 'Information System',
       appliedAmount: '105',
+    },
+    {
+      course: 'Physical Science',
+      appliedAmount: '105',
+    },
+    {
+      course: 'Servay Science',
+      appliedAmount: '100',
+    },
+    {
+      course: 'Engineering(TM)',
+      appliedAmount: '50',
     },
   ])
 

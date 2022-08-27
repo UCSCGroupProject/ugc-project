@@ -1,0 +1,23 @@
+server:
+  port:
+    9001
+
+spring:
+  application:
+    name:
+      student
+  datasource:
+    url: jdbc:mysql://mysqldb:3306/student_db
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka
+    fetch-registry: true
+    register-with-eureka: true

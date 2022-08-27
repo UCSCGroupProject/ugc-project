@@ -1,0 +1,15 @@
+-- authenticate
+docker login
+username: ucscgroupproject
+password: DOCKER@ucsc123
+
+-- clean and build packages
+mvn clean package -P build-docker-image
+
+-- clean old docker cache
+docker system prune --all
+docker volume prune
+
+--- To compose docker file
+docker compose up -d
+
