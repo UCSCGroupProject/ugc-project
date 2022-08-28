@@ -323,6 +323,66 @@ public class UnicodeService {
 
         unicodeRepository.save(new Unicode(this.getCourse("Information Communication Technology"), this.getUniversity("University of Colombo"), "104A"));
         unicodeRepository.save(new Unicode(this.getCourse("Information Communication Technology"), this.getUniversity("University of Sri Jayewardenepura"), "104C"));
+        unicodeRepository.save(new Unicode(this.getCourse("Information Communication Technology"), this.getUniversity("University of Kelaniya"), "104D"));
+        unicodeRepository.save(new Unicode(this.getCourse("Information Communication Technology"), this.getUniversity("University of Ruhuna"), "104F"));
+        unicodeRepository.save(new Unicode(this.getCourse("Information Communication Technology"), this.getUniversity("South Eastern University of Sri Lanka"), "104J"));
+        unicodeRepository.save(new Unicode(this.getCourse("Information Communication Technology"), this.getUniversity("Rajarata University of Sri Lanka"), "104K"));
+        unicodeRepository.save(new Unicode(this.getCourse("Information Communication Technology"), this.getUniversity("Vavuniya Campus"), "104R"));
+        unicodeRepository.save(new Unicode(this.getCourse("Information Communication Technology"), this.getUniversity("Uva Wellassa University of Sri Lanka"), "104U"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Teaching English as a Second Language (TESL)"), this.getUniversity("University of Sri Jayewardenepura"), "105C"));
+        unicodeRepository.save(new Unicode(this.getCourse("Teaching English as a Second Language (TESL)"), this.getUniversity("University of Kelaniya"), "105D"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Marine and Freshwater Sciences"), this.getUniversity("University of Ruhuna"), "106F"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Food Business Management"), this.getUniversity("Sabaragamuwa University of Sri Lanka"), "107L"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Physical Science - ICT"), this.getUniversity("University of Sri Jayewardenepura"), "108C"));
+        unicodeRepository.save(new Unicode(this.getCourse("Physical Science - ICT"), this.getUniversity("University of Kelaniya"), "108D"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Business Science"), this.getUniversity("University of Moratuwa"), "109G"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Financial Engineering"), this.getUniversity("University of Kelaniya"), "110D"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Geographical Information Science"), this.getUniversity("University of Peradeniya"), "111B"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Social Work"), this.getUniversity("University of Peradeniya"), "112B"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Financial Mathematics and Industrial Statistics"), this.getUniversity("University of Ruhuna"), "113F"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Human Resource Development"), this.getUniversity("Uva Wellassa University of Sri Lanka"), "114U"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Occupational Therapy"), this.getUniversity("University of Kelaniya"), "115D"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Optometry"), this.getUniversity("University of Sri Jayewardenepura"), "116C"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Artificial Intelligence"), this.getUniversity("University of Moratuwa"), "117G"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Applied Chemistry"), this.getUniversity("University of Kelaniya"), "118D"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Electronics and Computer Science"), this.getUniversity("University of Kelaniya"), "119D"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Indigenous Medicinal Resources"), this.getUniversity("The Gampaha Wickramarachchi University of Indigenous Medicine"), "120P"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Health Information and Communication Technology"), this.getUniversity("The Gampaha Wickramarachchi University of Indigenous Medicine"), "121P"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Health Tourism and Hospitality Management"), this.getUniversity("The Gampaha Wickramarachchi University of Indigenous Medicine"), "122P"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Biomedical Technology"), this.getUniversity("The Gampaha Wickramarachchi University of Indigenous Medicine"), "123P"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Indigenous Pharmaceutical Technology"), this.getUniversity("The Gampaha Wickramarachchi University of Indigenous Medicine"), "124P"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Yoga and Parapsychology"), this.getUniversity("The Gampaha Wickramarachchi University of Indigenous Medicine"), "125P"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Social Studies in Indigenous Knowledge"), this.getUniversity("The Gampaha Wickramarachchi University of Indigenous Medicine"), "126P"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Accounting Information Systems"), this.getUniversity("University of Kelaniya"), "127D"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Arts - Information Technology"), this.getUniversity("University of Sri Jayewardenepura"), "128C"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Aquatic Bioresources"), this.getUniversity("University of Sri Jayewardenepura"), "129C"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Urban Bio Resources"), this.getUniversity("University of Sri Jayewardenepura"), "130C"));
 
     }
 
