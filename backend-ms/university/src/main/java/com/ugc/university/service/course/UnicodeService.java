@@ -194,6 +194,75 @@ public class UnicodeService {
 
         unicodeRepository.save(new Unicode(this.getCourse("Radiography"), this.getUniversity("University of Peradeniya"), "053B"));
 
+        unicodeRepository.save(new Unicode(this.getCourse("Physiotherapy"), this.getUniversity("University of Colombo"), "054A"));
+        unicodeRepository.save(new Unicode(this.getCourse("Physiotherapy"), this.getUniversity("University of Peradeniya"), "054B"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Environmental Conservation & Management"), this.getUniversity("University of Kelaniya"), "055D"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Facilities Management"), this.getUniversity("University of Moratuwa"), "056G"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Transport & Logistics Management"), this.getUniversity("University of Moratuwa"), "057G"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Biochemistry & Molecular Biology"), this.getUniversity("University of Colombo"), "058A"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Industrial Statistics & Mathematical Finance"), this.getUniversity("University of Colombo"), "059A"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Statistics & Operational Research"), this.getUniversity("University of Peradeniya"), "060B"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Fisheries & Marine Sciences"), this.getUniversity("University of Ruhuna"), "062F"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Islamic Studies"), this.getUniversity("South Eastern University of Sri Lanka"), "063J"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Science and Technology"), this.getUniversity("Uva Wellassa University of Sri Lanka"), "064U"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Computer Science and Technology"), this.getUniversity("Uva Wellassa University of Sri Lanka"), "065U"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Entrepreneurship and Management"), this.getUniversity("Uva Wellassa University of Sri Lanka"), "066U"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Animal Science"), this.getUniversity("Uva Wellassa University of Sri Lanka"), "067U"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Music"), this.getUniversity("Ramanathan Academy of Fine Arts"), "068X"));
+        unicodeRepository.save(new Unicode(this.getCourse("Music"), this.getUniversity("Swami Vipulananda Institute of Aesthetic Studies"), "068Y"));
+        unicodeRepository.save(new Unicode(this.getCourse("Music"), this.getUniversity("University of the Visual & Performing Arts"), "068Z"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Dance"), this.getUniversity("Ramanathan Academy of Fine Arts"), "069X"));
+        unicodeRepository.save(new Unicode(this.getCourse("Dance"), this.getUniversity("Swami Vipulananda Institute of Aesthetic Studies"), "069Y"));
+        unicodeRepository.save(new Unicode(this.getCourse("Dance"), this.getUniversity("University of the Visual & Performing Arts"), "069Z"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Art & Design"), this.getUniversity("Ramanathan Academy of Fine Arts"), "070X"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Drama & Theatre"), this.getUniversity("Swami Vipulananda Institute of Aesthetic Studies"), "071Y"));
+        unicodeRepository.save(new Unicode(this.getCourse("Drama & Theatre"), this.getUniversity("University of the Visual & Performing Arts"), "071Z"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Visual & Technological Arts"), this.getUniversity("Swami Vipulananda Institute of Aesthetic Studies"), "072Y"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Export Agriculture"), this.getUniversity("Uva Wellassa University of Sri Lanka"), "073U"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Tea Technology & Value Addition"), this.getUniversity("Uva Wellassa University of Sri Lanka"), "074U"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Industrial Information Technology"), this.getUniversity("Uva Wellassa University of Sri Lanka"), "075U"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Mineral Resources and Technology"), this.getUniversity("Uva Wellassa University of Sri Lanka"), "076U"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Business Information Systems (Honours) (BIS)"), this.getUniversity("University of Sri Jayewardenepura"), "077C"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Management and Information Technology (SEUSL)"), this.getUniversity("South Eastern University of Sri Lanka"), "079J"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Computing & Information Systems"), this.getUniversity("Sabaragamuwa University of Sri Lanka"), "080L"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Physical Education"), this.getUniversity("University of Jaffna"), "081E"));
+        unicodeRepository.save(new Unicode(this.getCourse("Physical Education"), this.getUniversity("Sabaragamuwa University of Sri Lanka"), "081L"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Sports Science & Management"), this.getUniversity("University of Sri Jayewardenepura"), "082C"));
+        unicodeRepository.save(new Unicode(this.getCourse("Sports Science & Management"), this.getUniversity("University of Kelaniya"), "082D"));
+        unicodeRepository.save(new Unicode(this.getCourse("Sports Science & Management"), this.getUniversity("Sabaragamuwa University of Sri Lanka"), "082L"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Speech and Hearing Sciences"), this.getUniversity("University of Kelaniya"), "083D"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Arabic Language"), this.getUniversity("South Eastern University of Sri Lanka"), "084J"));
+
+        unicodeRepository.save(new Unicode(this.getCourse("Visual Arts"), this.getUniversity("University of the Visual & Performing Arts"), "085Z"));
+
     }
 
     public Course getCourse(String name){
