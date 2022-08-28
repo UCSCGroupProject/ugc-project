@@ -1,5 +1,6 @@
 package com.ugc.university.model;
 
+import com.ugc.university.model.course.Unicode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -47,9 +48,13 @@ public class University {
     )
     private Set<Role> roles = new HashSet<>();
 
-    // For the foreign key referenced from NICAndExamDetails
+    // For the foreign key referenced from university
     @OneToOne(mappedBy = "university")
     private UniversityDetails universityDetails;
+
+    // For the foreign key referenced from Unicode
+    @OneToMany(mappedBy = "university")
+    private Set<Unicode> unicodes;
 
     // Constructor
     public University(String username, String email, String password) {

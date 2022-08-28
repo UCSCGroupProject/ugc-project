@@ -14,4 +14,7 @@ CREATE DATABASE notification_db;
 CREATE DATABASE email_db;
 CREATE DATABASE zscore_db;
 
-
+-- Granting privileges to the MySQL Docker Image
+CREATE USER 'root'@'%' IDENTIFIED BY 'root';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;

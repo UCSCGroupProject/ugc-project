@@ -1,12 +1,14 @@
 package com.ugc.university.payload.request.universityRegistration;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Set;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class UniversityRegisterRequest {
     private String name;
     private String address;

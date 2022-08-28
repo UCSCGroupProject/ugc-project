@@ -12,7 +12,8 @@ public class StreamService {
 
     public void initStreams() {
         streamRepository.save(new Stream("Arts"));
-        streamRepository.save(new Stream("Commerce"));
+        streamRepository.save(new Stream("Commerce"));;
+        streamRepository.save(new Stream("Biological Science"));
         streamRepository.save(new Stream("Physical Science"));
         streamRepository.save(new Stream("Engineering Technology"));
         streamRepository.save(new Stream("Biosystems Technology"));;
