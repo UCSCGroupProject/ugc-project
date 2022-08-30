@@ -126,7 +126,7 @@ public class CourseService {
         courseRepository.save(new Course("Palm & Latex Technology & Value Addition", other, "089", 104));
         courseRepository.save(new Course("Hospitality, Tourism and Events Management", other, "090", 107));
         courseRepository.save(new Course("Physical Education", other, "081", 147));
-        courseRepository.save(new Course("Sport Science & Management", other, "082", 228));
+        courseRepository.save(new Course("Sports Science & Management", other, "082", 228));
         courseRepository.save(new Course("Speech and Hearing Sciences", other, "083", 84));
         courseRepository.save(new Course("Information and Communication Technology (ICT)", other, "091", 127));
         courseRepository.save(new Course("Tourism & Hospitality Management", other, "092", 181));

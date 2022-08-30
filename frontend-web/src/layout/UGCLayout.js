@@ -6,6 +6,8 @@ import AppHeader from '../components/header/AppHeader'
 import AppSidebar from '../components/sidebar/AppSidebar'
 import AppFooter from '../components/footer/AppFooter'
 
+import { ToastContainer } from 'react-toastify'
+
 import authService from '../services/authService'
 
 function UGCLayout() {
@@ -54,7 +56,10 @@ function UGCLayout() {
     <div>
       {isUserLoggedIn && <AppSidebar actorType={userDetails.actorType} />}
 
+      {/* this can be removed */}
       <CToaster ref={toaster} push={toast} placement="top-end" />
+
+      <ToastContainer autoClose={2000} />
       <div className="wrapper d-flex flex-column min-vh-100 bg-light">
         <AppHeader userDetails={userDetails} />
         <div className="body flex-grow-1 px-3">

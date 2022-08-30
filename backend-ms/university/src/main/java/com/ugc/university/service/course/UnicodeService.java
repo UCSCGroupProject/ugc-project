@@ -4,12 +4,18 @@ import com.ugc.university.model.University;
 import com.ugc.university.model.UniversityDetails;
 import com.ugc.university.model.course.Course;
 import com.ugc.university.model.course.Unicode;
+import com.ugc.university.payload.response.course.UniCourseListResponse;
+import com.ugc.university.payload.response.course.UniCourseResponse;
 import com.ugc.university.repository.UniversityDetailsRepository;
 import com.ugc.university.repository.UniversityRepository;
 import com.ugc.university.repository.course.CourseRepository;
 import com.ugc.university.repository.course.UnicodeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UnicodeService {
@@ -91,11 +97,11 @@ public class UnicodeService {
 
         unicodeRepository.save(new Unicode(this.getCourse("Surveying Science"), this.getUniversity("Sabaragamuwa University of Sri Lanka"), "014L"));
 
-        unicodeRepository.save(new Unicode(this.getCourse("Applied Sciences"), this.getUniversity("Rajarata University of Sri Lanka"), "015K"));
-        unicodeRepository.save(new Unicode(this.getCourse("Applied Sciences"), this.getUniversity("Sabaragamuwa University of Sri Lanka"), "015L"));
-        unicodeRepository.save(new Unicode(this.getCourse("Applied Sciences"), this.getUniversity("Wayamba University of Sri Lanka"), "015M"));
-        unicodeRepository.save(new Unicode(this.getCourse("Applied Sciences"), this.getUniversity("University of Jaffna"), "015R"));
-        unicodeRepository.save(new Unicode(this.getCourse("Applied Sciences"), this.getUniversity("Trincomalee Campus"), "015W"));
+        unicodeRepository.save(new Unicode(this.getCourse("Applied Sciences (Physical Sciences)"), this.getUniversity("Rajarata University of Sri Lanka"), "015K"));
+        unicodeRepository.save(new Unicode(this.getCourse("Applied Sciences (Physical Sciences)"), this.getUniversity("Sabaragamuwa University of Sri Lanka"), "015L"));
+        unicodeRepository.save(new Unicode(this.getCourse("Applied Sciences (Physical Sciences)"), this.getUniversity("Wayamba University of Sri Lanka"), "015M"));
+        unicodeRepository.save(new Unicode(this.getCourse("Applied Sciences (Physical Sciences)"), this.getUniversity("University of Jaffna"), "015R"));
+        unicodeRepository.save(new Unicode(this.getCourse("Applied Sciences (Physical Sciences)"), this.getUniversity("Trincomalee Campus"), "015W"));
 
         unicodeRepository.save(new Unicode(this.getCourse("Management"), this.getUniversity("University of Colombo"), "016A"));
         unicodeRepository.save(new Unicode(this.getCourse("Management"), this.getUniversity("University of Peradeniya"), "016B"));
@@ -127,8 +133,8 @@ public class UnicodeService {
         unicodeRepository.save(new Unicode(this.getCourse("Arts"), this.getUniversity("South Eastern University of Sri Lanka"), "019J"));
         unicodeRepository.save(new Unicode(this.getCourse("Arts"), this.getUniversity("Rajarata University of Sri Lanka"), "019K"));
 
-        unicodeRepository.save(new Unicode(this.getCourse("Arts (SP) - Mass Media"), this.getUniversity("University of Colombo (Sripalee Campus)"), "020S"));
-        unicodeRepository.save(new Unicode(this.getCourse("Arts (SP) - Performing Arts"), this.getUniversity("University of Colombo (Sripalee Campus)"), "041S"));
+        unicodeRepository.save(new Unicode(this.getCourse("Arts (SP) - Mass Media"), this.getUniversity("Sripalee Campus"), "020S"));
+        unicodeRepository.save(new Unicode(this.getCourse("Arts (SP) - Performing Arts"), this.getUniversity("Sripalee Campus"), "041S"));
         unicodeRepository.save(new Unicode(this.getCourse("Arts (SAB)"), this.getUniversity("Sabaragamuwa University of Sri Lanka"), "021L"));
 
         unicodeRepository.save(new Unicode(this.getCourse("Management Studies (TV)"), this.getUniversity("Eastern University, Sri Lanka"), "022W"));
@@ -144,13 +150,13 @@ public class UnicodeService {
 
         unicodeRepository.save(new Unicode(this.getCourse("Information Technology (IT)"), this.getUniversity("University of Moratuwa"), "026G"));
 
-        unicodeRepository.save(new Unicode(this.getCourse("Management and Information Technology (MIT)"), this.getUniversity("University of Kelaniya"), "027D"));
+        unicodeRepository.save(new Unicode(this.getCourse("Management & Information Technology (MIT)"), this.getUniversity("University of Kelaniya"), "027D"));
 
         unicodeRepository.save(new Unicode(this.getCourse("Management (Public) Honours"), this.getUniversity("University of Sri Jayewardenepura"), "028C"));
 
         unicodeRepository.save(new Unicode(this.getCourse("Communication Studies"), this.getUniversity("Trincomalee Campus"), "029W"));
 
-        unicodeRepository.save(new Unicode(this.getCourse("Town and Country Planning"), this.getUniversity("University of Moratuwa"), "030G"));
+        unicodeRepository.save(new Unicode(this.getCourse("Town & Country Planning"), this.getUniversity("University of Moratuwa"), "030G"));
 
         unicodeRepository.save(new Unicode(this.getCourse("Peace and Conflict Resolution"), this.getUniversity("University of Kelaniya"), "031D"));
 
@@ -178,7 +184,7 @@ public class UnicodeService {
         unicodeRepository.save(new Unicode(this.getCourse("Information and Communication Technology (ICT)"), this.getUniversity("Rajarata University of Sri Lanka"), "038K"));
         unicodeRepository.save(new Unicode(this.getCourse("Information and Communication Technology (ICT)"), this.getUniversity("University of Jaffna"), "038R"));
 
-        unicodeRepository.save(new Unicode(this.getCourse("Architectural Technology & Management"), this.getUniversity("University of Peradeniya"), "039B"));
+        unicodeRepository.save(new Unicode(this.getCourse("Agricultural Technology & Management"), this.getUniversity("University of Peradeniya"), "039B"));
 
         unicodeRepository.save(new Unicode(this.getCourse("Health Promotion"), this.getUniversity("Rajarata University of Sri Lanka"), "050K"));
 
@@ -201,13 +207,13 @@ public class UnicodeService {
 
         unicodeRepository.save(new Unicode(this.getCourse("Facilities Management"), this.getUniversity("University of Moratuwa"), "056G"));
 
-        unicodeRepository.save(new Unicode(this.getCourse("Transport & Logistics Management"), this.getUniversity("University of Moratuwa"), "057G"));
+        unicodeRepository.save(new Unicode(this.getCourse("Transport & Logistic Management"), this.getUniversity("University of Moratuwa"), "057G"));
 
         unicodeRepository.save(new Unicode(this.getCourse("Biochemistry & Molecular Biology"), this.getUniversity("University of Colombo"), "058A"));
 
         unicodeRepository.save(new Unicode(this.getCourse("Industrial Statistics & Mathematical Finance"), this.getUniversity("University of Colombo"), "059A"));
 
-        unicodeRepository.save(new Unicode(this.getCourse("Statistics & Operational Research"), this.getUniversity("University of Peradeniya"), "060B"));
+        unicodeRepository.save(new Unicode(this.getCourse("Statistics & Operations Research"), this.getUniversity("University of Peradeniya"), "060B"));
 
         unicodeRepository.save(new Unicode(this.getCourse("Fisheries & Marine Sciences"), this.getUniversity("University of Ruhuna"), "062F"));
 
@@ -215,7 +221,7 @@ public class UnicodeService {
 
         unicodeRepository.save(new Unicode(this.getCourse("Science and Technology"), this.getUniversity("Uva Wellassa University of Sri Lanka"), "064U"));
 
-        unicodeRepository.save(new Unicode(this.getCourse("Computer Science and Technology"), this.getUniversity("Uva Wellassa University of Sri Lanka"), "065U"));
+        unicodeRepository.save(new Unicode(this.getCourse("Computer Science & Technology"), this.getUniversity("Uva Wellassa University of Sri Lanka"), "065U"));
 
         unicodeRepository.save(new Unicode(this.getCourse("Entrepreneurship and Management"), this.getUniversity("Uva Wellassa University of Sri Lanka"), "066U"));
 
@@ -269,7 +275,7 @@ public class UnicodeService {
 
         unicodeRepository.save(new Unicode(this.getCourse("Aquatic Resources Technology"), this.getUniversity("Uva Wellassa University of Sri Lanka"), "088U"));
 
-        unicodeRepository.save(new Unicode(this.getCourse("Palm and Latex Technology & Value Addition"), this.getUniversity("Uva Wellassa University of Sri Lanka"), "089U"));
+        unicodeRepository.save(new Unicode(this.getCourse("Palm & Latex Technology & Value Addition"), this.getUniversity("Uva Wellassa University of Sri Lanka"), "089U"));
 
         unicodeRepository.save(new Unicode(this.getCourse("Hospitality, Tourism and Events Management"), this.getUniversity("Uva Wellassa University of Sri Lanka"), "090U"));
 
@@ -362,19 +368,19 @@ public class UnicodeService {
 
         unicodeRepository.save(new Unicode(this.getCourse("Electronics and Computer Science"), this.getUniversity("University of Kelaniya"), "119D"));
 
-        unicodeRepository.save(new Unicode(this.getCourse("Indigenous Medicinal Resources"), this.getUniversity("The Gampaha Wickramarachchi University of Indigenous Medicine"), "120P"));
+        unicodeRepository.save(new Unicode(this.getCourse("Indigenous Medicinal Resources"), this.getUniversity("The Gampaha Wickramarachchi University of Indigenous Medicine, Sri Lanka"), "120P"));
 
-        unicodeRepository.save(new Unicode(this.getCourse("Health Information and Communication Technology"), this.getUniversity("The Gampaha Wickramarachchi University of Indigenous Medicine"), "121P"));
+        unicodeRepository.save(new Unicode(this.getCourse("Health Information and Communication Technology"), this.getUniversity("The Gampaha Wickramarachchi University of Indigenous Medicine, Sri Lanka"), "121P"));
 
-        unicodeRepository.save(new Unicode(this.getCourse("Health Tourism and Hospitality Management"), this.getUniversity("The Gampaha Wickramarachchi University of Indigenous Medicine"), "122P"));
+        unicodeRepository.save(new Unicode(this.getCourse("Health Tourism and Hospitality Management"), this.getUniversity("The Gampaha Wickramarachchi University of Indigenous Medicine, Sri Lanka"), "122P"));
 
-        unicodeRepository.save(new Unicode(this.getCourse("Biomedical Technology"), this.getUniversity("The Gampaha Wickramarachchi University of Indigenous Medicine"), "123P"));
+        unicodeRepository.save(new Unicode(this.getCourse("Biomedical Technology"), this.getUniversity("The Gampaha Wickramarachchi University of Indigenous Medicine, Sri Lanka"), "123P"));
 
-        unicodeRepository.save(new Unicode(this.getCourse("Indigenous Pharmaceutical Technology"), this.getUniversity("The Gampaha Wickramarachchi University of Indigenous Medicine"), "124P"));
+        unicodeRepository.save(new Unicode(this.getCourse("Indigenous Pharmaceutical Technology"), this.getUniversity("The Gampaha Wickramarachchi University of Indigenous Medicine, Sri Lanka"), "124P"));
 
-        unicodeRepository.save(new Unicode(this.getCourse("Yoga and Parapsychology"), this.getUniversity("The Gampaha Wickramarachchi University of Indigenous Medicine"), "125P"));
+        unicodeRepository.save(new Unicode(this.getCourse("Yoga and Parapsychology"), this.getUniversity("The Gampaha Wickramarachchi University of Indigenous Medicine, Sri Lanka"), "125P"));
 
-        unicodeRepository.save(new Unicode(this.getCourse("Social Studies in Indigenous Knowledge"), this.getUniversity("The Gampaha Wickramarachchi University of Indigenous Medicine"), "126P"));
+        unicodeRepository.save(new Unicode(this.getCourse("Social Studies in Indigenous Knowledge"), this.getUniversity("The Gampaha Wickramarachchi University of Indigenous Medicine, Sri Lanka"), "126P"));
 
         unicodeRepository.save(new Unicode(this.getCourse("Accounting Information Systems"), this.getUniversity("University of Kelaniya"), "127D"));
 
@@ -402,5 +408,24 @@ public class UnicodeService {
             System.out.println("University Details not found");
             return null;
         }
+    }
+
+    public List<UniCourseResponse> getAllUniCourseList(){
+        List<UniCourseResponse> uniCourseResponseList = new ArrayList<>();
+
+        List<Unicode> unicodeList = unicodeRepository.findAll();
+
+        unicodeList.forEach(item -> {
+            UniCourseResponse uniCourseResponse = new UniCourseResponse(
+                    item.getId(),
+                    item.getCourse().getName(),
+                    item.getUniversity().getUniversityDetails().getName(),
+                    item.getUnicodeValue()
+            );
+
+            uniCourseResponseList.add(uniCourseResponse);
+        });
+
+        return uniCourseResponseList;
     }
 }
