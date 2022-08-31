@@ -17,6 +17,7 @@ import {
   CInputGroupText,
   CFormSelect,
   CButton,
+  CSpinner,
 } from '@coreui/react'
 
 import { cilSearch } from '@coreui/icons'
@@ -25,55 +26,34 @@ import CIcon from '@coreui/icons-react'
 
 import { toast } from 'react-toastify'
 
-import AppTable from '../../../../components/table/AppTable'
-
 import unicodeService from '../../../../services/university/unicodeService'
 
-const data = {
-  tableHeaders: [
-    { id: 'id', name: 'No.', sortable: false },
-    { id: 'courseName', name: 'Course', sortable: true },
-    { id: 'universityName', name: 'University', sortable: true },
-    { id: 'unicode', name: 'Unicode', sortable: true },
-  ],
-  // tableContent: [
-  //   {
-  //     id: 0,
-  //     no: 1,
-  //     unicode: '112A',
-  //     course: 'Medicine',
-  //     university: 'University of Colombo',
-  //   },
-  //   {
-  //     id: 1,
-  //     no: 2,
-  //     unicode: '222A',
-  //     course: 'Computer Science',
-  //     university: 'University of Colombo School of Computing',
-  //   },
-  // ],
-}
+const headers = [
+  { id: 'id', name: 'No.', sortable: false },
+  { id: 'courseName', name: 'Course', sortable: true },
+  { id: 'universityName', name: 'University', sortable: true },
+  { id: 'unicode', name: 'Unicode', sortable: true },
+]
 
 function AllCourses() {
   // For the server side requests and responses
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
+    setLoading(true)
+
     unicodeService.getAllUniCourseList().then(
       (res) => {
-        // setUniCourseList(res)
-
-        // setTableHeaders(data.tableHeaders)
-        // setTableContent(res)
-        // toast.success('All courses table loaded successfully')
-
         if (res.type === 'OK') {
           toast.success(res.message)
-          setTableHeaders(data.tableHeaders)
-          setTableContent(res.payload)
+
+          // Settings table data from fetched data
+          setTableData(headers, res.payload)
         } else if (res.type === 'BAD') {
           toast.error(res.message)
         }
+
+        setLoading(false)
       },
       (error) => {
         const res =
@@ -88,20 +68,23 @@ function AllCourses() {
     )
   }, [])
 
-  // NEW TABLE
+  // ADVANCED TABLE
   const [tableHeaders, setTableHeaders] = useState([])
   const [tableContent, setTableContent] = useState([])
+  const [presistentTableContent, setPresistentTableContent] = useState([])
+
+  // Set table data 
+  const setTableData = (headers, content) => {
+    setTableHeaders(headers)
+    setTableContent(content)
+    setPresistentTableContent(content)
+  }
 
   // Filter Bar
   const [filterOptions, setFilterOptions] = useState({
     field: 'all',
     order: 'ascending',
   })
-
-  // useEffect(() => {
-  //   setTableHeaders(props.tableData.tableHeaders)
-  //   setTableContent(props.tableData.tableContent)
-  // }, [])
 
   // Update the form data while input
   const onFilterOptionsUpdateInput = (e) => {
@@ -180,11 +163,11 @@ function AllCourses() {
     setSearchOption(e.target.value)
   }
 
-  useEffect(() => {
-    console.log(searchText)
+  // useEffect(() => {
+  //   console.log(searchText)
 
-    handleSearching()
-  }, [searchText])
+  //   handleSearching()
+  // }, [searchText])
 
   const handleSearching = () => {
     const temp = tableContent
@@ -207,7 +190,7 @@ function AllCourses() {
 
       setTableContent(searchedTemp)
     } else {
-      setTableContent(temp)
+      setTableContent(presistentTableContent)
     }
   }
 
@@ -252,6 +235,12 @@ function AllCourses() {
                 <br />
 
                 <CRow className="m-1">
+                  {loading && (
+                    <div className="text-center">
+                      <CSpinner size="sm" />
+                      <span className="h5 ms-2">Data is Fetching</span>
+                    </div>
+                  )}
                   <CTable bordered>
                     <CTableHead color="dark">
                       <CTableRow>
