@@ -1,0 +1,5 @@
+### Get all unicodes
+GET http://localhost:8082/api/university/details/all
+
+### Get specific university profile
+GET http://localhost:8082/api/university/details/profile?username=CMB

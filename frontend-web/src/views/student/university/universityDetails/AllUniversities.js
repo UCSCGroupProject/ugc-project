@@ -1,4 +1,5 @@
 import React from 'react'
+import { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import {
   CRow,
@@ -30,13 +31,43 @@ import wu_img from '../../../../assets/images/university/wall/wayamba_university
 import uwu_img from '../../../../assets/images/university/wall/uva_wellassa_university_bg.jpg'
 import uvpa_img from '../../../../assets/images/university/wall/university_of_the_visual_&_performing_arts_bg.jpg'
 import gwuim_img from '../../../../assets/images/university/wall/gampaha_wickramarachchi_university_of_indigenous_medicine_bg.jpg'
+import ou_img from '../../../../assets/images/university/wall/open_university_bg.jpg'
 import sc_img from '../../../../assets/images/university/wall/sri_palee_campus_bg.jpg'
 import tc_img from '../../../../assets/images/university/wall/trincomalee_campus_bg.jpg'
-import vc_img from '../../../../assets/images/university/wall/vavuniya_campus_logo.jpg'
-import iim_img from '../../../../assets/images/university/wall/institute_of_ndigenous_medicine_bg.jpg'
+import vc_img from '../../../../assets/images/university/wall/vavuniya_campus_bg.jpg'
+import iim_img from '../../../../assets/images/university/wall/institute_of_indigenous_medicine_bg.jpg'
 import ucsc_img from '../../../../assets/images/university/wall/university_of_colombo_school_of_computing_bg.jpg'
 import svias_img from '../../../../assets/images/university/wall/swami_vipulananda_institure_of_aesthetic_studies_bg.jpg'
 import rafa_img from '../../../../assets/images/university/wall/ramanathan_academy_of_fine_arts_bg.jpg'
+
+import { toast } from 'react-toastify'
+import universityDetailsService from '../../../../services/university/universityDetailsService'
+
+let uniWallImagesDict = {
+  CMB: uoc_img,
+  PDN: uop_img,
+  SJP: uosj_img,
+  KLN: uok_img,
+  MRT: uom_img,
+  UJA: uoj_img,
+  RUH: uor_img,
+  EUSL: eu_img,
+  SEUSL: seu_img,
+  RUSL: ru_img,
+  SUSL: su_img,
+  WUSL: wu_img,
+  UWU: uwu_img,
+  UVPA: uvpa_img,
+  GWUIM: gwuim_img,
+  OUSL: ou_img,
+  IIM: iim_img,
+  UCSC: ucsc_img,
+  SVIAS: svias_img,
+  RAFA: rafa_img,
+  SP: sc_img,
+  TRINCO: tc_img,
+  VAV: vc_img,
+}
 
 const universityData = [
   {
@@ -152,6 +183,41 @@ const universityData = [
 ]
 
 function AllUniversities() {
+  const [data, setData] = useState([])
+
+  // For the server side requests and responses
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    setLoading(true)
+
+    universityDetailsService.getAllUniversityList().then(
+      (res) => {
+        if (res.type === 'OK') {
+          toast.success(res.message)
+
+          // Settings table data
+          setData(res.payload)
+          console.log(data)
+        } else if (res.type === 'BAD') {
+          toast.error(res.message)
+        }
+
+        setLoading(false)
+      },
+      (error) => {
+        const res =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString()
+
+        // After recieving the server request
+        toast.error(res)
+        setLoading(false)
+      },
+    )
+  }, [])
+
   return (
     <div>
       <CRow className="p-1 bg-white rounded">
@@ -168,16 +234,20 @@ function AllUniversities() {
       <br />
 
       <CRow xs={{ cols: 1, gutter: 3 }} md={{ cols: 3 }}>
-        {universityData.map((item) => (
+        {data.map((item) => (
           <NavLink
-            to="/student/university/profile"
+            to={`/student/university/profile?username=${item.universityUsername}`}
             style={{ textDecoration: 'none', color: 'inherit' }}
           >
-            <CCol xs key={item.id}>
+            <CCol xs key={item.universityUsername}>
               <CCard className="h-100 shadow-box">
-                <CCardImage height={200} orientation="top" src={item.wall} />
+                <CCardImage
+                  height={200}
+                  orientation="top"
+                  src={uniWallImagesDict[item.universityUsername]}
+                />
                 <CCardBody>
-                  <CCardTitle>{item.name}</CCardTitle>
+                  <CCardTitle className="fs-6">{item.universityName}</CCardTitle>
                   {/* <CCardText>temp</CCardText> */}
                 </CCardBody>
                 {/* <CCardFooter>

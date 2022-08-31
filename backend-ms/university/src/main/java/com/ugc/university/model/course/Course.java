@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -29,7 +30,7 @@ public class Course {
 
     // For the foreign key referenced from Unicode
     @OneToMany(mappedBy = "course")
-    private Set<Unicode> unicodes;
+    private List<Unicode> unicodes;
 
     public Course(String name, Stream stream, String code, Integer proposedIntakes) {
         this.name = name;

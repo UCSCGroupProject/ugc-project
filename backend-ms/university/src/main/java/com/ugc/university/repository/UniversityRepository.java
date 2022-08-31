@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Repository
 public interface UniversityRepository extends JpaRepository<University, Long> {
-    Optional<University> findByUsername(String username);
+    University findByUsername(String username);
 
     Optional<University> findByEmail(String email);
 
@@ -24,4 +24,5 @@ public interface UniversityRepository extends JpaRepository<University, Long> {
     @Modifying
     @Query("UPDATE University SET password = :password WHERE email = :email")
     void updatePasswordByEmail(@Param("email") String email, @Param("password") String password);
+
 }

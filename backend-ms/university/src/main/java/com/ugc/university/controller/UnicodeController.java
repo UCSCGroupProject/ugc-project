@@ -2,7 +2,6 @@ package com.ugc.university.controller;
 
 import com.ugc.university.payload.response.PayloadResponse;
 import com.ugc.university.payload.response.ResType;
-import com.ugc.university.payload.response.course.UniCourseListResponse;
 import com.ugc.university.payload.response.course.UniCourseResponse;
 import com.ugc.university.service.course.UnicodeService;
 import org.springframework.beans.factory.annotation.Autowired;

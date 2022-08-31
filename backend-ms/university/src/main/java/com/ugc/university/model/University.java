@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -54,7 +55,7 @@ public class University {
 
     // For the foreign key referenced from Unicode
     @OneToMany(mappedBy = "university")
-    private Set<Unicode> unicodes;
+    private List<Unicode> unicodes;
 
     // Constructor
     public University(String username, String email, String password) {

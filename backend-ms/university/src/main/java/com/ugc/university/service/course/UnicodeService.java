@@ -4,7 +4,6 @@ import com.ugc.university.model.University;
 import com.ugc.university.model.UniversityDetails;
 import com.ugc.university.model.course.Course;
 import com.ugc.university.model.course.Unicode;
-import com.ugc.university.payload.response.course.UniCourseListResponse;
 import com.ugc.university.payload.response.course.UniCourseResponse;
 import com.ugc.university.repository.UniversityDetailsRepository;
 import com.ugc.university.repository.UniversityRepository;
