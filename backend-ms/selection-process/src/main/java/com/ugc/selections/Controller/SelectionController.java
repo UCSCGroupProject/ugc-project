@@ -48,6 +48,8 @@ public class SelectionController  {
         ZScoreRequest zScoreRequest = restTemplate.getForObject("http://localhost:8083/staff/getZScore", ZScoreRequest.class);
         List<String> sortedStudents = selectionService.sortZScore(eligibleStudents, zScoreRequest);
 
+        //------------------Merit Selection-------------------------
+
         //Take top 40%
         Integer studentCount = sortedStudents.size();
         Integer meritPartition = Math.toIntExact(Math.round((studentCount * 0.4)));
@@ -55,17 +57,32 @@ public class SelectionController  {
         List<String> meritStudents = subSets.get(0);
 
         //Get the applications of merits
-        ApplicationRequest meritApplications = restTemplate.getForObject("http://localhost:8081/student/applications", ApplicationRequest.class);
+        ApplicationRequest applications = restTemplate.getForObject("http://localhost:8081/student/applications", ApplicationRequest.class);
 
         //Get the aptitude test results
-        AptitudeTestResultRequest meritAptitudeTestResults = restTemplate.getForObject("http://localhost:8082/university/aptitudeTestResults", AptitudeTestResultRequest.class);
+        AptitudeTestResultRequest aptitudeTestResults = restTemplate.getForObject("http://localhost:8082/university/aptitudeTestResults", AptitudeTestResultRequest.class);
 
         //Get courses that need OL results
         OLUnicodeRequest olUnicodeRequest = restTemplate.getForObject("http://localhost:8083/staff/getOLUnicode", OLUnicodeRequest.class);
 
         //Get the course intake amounts
         CourseIntakeRequest courseIntakeRequest = restTemplate.getForObject("http://localhost:8082/university/getCourseIntake", CourseIntakeRequest.class);
-        selectionService.meritSelection(meritStudents, meritApplications, meritAptitudeTestResults, courseIntakeRequest, olUnicodeRequest);
+
+        selectionService.meritSelection(meritStudents, applications, aptitudeTestResults, courseIntakeRequest, olUnicodeRequest);
+
+        //------------------District Quota Selection-------------------------
+
+        //Take top 55%
+        Integer districtPartition = Math.toIntExact(Math.round((studentCount-meritPartition) * 0.55));
+        sortedStudents.subList(0, meritPartition).clear();
+        List<List<String>> subSets2 = Lists.partition(sortedStudents, districtPartition);
+        List<String> districtQuotaStudents = subSets2.get(0);
+
+        //Map students to districts
+        DistrictRequest districtRequest = restTemplate.getForObject("http://localhost:8082/university/getCourseIntake/" + districtQuotaStudents, DistrictRequest.class);
+
+
+        selectionService.districtQuotaSelection(districtRequest, applications, aptitudeTestResults, courseIntakeRequest, olUnicodeRequest);
 
         //-----------------TESTING-------------------------//
 
