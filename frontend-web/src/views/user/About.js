@@ -29,6 +29,8 @@ const send =()=>{
               <br />
               <h3>About Us</h3>
 
+              <br />
+
               <p className="lead">
                 The University Grants Commission (UGC) is the apex body of the University System in
                 Sri Lanka which was established on 22nd December 1978 under the Universities Act No.
@@ -38,10 +40,14 @@ const send =()=>{
                 regulation of admission of students to HEIs.{' '}
               </p>
 
+              <br />
+
               <h5>Our Vision</h5>
               <p className="lead">
-                <b>Provide Knowledge Leadership for a Better Sri Lanka / World</b>
+                <b>"Provide Knowledge Leadership for a Better Sri Lanka / World."</b>
               </p>
+
+              <br />
 
               <h5>Our Mission</h5>
               <p className="lead">
