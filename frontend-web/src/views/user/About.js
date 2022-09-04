@@ -57,15 +57,20 @@ const send =()=>{
               <h3>Contact Us</h3>
               <br />
 
+              <h5><u>Our Contact Info</u></h5>
+              <br />
+
               <address>
                 <strong>Email: ugcadministrator@gmail.com</strong>
                 <br />
                 <br />
                 <p>
-                  <strong>Phone: +94 xxx xxxxxxx</strong>
+                  <strong>Phone: +94 11 123 4567</strong>
                 </p>
               </address>
               <hr />
+
+              <h5>Get in touch with us.</h5>
 
               <CRow>
                 <CCol md={8}>
