@@ -52,6 +52,12 @@ public class SelectionController  {
         //Get applications of each student
         ApplicationRequest applications = restTemplate.getForObject("http://localhost:8081/student/applications", ApplicationRequest.class);
 
-        selectionService.meritSelection(sortedStudents, applications, meritCourseIntake);
+        //Get aptitude test results
+        AptitudeTestResultRequest aptitudeTestResults = restTemplate.getForObject("http://localhost:8082/university/aptitudeTestResults", AptitudeTestResultRequest.class);
+
+        //Get courses that need OL results
+        OLUnicodeRequest olUnicodeRequest = restTemplate.getForObject("http://localhost:8083/staff/getOLUnicode", OLUnicodeRequest.class);
+
+        selectionService.meritSelection(sortedStudents, applications, meritCourseIntake, aptitudeTestResults, olUnicodeRequest);
     }
 }
