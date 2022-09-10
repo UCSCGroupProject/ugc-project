@@ -41,6 +41,9 @@ import svias_img from '../../../../assets/images/university/wall/swami_vipulanan
 import rafa_img from '../../../../assets/images/university/wall/ramanathan_academy_of_fine_arts_bg.jpg'
 
 import { toast } from 'react-toastify'
+
+import AppFetchDataLoader from '../../../../components/loaders/AppFetchDataLoader'
+
 import universityDetailsService from '../../../../services/university/universityDetailsService'
 
 let uniWallImagesDict = {
@@ -232,6 +235,9 @@ function AllUniversities() {
         </CCol>
       </CRow>
       <br />
+
+      {/* Data fetch loader */}
+      <AppFetchDataLoader loading={loading} />
 
       <CRow xs={{ cols: 1, gutter: 3 }} md={{ cols: 3 }}>
         {data.map((item) => (

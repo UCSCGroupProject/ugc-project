@@ -26,6 +26,8 @@ import CIcon from '@coreui/icons-react'
 
 import { toast } from 'react-toastify'
 
+import AppFetchDataLoader from '../../../../components/loaders/AppFetchDataLoader'
+
 import unicodeService from '../../../../services/university/unicodeService'
 
 const headers = [
@@ -73,7 +75,7 @@ function AllCourses() {
   const [tableContent, setTableContent] = useState([])
   const [presistentTableContent, setPresistentTableContent] = useState([])
 
-  // Set table data 
+  // Set table data
   const setTableData = (headers, content) => {
     setTableHeaders(headers)
     setTableContent(content)
@@ -235,12 +237,9 @@ function AllCourses() {
                 <br />
 
                 <CRow className="m-1">
-                  {loading && (
-                    <div className="text-center">
-                      <CSpinner size="sm" />
-                      <span className="h5 ms-2">Data is Fetching</span>
-                    </div>
-                  )}
+                  {/* Data fetch loader */}
+                  <AppFetchDataLoader loading={loading} />
+
                   <CTable bordered>
                     <CTableHead color="dark">
                       <CTableRow>

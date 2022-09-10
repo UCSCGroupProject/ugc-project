@@ -22,6 +22,8 @@ import {
 import { cilChartPie } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
+import { toast } from 'react-toastify'
+
 import AppBanner from '../../../components/banner/AppBanner'
 
 import authService from '../../../services/authService'
@@ -69,6 +71,7 @@ function Dashboard() {
     if (user !== null) {
       console.log(user)
       setUserDetails({ username: user.username, actorType: user.type })
+      toast.success('Hello ' + user.username + ', Welcome back')
     }
   }, [])
 
@@ -78,10 +81,8 @@ function Dashboard() {
     <div>
       <CRow>
         <CCol md={8}>
-          <h1 className="pb-2 display-6">Hello {userDetails.username}, Welcome</h1>
-
           {/* Banner */}
-          <AppBanner data={bannerData}/>
+          <AppBanner data={bannerData} />
           <br />
           <div>
             <CRow>

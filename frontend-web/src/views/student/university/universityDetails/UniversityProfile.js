@@ -27,6 +27,8 @@ import { FaPhone, FaWifi, FaAt } from 'react-icons/fa'
 
 import { toast } from 'react-toastify'
 
+import AppFetchDataLoader from '../../../../components/loaders/AppFetchDataLoader'
+
 import universityDetailsService from '../../../../services/university/universityDetailsService'
 
 import uoc_img from '../../../../assets/images/university/wall/university_of_colombo_bg.jpg'
@@ -224,6 +226,10 @@ function UniversityProfile() {
   return (
     <CContainer className="bg-white border rounded-3">
       <CImage src={uniWallImagesDict[username]} className="w-100 wall-image mt-3 rounded-top" />
+
+      {/* Data fetch loader */}
+      <AppFetchDataLoader loading={loading} />
+
       <div>
         <div className="p-3 bg-light border">
           <CRow>

@@ -21,6 +21,7 @@
     <module>gateway</module>
     <module>staff</module>
     <module>school</module>
+      <module>crypto-signer</module>
   </modules>
 
   <name>backend-ms</name>
