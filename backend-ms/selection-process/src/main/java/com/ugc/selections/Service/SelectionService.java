@@ -44,263 +44,157 @@ public class SelectionService {
         return reverseSortedMap.keySet().stream().toList();
     }
 
-    public void meritSelection(List<String> meritStudents, ApplicationRequest meritApplications, AptitudeTestResultRequest meritAptitudeTestResults, CourseIntakeRequest courseIntakeRequest, OLUnicodeRequest olUnicodeRequest) {
-        boolean selected = false;
-        for (String student : meritStudents) {
-            List<String> unicodeList = meritApplications
-                    .getApplications()
-                    .get(student);
-            for (String unicode: unicodeList){
-                //Check if the course has an aptitude test
-                if(meritAptitudeTestResults.getTestResults().keySet().contains(unicode)){
-                    List<String> passedStudents = meritAptitudeTestResults.getTestResults().get(unicode);
-                    //Check if student passed the test
-                    if(passedStudents.contains(student)){
-                        //Check if the course has OL requirements
-                        selected = isSelected(courseIntakeRequest, olUnicodeRequest, selected, student, unicode);
-                        if(selected){
-                            break;
-                        }
-                    }
-                }
-                else{
-                    // Course does not have an aptitude test
-                    // In this case, check only the OL Result and intake amount
-                    //Check if the course has OL requirements
-                    selected = isSelected(courseIntakeRequest, olUnicodeRequest, selected, student, unicode);
-                    if(selected){
-                        break;
-                    }
+    public Map<String, Integer> getMeritIntake(Map<String, Integer> courseIntake) {
+        Map<String, Integer> meritCourseIntake = new HashMap<>();
+        for(String course : courseIntake.keySet()){
+            meritCourseIntake.put(course, Math.toIntExact(Math.round(courseIntake.get(course) * 0.4)));
+        }
+        return meritCourseIntake;
+    }
+
+    public void meritSelection(List<String> sortedStudents, ApplicationRequest applications, Map<String, Integer> meritCourseIntake, AptitudeTestResultRequest aptitudeTestResults, OLUnicodeRequest olUnicodeRequest) {
+        //Map to store the status of each student
+        Map<String, Boolean> freeStudents = new HashMap<>();
+        //Initialize all students as free
+        for (String student: sortedStudents){
+            freeStudents.put(student, true);
+        }
+        //Iterate through each course
+        for(String course : meritCourseIntake.keySet()){
+            Integer intake = meritCourseIntake.get(course);
+            //Match scenario to stable marriage problem
+            stableMarriage(course, intake, applications, sortedStudents, freeStudents, meritCourseIntake, aptitudeTestResults, olUnicodeRequest);
+        }
+    }
+
+    private void stableMarriage(String course, Integer intake, ApplicationRequest applications, List<String> sortedStudents, Map<String, Boolean> freeStudents, Map<String, Integer> meritCourseIntake, AptitudeTestResultRequest aptitudeTestResults, OLUnicodeRequest olUnicodeRequest) {
+        // Output which stores our selections
+        Map<String, String> selectedCourse = new HashMap<>();
+        List<String> applicants = null;
+        while (intake > 0){
+            //Filter out the students who applied for the course
+            for (String application : applications.getApplications().keySet()){
+                if(applications.getApplications().get(application).contains(course)){
+                    applicants.add(application);
                 }
             }
-            if(!selected){
-                System.out.println(student + " was not selected for any course");
+            //Sort the applicants of each course according to the zscore
+            Collections.sort(applicants, Comparator.comparing(student->sortedStudents.indexOf(student)));
+
+            //Loop through each applicant of the course
+            for (String student : applicants){
+                //Check if student has minimum requirements to be selected for this course
+                if(!eligibleForCourse(course, student, aptitudeTestResults, olUnicodeRequest)){
+                    continue;
+                }
+                // If the student is free, select the student for this course. The course can be changed later.
+                if(freeStudents.get(student)){
+                    selectedCourse.put(student, course);
+                    //Mark student as selected for a course
+                    freeStudents.put(student, false);
+                    // Decrease the course intake amount
+                    intake--;
+                }
+
+                //If the student is not free
+                else{
+                    String alreadySelectedCourse = selectedCourse.get(student);
+                    //If the student prefers course over already selected course, then select the student for the new course
+                    if(!studentPrefersAlreadySelectedCourseOverCourse(student, course, alreadySelectedCourse, applications)){
+                        selectedCourse.put(student, course);
+                        //Increase the intake of already selected course
+                        //We need to insert new pair into the last place
+                        meritCourseIntake.remove(alreadySelectedCourse);
+                        meritCourseIntake.put(alreadySelectedCourse, meritCourseIntake.get(alreadySelectedCourse)+1);
+                        // Decrease the course intake amount
+                        intake--;
+                    }
+                }
             }
         }
     }
 
-    private boolean isSelected(CourseIntakeRequest courseIntakeRequest, OLUnicodeRequest olUnicodeRequest, boolean selected, String student, String unicode) {
-        //Flag to check whether unicode has OL requirements
-        boolean flag = false;
+    private boolean eligibleForCourse(String course, String student, AptitudeTestResultRequest aptitudeTestResults, OLUnicodeRequest olUnicodeRequest) {
+        //Check if the course has an aptitude test
+        if(aptitudeTestResults.getTestResults().keySet().contains(course)){
+            List<String> passedStudents = aptitudeTestResults.getTestResults().get(course);
+            //Check if student passed the test
+            if(passedStudents.contains(student)){
+                //Check if the course has OL requirements
+                return eligibleForCourseByOLResults(course, student, olUnicodeRequest);
+            }
+            //Student failed aptitude test. Mark as not eligible.
+            else{
+                return false;
+            }
+        }
+        //Course doesn't have an aptitude test. Check only for OL requirements
+        else{
+            return eligibleForCourseByOLResults(course, student, olUnicodeRequest);
+        }
+    }
+
+    private boolean eligibleForCourseByOLResults(String course, String student, OLUnicodeRequest olUnicodeRequest) {
         for (Triplet<String, String, String> requirements : olUnicodeRequest.getUnicodeList()){
-            if(requirements.getValue0() == unicode){
-                flag = true;
+            if(requirements.getValue0() == course){
+                //Course has OL requirements
                 //Check OL results
                 OLResultRequest olResultRequest = restTemplate.getForObject("http://localhost:8083/staff/getOLResult" + student + "/" + requirements.getValue1(), OLResultRequest.class);
 
                 int req = 0;
                 int res = 0;
                 if(requirements.getValue2() == "A"){
-                     req = 5;
+                    req = 5;
                 }
                 else if(requirements.getValue2() == "B"){
-                     req = 4;
+                    req = 4;
                 }
                 else if(requirements.getValue2() == "C"){
-                     req = 3;
+                    req = 3;
                 }
                 else if(requirements.getValue2() == "S"){
-                     req = 2;
+                    req = 2;
                 }
 
                 if(olResultRequest.getResult() == "A"){
-                     res = 5;
+                    res = 5;
                 }
                 if(olResultRequest.getResult() == "B"){
-                     res = 4;
+                    res = 4;
                 }
                 if(olResultRequest.getResult() == "C"){
-                     res = 3;
+                    res = 3;
                 }
                 if(olResultRequest.getResult() == "S"){
-                     res = 2;
+                    res = 2;
                 }
                 if(olResultRequest.getResult() == "W"){
-                     res = 1;
+                    res = 1;
                 }
 
                 if(res >= req){
-                    //Student has min OL requirement
-                    //Check if the course intake amount exceeded
-                    if(courseIntakeRequest.getCourseIntake().get(unicode) != 0) {
-                        System.out.println(student + " is selected for " + unicode);
-                        selected = true;
-                        courseIntakeRequest.getCourseIntake().put(unicode, courseIntakeRequest.getCourseIntake().get(unicode)-1 );
-                        break;
-                    }
+                    return true;
+                }
+                else{
+                    return false;
                 }
             }
         }
-        //Unicode doesn't have OL requirements.
-        //In this case, check only the intake amount
-        if(!flag){
-            if(courseIntakeRequest.getCourseIntake().get(unicode) != 0) {
-                System.out.println(student + " is selected for " + unicode);
-                selected = true;
-                courseIntakeRequest.getCourseIntake().put(unicode, courseIntakeRequest.getCourseIntake().get(unicode)-1 );
-            }
-        }
-        return selected;
+        return true;
     }
 
-    public void districtQuotaSelection(DistrictRequest districtRequest, ApplicationRequest applications, AptitudeTestResultRequest aptitudeTestResults, CourseIntakeRequest courseIntakeRequest, OLUnicodeRequest olUnicodeRequest) {
-        boolean selected = false;
-        boolean flag = false;
-        //Loop through each district
-        for(String district: districtRequest.getDistrictsOfStudents().keySet()){
-            //Calculate district quota value
-            Integer districtQuota = Math.toIntExact(Math.round(districtRequest.getDistrictsOfStudents().get(district).size()/applications.getApplications().keySet().size()));
-            //Loop through students of each district
-            for (String student : districtRequest.getDistrictsOfStudents().get(district)) {
-                List<String> unicodeList = applications
-                        .getApplications()
-                        .get(student);
-                for (String unicode: unicodeList){
-                    //Check if the course has an aptitude test
-                    if(aptitudeTestResults.getTestResults().keySet().contains(unicode)){
-                        List<String> passedStudents = aptitudeTestResults.getTestResults().get(unicode);
-                        //Check if student passed the test
-                        if(passedStudents.contains(student)){
-                            //Check if the course has OL requirements
-                            for (Triplet<String, String, String> requirements : olUnicodeRequest.getUnicodeList()){
-                                if(requirements.getValue0() == unicode){
-                                    flag = true;
-                                    //Check OL results
-                                    OLResultRequest olResultRequest = restTemplate.getForObject("http://localhost:8083/staff/getOLResult" + student + "/" + requirements.getValue1(), OLResultRequest.class);
-
-                                    int req = 0;
-                                    int res = 0;
-                                    if(requirements.getValue2() == "A"){
-                                        req = 5;
-                                    }
-                                    else if(requirements.getValue2() == "B"){
-                                        req = 4;
-                                    }
-                                    else if(requirements.getValue2() == "C"){
-                                        req = 3;
-                                    }
-                                    else if(requirements.getValue2() == "S"){
-                                        req = 2;
-                                    }
-
-                                    if(olResultRequest.getResult() == "A"){
-                                        res = 5;
-                                    }
-                                    if(olResultRequest.getResult() == "B"){
-                                        res = 4;
-                                    }
-                                    if(olResultRequest.getResult() == "C"){
-                                        res = 3;
-                                    }
-                                    if(olResultRequest.getResult() == "S"){
-                                        res = 2;
-                                    }
-                                    if(olResultRequest.getResult() == "W"){
-                                        res = 1;
-                                    }
-
-                                    if(res >= req){
-                                        //Student has min OL requirement
-                                        //Check if the course intake amount exceeded
-                                        if(courseIntakeRequest.getCourseIntake().get(unicode) != 0) {
-                                            if(districtQuota != 0){
-                                                selected = true;
-                                                System.out.println(student + " is selected for " + unicode);
-                                                courseIntakeRequest.getCourseIntake().put(unicode, courseIntakeRequest.getCourseIntake().get(unicode)-1 );
-                                                districtQuota--;
-                                                break;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            if(!flag){
-                                if(courseIntakeRequest.getCourseIntake().get(unicode) != 0) {
-                                    if(districtQuota !=0) {
-                                        selected = true;
-                                        System.out.println(student + " is selected for " + unicode);
-                                        courseIntakeRequest.getCourseIntake().put(unicode, courseIntakeRequest.getCourseIntake().get(unicode) - 1);
-                                        districtQuota--;
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else{
-                        // Course does not have an aptitude test
-                        // In this case, check only the OL Result and intake amount
-                        //Check if the course has OL requirements
-                        for (Triplet<String, String, String> requirements : olUnicodeRequest.getUnicodeList()){
-                            if(requirements.getValue0() == unicode){
-                                flag = true;
-                                //Check OL results
-                                OLResultRequest olResultRequest = restTemplate.getForObject("http://localhost:8083/staff/getOLResult" + student + "/" + requirements.getValue1(), OLResultRequest.class);
-
-                                int req = 0;
-                                int res = 0;
-                                if(requirements.getValue2() == "A"){
-                                    req = 5;
-                                }
-                                else if(requirements.getValue2() == "B"){
-                                    req = 4;
-                                }
-                                else if(requirements.getValue2() == "C"){
-                                    req = 3;
-                                }
-                                else if(requirements.getValue2() == "S"){
-                                    req = 2;
-                                }
-
-                                if(olResultRequest.getResult() == "A"){
-                                    res = 5;
-                                }
-                                if(olResultRequest.getResult() == "B"){
-                                    res = 4;
-                                }
-                                if(olResultRequest.getResult() == "C"){
-                                    res = 3;
-                                }
-                                if(olResultRequest.getResult() == "S"){
-                                    res = 2;
-                                }
-                                if(olResultRequest.getResult() == "W"){
-                                    res = 1;
-                                }
-
-                                if(res >= req){
-                                    //Student has min OL requirement
-                                    //Check if the course intake amount exceeded
-                                    if(courseIntakeRequest.getCourseIntake().get(unicode) != 0) {
-                                        if(districtQuota !=0){
-                                            selected = true;
-                                            System.out.println(student + " is selected for " + unicode);
-                                            courseIntakeRequest.getCourseIntake().put(unicode, courseIntakeRequest.getCourseIntake().get(unicode)-1 );
-                                            districtQuota--;
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        if(!flag){
-                            if(courseIntakeRequest.getCourseIntake().get(unicode) != 0) {
-                                if(districtQuota !=0) {
-                                    selected = true;
-                                    System.out.println(student + " is selected for " + unicode);
-                                    courseIntakeRequest.getCourseIntake().put(unicode, courseIntakeRequest.getCourseIntake().get(unicode) - 1);
-                                    districtQuota--;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-                if(!selected){
-                    System.out.println(student + " was not selected for any course");
-                }
+    private boolean studentPrefersAlreadySelectedCourseOverCourse(String student, String course, String alreadySelectedCourse, ApplicationRequest applications) {
+        List<String> unicodeList = applications.getApplications().get(student);
+        for (String unicode : unicodeList){
+            //If already selected course comes first, return true
+            if(unicode == alreadySelectedCourse){
+                return true;
+            }
+            //If new course comes first, return false
+            if(unicode == course){
+                return false;
             }
         }
-
+        return false;
     }
 }
