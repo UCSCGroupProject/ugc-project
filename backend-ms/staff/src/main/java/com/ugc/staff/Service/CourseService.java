@@ -1,11 +1,13 @@
 package com.ugc.staff.Service;
 
 import com.ugc.staff.Model.Course;
+import com.ugc.staff.Payload.Response.Course.CourseResponse;
 import com.ugc.staff.Repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -140,7 +142,20 @@ public class CourseService {
         courseRepository.save(new Course("Urban Bio Resources"));
     }
 
-    public List<Course> getCourses() {
-        return courseRepository.findAll();
+    public List<CourseResponse> getCourses(){
+        List<CourseResponse> courseResponseList = new ArrayList<>();
+
+        List<Course> courseList = courseRepository.findAll();
+
+        courseList.forEach(item -> {
+            CourseResponse courseResponse = new CourseResponse(
+                    item.getId(),
+                    item.getName()
+            );
+
+            courseResponseList.add(courseResponse);
+        });
+
+        return courseResponseList;
     }
 }

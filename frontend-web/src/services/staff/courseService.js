@@ -1,14 +1,15 @@
 import axios from 'axios'
 
-const API_URL = 'http://localhost:8083/api/course'
+const API_URL = 'http://localhost:8083/api/staff/course'
 
 class CourseService {
-  getCourses() {
-    return axios.get(API_URL + '/getCourses').then((response) => {
-      console.log(response.data)
-      return response.data
+  getAllCourseList = () => {
+    return axios.get(API_URL + '/all').then((res) => {
+      console.log(res.data)
+      return res.data
     })
   }
 }
 
 export default new CourseService()
+
