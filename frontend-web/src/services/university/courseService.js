@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_URL = 'http://localhost:8083/api/staff/course'
+const API_URL = 'http://localhost:8082/api/university/course'
 
 class CourseService {
   getAllCourseList = () => {

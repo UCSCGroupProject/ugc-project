@@ -20,24 +20,25 @@ import {
 } from '@coreui/react'
 
 import { cilSearch } from '@coreui/icons'
-import { cilFilter, cilDelete, cibAddthis } from '@coreui/icons'
+import { cilFilter, cilArrowRight, cibAddthis } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
 import { toast } from 'react-toastify'
 
 import AppFetchDataLoader from '../../../components/loaders/AppFetchDataLoader'
 
-import unicodeService from '../../../services/university/unicodeService'
-
-import courseService from '../../../services/staff/courseService'
+import courseService from '../../../services/university/courseService'
+import { NavLink } from 'react-router-dom'
 
 const headers = [
   { id: 'id', name: 'No.', sortable: false },
-  { id: 'courseName', name: 'Course', sortable: true },
+  { id: 'name', name: 'No.', sortable: false },
+  { id: 'stream', name: 'Course', sortable: true },
+  { id: 'course', name: 'Stream', sortable: true },
+  { id: 'intake', name: 'Intake', sortable: true },
 ]
 
 function StaffCourses() {
-
   // For the server side requests and responses
   const [loading, setLoading] = useState(false)
 
@@ -48,7 +49,6 @@ function StaffCourses() {
       (res) => {
         if (res.type === 'OK') {
           toast.success(res.message)
-
           // Settings table data from fetched data
           setTableData(headers, res.payload)
         } else if (res.type === 'BAD') {
@@ -192,8 +192,10 @@ function StaffCourses() {
 
   return (
     <div>
-      <div style={{textAlign: 'right'}}>
-      <CButton color='success'><CIcon icon={cibAddthis}></CIcon> Add Course</CButton>
+      <div style={{ textAlign: 'right' }}>
+        <CButton color="success">
+          <CIcon icon={cibAddthis}></CIcon> Add Course
+        </CButton>
       </div>
       <br></br>
       <CRow>
@@ -273,6 +275,13 @@ function StaffCourses() {
                               )}
                             </CTableDataCell>
                           ))}
+                          {
+                            <CTableDataCell>
+                              <NavLink to={`${tableItem.id}`}>
+                                <CIcon icon={cilArrowRight} />
+                              </NavLink>
+                            </CTableDataCell>
+                          }
                         </CTableRow>
                       ))}
                     </CTableBody>
@@ -283,9 +292,6 @@ function StaffCourses() {
           </CCard>
         </CCol>
       </CRow>
-
-      
-
     </div>
   )
 }

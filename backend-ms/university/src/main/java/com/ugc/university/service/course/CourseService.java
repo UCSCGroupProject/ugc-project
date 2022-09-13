@@ -2,10 +2,16 @@ package com.ugc.university.service.course;
 
 import com.ugc.university.model.course.Course;
 import com.ugc.university.model.course.Stream;
+import com.ugc.university.model.course.Unicode;
+import com.ugc.university.payload.response.course.CourseResponse;
+import com.ugc.university.payload.response.course.UniCourseResponse;
 import com.ugc.university.repository.course.CourseRepository;
 import com.ugc.university.repository.course.StreamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CourseService {
@@ -149,5 +155,23 @@ public class CourseService {
         courseRepository.save(new Course("Indigenous Pharmaceutical Technology", other, "124", 50));
         courseRepository.save(new Course("Yoga and Parapsychology", other, "125", 50));
         courseRepository.save(new Course("Social Studies in Indigenous Knowledge", other, "126", 50));
+    }
+
+    public List<CourseResponse> getAllCourseList() {
+        List<CourseResponse> courseResponseList = new ArrayList<>();
+        List<Course> courseList = courseRepository.findAll();
+        courseList.forEach(item -> {
+            CourseResponse courseResponse = new CourseResponse(
+                    item.getId(),
+                    item.getName(),
+                    item.getStream().getStreamName(),
+                    item.getCode(),
+                    item.getProposedIntakes()
+            );
+
+            courseResponseList.add(courseResponse);
+        });
+
+        return courseResponseList;
     }
 }
