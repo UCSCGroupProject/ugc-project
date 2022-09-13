@@ -1,2 +1,6 @@
 ### Get all unicodes
 GET http://localhost:8082/api/university/unicode/all
+
+
+### Get specific university courses
+GET http://localhost:8082/api/university/unicode/getUnicodes?courseId=1

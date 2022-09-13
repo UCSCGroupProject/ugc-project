@@ -1,6 +1,5 @@
 package com.ugc.staff;
 
-import com.ugc.staff.Service.CourseService;
 import com.ugc.staff.Service.StaffService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -9,13 +8,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class InitialRunner implements CommandLineRunner {
 
-    private final CourseService courseService;
     private final StaffService staffService;
 
 
     @Autowired
-    public InitialRunner(CourseService courseService, StaffService staffService) {
-        this.courseService = courseService;
+    public InitialRunner(StaffService staffService) {
         this.staffService = staffService;
     }
 
@@ -23,6 +20,5 @@ public class InitialRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
         staffService.initRoles();
         staffService.initOfficeDept();
-        courseService.initCourses();
     }
 }

@@ -13,7 +13,12 @@ import {
   CCard,
   CCardHeader,
   CCardBody,
+  CCardTitle,
+  CCardText
 } from '@coreui/react'
+
+import { cibAddthis } from '@coreui/icons'
+import CIcon from '@coreui/icons-react'
 
 function StaffZScore() {
   const [visible, setVisible] = useState(false)
@@ -27,8 +32,8 @@ function StaffZScore() {
             <CCardBody>
               <div className="d-grid gap-2 d-md-flex justify-content-md-end">
       
-                <CButton color="primary" className="me-md-2" onClick={() => setVisible(!visible)}>
-                  Import Table
+                <CButton color="success" className="me-md-2" onClick={() => setVisible(!visible)}>
+                  <CIcon icon={cibAddthis}></CIcon> Import Table
                 </CButton>
                 <CModal alignment="center" visible={visible} onClose={() => setVisible(false)}>
                   <CModalHeader>
@@ -45,38 +50,65 @@ function StaffZScore() {
                     <CButton color="secondary" onClick={() => setVisible(false)}>
                       Close
                     </CButton>
-                    <CButton color="primary">Import</CButton>
+                    <CButton color="success">Import</CButton>
                   </CModalFooter>
                 </CModal>
               </div>
 
-              <div className="d-grid gap-3 col-6 mx-auto">
-                <CButtonGroup>
-                  <CButton color="primary" size="lg" type="button" variant="outline" href="/staff/zscoretable">
-                      2021
-                  </CButton>
-                  <CButton color="dark" size="lg" type="button" variant="outline">
-                      Delete
-                  </CButton>
-                </CButtonGroup>
-                  
-                <CButtonGroup>
-                  <CButton color="primary" size="lg" type="button" variant="outline" href="#/staff/zscoretable">
-                      2020
-                  </CButton>
-                  <CButton color="dark" size="lg" type="button" variant="outline">
-                        Delete
-                  </CButton>
-                </CButtonGroup>
+              <br></br>
+
+              <div >
+                <CRow xs={{ cols: 3, gutter: 4 }} md={{ cols: 3 }}>
+                  <CCol xs>
+                    <CCard  className="h-100" style={{width: '18rem' }}>
+                      <CCardBody>
+                        <CCardTitle className="fs-1 text-center">2021</CCardTitle>
+                        <CRow>
+                          <CCol md={6}>
+                            <CButton color="warning" href="/staff/zscoretable"> View Table</CButton>
+                          </CCol>
+                          <CCol md={4} className="ms-auto">
+                            <CButton color="danger" href="#"> Delete </CButton>
+                          </CCol>
+                        </CRow>
+                      </CCardBody>
+                    </CCard>
+                  </CCol>
+
+                  <CCol xs>
+                    <CCard className="h-100" style={{width: '18rem'}}>
+                      <CCardBody>
+                        <CCardTitle className="fs-1 text-center">2020</CCardTitle>
+                          <CRow>
+                            <CCol md={6}>
+                              <CButton color="warning" href="/staff/zscoretable"> View Table</CButton>
+                            </CCol>
+                            <CCol md={4} className="ms-auto">
+                              <CButton color="danger" href="#"> Delete </CButton>
+                            </CCol>
+                          </CRow>
+                      </CCardBody>
+                    </CCard>
+                  </CCol>
+
+                  <CCol xs>
+                    <CCard className="h-100" style={{width: '18rem'}}>
+                      <CCardBody>
+                        <CCardTitle className="fs-1 text-center">2019</CCardTitle>
+                          <CRow>
+                            <CCol md={6}>
+                              <CButton color="warning" href="/staff/zscoretable"> View Table</CButton>
+                            </CCol>
+                            <CCol md={4} className="ms-auto">
+                              <CButton color="danger" href="#"> Delete </CButton>
+                            </CCol>
+                          </CRow>
+                      </CCardBody>
+                    </CCard>
+                  </CCol>
+
+                </CRow>
                 
-                <CButtonGroup>
-                  <CButton color="primary" size="lg" type="button" variant="outline" href="#/staff/zscoretable">
-                      2019
-                  </CButton>
-                  <CButton color="dark" size="lg" type="button" variant="outline">
-                        Delete
-                  </CButton>
-                </CButtonGroup>
               </div>
             </CCardBody>
           </CCard>

@@ -12,9 +12,10 @@ import com.ugc.university.repository.course.UnicodeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UnicodeService {
@@ -413,6 +414,24 @@ public class UnicodeService {
         List<UniCourseResponse> uniCourseResponseList = new ArrayList<>();
 
         List<Unicode> unicodeList = unicodeRepository.findAll();
+
+        unicodeList.forEach(item -> {
+            UniCourseResponse uniCourseResponse = new UniCourseResponse(
+                    item.getId(),
+                    item.getCourse().getName(),
+                    item.getUniversity().getUniversityDetails().getName(),
+                    item.getUnicodeValue()
+            );
+
+            uniCourseResponseList.add(uniCourseResponse);
+        });
+
+        return uniCourseResponseList;
+    }
+
+    public List<UniCourseResponse> getUnicodeList(Integer courseId) {
+        List<UniCourseResponse> uniCourseResponseList = new ArrayList<>();
+        List<Unicode> unicodeList = unicodeRepository.findByCourseId(courseId);
 
         unicodeList.forEach(item -> {
             UniCourseResponse uniCourseResponse = new UniCourseResponse(
