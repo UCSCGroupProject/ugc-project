@@ -8,6 +8,12 @@ class UnicodeService {
       return res.data
     })
   }
+
+  getUniCourseList(courseId){
+    return axios.get(API_URL + '/getUnicodes?courseId='+ courseId).then((res) => {
+      return res.data
+    })
+  }
 }
 
 export default new UnicodeService()

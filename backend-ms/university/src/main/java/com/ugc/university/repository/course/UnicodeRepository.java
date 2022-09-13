@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface UnicodeRepository extends JpaRepository<Unicode, Integer> {
-
+    List<Unicode> findByCourseId(Integer courseId);
 }

@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import {
   CCard,
   CTable,
@@ -32,17 +33,23 @@ import unicodeService from '../../../services/university/unicodeService'
 const headers = [
   { id: 'id', name: 'No.', sortable: false },
   { id: 'courseName', name: 'Course', sortable: true },
+  { id: 'universityName', name: 'University', sortable: true },
+  { id: 'unicode', name: 'Unicode', sortable: true },
 ]
+
+
 
 function StaffCourses() {
 
   // For the server side requests and responses
   const [loading, setLoading] = useState(false)
-
+  const [searchParams, setSearchParams] = useSearchParams()
+  const [courseID, setcourseID] = useState(searchParams.get('courseId'))
+  
   useEffect(() => {
     setLoading(true)
 
-    unicodeService.getAllUniCourseList().then(
+    unicodeService.getUniCourseList(courseID).then(
       (res) => {
         if (res.type === 'OK') {
           toast.success(res.message)
@@ -193,7 +200,7 @@ function StaffCourses() {
       <CRow>
         <CCol xs>
           <CCard className="mb-4">
-            <CCardHeader>All Courses</CCardHeader>
+            <CCardHeader>All Degree Programmes</CCardHeader>
             <CCardBody>
               <div>
                 <CRow className="py-2 bg-light rounded">

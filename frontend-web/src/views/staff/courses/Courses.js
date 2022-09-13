@@ -277,7 +277,7 @@ function StaffCourses() {
                           ))}
                           {
                             <CTableDataCell>
-                              <NavLink to={`${tableItem.id}`}>
+                              <NavLink to={`/staff/courses/detailed?courseId=${tableItem.id}`}>
                                 <CIcon icon={cilArrowRight} />
                               </NavLink>
                             </CTableDataCell>

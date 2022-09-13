@@ -22,9 +22,16 @@ public class CourseController {
     @Autowired
     private CourseService courseService;
 
+    // TODO: Read all
     @GetMapping("/all")
     public ResponseEntity<?> getAllCourseList(){
         List<CourseResponse> courseResponseList = courseService.getAllCourseList();
         return ResponseEntity.ok(new PayloadResponse(courseResponseList, "All courses list", ResType.OK));
     }
+    
+    // TODO: Create course
+    // TODO: Update course
+    // TODO: Delete course
+
+
 }

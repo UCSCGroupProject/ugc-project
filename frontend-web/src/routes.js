@@ -89,7 +89,7 @@ const routes = [
   { path: '/staff/universities',                    name: 'All Universities',       element: Staff_Universities },
   { path: '/staff/univerityprofile',                name: 'University Profile',     element: Staff_UniversityProfiles},
   { path: '/staff/courses',                         name: 'Courses',                element: Staff_Courses },
-  { path: '/staff/universitycourses',               name: 'University Courses',     element: Staff_University_Courses},
+  { path: '/staff/courses/detailed',                name: 'University Courses',     element: Staff_University_Courses},
   { path: '/staff/results/ol',                      name: 'O/L Results',            element: Staff_OLResults },
   { path: '/staff/results/al',                      name: 'A/L Results',            element: Staff_ALResults },
   { path: '/staff/aptitudetests/upcoming',          name: 'Upcoming Tests',         element: Staff_AptitudeTests_Upcoming},

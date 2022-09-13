@@ -20,14 +20,5 @@ Content-Type: application/json
 
   "username": "ucsc",
   "email": "ucsc@gmail.com",
-<<<<<<< Updated upstream
-  "password": "TESTING@test123"
-=======
-<<<<<<< HEAD
-  "role": "ROLE_UNI_STAFF",
   "password": "ucsc@UNI123456"
-=======
-  "password": "TESTING@test123"
->>>>>>> 963f85b87e8b89fa67ffcef38ca84e948f8bb9c6
->>>>>>> Stashed changes
 }
