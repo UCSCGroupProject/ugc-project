@@ -16,12 +16,18 @@ const _nav = [
   },
   {
     component: CNavTitle,
-    name: 'Blockchain',
+    name: 'Digital signing',
   },
   {
     component: CNavItem,
-    name: 'View Blockchain',
-    to: '/school/blockchain/view',
+    name: 'Download document',
+    to: '/school/signing/download',
+    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Upload document',
+    to: '/school/signing/upload',
     icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
   },
 ]

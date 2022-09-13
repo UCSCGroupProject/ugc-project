@@ -10,9 +10,9 @@ POST http://localhost:5/api/crypto/sign
 Content-Type: application/json
 
 {
-  "studentRecords": [
+  "studentRecord": [
     {
-      "transactionId": "1",
+      "id": "1",
       "index": "1236547",
       "fullName": "L.A.D.D.S. GUNAWARDHANA",
       "nic": "199931712165",
@@ -20,7 +20,7 @@ Content-Type: application/json
       "dateOfLeave": "2015-3-06"
     },
     {
-      "transactionId": "2",
+      "id": "2",
       "index": "9875462",
       "fullName": "D.C. PATHIRAGE",
       "nic": "200016548965315",
@@ -43,3 +43,10 @@ Content-Type: application/json
 ### Then signature will be verified usign public key and the associated hash of the block
 ### TODO: Check params. they are wrong in order
 GET http://localhost:5/api/crypto/verify?documentId=1&publicKey=MEYwEAYHKoZIzj0CAQYFK4EEAB8DMgAEsbJDZ0q6VFJ9xJ2RmXEo5ZFhJpDiB8Fe0Wc8Dhq/6zQH2KyuSzY92cOL7RW8dOLH
+
+### Generate PDF
+GET http://localhost:5/api/crypto/pdf/generate
+
+### SIgn PDF
+GET http://localhost:5/api/crypto/sign
+

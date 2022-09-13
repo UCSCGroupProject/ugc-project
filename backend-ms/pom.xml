@@ -22,6 +22,7 @@
     <module>staff</module>
     <module>school</module>
       <module>crypto-signer</module>
+      <module>file-manager</module>
   </modules>
 
   <name>backend-ms</name>

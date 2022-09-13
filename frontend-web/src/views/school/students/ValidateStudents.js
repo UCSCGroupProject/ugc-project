@@ -7,7 +7,6 @@ import {
   CCardBody,
   CCardHeader,
   CButton,
-  CFormSelect,
   CTable,
   CTableHead,
   CContainer,
@@ -15,23 +14,25 @@ import {
   CTableHeaderCell,
   CTableDataCell,
   CTableBody,
-  CInputGroup,
-  CFormInput,
-  CInputGroupText,
   CSpinner,
   CAlert,
   CToast,
   CToastHeader,
   CToastBody,
   CToaster,
+  CFormCheck,
 } from '@coreui/react'
 
 import { cilSearch } from '@coreui/icons'
 import { cilFilter, cilCheckAlt } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
+import { toast } from 'react-toastify'
+
 import authService from '../../../services/authService'
 import studentValidationService from '../../../services/school/studentValidationService'
+import cryptoSignerService from '../../../services/cryptoSignerService'
+import validationDocumentService from '../../../services/school/validationDocumentService'
 
 const studentValidationListData = [
   {
@@ -53,44 +54,126 @@ const studentValidationListData = [
 ]
 
 function ValidateStudents() {
-  //Toast related
-  const [toast, addToast] = useState(0)
-  const toaster = useRef()
-  const exampleToast = (status, title, content) => (
-    <CToast className={`bg-fade-${status}`}>
-      <CToastHeader closeButton className={`text-white bg-${status}`}>
-        <strong className="me-auto">{title}</strong>
-        <small>Just now</small>
-      </CToastHeader>
-      <CToastBody>{content}</CToastBody>
-    </CToast>
-  )
-
   // For the server side requests and responses
   const [loading, setLoading] = useState(false)
   const [resMessage, setResMessage] = useState('')
 
-  const [studentValidationList, setStudentValidationList] = useState([
+  const [user, setUser] = useState(authService.getCurrentUser())
+
+  const [documentHeader, setDocumentHeader] = useState({
+    id: '',
+    schoolId: '',
+    schoolName: '',
+    schoolAddress: '',
+  })
+
+  const [studentRecords, setStudentRecords] = useState([
     {
-      transactionId: '',
-      index: '',
+      id: '',
+      stuIndex: '',
       fullName: '',
       nic: '',
-      dateOfAdmission: '',
-      dateOfLeave: '',
+      admissionDate: '',
+      leaveDate: '',
+      validity: '',
     },
   ])
 
+  // const [studentValidationList, setStudentValidationList] = useState([
+  //   {
+  //     transactionId: '',
+  //     index: '',
+  //     fullName: '',
+  //     nic: '',
+  //     dateOfAdmission: '',
+  //     dateOfLeave: '',
+  //     validity: false,
+  //   },
+  // ])
+
   useEffect(() => {
+    setLoading(true)
+
+    validationDocumentService.getDocument(user.id).then(
+      (res) => {
+        if (res.type === 'OK') {
+          toast.success(res.message)
+
+          // Settings table data
+          setDocumentHeader({
+            id: res.payload.id,
+            schoolId: res.payload.schoolId,
+            schoolName: res.payload.schoolName,
+            schoolAddress: res.payload.schoolAddress,
+          })
+
+          setStudentRecords(res.payload.studentRecords)
+        } else if (res.type === 'BAD') {
+          toast.error(res.message)
+        }
+
+        setLoading(false)
+      },
+      (error) => {
+        const res =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString()
+        // After recieving the server request
+        toast.error(res)
+        setLoading(false)
+      },
+    )
+
+    setLoading(false)
+
+    // setLoading(true)
+    // setResMessage('')
+    // studentValidationService.getStudentValidationList().then(
+    //   (res) => {
+    //     setLoading(false)
+    //     console.log('consoling', res)
+    //     setStudentValidationList(res)
+    //   },
+    //   (error) => {
+    //     const res =
+    //       (error.response && error.response.data && error.response.data.message) ||
+    //       error.message ||
+    //       error.toString()
+    //     // After recieving the server request
+    //     setResMessage(res)
+    //     setLoading(false)
+    //   },
+    // )
+    // setLoading(false)
+  }, [])
+
+  const updateStudentRecords = (id) => {
+    console.log(id)
+  }
+
+  const handleSubmit = async (e) => {
+    // Sending to the server
     setLoading(true)
     setResMessage('')
 
-    studentValidationService.getStudentValidationList().then(
-      (res) => {
-        setLoading(false)
+    const payload = {
+      id: documentHeader.id,
+      schoolId: documentHeader.schoolId,
+      schoolName: documentHeader.schoolName,
+      schoolAddress: documentHeader.schoolAddress,
+      studentRecords: studentRecords,
+    }
 
-        console.log('consoling', res)
-        setStudentValidationList(res)
+    cryptoSignerService.generate(payload).then(
+      (res) => {
+        // if (res.type === 'OK') {
+        //   toast.success(res.message)
+        // } else if (res.type === 'BAD') {
+        //   toast.error(res.message)
+        // }
+
+        setLoading(false)
       },
       (error) => {
         const res =
@@ -99,87 +182,43 @@ function ValidateStudents() {
           error.toString()
 
         // After recieving the server request
-        setResMessage(res)
         setLoading(false)
+        toast.error(res)
       },
     )
 
-    setLoading(false)
-  }, [])
+    // studentValidationService
+    //   .validateAndPublishStudentList(studentValidationList, user.username)
+    //   .then(
+    //     (res) => {
+    //       if (res.type === 'OK') {
+    //         toast.success(res.message)
+    //       } else if (res.type === 'BAD') {
+    //         toast.error(res.message)
+    //       }
 
-  const handleSubmit = async (e) => {
-    // Sending to the server
-    setLoading(true)
-    setResMessage('')
+    //       setLoading(false)
+    //     },
+    //     (error) => {
+    //       const res =
+    //         (error.response && error.response.data && error.response.data.message) ||
+    //         error.message ||
+    //         error.toString()
 
-    const user = authService.getCurrentUser()
-
-    studentValidationService
-      .validateAndPublishStudentList(studentValidationList, user.username)
-      .then(
-        (res) => {
-          setLoading(false)
-          addToast(exampleToast('success', `Published Successfully`, res.message))
-        },
-        (error) => {
-          const res =
-            (error.response && error.response.data && error.response.data.message) ||
-            error.message ||
-            error.toString()
-
-          // After recieving the server request
-          setLoading(false)
-          addToast(exampleToast('danger', `Published Failed`, res))
-        },
-      )
+    //       // After recieving the server request
+    //       setLoading(false)
+    //       toast.error(res)
+    //     },
+    //   )
   }
 
   return (
     <div>
-      {/* Toast */}
-      <CToaster ref={toaster} push={toast} placement="top-end" />
-
       <CRow>
         <CCol xs>
           <CCard className="mb-4">
             <CCardHeader>Validate student list</CCardHeader>
             <CCardBody>
-              <CRow className="py-2 bg-light rounded">
-                <CCol md={6}>
-                  <CInputGroup>
-                    <CInputGroupText>Filter By</CInputGroupText>
-                    <CFormSelect aria-label="filterByOption1">
-                      <option value="all">All</option>
-                      <option value="fullname">Index</option>
-                      <option value="fullname">Fullname</option>
-                      <option value="nic">NIC</option>
-                      <option value="dateOfAdmission">Date of Admission</option>
-                      <option value="dateOfLeave">Date of Leave</option>
-                    </CFormSelect>
-                    <CInputGroupText> in </CInputGroupText>
-                    <CFormSelect aria-label="filterByOption1">
-                      <option value="ascending">Ascending</option>
-                      <option value="descending">Descending</option>
-                    </CFormSelect>
-                    <CInputGroupText> order </CInputGroupText>
-                    <CButton color="warning" type="button" className="text-white">
-                      <CIcon icon={cilFilter} />
-                      <span>{'  '}Filter</span>
-                    </CButton>
-                  </CInputGroup>
-                </CCol>
-                <CCol md={4} className="ms-auto">
-                  <CInputGroup>
-                    <CFormInput type="text" name="phone" placeholder="Search..." />
-                    <CButton color="warning" type="button" className="text-white">
-                      <CIcon icon={cilSearch} />
-                      <span>{'  '}Search</span>
-                    </CButton>
-                  </CInputGroup>
-                </CCol>
-              </CRow>
-              <br />
-
               <CRow className="m-1">
                 <CTable bordered>
                   <CTableHead color="dark">
@@ -190,17 +229,24 @@ function ValidateStudents() {
                       <CTableHeaderCell>NIC</CTableHeaderCell>
                       <CTableHeaderCell>Date of Admission</CTableHeaderCell>
                       <CTableHeaderCell>Date of Leave</CTableHeaderCell>
+                      <CTableHeaderCell>Validity</CTableHeaderCell>
                     </CTableRow>
                   </CTableHead>
                   <CTableBody>
-                    {studentValidationList.map((item) => (
-                      <CTableRow key={item.transactionId}>
-                        <CTableHeaderCell>{item.transactionId}</CTableHeaderCell>
-                        <CTableDataCell>{item.index}</CTableDataCell>
+                    {studentRecords.map((item) => (
+                      <CTableRow key={item.id}>
+                        <CTableHeaderCell>{item.id}</CTableHeaderCell>
+                        <CTableDataCell>{item.stuIndex}</CTableDataCell>
                         <CTableDataCell>{item.fullName}</CTableDataCell>
                         <CTableDataCell>{item.nic}</CTableDataCell>
-                        <CTableDataCell>{item.dateOfAdmission}</CTableDataCell>
-                        <CTableDataCell>{item.dateOfLeave}</CTableDataCell>
+                        <CTableDataCell>{item.admissionDate}</CTableDataCell>
+                        <CTableDataCell>{item.leaveDate}</CTableDataCell>
+                        <CTableDataCell>
+                          <CFormCheck
+                            value={item.validity}
+                            onChange={updateStudentRecords(item.id)}
+                          />
+                        </CTableDataCell>
                       </CTableRow>
                     ))}
                   </CTableBody>
@@ -222,7 +268,7 @@ function ValidateStudents() {
                         list is true and valid.
                       </span>
                     </CCol>
-                    <CCol md={2}>
+                    <CCol md={4}>
                       <CButton
                         color="success"
                         type="button"
@@ -231,7 +277,7 @@ function ValidateStudents() {
                       >
                         <CIcon icon={cilCheckAlt} />
                         <span>
-                          {'  '}Validate {loading && <CSpinner size="sm" />}
+                          {'  '}Validate & Download PDF {loading && <CSpinner size="sm" />}
                         </span>
                       </CButton>
                     </CCol>

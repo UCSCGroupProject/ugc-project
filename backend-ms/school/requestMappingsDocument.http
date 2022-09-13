@@ -1,0 +1,32 @@
+### Get Document
+GET http://localhost:8084/api/school/document?schoolId=1
+
+### Create document
+POST http://localhost:8084/api/school/document
+Content-Type: application/json
+
+{
+  "schoolId": "1",
+  "schoolName": "Hanwella Rajasinghe Central College",
+  "schoolAddress": "School Ln, Hanwella",
+  "studentRecords": [
+    {
+      "stuIndex": "1236547",
+      "fullName": "L.A.D.D.S. GUNAWARDHANA",
+      "nic": "199931712165",
+      "admissionDate": "2011-10-03",
+      "leaveDate": "2015-3-06",
+      "validity": true
+    },
+    {
+      "stuIndex": "9875462",
+      "fullName": "D.C. PATHIRAGE",
+      "nic": "200016548965315",
+      "admissionDate": "2012-10-08",
+      "leaveDate": "2015-8-16",
+      "validity": false
+    }
+  ]
+}
+
+

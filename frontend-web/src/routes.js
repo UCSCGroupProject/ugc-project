@@ -72,8 +72,10 @@ const Uni_AptitudeTests_TestDetails_Results = React.lazy(() => import('./views/u
 
 // School views
 const Sch_Dashboard = React.lazy(() => import('./views/school/dashboard/Dashboard'))
+const Sch_Settings_Wallet = React.lazy(() => import('./views/school/settings/Settings_Wallet'))
 const Sch_Students_ValidateList = React.lazy(() => import('./views/school/students/ValidateStudents'))
-const Sch_Blockchain_ViewBlockchain = React.lazy(() => import('./views/school/blockchain/ViewBlockchain'))
+const Sch_Students_DS_DownloadDocument = React.lazy(() => import('./views/school/digital_signing/DownloadDocument'))
+const Sch_Students_DS_UploadDocument = React.lazy(() => import('./views/school/digital_signing/UploadDocument'))
 
 const routes = [
   // Staff routes
@@ -152,10 +154,13 @@ const routes = [
 
   // School Routes
   { path: '/school',                               name: 'School',                element: Sch_Dashboard },
+  { path: '/school/settings',                      name: 'Settings',               element: Sch_Settings_Wallet },
+  { path: '/school/settings/wallet',               name: 'Wallet',                element: Sch_Settings_Wallet},
   { path: '/school/students',                      name: 'Students',              element: Sch_Students_ValidateList },
   { path: '/school/students/validate',             name: 'Validate List',         element: Sch_Students_ValidateList },
-  { path: '/school/blockchain',                    name: 'Blockchain',            element: Sch_Blockchain_ViewBlockchain },
-  { path: '/school/blockchain/view',               name: 'View',                  element: Sch_Blockchain_ViewBlockchain },
+  { path: '/school/signing',                       name: 'Digital signing',              element: Sch_Students_DS_DownloadDocument },
+  { path: '/school/signing/download',              name: 'Download document',              element: Sch_Students_DS_DownloadDocument },
+  { path: '/school/signing/upload',                name: 'Upload document',              element: Sch_Students_DS_UploadDocument },
 
   // User routes
   { path: '/', exact: true, name: 'Home' },

@@ -2,6 +2,8 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import { CRow, CCol } from '@coreui/react'
 
+import { toast } from 'react-toastify'
+
 import authService from '../../../services/authService'
 
 import AppBanner from '../../../components/banner/AppBanner'
@@ -49,17 +51,25 @@ const notificationsData = [
 
 function Dashboard() {
   // Set user details
-  const [userDetails, setUserDetails] = useState({
-    username: '',
-    actorType: 'university',
-  })
+  // const [userDetails, setUserDetails] = useState({
+  //   username: '',
+  //   actorType: 'university',
+  // })
+
+  // useEffect(() => {
+  //   const user = authService.getCurrentUser()
+
+  //   if (user !== null) {
+  //     console.log(user)
+  //     setUserDetails({ username: user.username, actorType: user.type })
+  //   }
+  // }, [])
+
+  const [user, setUser] = useState(authService.getCurrentUser())
 
   useEffect(() => {
-    const user = authService.getCurrentUser()
-
-    if (user !== null) {
-      console.log(user)
-      setUserDetails({ username: user.username, actorType: user.type })
+    if (user != null) {
+      toast.success('Welcome, ' + user.username)
     }
   }, [])
 
@@ -67,8 +77,6 @@ function Dashboard() {
     <div>
       <CRow>
         <CCol md={8}>
-          <h1 className="pb-2 display-6">Hello {userDetails.username}, Welcome</h1>
-
           {/* Banner */}
           <AppBanner data={bannerData} />
         </CCol>

@@ -1,5 +1,6 @@
 package com.ugc.school.service;
 
+import com.ugc.school.crypto.wallet.Wallet;
 import com.ugc.school.model.Keypair;
 import com.ugc.school.model.Role;
 import com.ugc.school.model.School;
@@ -9,7 +10,11 @@ import com.ugc.school.payload.request.LoginRequest;
 import com.ugc.school.payload.request.PasswordResetRequest;
 import com.ugc.school.payload.request.schoolRegistration.ReqKeyPair;
 import com.ugc.school.payload.request.schoolRegistration.SchoolRegisterRequest;
+import com.ugc.school.payload.request.studentValidation.ReqBlockData;
 import com.ugc.school.payload.response.JwtResponse;
+import com.ugc.school.payload.response.PayloadResponse;
+import com.ugc.school.payload.response.ResType;
+import com.ugc.school.payload.response.objects.ResKeypair;
 import com.ugc.school.repository.KeypairRepository;
 import com.ugc.school.repository.RoleRepository;
 import com.ugc.school.repository.SchoolDetailsRepository;
@@ -25,6 +30,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.HashSet;
 import java.util.List;
@@ -104,7 +110,7 @@ public class SchoolService {
         );
     }
 
-    public String register(SchoolRegisterRequest schoolRegisterRequest, ReqKeyPair reqKeyPair){
+    public ResponseEntity<?> register(SchoolRegisterRequest schoolRegisterRequest){
         School school = new School(
                 schoolRegisterRequest.getUsername(),
                 schoolRegisterRequest.getEmail(),
@@ -169,15 +175,23 @@ public class SchoolService {
         );
         schoolDetailsRepository.save(schoolDetails);
 
+        // For digital signing
+        Wallet wallet = new Wallet();
+
         // Save key pair
         Keypair keypair = new Keypair(
-                reqKeyPair.getPrivateKey(),
-                reqKeyPair.getPublicKey(),
+                wallet.getPrivateKeyAsString(),
+                wallet.getPublicKeyAsString(),
                 school
         );
+//        Keypair keypair = new Keypair(
+//                reqKeyPair.getPrivateKey(),
+//                reqKeyPair.getPublicKey(),
+//                school
+//        );
         keypairRepository.save(keypair);
 
-        return "Registered!";
+        return ResponseEntity.ok(new PayloadResponse(null, "School registered successfully", ResType.OK));
     }
 
     @Transactional
@@ -186,5 +200,23 @@ public class SchoolService {
         schoolRepository.updatePasswordByEmail(passwordResetRequest.getEmail(), encryptedPassword);
 
         return "Password changed sucessfully using email";
+    }
+
+    public ResponseEntity<?> getKeyPair(String username) {
+        School school = schoolRepository.findByUsername(username);
+
+        if(school != null){
+            // If exists
+            Keypair keypair = keypairRepository.getKeypairBySchool(school);
+
+            ResKeypair resKeypair = new ResKeypair(
+                    keypair.getPrivateKey(),
+                    keypair.getPublicKey()
+            );
+
+            return ResponseEntity.ok(new PayloadResponse(resKeypair, "Keypair found", ResType.OK));
+        } else {
+            return ResponseEntity.ok(new PayloadResponse(null, "User not found", ResType.BAD));
+        }
     }
 }

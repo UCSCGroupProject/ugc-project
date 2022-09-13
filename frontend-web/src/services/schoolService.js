@@ -25,6 +25,13 @@ class SchoolService {
       return response.data
     })
   }
+
+  getKeypair(username) {
+    return axios.get(API_URL + '/keys?username=' + username).then((res) => {
+      console.log('recieved', res.data)
+      return res.data
+    })
+  }
 }
 
 export default new SchoolService()

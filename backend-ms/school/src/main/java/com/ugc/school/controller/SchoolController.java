@@ -86,18 +86,20 @@ public class SchoolController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody SchoolRegisterRequest schoolRegisterRequest) {
-        try{
-            ReqKeyPair keyPair = restTemplate.getForObject("http://localhost:5/blockchain/generateKeypair", ReqKeyPair.class);
-            System.out.println(keyPair.getPublicKey());
+//        try{
+//            ReqKeyPair keyPair = restTemplate.getForObject("http://localhost:5/blockchain/generateKeypair", ReqKeyPair.class);
+//            System.out.println(keyPair.getPublicKey());
+//
+//            String result = schoolService.register(schoolRegisterRequest, keyPair);
+//
+//            return ResponseEntity.ok(new MessageResponse(result));
+//        } catch (Exception e){
+//            System.out.println("Some error occured");
+//
+//            return new ResponseEntity<Object>("Key pair error", new HttpHeaders(), HttpStatus.BAD_REQUEST); // TODO: Fix this
+//        }
 
-            String result = schoolService.register(schoolRegisterRequest, keyPair);
-
-            return ResponseEntity.ok(new MessageResponse(result));
-        } catch (Exception e){
-            System.out.println("Some error occured");
-
-            return new ResponseEntity<Object>("Key pair error", new HttpHeaders(), HttpStatus.BAD_REQUEST); // TODO: Fix this
-        }
+        return schoolService.register(schoolRegisterRequest);
     }
 
     @PostMapping("/passwordReset")
@@ -105,5 +107,10 @@ public class SchoolController {
         String result = schoolService.passwordReset(passwordResetRequest);
 
         return ResponseEntity.ok(new MessageResponse(result));
+    }
+
+    @GetMapping("/keys")
+    public ResponseEntity<?> getKeyPair(@RequestParam(name = "username") String username) {
+        return schoolService.getKeyPair(username);
     }
 }
