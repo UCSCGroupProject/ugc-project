@@ -82,4 +82,16 @@ public class ZscoreController {
                 .body(file);
     }
 
+    @PostMapping("/addZValue")
+    public String addValue() { return "add new value";}
+
+    @GetMapping ("/searchZValue")
+    public String searchValue() { return "search new value";}
+
+    @PutMapping ("/updateZValue")
+    public String updateValue() { return "update new value";}
+
+    @DeleteMapping ("/deleteZValue")
+    public String deleteValue() { return "delete new value";}
+
 }
