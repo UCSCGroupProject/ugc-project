@@ -2,7 +2,10 @@ package com.ugc.zscore.Controller;
 
 import com.ugc.zscore.Helper.CSVHelper;
 import com.ugc.zscore.Model.Zscore;
+import com.ugc.zscore.Model.ZscoreTable;
+import com.ugc.zscore.Services.ZScoreTableService;
 import com.ugc.zscore.Services.ZscoreService;
+import com.ugc.zscore.Services.ZscoreTableServiceImpl;
 import com.ugc.zscore.payload.response.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -82,11 +85,15 @@ public class ZscoreController {
                 .body(file);
     }
 
+    @Autowired
+    private ZScoreTableService zscoreTableService;
     @PostMapping("/addZValue")
-    public String addValue() { return "add new value";}
+    public ZscoreTable addValue(@RequestBody ZscoreTable zscoreTable) {
+        return zscoreTableService.saveZvalue(zscoreTable);
+    }
 
-    @GetMapping ("/searchZValue")
-    public String searchValue() { return "search new value";}
+    @GetMapping ("/ZValue")
+    public String searchValue() { return "show new value"; }
 
     @PutMapping ("/updateZValue")
     public String updateValue() { return "update new value";}
