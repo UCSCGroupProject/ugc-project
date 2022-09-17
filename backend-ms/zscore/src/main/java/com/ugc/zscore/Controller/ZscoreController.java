@@ -93,7 +93,9 @@ public class ZscoreController {
     }
 
     @GetMapping ("/ZValue")
-    public String searchValue() { return "show new value"; }
+    public List<ZscoreTable> searchValue() {
+        return zscoreTableService.fetchZscoreTable();
+    }
 
     @PutMapping ("/updateZValue")
     public String updateValue() { return "update new value";}

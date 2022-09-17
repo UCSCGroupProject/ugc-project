@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -17,5 +18,10 @@ public class ZscoreTableServiceImpl implements ZScoreTableService{
     @Override
     public ZscoreTable saveZvalue(ZscoreTable zscoreTable){
         return zscoreTableRepository.save(zscoreTable);
+    }
+
+    @Override
+    public List<ZscoreTable> fetchZscoreTable() {
+        return zscoreTableRepository.findAll();
     }
 }
