@@ -40,9 +40,9 @@ import courseService from '../../../services/university/courseService'
 
 const headers = [
   { id: 'id', name: 'No.', sortable: false },
-  { id: 'name', name: 'No.', sortable: false },
-  { id: 'stream', name: 'Course', sortable: true },
-  { id: 'course', name: 'Stream', sortable: true },
+  { id: 'name', name: 'Name.', sortable: false },
+  { id: 'stream', name: 'Stream', sortable: true },
+  { id: 'course', name: 'Code', sortable: true },
   { id: 'intake', name: 'Intake', sortable: true },
 ]
 
