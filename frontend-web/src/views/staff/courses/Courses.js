@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
 import {
   CCard,
   CTable,
@@ -7,6 +8,7 @@ import {
   CTableHead,
   CFormInput,
   CCardBody,
+  CSpinner,
   CButton,
   CFormSelect,
   CCardHeader,
@@ -16,11 +18,18 @@ import {
   CInputGroup,
   CRow,
   CTableBody,
+  CAlert,
   CTableDataCell,
+  CModal,
+  CModalHeader,
+  CModalTitle,
+  CModalBody,
+  CModalFooter,
 } from '@coreui/react'
 
 import { cilSearch } from '@coreui/icons'
 import { cilFilter, cilArrowRight, cibAddthis } from '@coreui/icons'
+import { v_required } from '../../../utils/validator'
 import CIcon from '@coreui/icons-react'
 
 import { toast } from 'react-toastify'
@@ -28,7 +37,6 @@ import { toast } from 'react-toastify'
 import AppFetchDataLoader from '../../../components/loaders/AppFetchDataLoader'
 
 import courseService from '../../../services/university/courseService'
-import { NavLink } from 'react-router-dom'
 
 const headers = [
   { id: 'id', name: 'No.', sortable: false },
@@ -41,6 +49,97 @@ const headers = [
 function StaffCourses() {
   // For the server side requests and responses
   const [loading, setLoading] = useState(false)
+
+  const [visible, setVisible] = useState(false)
+
+  const [resMessage, setResMessage] = useState('')
+  let navigate = useNavigate()
+
+  // Creating course
+  const [addCourseForm, setAddCourseForm] = useState({
+    name: '',
+    stream: '',
+    code: '',
+    intake: '',
+  })
+
+  const onUpdateInput = (e) => {
+    setAddCourseForm((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }))
+  }
+
+  // For data errors
+  const [addCourseFormErrors, setAddCourseFormErrors] = useState({
+    nameError: '',
+    streamError: '',
+    codeError: '',
+    intakeError: '',
+  })
+
+  // Validate the data and
+  // If valid send to the server
+  // else show the errors
+  const handleAddCourseFormSubmit = async (e) => {
+    e.preventDefault()
+    let nameError = ''
+    let streamError = ''
+    let codeError = ''
+    let intakeError = ''
+
+    if (!v_required(addCourseForm.name)) {
+      nameError = 'Course name can not be empty.'
+    }
+
+    if (!v_required(addCourseForm.stream)) {
+      streamError = 'Stream can not be empty.'
+    }
+
+    if (!v_required(addCourseForm.code)) {
+      codeError = 'Course code can not be empty.'
+    }
+
+    if (!v_required(addCourseForm.intake)) {
+      intakeError = 'Proposed course intake can not be empty.'
+    }
+
+    // If errors exist, show errors
+    setAddCourseFormErrors({
+      nameError,
+      streamError,
+      codeError,
+      intakeError,
+    })
+
+    console.log(addCourseFormErrors)
+
+    // If no errors exist, send to the server
+    if (!(nameError || streamError || codeError || intakeError)) {
+      console.log('Add course form submitted')
+
+      // Sending to the server
+      setLoading(true)
+      setResMessage('')
+
+      courseService.create(addCourseForm).then(
+        () => {
+          console.log(addCourseForm)
+          setLoading(false)
+          navigate('/staff/courses')
+        },
+        (error) => {
+          const res =
+            (error.response && error.response.data && error.response.data.message) ||
+            error.message ||
+            error.toString()
+          // After recieving the server request
+          setResMessage(res)
+          setLoading(false)
+        },
+      )
+    }
+  }
 
   useEffect(() => {
     setLoading(true)
@@ -193,9 +292,86 @@ function StaffCourses() {
   return (
     <div>
       <div style={{ textAlign: 'right' }}>
-        <CButton color="success">
+        <CButton color="success" onClick={() => setVisible(!visible)}>
           <CIcon icon={cibAddthis}></CIcon> Add Course
         </CButton>
+
+        <CModal alignment="center" scrollable visible={visible} onClose={() => setVisible(false)}>
+          <CModalHeader>
+            <CModalTitle>Create a course</CModalTitle>
+          </CModalHeader>
+          <CModalBody>
+            <CFormInput
+              type="text"
+              id="courseName"
+              floatingLabel="Name"
+              name="name"
+              placeholder="Medicine"
+              onChange={onUpdateInput}
+              value={addCourseForm.name}
+              feedback={addCourseFormErrors.nameError}
+              invalid={addCourseFormErrors.nameError ? true : false}
+            />
+            <br></br>
+            <CFormInput
+              type="text"
+              id="i"
+              floatingLabel="Stream"
+              name="stream"
+              placeholder="Biological Science"
+              onChange={onUpdateInput}
+              value={addCourseForm.stream}
+              feedback={addCourseFormErrors.streamError}
+              invalid={addCourseFormErrors.streamError ? true : false}
+            />
+            <br></br>
+            <CFormInput
+              type="text"
+              id="code"
+              floatingLabel="Course Code"
+              name="code"
+              placeholder="001"
+              onChange={onUpdateInput}
+              value={addCourseForm.code}
+              feedback={addCourseFormErrors.codeError}
+              invalid={addCourseFormErrors.codeError ? true : false}
+            />
+            <br></br>
+            <CFormInput
+              type="text"
+              id="intake"
+              floatingLabel="Proposed Intake"
+              name="intake"
+              placeholder="1864"
+              onChange={onUpdateInput}
+              value={addCourseForm.intake}
+              feedback={addCourseFormErrors.intakeError}
+              invalid={addCourseFormErrors.intakeError ? true : false}
+            />
+            {resMessage && (
+            <CAlert color="danger" className="text-center">
+              {resMessage}
+            </CAlert>
+          )}
+          
+          </CModalBody>
+          
+
+          <CModalFooter>
+            <CButton color="secondary" onClick={() => setVisible(false)}>
+              Close
+            </CButton>
+            <CButton color="primary" onClick={handleAddCourseFormSubmit}>
+              {loading ? (
+                <span>
+                  <CSpinner size="sm" /> Validating
+                </span>
+              ) : (
+                <span>Create</span>
+              )}
+            </CButton>
+          </CModalFooter>
+        </CModal>
       </div>
       <br></br>
       <CRow>

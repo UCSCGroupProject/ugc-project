@@ -28,7 +28,7 @@ public class CourseController {
         List<CourseResponse> courseResponseList = courseService.getAllCourseList();
         return ResponseEntity.ok(new PayloadResponse(courseResponseList, "All courses list", ResType.OK));
     }
-    
+
     // TODO: Create course
     // TODO: Update course
     // TODO: Delete course
