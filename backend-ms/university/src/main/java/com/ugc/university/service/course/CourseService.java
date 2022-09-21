@@ -4,6 +4,7 @@ import com.ugc.university.model.course.Course;
 import com.ugc.university.model.course.Stream;
 import com.ugc.university.model.course.Unicode;
 import com.ugc.university.payload.response.course.CourseResponse;
+import com.ugc.university.payload.response.course.StreamResponse;
 import com.ugc.university.payload.response.course.UniCourseResponse;
 import com.ugc.university.repository.course.CourseRepository;
 import com.ugc.university.repository.course.StreamRepository;
@@ -173,5 +174,30 @@ public class CourseService {
         });
 
         return courseResponseList;
+    }
+
+    public List<StreamResponse> getStreams() {
+        List<StreamResponse> streamResponses = new ArrayList<>();
+        List<Stream> streamList = streamRepository.findAll();
+        streamList.forEach(item -> {
+            StreamResponse streamResponse = new StreamResponse(
+                    item.getId(),
+                    item.getStreamName()
+            );
+            streamResponses.add(streamResponse);
+        });
+        return streamResponses;
+    }
+
+    public boolean create(String name, String code, String stream, String intake) {
+        Stream stream1 = streamRepository.getById(Integer.parseInt(stream));
+        Course course = new Course(
+                name,
+                stream1,
+                code,
+                Integer.parseInt(intake)
+        );
+        courseRepository.save(course);
+        return true;
     }
 }

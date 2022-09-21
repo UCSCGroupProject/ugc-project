@@ -16,7 +16,11 @@ import {
   CInputGroupText,
   CTableHeaderCell,
   CInputGroup,
+  CDropdown,
   CRow,
+  CDropdownToggle,
+  CDropdownMenu,
+  CDropdownItem,
   CTableBody,
   CAlert,
   CTableDataCell,
@@ -63,7 +67,22 @@ function StaffCourses() {
     intake: '',
   })
 
+  // Display streams
+  const [streams, setStreams] = useState([
+    {
+      id: '',
+      streamName: '',
+    },
+  ])
+
   const onUpdateInput = (e) => {
+    setAddCourseForm((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }))
+  }
+
+  const onUpdateDropdown = (e) => {
     setAddCourseForm((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
@@ -154,6 +173,33 @@ function StaffCourses() {
           toast.error(res.message)
         }
 
+        setLoading(false)
+      },
+      (error) => {
+        const res =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString()
+
+        // After recieving the server request
+        toast.error(res)
+        setLoading(false)
+      },
+    )
+  }, [])
+
+  // Display streams
+  useEffect(() => {
+    setLoading(true)
+
+    courseService.getAllStreamsList().then(
+      (res) => {
+        if (res.type === 'OK') {
+          toast.success(res.message)
+          setStreams(res.payload)
+        } else if (res.type === 'BAD') {
+          toast.error(res.message)
+        }
         setLoading(false)
       },
       (error) => {
@@ -313,17 +359,20 @@ function StaffCourses() {
               invalid={addCourseFormErrors.nameError ? true : false}
             />
             <br></br>
-            <CFormInput
-              type="text"
-              id="i"
-              floatingLabel="Stream"
+            <CFormSelect
               name="stream"
-              placeholder="Biological Science"
               onChange={onUpdateInput}
               value={addCourseForm.stream}
               feedback={addCourseFormErrors.streamError}
               invalid={addCourseFormErrors.streamError ? true : false}
-            />
+            >
+              <option selected>Select stream</option>
+              {streams.map((e) => (
+                <option key={e.id} value={e.id}>
+                  {e.id} - {e.streamName}
+                </option>
+              ))}
+            </CFormSelect>
             <br></br>
             <CFormInput
               type="text"
@@ -349,13 +398,11 @@ function StaffCourses() {
               invalid={addCourseFormErrors.intakeError ? true : false}
             />
             {resMessage && (
-            <CAlert color="danger" className="text-center">
-              {resMessage}
-            </CAlert>
-          )}
-          
+              <CAlert color="danger" className="text-center">
+                {resMessage}
+              </CAlert>
+            )}
           </CModalBody>
-          
 
           <CModalFooter>
             <CButton color="secondary" onClick={() => setVisible(false)}>

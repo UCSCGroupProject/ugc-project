@@ -12,8 +12,13 @@ class CourseService {
 
   create(addCourseForm){
     return axios.post(API_URL + '/create', addCourseForm).then((response) => {
-      console.log(response.data)
       return response.data
+    })
+  }
+
+  getAllStreamsList = () => {
+    return axios.get(API_URL + '/getStreams').then((res) => {
+      return res.data
     })
   }
 }
