@@ -39,14 +39,10 @@ public class CourseController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createCourse(@RequestBody AddCourseForm addCourseForm){
-        if(courseService.create(addCourseForm.getName(),
+        return courseService.create(addCourseForm.getName(),
                 addCourseForm.getCode(),
                 addCourseForm.getStream(),
-                addCourseForm.getIntake())){
-            return ResponseEntity.ok(new MessageResponse("Course created"));
-        }
-
-        return ResponseEntity.ok(new MessageResponse("Course creation failed"));
+                addCourseForm.getIntake());
     }
     // TODO: Update course
     // TODO: Delete course

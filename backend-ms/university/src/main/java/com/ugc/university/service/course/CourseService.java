@@ -3,12 +3,15 @@ package com.ugc.university.service.course;
 import com.ugc.university.model.course.Course;
 import com.ugc.university.model.course.Stream;
 import com.ugc.university.model.course.Unicode;
+import com.ugc.university.payload.response.PayloadResponse;
+import com.ugc.university.payload.response.ResType;
 import com.ugc.university.payload.response.course.CourseResponse;
 import com.ugc.university.payload.response.course.StreamResponse;
 import com.ugc.university.payload.response.course.UniCourseResponse;
 import com.ugc.university.repository.course.CourseRepository;
 import com.ugc.university.repository.course.StreamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -189,7 +192,15 @@ public class CourseService {
         return streamResponses;
     }
 
-    public boolean create(String name, String code, String stream, String intake) {
+    public ResponseEntity<?> create(String name, String code, String stream, String intake) {
+        Course course1 = courseRepository.findByName(name);
+        if(course1 != null) {
+            return ResponseEntity.ok(new PayloadResponse(null, "Course name already exists", ResType.BAD));
+        }
+        Course course2 = courseRepository.findByCode(code);
+        if(course2 != null) {
+            return ResponseEntity.ok(new PayloadResponse(null, "Course code already exists", ResType.BAD));
+        }
         Stream stream1 = streamRepository.getById(Integer.parseInt(stream));
         Course course = new Course(
                 name,
@@ -198,6 +209,7 @@ public class CourseService {
                 Integer.parseInt(intake)
         );
         courseRepository.save(course);
-        return true;
+
+        return ResponseEntity.ok(new PayloadResponse(null, "Course created", ResType.OK));
     }
 }

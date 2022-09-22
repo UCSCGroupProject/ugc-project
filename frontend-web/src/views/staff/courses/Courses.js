@@ -16,11 +16,7 @@ import {
   CInputGroupText,
   CTableHeaderCell,
   CInputGroup,
-  CDropdown,
   CRow,
-  CDropdownToggle,
-  CDropdownMenu,
-  CDropdownItem,
   CTableBody,
   CAlert,
   CTableDataCell,
@@ -82,13 +78,6 @@ function StaffCourses() {
     }))
   }
 
-  const onUpdateDropdown = (e) => {
-    setAddCourseForm((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }))
-  }
-
   // For data errors
   const [addCourseFormErrors, setAddCourseFormErrors] = useState({
     nameError: '',
@@ -123,6 +112,7 @@ function StaffCourses() {
       intakeError = 'Proposed course intake can not be empty.'
     }
 
+
     // If errors exist, show errors
     setAddCourseFormErrors({
       nameError,
@@ -142,10 +132,20 @@ function StaffCourses() {
       setResMessage('')
 
       courseService.create(addCourseForm).then(
-        () => {
+        (res) => {
+          
+
+          if (res.type === 'OK') {
+            toast.success(res.message)
+  
+            // Settings table data
           console.log(addCourseForm)
+            navigate('/staff/courses')
+          } else if (res.type === 'BAD') {
+            toast.error(res.message)
+          }
+          
           setLoading(false)
-          navigate('/staff/courses')
         },
         (error) => {
           const res =
@@ -153,7 +153,8 @@ function StaffCourses() {
             error.message ||
             error.toString()
           // After recieving the server request
-          setResMessage(res)
+          toast.error(res)
+          setResMessage(res) // Remove later
           setLoading(false)
         },
       )
@@ -378,6 +379,7 @@ function StaffCourses() {
               type="text"
               id="code"
               floatingLabel="Course Code"
+              pattern="[0-9]*"
               name="code"
               placeholder="001"
               onChange={onUpdateInput}
@@ -390,6 +392,7 @@ function StaffCourses() {
               type="text"
               id="intake"
               floatingLabel="Proposed Intake"
+              pattern="[0-9]*"
               name="intake"
               placeholder="1864"
               onChange={onUpdateInput}
