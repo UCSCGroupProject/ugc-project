@@ -376,10 +376,9 @@ function StaffCourses() {
             </CFormSelect>
             <br></br>
             <CFormInput
-              type="text"
+              type="number"
               id="code"
               floatingLabel="Course Code"
-              pattern="[0-9]*"
               name="code"
               placeholder="001"
               onChange={onUpdateInput}
@@ -389,10 +388,9 @@ function StaffCourses() {
             />
             <br></br>
             <CFormInput
-              type="text"
+              type="number"
               id="intake"
               floatingLabel="Proposed Intake"
-              pattern="[0-9]*"
               name="intake"
               placeholder="1864"
               onChange={onUpdateInput}
