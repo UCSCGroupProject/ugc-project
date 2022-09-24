@@ -16,10 +16,6 @@ import {
   CTableBody,
   CSpinner,
   CAlert,
-  CToast,
-  CToastHeader,
-  CToastBody,
-  CToaster,
   CFormCheck,
 } from '@coreui/react'
 
@@ -33,6 +29,8 @@ import authService from '../../../services/authService'
 import studentValidationService from '../../../services/school/studentValidationService'
 import cryptoSignerService from '../../../services/cryptoSignerService'
 import validationDocumentService from '../../../services/school/validationDocumentService'
+
+import AppStandardContainer from '../../../components/containers/AppStandardContainer'
 
 const studentValidationListData = [
   {
@@ -214,80 +212,70 @@ function ValidateStudents() {
 
   return (
     <div>
-      <CRow>
-        <CCol xs>
-          <CCard className="mb-4">
-            <CCardHeader>Validate student list</CCardHeader>
-            <CCardBody>
-              <CRow className="m-1">
-                <CTable bordered>
-                  <CTableHead color="dark">
-                    <CTableRow>
-                      <CTableHeaderCell>Id</CTableHeaderCell>
-                      <CTableHeaderCell>Index</CTableHeaderCell>
-                      <CTableHeaderCell>Fullname</CTableHeaderCell>
-                      <CTableHeaderCell>NIC</CTableHeaderCell>
-                      <CTableHeaderCell>Date of Admission</CTableHeaderCell>
-                      <CTableHeaderCell>Date of Leave</CTableHeaderCell>
-                      <CTableHeaderCell>Validity</CTableHeaderCell>
-                    </CTableRow>
-                  </CTableHead>
-                  <CTableBody>
-                    {studentRecords.map((item) => (
-                      <CTableRow key={item.id}>
-                        <CTableHeaderCell>{item.id}</CTableHeaderCell>
-                        <CTableDataCell>{item.stuIndex}</CTableDataCell>
-                        <CTableDataCell>{item.fullName}</CTableDataCell>
-                        <CTableDataCell>{item.nic}</CTableDataCell>
-                        <CTableDataCell>{item.admissionDate}</CTableDataCell>
-                        <CTableDataCell>{item.leaveDate}</CTableDataCell>
-                        <CTableDataCell>
-                          <CFormCheck
-                            value={item.validity}
-                            onChange={updateStudentRecords(item.id)}
-                          />
-                        </CTableDataCell>
-                      </CTableRow>
-                    ))}
-                  </CTableBody>
-                </CTable>
-              </CRow>
+      <AppStandardContainer title="Digital signing">
+        <CRow className="m-1">
+          <CTable bordered>
+            <CTableHead color="dark">
+              <CTableRow>
+                <CTableHeaderCell>Id</CTableHeaderCell>
+                <CTableHeaderCell>Index</CTableHeaderCell>
+                <CTableHeaderCell>Fullname</CTableHeaderCell>
+                <CTableHeaderCell>NIC</CTableHeaderCell>
+                <CTableHeaderCell>Date of Admission</CTableHeaderCell>
+                <CTableHeaderCell>Date of Leave</CTableHeaderCell>
+                <CTableHeaderCell>Validity</CTableHeaderCell>
+              </CTableRow>
+            </CTableHead>
+            <CTableBody>
+              {studentRecords.map((item) => (
+                <CTableRow key={item.id}>
+                  <CTableHeaderCell>{item.id}</CTableHeaderCell>
+                  <CTableDataCell>{item.stuIndex}</CTableDataCell>
+                  <CTableDataCell>{item.fullName}</CTableDataCell>
+                  <CTableDataCell>{item.nic}</CTableDataCell>
+                  <CTableDataCell>{item.admissionDate}</CTableDataCell>
+                  <CTableDataCell>{item.leaveDate}</CTableDataCell>
+                  <CTableDataCell>
+                    <CFormCheck value={item.validity} onChange={updateStudentRecords(item.id)} />
+                  </CTableDataCell>
+                </CTableRow>
+              ))}
+            </CTableBody>
+          </CTable>
+        </CRow>
 
-              <div className="d-flex flex-row align-items-center">
-                <CContainer>
-                  {resMessage && (
-                    <CAlert color="danger" className="text-center">
-                      {resMessage}
-                    </CAlert>
-                  )}
+        <div className="d-flex flex-row align-items-center">
+          <CContainer>
+            {resMessage && (
+              <CAlert color="danger" className="text-center">
+                {resMessage}
+              </CAlert>
+            )}
 
-                  <CRow className="justify-content-center">
-                    <CCol md={7}>
-                      <span className="text-right">
-                        As a authorized indivial in this school, I here by certify above mentioned
-                        list is true and valid.
-                      </span>
-                    </CCol>
-                    <CCol md={4}>
-                      <CButton
-                        color="success"
-                        type="button"
-                        className="text-white"
-                        onClick={handleSubmit}
-                      >
-                        <CIcon icon={cilCheckAlt} />
-                        <span>
-                          {'  '}Validate & Download PDF {loading && <CSpinner size="sm" />}
-                        </span>
-                      </CButton>
-                    </CCol>
-                  </CRow>
-                </CContainer>
-              </div>
-            </CCardBody>
-          </CCard>
-        </CCol>
-      </CRow>
+            <CRow className="justify-content-center">
+              <CCol md={7}>
+                <span className="text-right">
+                  As a authorized indivial in this school, I here by certify above mentioned list is
+                  true and valid.
+                </span>
+              </CCol>
+              <CCol md={4}>
+                <CButton
+                  color="success"
+                  type="button"
+                  className="text-white"
+                  onClick={handleSubmit}
+                >
+                  <CIcon icon={cilCheckAlt} />
+                  <span>
+                    {'  '}Validate & Download PDF {loading && <CSpinner size="sm" />}
+                  </span>
+                </CButton>
+              </CCol>
+            </CRow>
+          </CContainer>
+        </div>
+      </AppStandardContainer>
     </div>
   )
 }

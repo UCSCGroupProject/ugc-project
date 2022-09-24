@@ -20,8 +20,8 @@ const _nav = [
   },
   {
     component: CNavItem,
-    name: 'Download document',
-    to: '/school/signing/download',
+    name: 'Digital Signing',
+    to: '/school/signing/sign',
     icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
   },
   {

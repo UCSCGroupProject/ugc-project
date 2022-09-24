@@ -74,7 +74,7 @@ const Uni_AptitudeTests_TestDetails_Results = React.lazy(() => import('./views/u
 const Sch_Dashboard = React.lazy(() => import('./views/school/dashboard/Dashboard'))
 const Sch_Settings_Wallet = React.lazy(() => import('./views/school/settings/Settings_Wallet'))
 const Sch_Students_ValidateList = React.lazy(() => import('./views/school/students/ValidateStudents'))
-const Sch_Students_DS_DownloadDocument = React.lazy(() => import('./views/school/digital_signing/DownloadDocument'))
+const Sch_Students_DS_DigitalSigning = React.lazy(() => import('./views/school/digital_signing/DigitalSigning'))
 const Sch_Students_DS_UploadDocument = React.lazy(() => import('./views/school/digital_signing/UploadDocument'))
 
 const routes = [
@@ -158,8 +158,8 @@ const routes = [
   { path: '/school/settings/wallet',               name: 'Wallet',                element: Sch_Settings_Wallet},
   { path: '/school/students',                      name: 'Students',              element: Sch_Students_ValidateList },
   { path: '/school/students/validate',             name: 'Validate List',         element: Sch_Students_ValidateList },
-  { path: '/school/signing',                       name: 'Digital signing',              element: Sch_Students_DS_DownloadDocument },
-  { path: '/school/signing/download',              name: 'Download document',              element: Sch_Students_DS_DownloadDocument },
+  { path: '/school/signing',                       name: 'Digital signing',              element: Sch_Students_DS_DigitalSigning },
+  { path: '/school/signing/sign',              name: 'Download document',              element: Sch_Students_DS_DigitalSigning },
   { path: '/school/signing/upload',                name: 'Upload document',              element: Sch_Students_DS_UploadDocument },
 
   // User routes
