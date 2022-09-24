@@ -73,10 +73,11 @@ Then after you have finish coding always `push` your code.
 
 Also DONT edit other services without asking from the relevant person of that particular service.
 
-# 3. Backend Architecture
+# 3. High level Architecture
 
-[Diagram should be added]
+![High level architecture](backend-ms/dev_purposes_only/source/ugc_high_level_architecture.jpg "High level Architecture")
 
+# 4. Backend Architecture
 Backend folder structure,
 
 ```
@@ -96,15 +97,15 @@ Backend folder structure,
     └── pom.xml                     # global POM configurations
 ```
 
-# 4. Frontend Architecture
+# 5. Frontend Architecture
 
 [Content should be added]
 
-# 5. Deployment Architecture
+# 6. Deployment Architecture
 
-[Content should be added]
+![Deployment architecture](backend-ms/dev_purposes_only/source/ugc_k8s_deployment_architecture.jpg "Deployment Architecture")
 
-# 6. Resources
+# 7. Resources
 
 These are the tutorial and documentations that used to develop this project. It is extremely necessary to go through following resources at least once to get some hands on experience before moving to the actual project.
 
