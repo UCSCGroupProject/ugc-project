@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: school
+  labels:
+    app: school
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: school
+      labels:
+        app: school
+    spec:
+      containers:
+        - name: school
+          image: ucscgroupproject/school:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8084
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: kube
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: school

@@ -1,0 +1,15 @@
+MAIN MICROSERVICES
+------------------------
+student             8081
+university          8082
+staff               8083
+school              8084
+
+SUPPORT MICROSERVICES
+------------------------
+email               1000
+zscore              1001
+file-manager        1002
+crypto-signer       1003
+selection-process   1004
+

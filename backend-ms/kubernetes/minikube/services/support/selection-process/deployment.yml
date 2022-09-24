@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: selection-process
+  labels:
+    app: selection-process
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: selection-process
+      labels:
+        app: selection-process
+    spec:
+      containers:
+        - name: selection-process
+          image: ucscgroupproject/selection-process:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 1004
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: kube
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: selection-process

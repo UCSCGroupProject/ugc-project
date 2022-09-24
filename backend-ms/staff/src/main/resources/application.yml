@@ -14,17 +14,11 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
-#  datasource:
-#    username: admin
-#    password: adminugc
-#    url: jdbc:mysql://ugcstudent-1.cibexrxavmfd.us-west-2.rds.amazonaws.com:3306/ugcStudents
-#  jpa:
-#    hibernate:
-#      ddl-auto: create-drop
-#    properties:
-#      hibernate:
-#        dialect: org.hibernate.dialect.MySQL5Dialect
-#        format_sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+    show-sql: true
 
 eureka:
   client:

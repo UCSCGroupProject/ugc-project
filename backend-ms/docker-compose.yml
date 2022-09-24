@@ -1,110 +1,141 @@
-# To run docker services type following command on bash
-# docker-compose up -d
-version: "3.8"
-
 services:
-# DATABASES: MongoDB and MySQL
-#  mongodb:
-#    image: mongo
-#    container_name: mongodb
-#    ports:
-#      - "27017:27017"
-#    volumes:
-#      - data:/data
-#    environment:
-#      - MONGO_INITDB_ROOT_USERNAME=rootuser
-#      - MONGO_INITDB_ROOT_PASSWORD=rootpass
-#  mongo-express:
-#    image: mongo-express
-#    container_name: mongo-express
-#    restart: always
-#    ports:
-#      - 8081:8081
-#    environment:
-#      - ME_CONFIG_MONGODB_ADMINUSERNAME=rootuser
-#      - ME_CONFIG_MONGODB_ADMINPASSWORD=rootpass
-#      - ME_CONFIG_MONGODB_SERVER=mongodb
-  mysqldb:
-    image: mysql
-    command: --default-authentication-plugin=mysql_native_password
-    restart: always
+#  STATEFUL SERVICES
+  mysql:
+    container_name: mysql
+    image: mysql:8.0
     environment:
-      - MYSQL_ROOT_PASSWORD='rootpassword'
-    ports:
-      - "3306:3306"
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
     volumes:
       - my-db:/var/lib/mysql
-# DISTRIBUTED TRACING: Slueth and Zipkin
-#  zipkin:
-#    image: openzipkin/zipkin
-#    container_name: zipkin
-#    ports:
-#      - 9411:9411
-#    networks:
-#      - spring
-# MESSAGE QUEUES: RabbitMQ
-#  rabbitmq:
-#    image: rabbitmq:3.9.11-management-alpine
-#    container_name: rabbitmq
-#    ports:
-#      - 5672:5672
-#      - 15672:15672
-# -- MICROSERVICES --
-# ORCHESTRATES: Eureka Server
-  eureka-server:
-    image: ucscgroupproject/eureka-server:latest
-    container_name: eureka-server
     ports:
-      - "8761:8761"
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker # This runs application-docker.yml file
+      - "3306:3306"
     networks:
-      - spring
-#    depends_on:
-#      - zipkin
-# GATEWAYS: Spring CloudAPI
-#  gateway:
-#    image: ucscgroupproject/gateway:latest
-#    container_name: gateway
-#    ports:
-#      - "8080:8080"
-#    environment:
-#      - SPRING_PROFILES_ACTIVE = docker # This runs application-docker.yml file
-#    networks:
-#      - spring
-#    depends_on:
-#      - zipkin
-#      - eureka-server
+      - mysql
+    restart: unless-stopped
+
 # MAIN MICROSERVICES
   student:
     image: ucscgroupproject/student:latest
     container_name: student
     ports:
-      - "9001:9001"
+      - "8081:8081"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     networks:
       - spring
+      - mysql
     depends_on:
-      - mysqldb
-#  blockchain:
-#    image: ucscgroupproject/blockchain:latest
-#    container_name: blockchain
-#    ports:
-#      - "5000:5000"
-#    environment:
-#      - SPRING_PROFILES_ACTIVE=docker
-#    networks:
-#      - spring
-#    depends_on:
-#      - mongodb
+      - mysql
 
-volumes:
-#  data: {}
-  my-db:
+  university:
+    image: ucscgroupproject/university:latest
+    container_name: university
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+      - mysql
+    depends_on:
+      - mysql
+
+  staff:
+    image: ucscgroupproject/staff:latest
+    container_name: staff
+    ports:
+      - "8083:8083"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+      - mysql
+    depends_on:
+      - mysql
+
+  school:
+    image: ucscgroupproject/school:latest
+    container_name: school
+    ports:
+      - "8084:8084"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+      - mysql
+    depends_on:
+      - mysql
+
+# SUPPORT MICROSERVICES
+  email:
+    image: ucscgroupproject/email:latest
+    container_name: email
+    ports:
+      - "1000:1000"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+      - mysql
+    depends_on:
+      - mysql
+
+  zscore:
+    image: ucscgroupproject/zscore:latest
+    container_name: zscore
+    ports:
+      - "1001:1001"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+      - mysql
+    depends_on:
+      - mysql
+
+  file-manager:
+    image: ucscgroupproject/file-manager:latest
+    container_name: file-manager
+    ports:
+      - "1002:1002"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+      - mysql
+    depends_on:
+      - mysql
+
+  crypto-signer:
+    image: ucscgroupproject/crypto-signer:latest
+    container_name: crypto-signer
+    ports:
+      - "1003:1003"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+
+  selection-process:
+    image: ucscgroupproject/selection-process:latest
+    container_name: selection-process
+    ports:
+      - "1004:1004"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - spring
+      - mysql
+    depends_on:
+      - mysql
 
 networks:
-#  default:
-#    name: mongodb_network
+  mysql:
+    driver: bridge
   spring:
     driver: bridge
+
+volumes:
+  pgadmin:
+  my-db:

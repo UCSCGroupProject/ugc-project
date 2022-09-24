@@ -1,13 +1,13 @@
 server:
   port:
-    1001
+    1000
 
 spring:
   application:
     name:
-      zscore
+      email
   datasource:
-    url: jdbc:mysql://localhost:3306/zscore_db
+    url: jdbc:mysql://mysql:3306/email_db
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -19,6 +19,17 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
     show-sql: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ucscgroupproject@gmail.com
+    password: okypfwaqistmyxwb
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 eureka:
   client:
@@ -26,3 +37,4 @@ eureka:
       defaultZone: http://localhost:8761/eureka
     fetch-registry: true
     register-with-eureka: true
+    enabled: false

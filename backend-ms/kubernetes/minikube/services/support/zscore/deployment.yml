@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zscore
+  labels:
+    app: zscore
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: zscore
+      labels:
+        app: zscore
+    spec:
+      containers:
+        - name: zscore
+          image: ucscgroupproject/zscore:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 1001
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: kube
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: zscore

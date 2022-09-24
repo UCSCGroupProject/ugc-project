@@ -1,19 +1,24 @@
 server:
   port:
-    9001
+    8081
 
 spring:
   application:
     name:
       student
   datasource:
-    url: jdbc:mysql://mysqldb:3306/student_db
+    url: jdbc:mysql://mysql:3306/student_db
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+    show-sql: true
 
 eureka:
   client:
@@ -21,3 +26,4 @@ eureka:
       defaultZone: http://eureka-server:8761/eureka
     fetch-registry: true
     register-with-eureka: true
+    enabled: false

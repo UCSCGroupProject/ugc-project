@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: file-manager
+spec:
+  selector:
+    app: file-manager
+  ports:
+    - port: 1002
+      targetPort: 1002
+  type: LoadBalancer

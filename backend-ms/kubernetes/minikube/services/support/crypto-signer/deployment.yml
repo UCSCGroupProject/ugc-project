@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crypto-signer
+  labels:
+    app: crypto-signer
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: crypto-signer
+      labels:
+        app: crypto-signer
+    spec:
+      containers:
+        - name: crypto-signer
+          image: ucscgroupproject/crypto-signer:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 1003
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: kube
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: crypto-signer

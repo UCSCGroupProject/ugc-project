@@ -1,15 +1,13 @@
 .idea
 
-/auth/target
-/blockchain/target
-/email/target
-/eureka-server/target
-/gateway/target
-/notification/target
-/school/target
-/selection-process/target
-/staff/target
 /student/target
 /university/target
-/user/target
+/staff/target
+/school/target
+
+/eureka-server/target
+/email/target
 /zscore/target
+/file-manager/target
+/crypto-signer/target
+/selection-process/target
