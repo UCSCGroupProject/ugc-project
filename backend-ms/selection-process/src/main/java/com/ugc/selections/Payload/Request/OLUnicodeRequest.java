@@ -13,5 +13,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OLUnicodeRequest {
+//    Triplet<Unicode, subject, requirement of result>
     List<Triplet<String, String, String>> unicodeList;
 }

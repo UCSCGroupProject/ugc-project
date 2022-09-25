@@ -1,0 +1,2 @@
+### Select Students
+GET http://localhost:1004/api/selection/selectStudents

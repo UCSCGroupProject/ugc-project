@@ -7,9 +7,11 @@ import org.javatuples.Triplet;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.transaction.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Transactional
 @Service
 public class SelectionService {
 
@@ -59,6 +61,8 @@ public class SelectionService {
     public void meritSelection(List<String> sortedStudents, ApplicationRequest applications, Map<String, Integer> meritCourseIntake, AptitudeTestResultRequest aptitudeTestResults, OLUnicodeRequest olUnicodeRequest) {
         //Map to store the status of each student
         Map<String, Boolean> freeStudents = new HashMap<>();
+        // Output which stores our selections
+        Map<String, String> selectedCourse = new HashMap<>();
         //Initialize all students as free
         for (String student: sortedStudents){
             freeStudents.put(student, true);
@@ -67,14 +71,14 @@ public class SelectionService {
         for(String course : meritCourseIntake.keySet()){
             Integer intake = meritCourseIntake.get(course);
             //Match scenario to stable marriage problem
-            stableMarriage(course, intake, applications, sortedStudents, freeStudents, meritCourseIntake, aptitudeTestResults, olUnicodeRequest);
+            stableMarriage(course, intake, applications, sortedStudents, freeStudents, meritCourseIntake, aptitudeTestResults, olUnicodeRequest, selectedCourse);
         }
     }
 
-    private void stableMarriage(String course, Integer intake, ApplicationRequest applications, List<String> sortedStudents, Map<String, Boolean> freeStudents, Map<String, Integer> meritCourseIntake, AptitudeTestResultRequest aptitudeTestResults, OLUnicodeRequest olUnicodeRequest) {
-        // Output which stores our selections
-        Map<String, String> selectedCourse = new HashMap<>();
-        List<String> applicants = null;
+
+    public void stableMarriage(String course, Integer intake, ApplicationRequest applications, List<String> sortedStudents, Map<String, Boolean> freeStudents, Map<String, Integer> meritCourseIntake, AptitudeTestResultRequest aptitudeTestResults, OLUnicodeRequest olUnicodeRequest, Map<String, String> selectedCourse) {
+
+        List<String> applicants = new ArrayList<>();
         while (intake > 0){
             //Filter out the students who applied for the course
             for (String application : applications.getApplications().keySet()){
@@ -91,6 +95,8 @@ public class SelectionService {
                 if(!eligibleForCourse(course, student, aptitudeTestResults, olUnicodeRequest)){
                     continue;
                 }
+
+
                 // If the student is free, select the student for this course. The course can be changed later.
                 if(freeStudents.get(student)){
                     selectedCourse.put(student, course);
@@ -108,13 +114,14 @@ public class SelectionService {
                         selectedCourse.put(student, course);
                         //Increase the intake of already selected course
                         //We need to insert new pair into the last place
-                        meritCourseIntake.remove(alreadySelectedCourse);
-                        meritCourseIntake.put(alreadySelectedCourse, meritCourseIntake.get(alreadySelectedCourse)+1);
+                        Integer currentIntake = meritCourseIntake.get(alreadySelectedCourse);
+                        meritCourseIntake.put(alreadySelectedCourse, currentIntake+1);
                         // Decrease the course intake amount
                         intake--;
                     }
                 }
             }
+            break;
         }
 //        Store in database
         for(Map.Entry<String, String> entry: selectedCourse.entrySet()){
@@ -122,11 +129,15 @@ public class SelectionService {
                     entry.getKey(),
                     entry.getValue()
             );
+            if(selectionRepository.findByIndexNumber(entry.getKey()) != null){
+                System.out.println(entry.getKey());
+                Integer deletedRecords = selectionRepository.deleteByIndexNumber(entry.getKey());
+            }
             selectionRepository.save(student);
         }
     }
 
-    private boolean eligibleForCourse(String course, String student, AptitudeTestResultRequest aptitudeTestResults, OLUnicodeRequest olUnicodeRequest) {
+    public boolean eligibleForCourse(String course, String student, AptitudeTestResultRequest aptitudeTestResults, OLUnicodeRequest olUnicodeRequest) {
         //Check if the course has an aptitude test
         if(aptitudeTestResults.getTestResults().keySet().contains(course)){
             List<String> passedStudents = aptitudeTestResults.getTestResults().get(course);
@@ -146,13 +157,13 @@ public class SelectionService {
         }
     }
 
-    private boolean eligibleForCourseByOLResults(String course, String student, OLUnicodeRequest olUnicodeRequest) {
+    public boolean eligibleForCourseByOLResults(String course, String student, OLUnicodeRequest olUnicodeRequest) {
         for (Triplet<String, String, String> requirements : olUnicodeRequest.getUnicodeList()){
             if(requirements.getValue0() == course){
                 //Course has OL requirements
                 //Check OL results
-                OLResultRequest olResultRequest = restTemplate.getForObject("http://localhost:8083/staff/getOLResult" + student + "/" + requirements.getValue1(), OLResultRequest.class);
-
+//                OLResultRequest olResultRequest = restTemplate.getForObject("http://localhost:8083/staff/getOLResult/" + student + "/" + requirements.getValue1(), OLResultRequest.class);
+                OLResultRequest olResultRequest = new OLResultRequest("A");
                 int req = 0;
                 int res = 0;
                 if(requirements.getValue2() == "A"){
@@ -195,7 +206,7 @@ public class SelectionService {
         return true;
     }
 
-    private boolean studentPrefersAlreadySelectedCourseOverCourse(String student, String course, String alreadySelectedCourse, ApplicationRequest applications) {
+    public boolean studentPrefersAlreadySelectedCourseOverCourse(String student, String course, String alreadySelectedCourse, ApplicationRequest applications) {
         List<String> unicodeList = applications.getApplications().get(student);
         for (String unicode : unicodeList){
             //If already selected course comes first, return true
@@ -223,8 +234,10 @@ public class SelectionService {
         for(Map.Entry<String, List<String>> districts: districtRequest.getDistrictsOfStudents().entrySet()){
 //            Calculate district quota ratio
             Double districtQuotaRatio = Double.valueOf(districts.getValue().size() / applications.getApplications().keySet().size());
-            //Map to store the status of each student after merit selection
+//            Map to store the status of each student after merit selection
             Map<String, Boolean> freeStudents = new HashMap<>();
+//            Output which stores our selections
+            Map<String, String> selectedCourse = new HashMap<>();
 //            Find free students
             List<Student> students = selectionRepository.findAll();
             for(Student student : students){
@@ -239,7 +252,7 @@ public class SelectionService {
             for(String course : districtCourseIntake.keySet()){
                 Integer intake = (int)Math.round(districtCourseIntake.get(course) * districtQuotaRatio);
                 //Match scenario to stable marriage problem
-                stableMarriage(course, intake, applications, sortedStudents, freeStudents, districtCourseIntake, aptitudeTestResults, olUnicodeRequest);
+                stableMarriage(course, intake, applications, sortedStudents, freeStudents, districtCourseIntake, aptitudeTestResults, olUnicodeRequest, selectedCourse);
             }
         }
     }
@@ -278,6 +291,8 @@ public class SelectionService {
                 Double districtQuotaRatio = Double.valueOf(districts.getValue().size() / applications.getApplications().keySet().size());
 //                Map to store the status of each student after merit selection
                 Map<String, Boolean> freeStudents = new HashMap<>();
+//                Output which stores our selections
+                Map<String, String> selectedCourse = new HashMap<>();
 //                Find free students
                 List<Student> students = selectionRepository.findAll();
                 for(Student student : students){
@@ -292,7 +307,7 @@ public class SelectionService {
                 for(String course : edCourseIntake.keySet()){
                     Integer intake = (int)Math.round(edCourseIntake.get(course) * districtQuotaRatio);
 //                Match scenario to stable marriage problem
-                    stableMarriage(course, intake, applications, sortedStudents, freeStudents, edCourseIntake, aptitudeTestResults, olUnicodeRequest);
+                    stableMarriage(course, intake, applications, sortedStudents, freeStudents, edCourseIntake, aptitudeTestResults, olUnicodeRequest, selectedCourse);
                 }
             }
         }
