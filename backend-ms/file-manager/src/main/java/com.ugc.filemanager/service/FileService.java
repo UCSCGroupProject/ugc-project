@@ -38,4 +38,8 @@ public class FileService {
         return fileRepository.findById(fileId)
                 .orElseThrow(() -> new Exception("File not found"));
     }
+
+    public void deleteFile(Integer fileId) {
+        fileRepository.deleteById(fileId);
+    }
 }

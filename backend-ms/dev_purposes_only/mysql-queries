@@ -17,3 +17,5 @@ CREATE DATABASE email_db;
 CREATE DATABASE zscore_db;
 CREATE DATABASE file_manager_db;
 CREATE DATABASE selection_process_db;
+
+SHOW DATABASES;

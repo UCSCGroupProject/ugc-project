@@ -10,20 +10,11 @@ class ValidationDocumentService {
     })
   }
 
-  //   validateAndPublishStudentList = async (studentList, username) => {
-  //     const ReqBlockData = {
-  //       transactions: studentList,
-  //       creatorName: username,
-  //     }
-  //     console.log(ReqBlockData)
-
-  //     return await axios
-  //       .post(API_URL + '/validateAndPublishStudentList', ReqBlockData)
-  //       .then((response) => {
-  //         console.log(response.data)
-  //         return response.data
-  //       })
-  //   }
+  updateDocument(document) {
+    return axios.put(API_URL, document).then((res) => {
+      return res.data
+    })
+  }
 }
 
 export default new ValidationDocumentService()

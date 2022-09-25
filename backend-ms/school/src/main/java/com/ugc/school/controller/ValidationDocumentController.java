@@ -5,6 +5,7 @@ import com.ugc.school.service.document.ValidationDocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -25,6 +26,9 @@ public class ValidationDocumentController {
         return validationDocumentService.createDocument(reqValidationDocument);
     }
 
-    // TODO: Update Document
-
+    // Update document
+    @PutMapping("")
+    public ResponseEntity<?> updateDocument(@RequestBody ReqValidationDocument reqValidationDocument) {
+        return validationDocumentService.updateDocument(reqValidationDocument);
+    }
 }

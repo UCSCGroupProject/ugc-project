@@ -10,7 +10,6 @@ import com.ugc.school.payload.request.LoginRequest;
 import com.ugc.school.payload.request.PasswordResetRequest;
 import com.ugc.school.payload.request.schoolRegistration.ReqKeyPair;
 import com.ugc.school.payload.request.schoolRegistration.SchoolRegisterRequest;
-import com.ugc.school.payload.request.studentValidation.ReqBlockData;
 import com.ugc.school.payload.response.JwtResponse;
 import com.ugc.school.payload.response.PayloadResponse;
 import com.ugc.school.payload.response.ResType;

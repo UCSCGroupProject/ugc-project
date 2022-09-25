@@ -1,13 +1,29 @@
 import axios from 'axios'
 
-const API_URL = 'http://localhost:1101/api/file'
+const API_URL = 'http://localhost:1002/api/file'
 
 class FileManagerService {
-  uploadFile(data) {
-    console.log(data)
-    return axios.post(API_URL + '/upload', { params: { file: data.document } }).then((response) => {
-      console.log(response.data)
-      return response.data
+  uploadFile(file, onUploadProgress) {
+    let formData = new FormData()
+    formData.append('file', file)
+
+    return axios
+      .post(API_URL, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        onUploadProgress,
+      })
+      .then((res) => {
+        console.log(res.data)
+        return res.data
+      })
+  }
+
+  deleteFile(fileId) {
+    return axios.delete(API_URL + '?fileId=' + fileId).then((res) => {
+      console.log(res.data)
+      return res.data
     })
   }
 }

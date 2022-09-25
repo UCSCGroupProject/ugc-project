@@ -1,7 +1,10 @@
-POST http://localhost:1101/api/file/upload
+POST http://localhost:1002/api/file
 Content-Type: multipart/form-data; boundary=boundary
 
 Content-Disposition: form-data; name="file"; filename="C:\\Users\\dhanu\\Desktop\\Lex01.pdf"
 
 ### Generate PDF
-GET http://localhost:1101/api/file/download/1
+GET http://localhost:1002/api/file?fileId=1
+
+### Delete file
+DELETE http://localhost:1002/api/file?fileId=1

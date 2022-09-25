@@ -8,8 +8,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ResFile {
+    private Integer id;
     private String fileName;
-    private String downloadURL;
-    private String fileType;
-    private long fileSize;
+//    private String downloadURL;
+//    private String fileType;
+//    private long fileSize;
 }

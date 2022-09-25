@@ -3,6 +3,10 @@ package com.ugc.crypto.controller;
 import com.ugc.crypto.payload.request.document.ReqValidationDocument;
 import com.ugc.crypto.service.CryptoPDFService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +24,8 @@ public class CryptoPDFController {
     private CryptoPDFService cryptoPDFService;
 
     // TODO: Generate PDF
-    @PostMapping("/generate")
-    public void generate(@RequestBody ReqValidationDocument reqValidationDocument, HttpServletResponse httpServletResponse) throws IOException {
+    @GetMapping("")
+    public void generate(@RequestParam(name = "schoolId") Integer schoolId, HttpServletResponse httpServletResponse) throws IOException {
         httpServletResponse.setContentType("application/pdf");
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd:hh:mm:ss");
         String currentDateTime = dateFormat.format(new Date());
@@ -30,7 +34,9 @@ public class CryptoPDFController {
         String headerValue = "attachment; filename=pdf_"+currentDateTime+".pdf";
         httpServletResponse.setHeader(headerKey, headerValue);
 
-        cryptoPDFService.generate(httpServletResponse, reqValidationDocument);
+        if(cryptoPDFService.getDocumentData(schoolId)) {
+            cryptoPDFService.generate(httpServletResponse);
+        }
     }
 
 
