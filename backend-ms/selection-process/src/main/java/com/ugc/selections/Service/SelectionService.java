@@ -1,6 +1,8 @@
 package com.ugc.selections.Service;
 
+import com.ugc.selections.Entity.Student;
 import com.ugc.selections.Payload.Request.*;
+import com.ugc.selections.Repository.SelectionRepository;
 import org.javatuples.Triplet;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -12,9 +14,11 @@ import java.util.stream.Collectors;
 public class SelectionService {
 
     private  final RestTemplate restTemplate;
+    private final SelectionRepository selectionRepository;
 
-    public SelectionService(RestTemplate restTemplate) {
+    public SelectionService(RestTemplate restTemplate, SelectionRepository selectionRepository) {
         this.restTemplate = restTemplate;
+        this.selectionRepository = selectionRepository;
     }
 
     public List<String> getEligible(ApplicantRequest applicants, ALPassedRequest alResultRequest) {
@@ -74,7 +78,7 @@ public class SelectionService {
         while (intake > 0){
             //Filter out the students who applied for the course
             for (String application : applications.getApplications().keySet()){
-                if(applications.getApplications().get(application).contains(course)){
+                if(applications.getApplications().get(application).contains(course) && sortedStudents.contains(application)){
                     applicants.add(application);
                 }
             }
@@ -111,6 +115,14 @@ public class SelectionService {
                     }
                 }
             }
+        }
+//        Store in database
+        for(Map.Entry<String, String> entry: selectedCourse.entrySet()){
+            Student student = new Student(
+                    entry.getKey(),
+                    entry.getValue()
+            );
+            selectionRepository.save(student);
         }
     }
 
@@ -196,5 +208,93 @@ public class SelectionService {
             }
         }
         return false;
+    }
+
+    public Map<String, Integer> getDistrictIntake(Map<String, Integer> courseIntake) {
+        Map<String, Integer> districtCourseIntake = new HashMap<>();
+        for(String course : courseIntake.keySet()){
+            districtCourseIntake.put(course, Math.toIntExact(Math.round(courseIntake.get(course) * 0.55)));
+        }
+        return districtCourseIntake;
+    }
+
+    public void districtSelection(List<String> sortedStudents, ApplicationRequest applications, Map<String, Integer> districtCourseIntake, AptitudeTestResultRequest aptitudeTestResults, OLUnicodeRequest olUnicodeRequest, DistrictRequest districtRequest) {
+//        Loop through each district
+        for(Map.Entry<String, List<String>> districts: districtRequest.getDistrictsOfStudents().entrySet()){
+//            Calculate district quota ratio
+            Double districtQuotaRatio = Double.valueOf(districts.getValue().size() / applications.getApplications().keySet().size());
+            //Map to store the status of each student after merit selection
+            Map<String, Boolean> freeStudents = new HashMap<>();
+//            Find free students
+            List<Student> students = selectionRepository.findAll();
+            for(Student student : students){
+                if(student.getSelectedCourse() == null){
+                    freeStudents.put(student.getIndexNumber(), true);
+                }
+                else{
+                    freeStudents.put(student.getIndexNumber(), false);
+                }
+            }
+            //Iterate through each course
+            for(String course : districtCourseIntake.keySet()){
+                Integer intake = (int)Math.round(districtCourseIntake.get(course) * districtQuotaRatio);
+                //Match scenario to stable marriage problem
+                stableMarriage(course, intake, applications, sortedStudents, freeStudents, districtCourseIntake, aptitudeTestResults, olUnicodeRequest);
+            }
+        }
+    }
+
+    public Map<String, Integer> getEDIntake(Map<String, Integer> courseIntake) {
+        Map<String, Integer> edCourseIntake = new HashMap<>();
+        for(String course : courseIntake.keySet()){
+            edCourseIntake.put(course, Math.toIntExact(Math.round(courseIntake.get(course) * 0.05)));
+        }
+        return edCourseIntake;
+    }
+
+    public void edSelection(List<String> sortedStudents, ApplicationRequest applications, Map<String, Integer> edCourseIntake, AptitudeTestResultRequest aptitudeTestResults, OLUnicodeRequest olUnicodeRequest, DistrictRequest districtRequest) {
+        List<String> EDDistricts = new ArrayList<>();
+        EDDistricts.add("Nuwara Eliya");
+        EDDistricts.add("Hambantota");
+        EDDistricts.add("Jaffna");
+        EDDistricts.add("Kilinochchi");
+        EDDistricts.add("Mannar");
+        EDDistricts.add("Mullaitivu");
+        EDDistricts.add("Vavuniya");
+        EDDistricts.add("Trincomalee");
+        EDDistricts.add("Batticaloa");
+        EDDistricts.add("Ampara");
+        EDDistricts.add("Puttalam");
+        EDDistricts.add("Anuradhapura");
+        EDDistricts.add("Polonnaruwa");
+        EDDistricts.add("Badulla");
+        EDDistricts.add("Monaragala");
+        EDDistricts.add("Ratnapura");
+
+//        Loop through ED districts
+        for(Map.Entry<String, List<String>> districts: districtRequest.getDistrictsOfStudents().entrySet()){
+            if(EDDistricts.contains(districts.getKey())){
+//                Calculate district quota ratio
+                Double districtQuotaRatio = Double.valueOf(districts.getValue().size() / applications.getApplications().keySet().size());
+//                Map to store the status of each student after merit selection
+                Map<String, Boolean> freeStudents = new HashMap<>();
+//                Find free students
+                List<Student> students = selectionRepository.findAll();
+                for(Student student : students){
+                    if(student.getSelectedCourse() == null){
+                        freeStudents.put(student.getIndexNumber(), true);
+                    }
+                    else{
+                        freeStudents.put(student.getIndexNumber(), false);
+                    }
+                }
+//                Iterate through each course
+                for(String course : edCourseIntake.keySet()){
+                    Integer intake = (int)Math.round(edCourseIntake.get(course) * districtQuotaRatio);
+//                Match scenario to stable marriage problem
+                    stableMarriage(course, intake, applications, sortedStudents, freeStudents, edCourseIntake, aptitudeTestResults, olUnicodeRequest);
+                }
+            }
+        }
     }
 }
