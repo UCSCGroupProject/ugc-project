@@ -14,121 +14,121 @@ services:
       - mysql
     restart: unless-stopped
 
-# MAIN MICROSERVICES
-  student:
-    image: ucscgroupproject/student:latest
-    container_name: student
-    ports:
-      - "8081:8081"
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-    networks:
-      - spring
-      - mysql
-    depends_on:
-      - mysql
-
-  university:
-    image: ucscgroupproject/university:latest
-    container_name: university
-    ports:
-      - "8082:8082"
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-    networks:
-      - spring
-      - mysql
-    depends_on:
-      - mysql
-
-  staff:
-    image: ucscgroupproject/staff:latest
-    container_name: staff
-    ports:
-      - "8083:8083"
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-    networks:
-      - spring
-      - mysql
-    depends_on:
-      - mysql
-
-  school:
-    image: ucscgroupproject/school:latest
-    container_name: school
-    ports:
-      - "8084:8084"
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-    networks:
-      - spring
-      - mysql
-    depends_on:
-      - mysql
-
-# SUPPORT MICROSERVICES
-  email:
-    image: ucscgroupproject/email:latest
-    container_name: email
-    ports:
-      - "1000:1000"
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-    networks:
-      - spring
-      - mysql
-    depends_on:
-      - mysql
-
-  zscore:
-    image: ucscgroupproject/zscore:latest
-    container_name: zscore
-    ports:
-      - "1001:1001"
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-    networks:
-      - spring
-      - mysql
-    depends_on:
-      - mysql
-
-  file-manager:
-    image: ucscgroupproject/file-manager:latest
-    container_name: file-manager
-    ports:
-      - "1002:1002"
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-    networks:
-      - spring
-      - mysql
-    depends_on:
-      - mysql
-
-  crypto-signer:
-    image: ucscgroupproject/crypto-signer:latest
-    container_name: crypto-signer
-    ports:
-      - "1003:1003"
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-    networks:
-      - spring
-
-  selection-process:
-    image: ucscgroupproject/selection-process:latest
-    container_name: selection-process
-    ports:
-      - "1004:1004"
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
-    networks:
-      - spring
-      - mysql
-    depends_on:
-      - mysql
+## MAIN MICROSERVICES
+#  student:
+#    image: ucscgroupproject/student:latest
+#    container_name: student
+#    ports:
+#      - "8081:8081"
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=docker
+#    networks:
+#      - spring
+#      - mysql
+#    depends_on:
+#      - mysql
+#
+#  university:
+#    image: ucscgroupproject/university:latest
+#    container_name: university
+#    ports:
+#      - "8082:8082"
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=docker
+#    networks:
+#      - spring
+#      - mysql
+#    depends_on:
+#      - mysql
+#
+#  staff:
+#    image: ucscgroupproject/staff:latest
+#    container_name: staff
+#    ports:
+#      - "8083:8083"
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=docker
+#    networks:
+#      - spring
+#      - mysql
+#    depends_on:
+#      - mysql
+#
+#  school:
+#    image: ucscgroupproject/school:latest
+#    container_name: school
+#    ports:
+#      - "8084:8084"
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=docker
+#    networks:
+#      - spring
+#      - mysql
+#    depends_on:
+#      - mysql
+#
+## SUPPORT MICROSERVICES
+#  email:
+#    image: ucscgroupproject/email:latest
+#    container_name: email
+#    ports:
+#      - "1000:1000"
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=docker
+#    networks:
+#      - spring
+#      - mysql
+#    depends_on:
+#      - mysql
+#
+#  zscore:
+#    image: ucscgroupproject/zscore:latest
+#    container_name: zscore
+#    ports:
+#      - "1001:1001"
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=docker
+#    networks:
+#      - spring
+#      - mysql
+#    depends_on:
+#      - mysql
+#
+#  file-manager:
+#    image: ucscgroupproject/file-manager:latest
+#    container_name: file-manager
+#    ports:
+#      - "1002:1002"
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=docker
+#    networks:
+#      - spring
+#      - mysql
+#    depends_on:
+#      - mysql
+#
+#  crypto-signer:
+#    image: ucscgroupproject/crypto-signer:latest
+#    container_name: crypto-signer
+#    ports:
+#      - "1003:1003"
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=docker
+#    networks:
+#      - spring
+#
+#  selection-process:
+#    image: ucscgroupproject/selection-process:latest
+#    container_name: selection-process
+#    ports:
+#      - "1004:1004"
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=docker
+#    networks:
+#      - spring
+#      - mysql
+#    depends_on:
+#      - mysql
 
 networks:
   mysql:
@@ -137,5 +137,4 @@ networks:
     driver: bridge
 
 volumes:
-  pgadmin:
   my-db:

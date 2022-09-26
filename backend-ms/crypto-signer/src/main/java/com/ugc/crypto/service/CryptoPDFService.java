@@ -1,28 +1,58 @@
 package com.ugc.crypto.service;
 
-
+import com.itextpdf.io.font.FontConstants;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.kernel.pdf.xobject.PdfImageXObject;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import com.ugc.crypto.payload.request.document.ReqStudentRecord;
 import com.ugc.crypto.payload.request.document.ReqValidationDocument;
+import com.ugc.crypto.payload.response.PayloadResponse;
+import com.ugc.crypto.payload.response.document.ResStudentRecord;
+import com.ugc.crypto.payload.response.document.ResValidationDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.text.StyleConstants;
 import java.io.IOException;
 import java.util.List;
 
 @Service
 public class CryptoPDFService {
+    @Autowired
+    RestTemplate restTemplate;
+
+    ResValidationDocument resValidationDocument = new ResValidationDocument();
+
+    public Boolean getDocumentData(Integer schoolId) {
+        try {
+            // Cant recieve complex objects
+            ResValidationDocument resValidationDocumentTemp = restTemplate.getForObject("http://localhost:8084/api/school/support/document?schoolId="+schoolId, ResValidationDocument.class);
+
+            if(resValidationDocumentTemp != null) {
+                resValidationDocument = resValidationDocumentTemp;
+            }
+
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+
+            return false;
+        }
+    }
+
     // TODO: Generate PDF
-    public void generate(HttpServletResponse response, ReqValidationDocument reqValidationDocument) throws IOException {
+    public void generate(HttpServletResponse response) throws IOException {
         PdfWriter writer = new PdfWriter(response.getOutputStream());
         PdfDocument pdfDocument = new PdfDocument(writer);
         Document document = new Document(pdfDocument, PageSize.A4);
@@ -39,12 +69,14 @@ public class CryptoPDFService {
 
         // School details
         // Name of the school
-        Paragraph schoolName = new Paragraph("School name: " + reqValidationDocument.getSchoolName());
+        Paragraph schoolName = new Paragraph("School name: " + resValidationDocument.getSchoolName());
         // School address
-        Paragraph schoolAddress = new Paragraph("School address: " + reqValidationDocument.getSchoolAddress());
+        Paragraph schoolAddress = new Paragraph("School address: " + resValidationDocument.getSchoolAddress());
+
+        PdfFont tableFont = PdfFontFactory.createFont(FontConstants.HELVETICA);
 
         // Table
-        float colWidth[] = {10, 30, 80, 50, 30, 30};
+        float colWidth[] = {10, 30, 80, 50, 30, 30, 20};
         Table table = new Table(colWidth);
 
         table.addCell("No.");
@@ -53,8 +85,9 @@ public class CryptoPDFService {
         table.addCell("NIC");
         table.addCell("Date of Admission");
         table.addCell("Date of Leave");
+        table.addCell("Validity");
 
-        List<ReqStudentRecord> studentRecordList = reqValidationDocument.getStudentRecords();
+        List<ResStudentRecord> studentRecordList = resValidationDocument.getStudentRecords();
 
         studentRecordList.forEach(item -> {
             table.addCell(item.getId().toString());
@@ -76,73 +109,6 @@ public class CryptoPDFService {
         document.add(table);
 
         document.close();
-
-
-//            Document document = new Document(PageSize.A4);
-//            PdfWriter.getInstance(document, response.getOutputStream());
-//
-//            document.open();
-//
-//            // Logo
-//
-//
-//            // Title
-//            Font fontTitle = FontFactory.getFont(FontFactory.COURIER_BOLD);
-//            fontTitle.setSize(15);
-//            Paragraph title = new Paragraph("UNIVERSITY GRANT COMMISSION", fontTitle);
-//            title.setAlignment(Paragraph.ALIGN_CENTER);
-//
-//            // Subtitle
-//            Font fontSubtitle = FontFactory.getFont(FontFactory.COURIER_BOLD);
-//            fontSubtitle.setSize(10);
-//            Paragraph subtitle = new Paragraph("Principal's Certificate", fontTitle);
-//            subtitle.setAlignment(Paragraph.ALIGN_CENTER);
-//
-//            // School details
-//            Font fontParagraph = FontFactory.getFont(FontFactory.HELVETICA);
-//            fontParagraph.setSize(10);
-//            // Name of the school
-//            Paragraph schoolName = new Paragraph("School name: " + stuDocument.getCreatorName(), fontParagraph);
-//            schoolName.setAlignment(Paragraph.ALIGN_LEFT);
-//            // School address
-//            Paragraph schoolAddress = new Paragraph("School address: " + stuDocument.getCreatorAddress(), fontParagraph);
-//            schoolAddress.setAlignment(Paragraph.ALIGN_LEFT);
-//
-//            // Table
-//            float colWidth[] = {10, 30, 80, 50, 30, 30};
-//            PdfPTable studentDetailsTable = new PdfPTable(colWidth);
-//            studentDetailsTable.setWidthPercentage(100);
-//            Font fontTable = FontFactory.getFont(FontFactory.HELVETICA);
-//            fontTable.setSize(10);
-//
-//
-//            studentDetailsTable.addCell(new PdfPCell(new Phrase("No.", fontTable)));
-//            studentDetailsTable.addCell(new PdfPCell(new Phrase("Index", fontTable)));
-//            studentDetailsTable.addCell(new PdfPCell(new Phrase("Full name", fontTable)));
-//            studentDetailsTable.addCell(new PdfPCell(new Phrase("NIC", fontTable)));
-//            studentDetailsTable.addCell(new PdfPCell(new Phrase("Date of Admission", fontTable)));
-//            studentDetailsTable.addCell(new PdfPCell(new Phrase("Date of Leave", fontTable)));
-//
-//            List<StudentRecord> studentRecordList = stuDocument.getStudentRecords();
-//
-//            studentRecordList.forEach(item -> {
-//                studentDetailsTable.addCell(new PdfPCell(new Phrase(item.getId(), fontTable)));
-//                studentDetailsTable.addCell(new PdfPCell(new Phrase(item.getIndex(), fontTable)));
-//                studentDetailsTable.addCell(new PdfPCell(new Phrase(item.getFullName(), fontTable)));
-//                studentDetailsTable.addCell(new PdfPCell(new Phrase(item.getNic(), fontTable)));
-//                studentDetailsTable.addCell(new PdfPCell(new Phrase(item.getDateOfAdmission(), fontTable)));
-//                studentDetailsTable.addCell(new PdfPCell(new Phrase(item.getDateOfLeave(), fontTable)));
-//            });
-//
-//            document.add(title);
-//            document.add(subtitle);
-//            document.add(new Paragraph("\n"));
-//            document.add(schoolName);
-//            document.add(schoolAddress);
-//            document.add(new Paragraph("\n"));
-//            document.add(studentDetailsTable);
-//
-//            document.close();
     }
 
     // TODO: Verify PDF

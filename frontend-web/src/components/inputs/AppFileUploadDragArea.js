@@ -59,7 +59,7 @@ function AppFileUploadDragArea() {
       // Sending to the server
       setLoading(true)
       setResMessage('')
-      fileManagerService.uploadFile(validationDocumentForm).then(
+      fileManagerService.uploadFile(validationDocumentForm.document).then(
         () => {
           setLoading(false)
         },
