@@ -212,4 +212,37 @@ public class CourseService {
 
         return ResponseEntity.ok(new PayloadResponse(null, "Course created", ResType.OK));
     }
+
+    public CourseResponse getCourseDetails(Integer courseId) {
+        Course course = courseRepository.getById(courseId);
+        CourseResponse courseResponse = new CourseResponse(
+                course.getId(),
+                course.getName(),
+                course.getStream().getId().toString(),
+                course.getCode(),
+                course.getProposedIntakes()
+        );
+        System.out.println(course.getStream().getStreamName());
+        return courseResponse;
+    }
+
+    public ResponseEntity<?> update(String id, String name, String code, String stream, String intake) {
+        Course course = courseRepository.getById(Integer.valueOf(id));
+        if(name!=null){
+            course.setName(name);
+        }
+        if(code!=null){
+            course.setCode(code);
+        }
+        if(stream!=""){
+            Stream stream1 = streamRepository.getById(Integer.parseInt(stream));
+            course.setStream(stream1);
+        }
+        if(intake!=null){
+            System.out.println(intake);
+            course.setProposedIntakes(Integer.valueOf(intake));
+        }
+        courseRepository.save(course);
+        return ResponseEntity.ok(new PayloadResponse(null, "Course updated", ResType.OK));
+    }
 }

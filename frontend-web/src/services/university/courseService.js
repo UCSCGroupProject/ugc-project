@@ -21,6 +21,18 @@ class CourseService {
       return res.data
     })
   }
+
+  getCourseDetails = (courseId) => {
+    return axios.get(API_URL + '/getCourseDetails?courseId='+ courseId).then((res) => {
+      return res.data
+    })
+  }
+
+  update(editCourseForm){
+    return axios.put(API_URL + '/update', editCourseForm).then((response) => {
+      return response.data
+    })
+  }
 }
 
 export default new CourseService()

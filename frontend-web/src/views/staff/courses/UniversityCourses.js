@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { v_required } from '../../../utils/validator'
+import { useSearchParams, useNavigate } from 'react-router-dom'
 import {
   CCard,
   CTable,
@@ -8,6 +9,7 @@ import {
   CTableHead,
   CFormInput,
   CCardBody,
+  CSpinner,
   CButton,
   CFormSelect,
   CCardHeader,
@@ -17,7 +19,13 @@ import {
   CInputGroup,
   CRow,
   CTableBody,
+  CAlert,
   CTableDataCell,
+  CModal,
+  CModalHeader,
+  CModalTitle,
+  CModalBody,
+  CModalFooter,
 } from '@coreui/react'
 
 import { cilSearch } from '@coreui/icons'
@@ -27,7 +35,7 @@ import CIcon from '@coreui/icons-react'
 import { toast } from 'react-toastify'
 
 import AppFetchDataLoader from '../../../components/loaders/AppFetchDataLoader'
-
+import courseService from '../../../services/university/courseService'
 import unicodeService from '../../../services/university/unicodeService'
 
 const headers = [
@@ -43,9 +51,190 @@ function StaffCourses() {
 
   // For the server side requests and responses
   const [loading, setLoading] = useState(false)
+
+  const [visible, setVisible] = useState(false)
+
+  const [resMessage, setResMessage] = useState('')
+  let navigate = useNavigate()
+
   const [searchParams, setSearchParams] = useSearchParams()
   const [courseID, setcourseID] = useState(searchParams.get('courseId'))
   
+  // Creating course
+  const [editCourseForm, setEditCourseForm] = useState({
+    id: '',
+    name: '',
+    stream: '',
+    course: '',
+    intake: '',
+  })
+
+  // Display streams
+  const [streams, setStreams] = useState([
+    {
+      id: '',
+      streamName: '',
+    },
+  ])
+
+
+  const onUpdateInput = (e) => {
+    setEditCourseForm((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }))
+  }
+
+  // For data errors
+  const [editCourseFormErrors, setEditCourseFormErrors] = useState({
+    nameError: '',
+    streamError: '',
+    codeError: '',
+    intakeError: '',
+  })
+
+
+  // Validate the data and
+  // If valid send to the server
+  // else show the errors
+  const handleEditCourseFormSubmit = async (e) => {
+    e.preventDefault()
+    let nameError = ''
+    let streamError = ''
+    let codeError = ''
+    let intakeError = ''
+
+    if (!v_required(editCourseForm.name)) {
+      nameError = 'Course name can not be empty.'
+    }
+
+    if (!v_required(editCourseForm.stream)) {
+      streamError = 'Stream can not be empty.'
+      console.log(editCourseForm.stream)
+    }
+
+    if (!v_required(editCourseForm.code)) {
+      codeError = 'Course code can not be empty.'
+    }
+
+    if (!v_required(editCourseForm.intake)) {
+      intakeError = 'Proposed course intake can not be empty.'
+    }
+
+
+    // If errors exist, show errors
+    setEditCourseFormErrors({
+      nameError,
+      streamError,
+      codeError,
+      intakeError,
+    })
+
+    console.log(editCourseFormErrors)
+
+    // If no errors exist, send to the server
+    if (!(nameError && streamError && codeError && intakeError)) {
+      console.log('Edit course form submitted')
+
+      // Sending to the server
+      setLoading(true)
+      setResMessage('')
+
+      courseService.update(editCourseForm).then(
+        (res) => {
+          
+
+          if (res.type === 'OK') {
+            toast.success(res.message)
+  
+            // Settings table data
+          console.log(editCourseForm)
+            navigate('/staff/courses')
+          } else if (res.type === 'BAD') {
+            toast.error(res.message)
+          }
+          
+          setLoading(false)
+        },
+        (error) => {
+          const res =
+            (error.response && error.response.data && error.response.data.message) ||
+            error.message ||
+            error.toString()
+          // After recieving the server request
+          toast.error(res)
+          setResMessage(res) // Remove later
+          setLoading(false)
+        },
+      )
+    }
+  }
+  
+  // Display streams
+  useEffect(() => {
+    setLoading(true)
+
+    courseService.getAllStreamsList().then(
+      (res) => {
+        if (res.type === 'OK') {
+          toast.success(res.message)
+          setStreams(res.payload)
+        } else if (res.type === 'BAD') {
+          toast.error(res.message)
+        }
+        setLoading(false)
+      },
+      (error) => {
+        const res =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString()
+
+        // After recieving the server request
+        toast.error(res)
+        setLoading(false)
+      },
+    )
+  }, [])
+  
+  // Display details of the course
+  const [editCoursePlaceholder, setEditCoursePlaceholder] = useState({
+    id: '',
+    name: '',
+    stream: '',
+    course: '',
+    intake: '',
+  })
+
+  useEffect(() => {
+    setLoading(true)
+
+    courseService.getCourseDetails(courseID).then(
+      (res) => {
+        if (res.type === 'OK') {
+          toast.success(res.message)
+          setEditCourseForm(res.payload)
+          console.log(res.payload)
+        } else if (res.type === 'BAD') {
+          toast.error(res.message)
+        }
+
+        setLoading(false)
+      },
+      (error) => {
+        const res =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString()
+
+        // After recieving the server request
+        toast.error(res)
+        setLoading(false)
+      },
+    )
+  }, [])
+
+  // Get unicode list
   useEffect(() => {
     setLoading(true)
 
@@ -123,6 +312,7 @@ function StaffCourses() {
 
   const FilterBar = () => {
     return (
+      
       <CInputGroup>
         <CInputGroupText>Filter By</CInputGroupText>
         <CFormSelect
@@ -197,6 +387,82 @@ function StaffCourses() {
 
   return (
     <div>
+      <div style={{ textAlign: 'right' }}>
+        <CButton color="warning" onClick={() => setVisible(!visible)}>
+          <CIcon icon={cibAddthis}></CIcon> Edit Course
+        </CButton>
+
+        <CModal alignment="center" scrollable visible={visible} onClose={() => setVisible(false)}>
+          <CModalHeader>
+            <CModalTitle>Edit course</CModalTitle>
+          </CModalHeader>
+          <CModalBody>
+            <CFormInput
+              type="text"
+              id="courseName"
+              name="name"
+              onChange={onUpdateInput}
+              value={editCourseForm.name}
+              feedback={editCourseFormErrors.nameError}
+            />
+            <br></br>
+            <CFormSelect
+              name="stream"
+              onChange={onUpdateInput}
+              defaultValue=''
+              value={editCourseForm.stream}
+              feedback={editCourseFormErrors.streamError}
+            >
+              <option selected hidden  value=''>Select stream</option>
+              {streams.map((e) => (
+                <option key={e.id} value={e.id}>
+                  {e.id} - {e.streamName}
+                </option>
+              ))}
+            </CFormSelect>
+            <br></br>
+            <CFormInput
+              type="number"
+              id="course"
+              name="course"
+              onChange={onUpdateInput}
+              value={editCourseForm.course}
+              feedback={editCourseFormErrors.codeError}
+            />
+            <br></br>
+            <CFormInput
+              type="number"
+              id="intake"
+              name="intake"
+              onChange={onUpdateInput}
+              value={editCourseForm.intake}
+              feedback={editCourseFormErrors.intakeError}
+            />
+            {resMessage && (
+              <CAlert color="danger" className="text-center">
+                {resMessage}
+              </CAlert>
+            )}
+          </CModalBody>
+
+          <CModalFooter>
+            <CButton color="secondary" onClick={() => setVisible(false)}>
+              Close
+            </CButton>
+            <CButton color="primary" onClick={handleEditCourseFormSubmit}>
+              {loading ? (
+                <span>
+                  <CSpinner size="sm" /> Validating
+                </span>
+              ) : (
+                <span>Update</span>
+              )}
+            </CButton>
+          </CModalFooter>
+        </CModal>
+      </div>
+
+      <br></br>
       <CRow>
         <CCol xs>
           <CCard className="mb-4">
@@ -284,10 +550,6 @@ function StaffCourses() {
           </CCard>
         </CCol>
       </CRow>
-
-      <div style={{textAlign: 'right'}}>
-      <CButton color='success'><CIcon icon={cibAddthis}></CIcon> Add Course</CButton>
-      </div>
 
     </div>
   )

@@ -1,11 +1,14 @@
 package com.ugc.university.controller;
 
+import com.ugc.university.model.course.Course;
 import com.ugc.university.payload.request.course.AddCourseForm;
+import com.ugc.university.payload.request.course.EditCourseForm;
 import com.ugc.university.payload.response.MessageResponse;
 import com.ugc.university.payload.response.PayloadResponse;
 import com.ugc.university.payload.response.ResType;
 import com.ugc.university.payload.response.course.CourseResponse;
 import com.ugc.university.payload.response.course.StreamResponse;
+import com.ugc.university.payload.response.course.UniCourseResponse;
 import com.ugc.university.service.course.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +48,19 @@ public class CourseController {
                 addCourseForm.getIntake());
     }
     // TODO: Update course
+    @GetMapping ("/getCourseDetails")
+    public ResponseEntity<?> getCourseDetails(@RequestParam(name = "courseId") Integer courseId){
+        CourseResponse course = courseService.getCourseDetails(courseId);
+        return ResponseEntity.ok(new PayloadResponse(course, "Course Details sent", ResType.OK));
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<?> updateCourse(@RequestBody EditCourseForm editCourseForm){
+        return courseService.update(editCourseForm.getId(), editCourseForm.getName(),
+                editCourseForm.getCode(),
+                editCourseForm.getStream(),
+                editCourseForm.getIntake());
+    }
     // TODO: Delete course
 
 
