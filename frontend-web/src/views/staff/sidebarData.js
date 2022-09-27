@@ -48,6 +48,34 @@ const _nav = [
   },
   {
     component: CNavTitle,
+    name: 'School related',
+  },
+  {
+    component: CNavItem,
+    name: 'Schools',
+    to: '/staff/school/all',
+    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavGroup,
+    name: 'Student validation',
+    to: '',
+    icon: <CIcon icon={cilChartLine} customClassName="nav-icon" />,
+    items: [
+      {
+        component: CNavItem,
+        name: 'Send documents',
+        to: '/staff/school/validation/send',
+      },
+      {
+        component: CNavItem,
+        name: 'Download documents',
+        to: '/staff/school/validation/download',
+      },
+    ],
+  },
+  {
+    component: CNavTitle,
     name: 'Selection',
   },
   {

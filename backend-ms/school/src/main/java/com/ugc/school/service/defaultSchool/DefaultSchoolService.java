@@ -52,6 +52,7 @@ public class DefaultSchoolService {
 
         if(defaultSchool != null) {
             Res_DefaultSchool res_defaultSchool = new Res_DefaultSchool(
+                    defaultSchool.getId(),
                     defaultSchool.getName(),
                     defaultSchool.getDistrict().getName()
             );
@@ -70,6 +71,7 @@ public class DefaultSchoolService {
         if(defaultSchools != null) {
             defaultSchools.forEach(item -> {
                 Res_DefaultSchool res_defaultSchool = new Res_DefaultSchool(
+                        item.getId(),
                         item.getName(),
                         item.getDistrict().getName()
                 );

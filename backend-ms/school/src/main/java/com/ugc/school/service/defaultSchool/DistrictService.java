@@ -5,6 +5,9 @@ import com.ugc.school.repository.defaultSchool.DistrictRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class DistrictService {
     @Autowired
@@ -34,7 +37,7 @@ public class DistrictService {
         districtRepository.save(new District("Kegalle"));
         districtRepository.save(new District("Ratnapura"));
         districtRepository.save(new District("Colombo"));
-        districtRepository.save(new District("Gamapaha"));
+        districtRepository.save(new District("Gampaha"));
         districtRepository.save(new District("Kalutara"));
     }
 }

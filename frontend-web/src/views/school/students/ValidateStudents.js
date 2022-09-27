@@ -3,9 +3,6 @@ import { useState, useEffect, useRef } from 'react'
 import {
   CRow,
   CCol,
-  CCard,
-  CCardBody,
-  CCardHeader,
   CButton,
   CTable,
   CTableHead,
@@ -15,7 +12,6 @@ import {
   CTableDataCell,
   CTableBody,
   CSpinner,
-  CAlert,
   CFormCheck,
 } from '@coreui/react'
 

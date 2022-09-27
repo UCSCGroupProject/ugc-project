@@ -10,6 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Res_DefaultSchool {
+    public Integer schoolId;
     public String schoolName;
     public String districtName;
 }
