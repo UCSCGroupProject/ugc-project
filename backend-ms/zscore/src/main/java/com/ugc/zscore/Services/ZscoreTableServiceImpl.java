@@ -35,9 +35,9 @@ public class ZscoreTableServiceImpl implements ZScoreTableService{
     public ZscoreTable updateZvalue(Long z_id, ZscoreTable zscoreTable) {
         ZscoreTable zstDB = zscoreTableRepository.findById(z_id).get();
 
-        if(Objects.nonNull(zscoreTable.getDistrict()) &&
-        !"".equalsIgnoreCase(zscoreTable.getDistrict())){
-            zstDB.setDistrict(zscoreTable.getDistrict());
+        if(Objects.nonNull(zscoreTable.getUni_code()) &&
+        !"".equalsIgnoreCase(zscoreTable.getUni_code())){
+            zstDB.setUni_code(zscoreTable.getUni_code());
         }
 
         return zscoreTableRepository.save(zstDB);
