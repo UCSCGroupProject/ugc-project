@@ -217,19 +217,17 @@ public class SelectionController  {
 
 //        ------------------------------------------------MERIT SELECTION------------------------------------------------
         selectionService.meritSelection(sortedStudents, applications, meritCourseIntake, aptitudeTestResultRequest, olUnicodeRequest);
-
+        System.out.println("Merit selection completed");
 //        Get district quota intake amount for each course
         Map<String, Integer> districtCourseIntake = selectionService.getDistrictIntake(courseIntakeRequest.getCourseIntake());
 
         Map<String, List<String>> districtList = new HashMap<>();
         List<String> d1 = new ArrayList<>();
-        d1.add("1111111");
         d1.add("8888888");
         List<String> d2 = new ArrayList<>();
         d2.add("2222222");
         List<String> d3 = new ArrayList<>();
         d3.add("3333333");
-        d3.add("5555555");
         d3.add("0000000");
         List<String> d4 = new ArrayList<>();
         d4.add("4444444");
@@ -237,11 +235,11 @@ public class SelectionController  {
         d5.add("6666666");
         d5.add("9999999");
         d5.add("7777777");
-        aptitudeTestResults.put("d1", d1);
-        aptitudeTestResults.put("d2", d2);
-        aptitudeTestResults.put("d3", d3);
-        aptitudeTestResults.put("d4", d4);
-        aptitudeTestResults.put("d5", d5);
+        districtList.put("Hambantota", d1);
+        districtList.put("d2", d2);
+        districtList.put("d3", d3);
+        districtList.put("d4", d4);
+        districtList.put("Mannar", d5);
 
 
 //        Map students to districts
@@ -249,11 +247,12 @@ public class SelectionController  {
 
 //        ------------------------------------------------DISTRICT QUOTA SELECTION------------------------------------------------
         selectionService.districtSelection(sortedStudents, applications, districtCourseIntake, aptitudeTestResultRequest, olUnicodeRequest, districtRequest);
-
+        System.out.println("District selection completed");
 //        Get ED quota intake amount for each course
         Map<String, Integer> edCourseIntake = selectionService.getEDIntake(courseIntakeRequest.getCourseIntake());
 
 //        ------------------------------------------------EDUCATIONALLY DISADVANTAGED SELECTION------------------------------------------------
         selectionService.edSelection(sortedStudents, applications, edCourseIntake, aptitudeTestResultRequest, olUnicodeRequest, districtRequest);
+        System.out.println("ED selection completed");
     }
 }
