@@ -62,6 +62,9 @@ public class CourseController {
                 editCourseForm.getIntake());
     }
     // TODO: Delete course
-
+    @DeleteMapping("")
+    public ResponseEntity<?> deleteSchool(@RequestParam Integer courseId) {
+        return courseService.delete(courseId);
+    }
 
 }

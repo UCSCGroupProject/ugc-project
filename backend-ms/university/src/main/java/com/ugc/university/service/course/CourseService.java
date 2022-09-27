@@ -245,4 +245,9 @@ public class CourseService {
         courseRepository.save(course);
         return ResponseEntity.ok(new PayloadResponse(null, "Course updated", ResType.OK));
     }
+
+    public ResponseEntity<?> delete(Integer courseId) {
+        courseRepository.deleteById(courseId);
+        return ResponseEntity.ok(new PayloadResponse(null, "Course deleted", ResType.OK));
+    }
 }
