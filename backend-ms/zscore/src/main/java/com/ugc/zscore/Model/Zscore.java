@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 import java.sql.Date;
 
 @Entity
-@Table(name = "zscore")
+@Table(name = "test")
 @Getter
 @Setter
 public class Zscore {

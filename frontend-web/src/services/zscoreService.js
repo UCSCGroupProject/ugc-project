@@ -4,11 +4,13 @@ const API_URL = 'http://localhost:4/api/zscore'
 
 class ZscoreService{
 
-    importZscoreTable(){
-        return axios.post(API_URL + '/import', staffRoleDetailsForm).then((response) => {
+    zscoreImportFormCheck(zscoreImportForm){
+        return axios.post(API_URL + '/import', zscoreImportForm).then((response) => {
             console.log(response.data)
             return response.data
         })
     }
 
 }
+
+export default new ZscoreService()
