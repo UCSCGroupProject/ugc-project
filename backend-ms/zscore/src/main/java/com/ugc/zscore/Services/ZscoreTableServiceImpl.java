@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Transactional
@@ -25,13 +26,21 @@ public class ZscoreTableServiceImpl implements ZScoreTableService{
         return zscoreTableRepository.findAll();
     }
 
-//    @Override
-//    public void deleteZvalueById(Long z_id){
-//        zscoreTableRepository.deleteById(z_id);
-//    }
-
-//    @Override
-    public ZscoreTable updateValue(Long z_id, ZscoreTable zscoreTable){
-        ZscoreTable zst = zscoreTableRepository.findById(z_id).get();
+    @Override
+    public void deleteZvalueById(Long z_id){
+        zscoreTableRepository.deleteById(z_id);
     }
+
+    @Override
+    public ZscoreTable updateZvalue(Long z_id, ZscoreTable zscoreTable) {
+        ZscoreTable zstDB = zscoreTableRepository.findById(z_id).get();
+
+        if(Objects.nonNull(zscoreTable.getDistrict()) &&
+        !"".equalsIgnoreCase(zscoreTable.getDistrict())){
+            zstDB.setDistrict(zscoreTable.getDistrict());
+        }
+
+        return zscoreTableRepository.save(zstDB);
+    }
+
 }

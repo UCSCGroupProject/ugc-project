@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import {
   CButton,
   CModal,
@@ -7,7 +8,7 @@ import {
   CModalBody,
   CModalFooter,
   CFormInput,
-  CButtonGroup,
+  CSpinner,
   CRow,
   CCol,
   CCard,
@@ -20,8 +21,82 @@ import {
 import { cibAddthis } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
+import {
+  v_required,
+} from '../../../utils/validator'
+
+import zscoreService from '../../../services/zscoreService'
+
 function StaffZScore() {
   const [visible, setVisible] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [resMessage, setResMessage] = useState('')
+  let navigate = useNavigate()
+
+  const [zscoreImportForm, setZscoreImportForm] = useState({
+    importFile: '',
+  })
+
+  const onUpdateInput = (e) => {
+    setZscoreImportForm((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }))
+  }
+
+  // For data errors
+  const [zscoreImportFormErrors, setZscoreImportFormErrors] = useState({
+    importFileError: '',
+  })
+
+  // Validate the data and
+  // If valid send to the server
+  // else show the errors
+  const handleZscoreImportFormSubmit = async (e) => {
+    e.preventDefault()
+
+    let importFileError = ''
+
+    if (!v_required(zscoreImportForm.importFile)) {
+      importFileError = 'Please choose .csv format file'
+    }
+
+    // If errors exist, show errors
+    setZscoreImportFormErrors({
+      importFileError
+    })
+
+    // If no errors exist, send to the server
+    if (
+      !(
+        importFileError
+      )
+
+      ) {
+        // console.log('FIRST SECTION')
+        console.log(zscoreImportForm)
+  
+        // Sending to the server
+        setLoading(true)
+        setResMessage('')
+        zscoreService.zscoreImportFormCheck(zscoreImportForm).then(
+          () => {
+            setLoading(false)
+          },
+          (error) => {
+            const res =
+              (error.response && error.response.data && error.response.data.message) ||
+              error.message ||
+              error.toString()
+            // After recieving the server request
+            setResMessage(res)
+            setLoading(false)
+          },
+        )
+      }
+    }
+
+
   return (
     <>
     <div>
@@ -41,16 +116,34 @@ function StaffZScore() {
                   </CModalHeader>
                   <CModalBody>       
                     <div>
-                      <CFormInput type="file" onChange={(e)=>this.handleFile(e)} size="sm" id="formFileSm" label="Choose your file to import as Z-score table" />
+                      <CFormInput 
+                        type="file" 
+                        onChange={(e)=>this.handleFile(e)} 
+                        size="sm" id="formFileSm" 
+                        label="Choose your file to import as Z-score table" 
+                        feedback={zscoreImportFormErrors.importFileError}
+                        invalid={zscoreImportFormErrors.importFileError ? true : false}
+                      />
                     </div><br />
-                    <div><CFormInput type="text" size="sm" label="Save as" text="Please enter the year of Z-score table" aria-label="sm input example"/></div>
+                    {/* <div><CFormInput type="text" size="sm" label="Save as" text="Please enter the year of Z-score table" aria-label="sm input example"/></div> */}
                     {/* <div><CFormCheck id="flexCheckChecked" label="Latest Z-table" /></div> */}
                   </CModalBody>
                   <CModalFooter>
                     <CButton color="secondary" onClick={() => setVisible(false)}>
                       Close
                     </CButton>
-                    <CButton color="success">Import</CButton>
+                    <CButton
+                      color="success"
+                      onClick={handleZscoreImportFormSubmit}
+                    >
+                      {loading ? (
+                        <span>
+                          <CSpinner size="sm" /> Importing
+                        </span>
+                        ) : (
+                        <span>Import</span>
+                      )}
+                    </CButton>
                   </CModalFooter>
                 </CModal>
               </div>

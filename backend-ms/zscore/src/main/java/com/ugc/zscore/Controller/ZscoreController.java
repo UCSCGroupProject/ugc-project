@@ -98,14 +98,14 @@ public class ZscoreController {
     }
 
     @PutMapping ("/updateZValue/{id}")
-    public String updateValue(@PathVariable("id") Long z_id, @RequestBody ZscoreTable zscoreTable) {
-        return  ZScoreTableService.updateZvalue(z_id, zscoreTable);
-//        return "update new value";}
+    public ZscoreTable updateValue(@PathVariable("id") Long z_id, @RequestBody ZscoreTable zscoreTable) {
+        return zscoreTableService.updateZvalue(z_id, zscoreTable);
+    }
 
-//    @DeleteMapping ("/deleteZValue/{id}")
-//    public String deleteValuebyId(@PathVariable("id") Long z_id) {
-//        ZScoreTableService.deleteZvalueById(z_id);
-//        return "Z-score value deleted successfully";
-//    }
+    @DeleteMapping ("/deleteZValue/{id}")
+    public String deleteValuebyId(@PathVariable("id") Long z_id) {
+        zscoreTableService.deleteZvalueById(z_id);
+        return "Z-score value deleted successfully";
+    }
 
 }
