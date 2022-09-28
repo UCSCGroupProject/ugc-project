@@ -196,7 +196,6 @@ function StaffCourses() {
     courseService.getAllStreamsList().then(
       (res) => {
         if (res.type === 'OK') {
-          toast.success(res.message)
           setStreams(res.payload)
         } else if (res.type === 'BAD') {
           toast.error(res.message)

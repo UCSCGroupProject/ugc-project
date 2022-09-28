@@ -54,6 +54,9 @@ function StaffCourses() {
 
   const [visible, setVisible] = useState(false)
 
+  const [visible2, setVisible2] = useState(false)
+  const [deleteCourseId, setDeleteCourseId] = useState(0)
+
   const [resMessage, setResMessage] = useState('')
   let navigate = useNavigate()
 
@@ -145,7 +148,6 @@ function StaffCourses() {
           
 
           if (res.type === 'OK') {
-            toast.success(res.message)
   
             // Settings table data
           console.log(editCourseForm)
@@ -177,7 +179,6 @@ function StaffCourses() {
     courseService.getAllStreamsList().then(
       (res) => {
         if (res.type === 'OK') {
-          toast.success(res.message)
           setStreams(res.payload)
         } else if (res.type === 'BAD') {
           toast.error(res.message)
@@ -212,7 +213,6 @@ function StaffCourses() {
     courseService.getCourseDetails(courseID).then(
       (res) => {
         if (res.type === 'OK') {
-          toast.success(res.message)
           setEditCourseForm(res.payload)
           console.log(res.payload)
         } else if (res.type === 'BAD') {
@@ -263,6 +263,40 @@ function StaffCourses() {
       },
     )
   }, [])
+
+  // Delete course
+  const handleDeleteCourse = async () => {
+    setLoading(true)
+    console.log(deleteCourseId)
+    courseService.delete(deleteCourseId).then(
+      (res) => {
+        if (res.type === 'OK') {
+          toast.success(res.message)
+          console.log(res)
+          navigate('/staff/courses')
+        } else if (res.type === 'BAD') {
+          toast.error(res.message)
+        }
+
+        setLoading(false)
+      },
+      (error) => {
+        const res =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString()
+
+        // After recieving the server request
+        toast.error(res)
+        setLoading(false)
+      },
+    )
+  }
+
+  const onClickDeleteButton = (courseId) => {
+    setDeleteCourseId(courseId)
+    setVisible2(!visible2)
+  }
 
   // ADVANCED TABLE
   const [tableHeaders, setTableHeaders] = useState([])
@@ -391,6 +425,9 @@ function StaffCourses() {
         <CButton color="warning" onClick={() => setVisible(!visible)}>
           <CIcon icon={cibAddthis}></CIcon> Edit Course
         </CButton>
+        <CButton color="danger" onClick={() => onClickDeleteButton(editCourseForm.id)}>
+          <CIcon icon={cibAddthis}></CIcon> Delete Course
+        </CButton>
 
         <CModal alignment="center" scrollable visible={visible} onClose={() => setVisible(false)}>
           <CModalHeader>
@@ -460,6 +497,29 @@ function StaffCourses() {
             </CButton>
           </CModalFooter>
         </CModal>
+
+        {/* Delete school pop up */}
+        <CModal
+          visible={visible2}
+          onClose={() => setVisible2(false)}
+          alignment="center"
+        >
+          <CModalHeader onClose={() => setVisible2(false)}>
+            <CModalTitle>Delete Course</CModalTitle>
+          </CModalHeader>
+          <CModalBody>
+            Do you want to delete this course? Please note that this process is not recoverable.
+          </CModalBody>
+          <CModalFooter>
+            <CButton color="secondary" onClick={() => setVisible2(false)}>
+              Close
+            </CButton>
+            <CButton color="danger" onClick={() => handleDeleteCourse()}>
+              Delete
+            </CButton>
+          </CModalFooter>
+        </CModal>
+
       </div>
 
       <br></br>

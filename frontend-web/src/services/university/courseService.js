@@ -33,6 +33,12 @@ class CourseService {
       return response.data
     })
   }
+
+  delete(courseId) {
+    return axios.delete(API_URL + '?courseId=' + courseId).then((res) => {
+      return res.data
+    })
+  }
 }
 
 export default new CourseService()
