@@ -26,9 +26,6 @@ public class StaffService {
     @Autowired
     PasswordEncoder encoder;
 
-    private final AppliedStudentRepository appliedStudentRepository;
-    private final ALPassedStudentRepository alPassedStudentRepository;
-    private final ATPassedStudentRepository atPassedStudentRepository;
     private final StaffRepository staffRepository;
     private final RoleRepository roleRepository;
 
@@ -38,10 +35,8 @@ public class StaffService {
     private final OfficeDeptRepository officeDeptRepository;
 
     private final PersonalDetailsRepository personalDetailsRepository;
-    public StaffService(AppliedStudentRepository appliedStudentRepository, ALPassedStudentRepository alPassedStudentRepository, ATPassedStudentRepository atPassedStudentRepository, StaffRepository staffRepository, RoleRepository roleRepository, AuthenticationManager authenticationManager, JWTUtils jwtUtils, OfficeDeptRepository officeDeptRepository, PersonalDetailsRepository personalDetailsRepository) {
-        this.appliedStudentRepository = appliedStudentRepository;
-        this.alPassedStudentRepository = alPassedStudentRepository;
-        this.atPassedStudentRepository = atPassedStudentRepository;
+    public StaffService(StaffRepository staffRepository, RoleRepository roleRepository, AuthenticationManager authenticationManager, JWTUtils jwtUtils, OfficeDeptRepository officeDeptRepository, PersonalDetailsRepository personalDetailsRepository) {
+
         this.staffRepository = staffRepository;
         this.roleRepository = roleRepository;
         this.authenticationManager = authenticationManager;
@@ -128,17 +123,6 @@ public class StaffService {
             return false;
     }
 
-    public List<AppliedStudent> getAppliedStudents() {
-        return appliedStudentRepository.findAll();
-    }
-
-    public List<ALPassedStudent> getALPassedStudents() {
-        return alPassedStudentRepository.findAll();
-    }
-
-    public List<ATPassedStudent> getATPassedStudents() {
-        return atPassedStudentRepository.findAll();
-    }
 
     public boolean findByUsername(String username) {
         return staffRepository.existsByUsername(username);

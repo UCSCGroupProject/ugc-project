@@ -5,9 +5,6 @@ import com.ugc.staff.Payload.Request.Email.EmailRequest;
 import com.ugc.staff.Payload.Request.LoginRequest;
 import com.ugc.staff.Payload.Request.OTP.OTPRequest;
 import com.ugc.staff.Payload.Request.OTP.SmsRequest;
-import com.ugc.staff.Model.ALPassedStudent;
-import com.ugc.staff.Model.ATPassedStudent;
-import com.ugc.staff.Model.AppliedStudent;
 import com.ugc.staff.Payload.Request.StaffRegistration.LoginDetailsRequest;
 import com.ugc.staff.Payload.Request.StaffRegistration.PersonalDetailsRequest;
 import com.ugc.staff.Payload.Request.StaffRegistration.RoleDetailsRequest;
@@ -44,20 +41,6 @@ public class StaffController {
         return staffService.isStaff(email);
     }
 
-    @GetMapping(path = "appliedStudents")
-    public List<AppliedStudent> getAppliedStudents(){
-        return staffService.getAppliedStudents();
-    }
-
-    @GetMapping(path = "ALPassedStudents")
-    public List<ALPassedStudent> getALPassedStudents(){
-        return staffService.getALPassedStudents();
-    }
-
-    @GetMapping(path = "ATPassedStudents")
-    public List<ATPassedStudent> getATPassedStudents(){
-        return staffService.getATPassedStudents();
-    }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest){
