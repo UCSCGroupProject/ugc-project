@@ -69,8 +69,8 @@ const _nav = [
       },
       {
         component: CNavItem,
-        name: 'Download documents',
-        to: '/staff/school/validation/download',
+        name: 'Validation documents',
+        to: '/staff/school/validation/documents',
       },
     ],
   },

@@ -39,7 +39,8 @@ const Staff_Complaints_View = React.lazy(() => import('./views/staff/complaints/
 // Staff -> School related
 const Staff_SchoolRelated_Schools = React.lazy(() => import('./views/staff/schoolRelated/Schools'))
 const Staff_SchoolRelated_StuValidation_SendDoc = React.lazy(() => import('./views/staff/schoolRelated/studentValidation/SendDocuments'))
-const Staff_SchoolRelated_StuValidation_DownloadDoc = React.lazy(() => import('./views/staff/schoolRelated/studentValidation/DownloadDocuments'))
+const Staff_SchoolRelated_StuValidation_ValidationDoc = React.lazy(() => import('./views/staff/schoolRelated/studentValidation/ValidationDocuments'))
+const Staff_SchoolRelated_StuValidation_Overview= React.lazy(() => import('./views/staff/schoolRelated/studentValidation/Overview'))
 
 // Student views
 // Settings
@@ -120,7 +121,8 @@ const routes = [
   { path: '/staff/school/all',                      name: 'Schools',                element: Staff_SchoolRelated_Schools },
   { path: '/staff/school/validation',               name: 'Student validation',     element: Staff_SchoolRelated_StuValidation_SendDoc },
   { path: '/staff/school/validation/send',          name: 'Send Documents',         element: Staff_SchoolRelated_StuValidation_SendDoc },
-  { path: '/staff/school/validation/download',      name: 'Download Documents',     element: Staff_SchoolRelated_StuValidation_DownloadDoc },
+  { path: '/staff/school/validation/documents',     name: 'Validation Documents',   element: Staff_SchoolRelated_StuValidation_ValidationDoc },
+  { path: '/staff/school/validation/documents/overview',     name: 'Overview',   element: Staff_SchoolRelated_StuValidation_Overview },
 
   // Student routes
   // Settings

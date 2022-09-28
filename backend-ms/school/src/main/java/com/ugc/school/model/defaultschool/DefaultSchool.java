@@ -1,10 +1,13 @@
 package com.ugc.school.model.defaultschool;
 
+import com.ugc.school.model.SchoolDetails;
+import com.ugc.school.model.document.ValidationDocument;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "default_school")

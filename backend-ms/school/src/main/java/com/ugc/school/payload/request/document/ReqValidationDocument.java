@@ -14,4 +14,5 @@ public class ReqValidationDocument {
     private String schoolName;
     private String schoolAddress;
     private List<ReqStudentRecord> studentRecords;
+    private Boolean status;
 }

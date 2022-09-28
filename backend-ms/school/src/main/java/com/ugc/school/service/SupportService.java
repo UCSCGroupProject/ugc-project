@@ -44,7 +44,8 @@ public class SupportService {
                 document.getSchoolId(),
                 document.getSchoolName(),
                 document.getSchoolAddress(),
-                resStudentRecords
+                resStudentRecords,
+                document.getStatus()
         );
 
         if(document != null) {

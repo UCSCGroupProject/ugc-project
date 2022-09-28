@@ -18,6 +18,13 @@ class UploadedDocumentService {
     })
   }
 
+  getDocuments() {
+    return axios.get(API_URL).then((res) => {
+      console.log('recieved', res.data)
+      return res.data
+    })
+  }
+
   deleteUploadDocument(documentId) {
     return axios.delete(API_URL + '?documentId=' + documentId).then((res) => {
       console.log(res.data)

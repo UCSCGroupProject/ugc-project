@@ -26,7 +26,8 @@ Content-Type: application/json
       "leaveDate": "2015-8-16",
       "validity": false
     }
-  ]
+  ],
+  "status": false
 }
 
 ### Update document

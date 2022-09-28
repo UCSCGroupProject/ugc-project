@@ -1,5 +1,6 @@
 package com.ugc.school.service.document;
 
+import com.ugc.school.model.defaultschool.DefaultSchool;
 import com.ugc.school.model.document.StudentRecord;
 import com.ugc.school.model.document.UploadedDocument;
 import com.ugc.school.model.document.ValidationDocument;
@@ -9,6 +10,7 @@ import com.ugc.school.payload.response.PayloadResponse;
 import com.ugc.school.payload.response.ResType;
 import com.ugc.school.payload.response.document.ResStudentRecord;
 import com.ugc.school.payload.response.document.ResValidationDocument;
+import com.ugc.school.repository.defaultSchool.DefaultSchoolRepository;
 import com.ugc.school.repository.document.UploadedDocumentRepository;
 import com.ugc.school.repository.document.ValidationDocumentRepository;
 import com.ugc.school.repository.document.StudentRecordRepository;
@@ -28,6 +30,8 @@ public class ValidationDocumentService {
     private ValidationDocumentRepository validationDocumentRepository;
     @Autowired
     private StudentRecordRepository studentRecordRepository;
+    @Autowired
+    private DefaultSchoolRepository defaultSchoolRepository;
 
 
     public ResponseEntity<?> getDocument(Integer schoolId) {
@@ -55,7 +59,8 @@ public class ValidationDocumentService {
                 document.getSchoolId(),
                 document.getSchoolName(),
                 document.getSchoolAddress(),
-                resStudentRecords
+                resStudentRecords,
+                document.getStatus()
         );
 
         if(document != null) {
@@ -69,7 +74,8 @@ public class ValidationDocumentService {
         ValidationDocument document = new ValidationDocument(
                 reqValidationDocument.getSchoolId(),
                 reqValidationDocument.getSchoolName(),
-                reqValidationDocument.getSchoolAddress()
+                reqValidationDocument.getSchoolAddress(),
+                reqValidationDocument.getStatus()
         );
 
         validationDocumentRepository.save(document);
@@ -95,6 +101,7 @@ public class ValidationDocumentService {
 
     public ResponseEntity<?> updateDocument(ReqValidationDocument reqValidationDocument) {
         ValidationDocument document = validationDocumentRepository.findDocumentBySchoolId(reqValidationDocument.getSchoolId());
+        document.setStatus(true);
 
         if(document != null){
             List<ReqStudentRecord> reqStudentRecords = reqValidationDocument.getStudentRecords();
@@ -111,7 +118,7 @@ public class ValidationDocumentService {
                     System.out.println("Record not found");
                 }
             });
-
+            validationDocumentRepository.save(document);
             return ResponseEntity.ok(new PayloadResponse(null, "Document updated", ResType.OK));
         }
         else {

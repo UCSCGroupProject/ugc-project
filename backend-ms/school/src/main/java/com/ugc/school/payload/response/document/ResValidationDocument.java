@@ -15,4 +15,5 @@ public class ResValidationDocument {
     private String schoolName;
     private String schoolAddress;
     private List<ResStudentRecord> studentRecords;
+    private Boolean status;
 }

@@ -23,9 +23,12 @@ public class ValidationDocument {
     @OneToMany(mappedBy = "document")
     private List<StudentRecord> studentRecords;
 
-    public ValidationDocument(Integer schoolId, String schoolName, String schoolAddress) {
+    private Boolean status;
+
+    public ValidationDocument(Integer schoolId, String schoolName, String schoolAddress, Boolean status) {
         this.schoolId = schoolId;
         this.schoolName = schoolName;
         this.schoolAddress = schoolAddress;
+        this.status = status;
     }
 }

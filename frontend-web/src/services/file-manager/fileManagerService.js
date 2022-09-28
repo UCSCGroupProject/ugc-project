@@ -20,6 +20,14 @@ class FileManagerService {
       })
   }
 
+  downloadFile(fileId) {
+    window.open(API_URL + '?fileId=' + fileId, '_blank', 'noopener,noreferrer')
+    // return axios.get(API_URL + '?fileId=' + fileId).then((res) => {
+    //   console.log(res.data)
+    //   return res.data
+    // })
+  }
+
   deleteFile(fileId) {
     return axios.delete(API_URL + '?fileId=' + fileId).then((res) => {
       console.log(res.data)

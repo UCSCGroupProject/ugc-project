@@ -4,5 +4,8 @@ POST http://localhost:8084/api/school/document/upload?documentId=1&fileId=1
 ### Check Document existance
 GET http://localhost:8084/api/school/document/upload/check?documentId=1
 
+### Get documents
+GET http://localhost:8084/api/school/document/upload
+
 ### Delete Document
 DELETE http://localhost:8084/api/school/document/upload?documentId=1

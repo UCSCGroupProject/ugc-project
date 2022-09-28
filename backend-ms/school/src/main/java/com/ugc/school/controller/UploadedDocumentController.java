@@ -24,6 +24,12 @@ public class UploadedDocumentController {
         return uploadedDocumentService.isUploadDocumentExist(documentId);
     }
 
+    // Get uploaded document status records
+    @GetMapping("")
+    public ResponseEntity<?> getDocuments()  {
+        return uploadedDocumentService.getDocuments();
+    }
+
     @DeleteMapping
     public Integer deleteUploadDocument(@RequestParam("documentId") Integer documentId) {
         return uploadedDocumentService.deleteUploadDocument(documentId);
