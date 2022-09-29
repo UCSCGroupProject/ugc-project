@@ -1,0 +1,11 @@
+### Check subject compatibility over course
+POST http://localhost:8082/api/university/course/alsubjectdependency/check
+Content-Type: application/json
+
+{
+  "firstSubject": "Chemistry",
+  "secondSubject": "Physics",
+  "thirdSubject": "Biology",
+  "courseCode": "001"
+}
+

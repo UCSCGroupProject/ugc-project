@@ -2,6 +2,7 @@ package com.ugc.university.model.course;
 
 import com.ugc.university.model.University;
 import com.ugc.university.model.UniversityDetails;
+import com.ugc.university.model.alsubject.ALSubjectDependency;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,7 +12,12 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "course")
+@Table(
+        name = "course",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "name"),
+                @UniqueConstraint(columnNames = "code")
+        })
 @Getter
 @Setter
 @NoArgsConstructor
@@ -31,6 +37,10 @@ public class Course {
     // For the foreign key referenced from Unicode
     @OneToMany(mappedBy = "course")
     private List<Unicode> unicodes;
+
+    // For the foreign key referenced from AlSubjectDependency
+    @OneToMany(mappedBy = "course")
+    private List<ALSubjectDependency> alSubjectDependencies;
 
     public Course(String name, Stream stream, String code, Integer proposedIntakes) {
         this.name = name;

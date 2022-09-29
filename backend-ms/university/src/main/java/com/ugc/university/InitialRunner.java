@@ -1,6 +1,8 @@
 package com.ugc.university;
 
 import com.ugc.university.service.UniversityService;
+import com.ugc.university.service.alsubject.ALSubjectDependencyService;
+import com.ugc.university.service.alsubject.ALSubjectService;
 import com.ugc.university.service.course.CourseService;
 import com.ugc.university.service.course.StreamService;
 import com.ugc.university.service.course.UnicodeService;
@@ -18,6 +20,10 @@ public class InitialRunner implements CommandLineRunner {
     private UniversityService universityService;
     @Autowired
     private UnicodeService unicodeService;
+    @Autowired
+    private ALSubjectService alSubjectService;
+    @Autowired
+    private ALSubjectDependencyService alSubjectDependencyService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -26,5 +32,7 @@ public class InitialRunner implements CommandLineRunner {
         universityService.initRoles();
         universityService.initUniversity();
         unicodeService.initUnicodes();
+        alSubjectService.initALSubjects();
+        alSubjectDependencyService.initALSubjectDependencies();
     }
 }
