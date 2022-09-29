@@ -1,5 +1,6 @@
 package com.ugc.university.controller;
 
+import com.ugc.university.payload.request.alsubject.Req_ALSubjectsWithResults;
 import com.ugc.university.payload.request.alsubject.Req_ChoosedALSubjects;
 import com.ugc.university.service.alsubject.ALSubjectDependencyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,5 +17,11 @@ public class ALSubjectDependencyController {
     public Boolean performDependencyCheck(@RequestBody Req_ChoosedALSubjects req_choosedALSubjects) {
         System.out.println(req_choosedALSubjects);
         return alSubjectDependencyService.performDependencyCheck(req_choosedALSubjects);
+    }
+
+    @PostMapping("/checkwithresults")
+    public Boolean performDependencyCheck(@RequestBody Req_ALSubjectsWithResults req_alSubjectsWithResults) {
+        System.out.println(req_alSubjectsWithResults);
+        return alSubjectDependencyService.performDependencyCheckWithResults(req_alSubjectsWithResults);
     }
 }

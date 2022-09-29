@@ -3,6 +3,7 @@ package com.ugc.university.service.alsubject;
 import com.ugc.university.model.alsubject.ALSubjectDependency;
 import com.ugc.university.model.alsubject.Alsubject;
 import com.ugc.university.model.course.Course;
+import com.ugc.university.payload.request.alsubject.Req_ALSubjectsWithResults;
 import com.ugc.university.payload.request.alsubject.Req_ChoosedALSubjects;
 import com.ugc.university.repository.alsubject.ALSubjectDependencyRepository;
 import com.ugc.university.repository.alsubject.ALSubjectRepository;
@@ -10,6 +11,7 @@ import com.ugc.university.repository.course.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -312,6 +314,100 @@ public class ALSubjectDependencyService {
         if(firstSubjectValidity && secondSubjectValidity && thirdSubjectValidity){
             return true;
         } else {
+            return false;
+        }
+    }
+
+    // Dependency check with results
+    public Boolean performDependencyCheckWithResults(Req_ALSubjectsWithResults req_alSubjectsWithResults) {
+        Boolean firstSubjectValidity = false;
+        Boolean secondSubjectValidity = false;
+        Boolean thirdSubjectValidity = false;
+
+        Alsubject firstSubject = alSubjectRepository.findAlsubjectByName(req_alSubjectsWithResults.getFirstSubject());
+        Alsubject secondSubject = alSubjectRepository.findAlsubjectByName(req_alSubjectsWithResults.getSecondSubject());
+        Alsubject thirdSubject = alSubjectRepository.findAlsubjectByName(req_alSubjectsWithResults.getThirdSubject());
+        Course course = courseRepository.findByCode(req_alSubjectsWithResults.getCourseCode());
+
+        if(firstSubject == null) { System.out.println("First subject not exists"); return false; }
+        if(secondSubject == null) { System.out.println("Second subject not exists"); return false; }
+        if(thirdSubject == null) { System.out.println("Third subject not exists"); return false; }
+        if(course == null) { System.out.println("Course not exists"); return false; }
+
+        List<ALSubjectDependency> alSubjectDependencies = alSubjectDependencyRepository.findALSubjectDependenciesByCourse(course);
+
+        // FIRST SUBJECT CHECK
+        Integer firstSubjectFoundStatusIndex = 0;
+        for (ALSubjectDependency item: alSubjectDependencies){
+            if(item.getAlsubject().getId() == firstSubject.getId()){
+                // Results checking
+                if(gradeChecking(item.getMinGrade(), req_alSubjectsWithResults.getFirstSubjectResult())) {
+                    firstSubjectValidity = true;
+                    firstSubjectFoundStatusIndex = item.getStatusIndex();
+                    break;
+                }
+            }
+        }
+
+        System.out.println("FIRST SUBJECT RELATED");
+        System.out.println(firstSubjectValidity);
+        System.out.println(firstSubjectFoundStatusIndex);
+
+        // SECOND SUBJECT CHECK
+        Integer secondSubjectFoundStatusIndex = 0;
+        for (ALSubjectDependency item: alSubjectDependencies){
+            if(item.getAlsubject().getId() == secondSubject.getId() && item.getStatusIndex() != firstSubjectFoundStatusIndex){
+                // Results checking
+                if(gradeChecking(item.getMinGrade(), req_alSubjectsWithResults.getSecondSubjectResult())) {
+                    secondSubjectValidity = true;
+                    secondSubjectFoundStatusIndex = item.getStatusIndex();
+                    break;
+                }
+            }
+        }
+
+        System.out.println("SECOND SUBJECT RELATED");
+        System.out.println(secondSubjectValidity);
+        System.out.println(secondSubjectFoundStatusIndex);
+
+        // THIRD SUBJECT CHECK
+        Integer thirdSubjectFoundStatusIndex = 0;
+        for (ALSubjectDependency item: alSubjectDependencies){
+            if(item.getAlsubject().getId() == thirdSubject.getId() && item.getStatusIndex() != firstSubjectFoundStatusIndex && item.getStatusIndex() != secondSubjectFoundStatusIndex){
+                // Results checking
+                if(gradeChecking(item.getMinGrade(), req_alSubjectsWithResults.getThirdSubjectResult())) {
+                    thirdSubjectValidity = true;
+                    thirdSubjectFoundStatusIndex = item.getStatusIndex();
+                    break;
+                }
+            }
+        }
+
+        System.out.println("THIRD SUBJECT RELATED");
+        System.out.println(thirdSubjectValidity);
+        System.out.println(thirdSubjectFoundStatusIndex);
+
+        if(firstSubjectValidity && secondSubjectValidity && thirdSubjectValidity){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static int findIndex(String arr[], String item){
+        int index = Arrays.binarySearch(arr, item);
+        return (index < 0) ? -1 : index;
+    }
+
+    public Boolean gradeChecking(String minGradeRequired, String currentGrade){
+        String[] grades = {"A", "B", "C", "S", "W"};
+
+        System.out.println(findIndex(grades, minGradeRequired) + " - " + findIndex(grades, currentGrade));
+
+        if(findIndex(grades, minGradeRequired) >= findIndex(grades, currentGrade)) {
+            return true;
+        }
+        else {
             return false;
         }
     }

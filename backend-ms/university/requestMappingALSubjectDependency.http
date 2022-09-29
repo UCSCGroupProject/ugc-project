@@ -9,3 +9,17 @@ Content-Type: application/json
   "courseCode": "001"
 }
 
+### Check subject with results compatibility over course
+POST http://localhost:8082/api/university/course/alsubjectdependency/checkwithresults
+Content-Type: application/json
+
+{
+  "firstSubject": "Chemistry",
+  "firstSubjectResult": "S",
+  "secondSubject": "Physics",
+  "secondSubjectResult": "B",
+  "thirdSubject": "Biology",
+  "thirdSubjectResult": "C",
+  "courseCode": "001"
+}
+
