@@ -328,14 +328,16 @@ function ALResults() {
                   </CCol>
                 </CRow>
                 <br />
-                {visibleUpload && <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                  <CButton
-                    color="success"
-                    onClick={() => setVisibleUploadForm(!visibleUploadForm)}
-                  >
-                    <CIcon icon={cibAddthis}></CIcon> Upload A/L Results
-                  </CButton>
-                </div>}
+                {visibleUpload && (
+                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <CButton
+                      color="success"
+                      onClick={() => setVisibleUploadForm(!visibleUploadForm)}
+                    >
+                      <CIcon icon={cibAddthis}></CIcon> Upload A/L Results
+                    </CButton>
+                  </div>
+                )}
 
                 <CModal
                   alignment="center"
