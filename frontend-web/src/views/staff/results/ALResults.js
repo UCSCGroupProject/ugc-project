@@ -53,24 +53,103 @@ const headers = [
 ]
 
 function ALResults() {
-  
-   // For the server side requests and responses
-   const [loading, setLoading] = useState(false)
+  // For the server side requests and responses
+  const [loading, setLoading] = useState(false)
 
-   const [visible, setVisible] = useState(false)
- 
-   const [resMessage, setResMessage] = useState('')
-   let navigate = useNavigate()
-   
-   useEffect(() => {
+  const [visibleUpload, setVisibleUpload] = useState(false)
+  const [visibleUploadForm, setVisibleUploadForm] = useState(false)
+  const [resMessage, setResMessage] = useState('')
+  const [progress, setProgress] = useState(0)
+  let navigate = useNavigate()
+
+  // Creating course
+  const [uploadResultsForm, setUploadResultsForm] = useState({
+    file: undefined,
+  })
+
+  const onUpdateInput = (e) => {
+    setUploadResultsForm((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.files,
+    }))
+  }
+
+  const [uploadResultsFormErrors, setUploadResultsFormErrors] = useState({
+    fileError: '',
+  })
+
+  // Validate the data and
+  // If valid send to the server
+  // else show the errors
+  const handleUploadResultsFormSubmit = async (e) => {
+    e.preventDefault()
+    let fileError = ''
+
+    if (!v_required(uploadResultsForm.file)) {
+      fileError = 'File can not be empty.'
+    }
+
+    // If errors exist, show errors
+    setUploadResultsFormErrors({
+      fileError,
+    })
+
+    console.log(uploadResultsFormErrors)
+
+    // If no errors exist, send to the server
+    if (!fileError) {
+      console.log('Results Uploaded')
+
+      // Sending to the server
+      setLoading(true)
+      setResMessage('')
+
+      let currentFile = uploadResultsForm.file[0]
+      alResultsService
+        .upload(currentFile, (e) => {
+          setProgress(Math.round((100 * e.loaded) / e.total))
+        })
+        .then(
+          (res) => {
+            if (res.type === 'OK') {
+              toast.success(res.message)
+
+              // Settings table data
+              console.log(uploadResultsForm)
+              navigate('/staff/results/al')
+            } else if (res.type === 'BAD') {
+              toast.error(res.message)
+            }
+
+            setLoading(false)
+          },
+          (error) => {
+            const res =
+              (error.response && error.response.data && error.response.data.message) ||
+              error.message ||
+              error.toString()
+            // After recieving the server request
+            toast.error(res)
+            setResMessage(res) // Remove later
+            setLoading(false)
+          },
+        )
+    }
+  }
+
+  useEffect(() => {
     setLoading(true)
 
     alResultsService.getResults().then(
       (res) => {
         if (res.type === 'OK') {
-          toast.success(res.message)
-          // Settings table data from fetched data
-          setTableData(headers, res.payload)
+          if (res.payload.length == 0) {
+            setVisibleUpload(!visibleUpload)
+          } else {
+            toast.success(res.message)
+            // Settings table data from fetched data
+            setTableData(headers, res.payload)
+          }
         } else if (res.type === 'BAD') {
           toast.error(res.message)
         }
@@ -135,7 +214,6 @@ function ALResults() {
 
     console.log(filterOptions)
   }
-
 
   const FilterBar = () => {
     return (
@@ -250,6 +328,43 @@ function ALResults() {
                   </CCol>
                 </CRow>
                 <br />
+                {visibleUpload && <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                  <CButton
+                    color="success"
+                    onClick={() => setVisibleUploadForm(!visibleUploadForm)}
+                  >
+                    <CIcon icon={cibAddthis}></CIcon> Upload A/L Results
+                  </CButton>
+                </div>}
+
+                <CModal
+                  alignment="center"
+                  scrollable
+                  visible={visibleUploadForm}
+                  onClose={() => setVisibleUploadForm(false)}
+                >
+                  <CModalHeader>
+                    <CModalTitle>Upload Results</CModalTitle>
+                  </CModalHeader>
+                  <CModalBody>
+                    <CFormInput type="file" id="file" name="file" onChange={onUpdateInput} />
+                  </CModalBody>
+
+                  <CModalFooter>
+                    <CButton color="secondary" onClick={() => setVisibleUploadForm(false)}>
+                      Close
+                    </CButton>
+                    <CButton color="primary" onClick={handleUploadResultsFormSubmit}>
+                      {loading ? (
+                        <span>
+                          <CSpinner size="sm" /> Validating
+                        </span>
+                      ) : (
+                        <span>Upload</span>
+                      )}
+                    </CButton>
+                  </CModalFooter>
+                </CModal>
 
                 <CRow className="m-1">
                   {/* Data fetch loader */}

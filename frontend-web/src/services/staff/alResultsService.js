@@ -15,6 +15,23 @@ class ALResultsService {
       return res.data
     })
   }
+
+  upload(file, onUploadProgress) {
+    let formData = new FormData()
+    formData.append('file', file)
+
+    return axios
+      .post(API_URL + '/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        onUploadProgress,
+      })
+      .then((res) => {
+        console.log(res.data)
+        return res.data
+      })
+  }
 }
 
 export default new ALResultsService()
