@@ -25,10 +25,17 @@ public class UnicodeController {
         return ResponseEntity.ok(new PayloadResponse(uniCourseResponseList, "All courses list", ResType.OK));
     }
 
+    @GetMapping("")
+    public ResponseEntity<?> getUniCourse(@RequestParam(name = "unicodeValue") String unicodeValue) {
+        System.out.println("Unicode value : " + unicodeValue);
+        return unicodeService.getUnicodeOverview(unicodeValue);
+    }
+
     @GetMapping("/getUnicodes")
     public ResponseEntity<?> getUniCourseList(@RequestParam(name = "courseId") Integer courseId){
         List<UniCourseResponse> uniCourseResponseList = unicodeService.getUnicodeList(courseId);
 
         return ResponseEntity.ok(new PayloadResponse(uniCourseResponseList, "All courses list", ResType.OK));
     }
+
 }

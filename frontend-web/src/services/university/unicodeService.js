@@ -9,8 +9,15 @@ class UnicodeService {
     })
   }
 
-  getUniCourseList(courseId){
-    return axios.get(API_URL + '/getUnicodes?courseId='+ courseId).then((res) => {
+  getUniCourse = (unicodeValue) => {
+    console.log(unicodeValue)
+    return axios.get(API_URL + '?unicodeValue=' + unicodeValue).then((res) => {
+      return res.data
+    })
+  }
+
+  getUniCourseList(courseId) {
+    return axios.get(API_URL + '/getUnicodes?courseId=' + courseId).then((res) => {
       return res.data
     })
   }

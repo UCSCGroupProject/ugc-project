@@ -2,14 +2,21 @@ package com.ugc.university.service.course;
 
 import com.ugc.university.model.University;
 import com.ugc.university.model.UniversityDetails;
+import com.ugc.university.model.alsubject.ALSubjectDependency;
 import com.ugc.university.model.course.Course;
 import com.ugc.university.model.course.Unicode;
+import com.ugc.university.payload.response.PayloadResponse;
+import com.ugc.university.payload.response.ResType;
+import com.ugc.university.payload.response.course.Res_CourseOverview;
 import com.ugc.university.payload.response.course.UniCourseResponse;
+import com.ugc.university.payload.response.objects.ALSubjectRecord;
 import com.ugc.university.repository.UniversityDetailsRepository;
 import com.ugc.university.repository.UniversityRepository;
+import com.ugc.university.repository.alsubject.ALSubjectDependencyRepository;
 import com.ugc.university.repository.course.CourseRepository;
 import com.ugc.university.repository.course.UnicodeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
@@ -27,6 +34,8 @@ public class UnicodeService {
     UniversityDetailsRepository universityDetailsRepository;
     @Autowired
     UnicodeRepository unicodeRepository;
+    @Autowired
+    ALSubjectDependencyRepository alSubjectDependencyRepository;
 
     public void initUnicodes() {
         unicodeRepository.save(new Unicode(this.getCourse("Medicine"), this.getUniversity("University of Colombo"), "001A"));
@@ -445,5 +454,47 @@ public class UnicodeService {
         });
 
         return uniCourseResponseList;
+    }
+
+    public ResponseEntity<?> getUnicodeOverview(String unicodeValue) {
+        Res_CourseOverview res_courseOverview = new Res_CourseOverview();
+
+        Unicode unicode = unicodeRepository.findUnicodeByUnicodeValue(unicodeValue);
+
+        if(unicode != null) {
+            res_courseOverview.setCourseName(unicode.getCourse().getName());
+            res_courseOverview.setUnicodeValue(unicode.getUnicodeValue());
+
+            res_courseOverview.setUniversityName(unicode.getUniversity().getUniversityDetails().getName());
+            res_courseOverview.setUniversityUsername(unicode.getUniversity().getUsername());
+
+            List<ALSubjectDependency> alSubjectDependencies = alSubjectDependencyRepository.findALSubjectDependenciesByCourse(unicode.getCourse());
+
+            List<ALSubjectRecord> requiredFirstSubjects = new ArrayList<>();
+            List<ALSubjectRecord> requiredSecondSubjects = new ArrayList<>();
+            List<ALSubjectRecord> requiredThirdSubjects = new ArrayList<>();
+
+            alSubjectDependencies.forEach(item -> {
+                if(item.getStatusIndex() == 1) {
+                    requiredFirstSubjects.add(new ALSubjectRecord(item.getAlsubject().getName(), item.getMinGrade()));
+                }
+
+                if(item.getStatusIndex() == 2) {
+                    requiredSecondSubjects.add(new ALSubjectRecord(item.getAlsubject().getName(), item.getMinGrade()));
+                }
+
+                if(item.getStatusIndex() == 3) {
+                    requiredThirdSubjects.add(new ALSubjectRecord(item.getAlsubject().getName(), item.getMinGrade()));
+                }
+            });
+
+            res_courseOverview.setRequiredFirstSubjects(requiredFirstSubjects);
+            res_courseOverview.setRequiredSecondSubjects(requiredSecondSubjects);
+            res_courseOverview.setRequiredThirdSubjects(requiredThirdSubjects);
+
+            return ResponseEntity.ok(new PayloadResponse(res_courseOverview, "University course overview", ResType.OK));
+        } else {
+            return ResponseEntity.ok(new PayloadResponse(res_courseOverview, "University course not found", ResType.BAD));
+        }
     }
 }

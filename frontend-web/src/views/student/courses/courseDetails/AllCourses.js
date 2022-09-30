@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import {
   CRow,
@@ -40,6 +41,7 @@ const headers = [
 function AllCourses() {
   // For the server side requests and responses
   const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
     setLoading(true)
@@ -51,6 +53,7 @@ function AllCourses() {
 
           // Settings table data from fetched data
           setTableData(headers, res.payload)
+          console.log(res.payload)
         } else if (res.type === 'BAD') {
           toast.error(res.message)
         }
@@ -69,6 +72,10 @@ function AllCourses() {
       },
     )
   }, [])
+
+  const onClickUniversiyCourseRecord = (unicodeValue) => {
+    navigate('/student/courses/overview?unicodeValue=' + unicodeValue)
+  }
 
   // ADVANCED TABLE
   const [tableHeaders, setTableHeaders] = useState([])
@@ -240,17 +247,21 @@ function AllCourses() {
                   {/* Data fetch loader */}
                   <AppFetchDataLoader loading={loading} />
 
-                  <CTable bordered>
+                  <CTable hover responsive bordered>
                     <CTableHead color="dark">
                       <CTableRow>
                         {tableHeaders.map((headerItem) => (
                           <CTableHeaderCell key={headerItem.id}>{headerItem.name}</CTableHeaderCell>
                         ))}
+                        <CTableHeaderCell></CTableHeaderCell>
                       </CTableRow>
                     </CTableHead>
                     <CTableBody>
                       {tableContent.map((tableItem) => (
-                        <CTableRow key={tableItem.id}>
+                        <CTableRow
+                          key={tableItem.id}
+                          onClick={() => onClickUniversiyCourseRecord(tableItem.unicode)}
+                        >
                           {tableHeaders.map((headerItem) => (
                             <CTableDataCell
                               key={tableItem.id + headerItem.id}

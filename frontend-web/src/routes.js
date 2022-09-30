@@ -56,6 +56,7 @@ const Stu_Dashboard = React.lazy(() => import('./views/student/dashboard/Dashboa
 const Stu_Courses_CourseDetails_MyCourses = React.lazy(() => import('./views/student/courses/courseDetails/MyCourses'))
 const Stu_Courses_CourseDetails_RecommendedCourses = React.lazy(() => import('./views/student/courses/courseDetails/RecommendedCourses'))
 const Stu_Courses_CourseDetails_AllCourses = React.lazy(() => import('./views/student/courses/courseDetails/AllCourses'))
+const Stu_Courses_CourseDetails_Overview = React.lazy(() => import('./views/student/courses/courseDetails/CourseOverview'))
 const Stu_University_UniversityDetails_AllUniversities = React.lazy(() => import('./views/student/university/universityDetails/AllUniversities'))
 const Stu_University_UniversityDetails_Profile = React.lazy(() => import('./views/student/university/universityDetails/UniversityProfile'))
 const Stu_AptitudeTests_TestDetails_MyTests = React.lazy(() => import('./views/student/aptitudeTests/testDetails/MyTests'))
@@ -140,6 +141,7 @@ const routes = [
   { path: '/student/courses/my',                  name: 'My',                     element: Stu_Courses_CourseDetails_MyCourses },
   { path: '/student/courses/recomended',          name: 'Recommended',            element: Stu_Courses_CourseDetails_RecommendedCourses},
   { path: '/student/courses/all',                 name: 'All',                    element: Stu_Courses_CourseDetails_AllCourses},
+  { path: '/student/courses/overview',            name: 'All',                    element: Stu_Courses_CourseDetails_Overview},
   { path: '/student/university',                  name: 'University',             element: Stu_University_UniversityDetails_AllUniversities},
   { path: '/student/university/profile',          name: 'Profile',                element: Stu_University_UniversityDetails_Profile},
   { path: '/student/aptitudetests',               name: 'Aptitude Tests',         element: Stu_AptitudeTests_TestDetails_MyTests},
