@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   CContainer,
   CImage,
@@ -132,6 +133,8 @@ let uniLogoImagesDict = {
 }
 
 function UniversityProfile() {
+  const navigate = useNavigate()
+
   const [searchParams, setSearchParams] = useSearchParams()
   const [username, setUsername] = useState(searchParams.get('username'))
 
@@ -223,6 +226,10 @@ function UniversityProfile() {
     setCourseCounts(tempCourseCounts)
   }
 
+  const onClickUniversiyCourseRecord = (unicodeValue) => {
+    navigate('/student/courses/overview?unicodeValue=' + unicodeValue)
+  }
+
   return (
     <CContainer className="bg-white border rounded-3">
       <CImage src={uniWallImagesDict[username]} className="w-100 wall-image mt-3 rounded-top" />
@@ -307,7 +314,9 @@ function UniversityProfile() {
                       {data.uniProfileCourseDetailList.map(
                         (courseItem) =>
                           courseItem.streamName === item.stream && (
-                            <CTableRow>
+                            <CTableRow
+                              onClick={() => onClickUniversiyCourseRecord(courseItem.unicode)}
+                            >
                               <CTableDataCell>
                                 <strong>{courseItem.unicode}</strong>
                               </CTableDataCell>
