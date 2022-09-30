@@ -17,6 +17,7 @@ const Staff_UniversityProfiles = React.lazy(() => import('./views/staff/universi
 const Staff_Courses = React.lazy(() => import('./views/staff/courses/Courses'))
 const Staff_University_Courses = React.lazy(() => import('./views/staff/courses/UniversityCourses'))
 const Staff_OLResults = React.lazy(() => import('./views/staff/results/OLResults'))
+const Staff_OLResults_Detailed = React.lazy(() => import('./views/staff/results/OLResultsDetailed'))
 const Staff_ALResults = React.lazy(() => import('./views/staff/results/ALResults'))
 const Staff_ALResults_Detailed = React.lazy(() => import('./views/staff/results/ALResultsDetailed'))
 const Staff_AptitudeTests_Upcoming = React.lazy(() => import('./views/staff/aptitudeTests/Upcoming'))
@@ -100,6 +101,7 @@ const routes = [
   { path: '/staff/courses',                         name: 'Courses',                element: Staff_Courses },
   { path: '/staff/courses/detailed',                name: 'University Courses',     element: Staff_University_Courses},
   { path: '/staff/results/ol',                      name: 'O/L Results',            element: Staff_OLResults },
+  { path: '/staff/results/ol/detailed',             name: 'O/L Results Detailed',   element: Staff_OLResults_Detailed },
   { path: '/staff/results/al',                      name: 'A/L Results',            element: Staff_ALResults },
   { path: '/staff/results/al/detailed',             name: 'A/L Results Detailed',   element: Staff_ALResults_Detailed },
   { path: '/staff/aptitudetests/upcoming',          name: 'Upcoming Tests',         element: Staff_AptitudeTests_Upcoming},
