@@ -1,4 +1,4 @@
-package com.ugc.staff.Service;
+package com.ugc.staff.Service.ALevel;
 
 import com.ugc.staff.Helper.CSVHelper;
 import com.ugc.staff.Model.ALevel.ALResults;
@@ -13,8 +13,6 @@ import com.ugc.university.payload.response.ResType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package com.ugc.staff.Service;
+package com.ugc.staff.Service.ALevel;
 
 import com.ugc.staff.Model.ALevel.ALSubject;
 import com.ugc.staff.Repository.ALevel.ALSubjectRepository;
