@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { v_required } from '../../../utils/validator'
+import { useSearchParams, useNavigate } from 'react-router-dom'
 import {
   CCard,
   CTable,
@@ -28,8 +29,7 @@ import {
 } from '@coreui/react'
 
 import { cilSearch } from '@coreui/icons'
-import { cilFilter, cilArrowRight, cibAddthis } from '@coreui/icons'
-import { v_required } from '../../../utils/validator'
+import { cilFilter, cilDelete, cibAddthis } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
 import { toast } from 'react-toastify'
@@ -39,37 +39,33 @@ import AppFetchDataLoader from '../../../components/loaders/AppFetchDataLoader'
 import alResultsService from '../../../services/staff/alResultsService'
 
 const headers = [
-  { id: 'id', name: 'No.', sortable: false },
-  { id: 'name', name: 'Name', sortable: false },
-  { id: 'indexNumber', name: 'Index Number', sortable: false },
-  { id: 'zscore', name: 'Z Score', sortable: true },
-  { id: 'stream', name: 'Stream', sortable: false },
-  { id: 'district', name: 'District', sortable: false },
-  { id: 'school', name: 'School', sortable: false },
-  { id: 'districtRank', name: 'District Rank', sortable: true },
-  { id: 'islandRank', name: 'Island Rank', sortable: true },
-  { id: 'studentStatus', name: 'Status', sortable: false },
-  { id: 'passOrFail', name: 'P/F', sortable: false },
+  { id: 'subjectId', name: 'Subject ID', sortable: false },
+  { id: 'subjectName', name: 'Name', sortable: true },
+  { id: 'grade', name: 'Grade', sortable: true },
 ]
 
-function ALResults() {
-  
-   // For the server side requests and responses
-   const [loading, setLoading] = useState(false)
+function ALResultsDetailed() {
+  // For the server side requests and responses
+  const [loading, setLoading] = useState(false)
 
-   const [visible, setVisible] = useState(false)
- 
-   const [resMessage, setResMessage] = useState('')
-   let navigate = useNavigate()
-   
-   useEffect(() => {
+  const [visible, setVisible] = useState(false)
+
+  const [visible2, setVisible2] = useState(false)
+  const [deleteCourseId, setDeleteCourseId] = useState(0)
+
+  const [resMessage, setResMessage] = useState('')
+  let navigate = useNavigate()
+
+  const [searchParams, setSearchParams] = useSearchParams()
+  const [studentID, setstudentID] = useState(searchParams.get('studentId'))
+
+  useEffect(() => {
     setLoading(true)
 
-    alResultsService.getResults().then(
+    alResultsService.getResultOfStudent(studentID).then(
       (res) => {
         if (res.type === 'OK') {
-          toast.success(res.message)
-          // Settings table data from fetched data
+          console.log(res.payload)
           setTableData(headers, res.payload)
         } else if (res.type === 'BAD') {
           toast.error(res.message)
@@ -135,7 +131,6 @@ function ALResults() {
 
     console.log(filterOptions)
   }
-
 
   const FilterBar = () => {
     return (
@@ -216,7 +211,7 @@ function ALResults() {
       <CRow>
         <CCol xs>
           <CCard className="mb-4">
-            <CCardHeader>A Level Examination Results</CCardHeader>
+            <CCardHeader>Results</CCardHeader>
             <CCardBody>
               <div>
                 <CRow className="py-2 bg-light rounded">
@@ -290,13 +285,6 @@ function ALResults() {
                               )}
                             </CTableDataCell>
                           ))}
-                          {
-                            <CTableDataCell>
-                              <NavLink to={`/staff/results/al/detailed?studentId=${tableItem.id}`}>
-                                <CIcon icon={cilArrowRight} />
-                              </NavLink>
-                            </CTableDataCell>
-                          }
                         </CTableRow>
                       ))}
                     </CTableBody>
@@ -311,4 +299,4 @@ function ALResults() {
   )
 }
 
-export default ALResults
+export default ALResultsDetailed

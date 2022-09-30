@@ -1,11 +1,18 @@
 package com.ugc.staff.Model.ALevel;
 
-import javax.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import javax.persistence.*;
+@Setter
+@Getter
 @Entity
+@NoArgsConstructor
 public class ALStudentResult {
     @EmbeddedId
-    ALResultKey id;
+    ALResultKey id = new ALResultKey();
 
     @ManyToOne
     @MapsId("studentId")
@@ -17,5 +24,11 @@ public class ALStudentResult {
     @JoinColumn(name = "alSubject_id")
     ALSubject alSubject;
 
-    String passOrFail;
+    String grade;
+
+    public ALStudentResult(ALResults alResults, ALSubject alSubject, String grade) {
+        this.alResults = alResults;
+        this.alSubject = alSubject;
+        this.grade = grade;
+    }
 }

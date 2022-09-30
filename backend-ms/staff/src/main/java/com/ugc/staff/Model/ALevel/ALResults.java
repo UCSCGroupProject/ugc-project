@@ -20,6 +20,8 @@ public class ALResults {
     private Integer id;
     private String indexNumber;
     private String name;
+
+    private String zscore;
     private String stream;
     private String district;
     private String school;
@@ -30,4 +32,17 @@ public class ALResults {
 
     @OneToMany(mappedBy = "alResults")
     private Set<ALStudentResult> alStudentResults = new HashSet<>();
+
+    public ALResults(String district, String districtRank, String indexNumber, String islandRank, String name, String passOrFail, String school, String stream, String studentStatus, String zscore) {
+        this.indexNumber = indexNumber;
+        this.name = name;
+        this.stream = stream;
+        this.district = district;
+        this.school = school;
+        this.districtRank = districtRank;
+        this.islandRank = islandRank;
+        this.passOrFail = passOrFail;
+        this.studentStatus = studentStatus;
+        this.zscore = zscore;
+    }
 }
