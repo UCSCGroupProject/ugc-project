@@ -97,7 +97,7 @@ const routes = [
   { path: '/staff/useroverview/privatestudents',    name: 'Private Students',       element: Staff_UserDetails_Private_Students},
   { path: '/staff/userprofile',                     name: 'User Profile',           element: Staff_UserDetails_UserProfile },
   { path: '/staff/universities',                    name: 'All Universities',       element: Staff_Universities },
-  { path: '/staff/univerityprofile',                name: 'University Profile',     element: Staff_UniversityProfiles},
+  { path: '/staff/university/profile',              name: 'University Profile',     element: Staff_UniversityProfiles},
   { path: '/staff/courses',                         name: 'Courses',                element: Staff_Courses },
   { path: '/staff/courses/detailed',                name: 'University Courses',     element: Staff_University_Courses},
   { path: '/staff/results/ol',                      name: 'O/L Results',            element: Staff_OLResults },
