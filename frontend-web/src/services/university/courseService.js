@@ -10,7 +10,14 @@ class CourseService {
     })
   }
 
-  create(addCourseForm){
+  getCourseOverview = (courseCode) => {
+    return axios.get(API_URL + '?courseCode=' + courseCode).then((res) => {
+      console.log(res.data)
+      return res.data
+    })
+  }
+
+  create(addCourseForm) {
     return axios.post(API_URL + '/create', addCourseForm).then((response) => {
       return response.data
     })
@@ -23,12 +30,12 @@ class CourseService {
   }
 
   getCourseDetails = (courseId) => {
-    return axios.get(API_URL + '/getCourseDetails?courseId='+ courseId).then((res) => {
+    return axios.get(API_URL + '/getCourseDetails?courseId=' + courseId).then((res) => {
       return res.data
     })
   }
 
-  update(editCourseForm){
+  update(editCourseForm) {
     return axios.put(API_URL + '/update', editCourseForm).then((response) => {
       return response.data
     })
@@ -42,4 +49,3 @@ class CourseService {
 }
 
 export default new CourseService()
-

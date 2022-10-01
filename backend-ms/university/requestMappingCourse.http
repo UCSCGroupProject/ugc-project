@@ -1,2 +1,5 @@
 ### Get all courses
 GET http://localhost:8082/api/university/course/all
+
+### Get specific course
+GET http://localhost:8082/api/university/course?courseCode=107

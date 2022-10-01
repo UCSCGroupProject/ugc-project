@@ -26,19 +26,18 @@ import CIcon from '@coreui/icons-react'
 
 import { toast } from 'react-toastify'
 
-import AppFetchDataLoader from '../../../../components/loaders/AppFetchDataLoader'
+import AppFetchDataLoader from '../../../components/loaders/AppFetchDataLoader'
 
-import courseService from '../../../../services/university/courseService'
+import unicodeService from '../../../services/university/unicodeService'
 
 const headers = [
   { id: 'id', name: 'No.', sortable: false },
-  { id: 'name', name: 'Course', sortable: true },
-  { id: 'stream', name: 'Stream', sortable: true },
-  { id: 'course', name: 'Course code', sortable: true },
-  { id: 'intake', name: 'Intake', sortable: true },
+  { id: 'courseName', name: 'Course', sortable: true },
+  { id: 'universityName', name: 'University', sortable: true },
+  { id: 'unicode', name: 'Unicode', sortable: true },
 ]
 
-function AllCourses() {
+function UnicodeTable() {
   // For the server side requests and responses
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
@@ -46,7 +45,7 @@ function AllCourses() {
   useEffect(() => {
     setLoading(true)
 
-    courseService.getAllCourseList().then(
+    unicodeService.getAllUniCourseList().then(
       (res) => {
         if (res.type === 'OK') {
           toast.success(res.message)
@@ -72,10 +71,6 @@ function AllCourses() {
       },
     )
   }, [])
-
-  const onClickUniversiyCourseRecord = (courseCode) => {
-    navigate('/student/courses/overview?courseCode=' + courseCode)
-  }
 
   // ADVANCED TABLE
   const [tableHeaders, setTableHeaders] = useState([])
@@ -208,7 +203,7 @@ function AllCourses() {
       <CRow>
         <CCol xs>
           <CCard className="mb-4">
-            <CCardHeader>All Courses</CCardHeader>
+            <CCardHeader>All Unicodes</CCardHeader>
             <CCardBody>
               <div>
                 <CRow className="py-2 bg-light rounded">
@@ -258,10 +253,7 @@ function AllCourses() {
                     </CTableHead>
                     <CTableBody>
                       {tableContent.map((tableItem) => (
-                        <CTableRow
-                          key={tableItem.id}
-                          onClick={() => onClickUniversiyCourseRecord(tableItem.course)}
-                        >
+                        <CTableRow key={tableItem.id}>
                           {tableHeaders.map((headerItem) => (
                             <CTableDataCell
                               key={tableItem.id + headerItem.id}
@@ -300,4 +292,4 @@ function AllCourses() {
   )
 }
 
-export default AllCourses
+export default UnicodeTable

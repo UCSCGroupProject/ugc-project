@@ -9,7 +9,7 @@ import AppStandardContainer from '../../../../components/containers/AppStandardC
 import AppStandardCard from '../../../../components/cards/AppStandardCard'
 import AppStandardTable from '../../../../components/table/AppStandardTable'
 
-import unicodeService from '../../../../services/university/unicodeService'
+import courseService from '../../../../services/university/courseService'
 import { CRow, CCol } from '@coreui/react'
 
 function CourseOverview() {
@@ -28,12 +28,16 @@ function CourseOverview() {
     requiredFirstSubjects: [],
     requiredSecondSubjects: [],
     requiredThirdSubjects: [],
+
+    requiredOLSubjects: [],
+
+    offeredUniversities: [],
   })
 
   useEffect(() => {
     setLoading(true)
 
-    unicodeService.getUniCourse(searchParams.get('unicodeValue')).then(
+    courseService.getCourseOverview(searchParams.get('courseCode')).then(
       (res) => {
         if (res.type === 'OK') {
           toast.success(res.message)
@@ -65,13 +69,42 @@ function CourseOverview() {
       {/* Data fetch loader */}
       <AppFetchDataLoader loading={loading} />
       <AppStandardContainer title="Course Overview">
-        <h1 className="display-6">
-          <b>{courseOverview.unicodeValue}</b> : {courseOverview.courseName}
-        </h1>
-        <h6>{courseOverview.universityName}</h6>
+        <h1 className="display-6">{courseOverview.courseName}</h1>
+        <h6>Course code: {courseOverview.courseCode}</h6>
+        <h6>Stream: {courseOverview.stream}</h6>
+        <h6>Intake amount: {courseOverview.intakeAmount}</h6>
         <hr />
+        {/* Required subjects for OL */}
         <div>
-          <p class="h4">Required subjects</p>
+          <p class="h4">G.C.E (Ordinary Level) Requirements</p>
+          <p>
+            The candidates should have fulfilled the G.C.E. (O/L) requirements relevant for the
+            courses of study requested, by the deadline given for submission of applications for
+            university admission.
+          </p>
+          <CRow>
+            <CCol md={4}>
+              <AppStandardCard
+                title="Required subjects and results"
+                color="bg-fade-success"
+                titleStyle="fw-semibold"
+              >
+                <AppStandardTable
+                  hover={true}
+                  headers={[
+                    { id: 'subjectName', name: 'Subject', width: '100', textAlign: 'text-start' },
+                    { id: 'minGrade', name: 'Min Grade', width: '25', textAlign: 'text-center' },
+                  ]}
+                  content={courseOverview.requiredOLSubjects}
+                />
+              </AppStandardCard>
+            </CCol>
+          </CRow>
+        </div>
+        <hr />
+        {/* Required subjects for AL */}
+        <div>
+          <p class="h4">G.C.E (Advanced Level) Requirements</p>
           <p>
             Student must select one subject from each subject groups and must obtained at least the
             specified grade to above, in order to select to the course
@@ -126,6 +159,31 @@ function CourseOverview() {
               </AppStandardCard>
             </CCol>
           </CRow>
+        </div>
+        <hr />
+        {/* Offered universities */}
+        <div>
+          <p class="h4">Offered universities</p>
+          <p>This course is offered by following universities mentioned below</p>
+          <AppStandardCard
+            title="Offered universities and corresponsing unicodes"
+            color="bg-fade-primary"
+            titleStyle="fw-semibold"
+          >
+            <AppStandardTable
+              hover={true}
+              headers={[
+                {
+                  id: 'universityName',
+                  name: 'University name',
+                  width: '100',
+                  textAlign: 'text-start',
+                },
+                { id: 'unicode', name: 'Unicode', width: '25', textAlign: 'text-center' },
+              ]}
+              content={courseOverview.offeredUniversities}
+            />
+          </AppStandardCard>
         </div>
       </AppStandardContainer>
     </div>

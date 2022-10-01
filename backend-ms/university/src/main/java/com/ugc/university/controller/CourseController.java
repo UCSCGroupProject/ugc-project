@@ -38,6 +38,12 @@ public class CourseController {
         return ResponseEntity.ok(new PayloadResponse(courseResponseList, "All courses list", ResType.OK));
     }
 
+    // Get course overview
+    @GetMapping("")
+    public ResponseEntity<?> getCourseOverview(@RequestParam(name = "courseCode") String courseCode) {
+        return courseService.getCourseOverview(courseCode);
+    }
+
     // TODO: Create course
 
     @PostMapping("/create")

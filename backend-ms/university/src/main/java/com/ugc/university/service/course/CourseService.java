@@ -1,15 +1,24 @@
 package com.ugc.university.service.course;
 
+import com.ugc.university.model.alsubject.ALSubjectDependency;
 import com.ugc.university.model.course.Course;
 import com.ugc.university.model.course.Stream;
 import com.ugc.university.model.course.Unicode;
+import com.ugc.university.model.olsubject.OLSubjectDependency;
 import com.ugc.university.payload.response.PayloadResponse;
 import com.ugc.university.payload.response.ResType;
 import com.ugc.university.payload.response.course.CourseResponse;
+import com.ugc.university.payload.response.course.Res_CourseOverview;
 import com.ugc.university.payload.response.course.StreamResponse;
 import com.ugc.university.payload.response.course.UniCourseResponse;
+import com.ugc.university.payload.response.objects.ALSubjectRecord;
+import com.ugc.university.payload.response.objects.OLSubjectRecord;
+import com.ugc.university.payload.response.objects.UnicodeRecord;
+import com.ugc.university.repository.alsubject.ALSubjectDependencyRepository;
 import com.ugc.university.repository.course.CourseRepository;
 import com.ugc.university.repository.course.StreamRepository;
+import com.ugc.university.repository.course.UnicodeRepository;
+import com.ugc.university.repository.olsubject.OLSubjectDependencyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -24,6 +33,12 @@ public class CourseService {
 
     @Autowired
     StreamRepository streamRepository;
+    @Autowired
+    UnicodeRepository unicodeRepository;
+    @Autowired
+    ALSubjectDependencyRepository alSubjectDependencyRepository;
+    @Autowired
+    OLSubjectDependencyRepository olSubjectDependencyRepository;
 
     public void initCourses() {
         Stream arts = streamRepository.findByStreamName("Arts");
@@ -179,6 +194,75 @@ public class CourseService {
         return courseResponseList;
     }
 
+    public ResponseEntity<?> getCourseOverview(String courseCode) {
+        Res_CourseOverview res_courseOverview = new Res_CourseOverview();
+
+        Course course = courseRepository.findByCode(courseCode);
+
+        if(course != null) {
+            res_courseOverview.setCourseName(course.getName());
+            res_courseOverview.setCourseCode(course.getCode());
+            res_courseOverview.setStream(course.getStream().getStreamName());
+            res_courseOverview.setIntakeAmount(course.getProposedIntakes());
+
+            // Populating required AL subjects
+            List<ALSubjectDependency> alSubjectDependencies = alSubjectDependencyRepository.findALSubjectDependenciesByCourse(course);
+
+            List<ALSubjectRecord> requiredFirstSubjects = new ArrayList<>();
+            List<ALSubjectRecord> requiredSecondSubjects = new ArrayList<>();
+            List<ALSubjectRecord> requiredThirdSubjects = new ArrayList<>();
+
+            alSubjectDependencies.forEach(item -> {
+                if(item.getStatusIndex() == 1) {
+                    requiredFirstSubjects.add(new ALSubjectRecord(item.getAlsubject().getName(), item.getMinGrade()));
+                }
+
+                if(item.getStatusIndex() == 2) {
+                    requiredSecondSubjects.add(new ALSubjectRecord(item.getAlsubject().getName(), item.getMinGrade()));
+                }
+
+                if(item.getStatusIndex() == 3) {
+                    requiredThirdSubjects.add(new ALSubjectRecord(item.getAlsubject().getName(), item.getMinGrade()));
+                }
+            });
+
+            res_courseOverview.setRequiredFirstSubjects(requiredFirstSubjects);
+            res_courseOverview.setRequiredSecondSubjects(requiredSecondSubjects);
+            res_courseOverview.setRequiredThirdSubjects(requiredThirdSubjects);
+
+            // Populating required OL subjects
+            List<OLSubjectDependency> olSubjectDependencies = olSubjectDependencyRepository.findOLSubjectDependenciesByCourse(course);
+
+            List<OLSubjectRecord> requiredOLSubjects = new ArrayList<>();
+
+            olSubjectDependencies.forEach(item -> {
+                requiredOLSubjects.add(new OLSubjectRecord(item.getOlsubject().getName(), item.getMinGrade()));
+            });
+
+            res_courseOverview.setRequiredOLSubjects(requiredOLSubjects);
+
+            // Populating offered universities
+            List<Unicode> unicodeList =unicodeRepository.findUnicodesByCourse(course);
+            List<UnicodeRecord> unicodeRecords = new ArrayList<>();
+
+            unicodeList.forEach(item -> {
+                UnicodeRecord unicodeRecord = new UnicodeRecord(
+                        item.getUniversity().getUniversityDetails().getName(),
+                        item.getUniversity().getUsername(),
+                        item.getUnicodeValue()
+                );
+
+                unicodeRecords.add(unicodeRecord);
+            });
+
+            res_courseOverview.setOfferedUniversities(unicodeRecords);
+
+            return ResponseEntity.ok(new PayloadResponse(res_courseOverview, "Course overview", ResType.OK));
+        } else {
+            return ResponseEntity.ok(new PayloadResponse(res_courseOverview, "Course not found", ResType.BAD));
+        }
+    }
+
     public List<StreamResponse> getStreams() {
         List<StreamResponse> streamResponses = new ArrayList<>();
         List<Stream> streamList = streamRepository.findAll();
@@ -250,4 +334,6 @@ public class CourseService {
         courseRepository.deleteById(courseId);
         return ResponseEntity.ok(new PayloadResponse(null, "Course deleted", ResType.OK));
     }
+
+
 }
