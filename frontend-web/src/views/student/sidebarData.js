@@ -70,6 +70,16 @@ const _nav = [
   },
   {
     component: CNavTitle,
+    name: 'Unicodes',
+  },
+  {
+    component: CNavItem,
+    name: 'Unicode table',
+    to: '/student/unicode',
+    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+  },
+  {
+    component: CNavTitle,
     name: 'Aptitude Tests',
   },
   {

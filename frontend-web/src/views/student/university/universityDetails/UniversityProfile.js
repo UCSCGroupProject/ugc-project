@@ -226,10 +226,6 @@ function UniversityProfile() {
     setCourseCounts(tempCourseCounts)
   }
 
-  const onClickUniversiyCourseRecord = (unicodeValue) => {
-    navigate('/student/courses/overview?unicodeValue=' + unicodeValue)
-  }
-
   return (
     <CContainer className="bg-white border rounded-3">
       <CImage src={uniWallImagesDict[username]} className="w-100 wall-image mt-3 rounded-top" />
@@ -314,9 +310,7 @@ function UniversityProfile() {
                       {data.uniProfileCourseDetailList.map(
                         (courseItem) =>
                           courseItem.streamName === item.stream && (
-                            <CTableRow
-                              onClick={() => onClickUniversiyCourseRecord(courseItem.unicode)}
-                            >
+                            <CTableRow>
                               <CTableDataCell>
                                 <strong>{courseItem.unicode}</strong>
                               </CTableDataCell>
@@ -338,7 +332,7 @@ function UniversityProfile() {
           <CRow>
             <CCol md={6}>
               <CCard>
-                <CCardHeader>Aptitude Tests Overall Results</CCardHeader>
+                <CCardHeader>Course offerings</CCardHeader>
                 <CCardBody>
                   <CChart
                     className="mx-4"

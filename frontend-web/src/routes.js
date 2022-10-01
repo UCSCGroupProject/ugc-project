@@ -59,6 +59,7 @@ const Stu_Courses_CourseDetails_AllCourses = React.lazy(() => import('./views/st
 const Stu_Courses_CourseDetails_Overview = React.lazy(() => import('./views/student/courses/courseDetails/CourseOverview'))
 const Stu_University_UniversityDetails_AllUniversities = React.lazy(() => import('./views/student/university/universityDetails/AllUniversities'))
 const Stu_University_UniversityDetails_Profile = React.lazy(() => import('./views/student/university/universityDetails/UniversityProfile'))
+const Stu_Unicodes_UnicodeTable = React.lazy(() => import('./views/student/unicodes/UnicodeTable'))
 const Stu_AptitudeTests_TestDetails_MyTests = React.lazy(() => import('./views/student/aptitudeTests/testDetails/MyTests'))
 const Stu_AptitudeTests_TestDetails_Results = React.lazy(() => import('./views/student/aptitudeTests/testDetails/Results'))
 const Stu_AptitudeTests_TestDetails_Progress = React.lazy(() => import('./views/student/aptitudeTests/testDetails/Progress'))
@@ -144,6 +145,7 @@ const routes = [
   { path: '/student/courses/overview',            name: 'All',                    element: Stu_Courses_CourseDetails_Overview},
   { path: '/student/university',                  name: 'University',             element: Stu_University_UniversityDetails_AllUniversities},
   { path: '/student/university/profile',          name: 'Profile',                element: Stu_University_UniversityDetails_Profile},
+  { path: '/student/unicode',                     name: 'Unicodes',               element: Stu_Unicodes_UnicodeTable},
   { path: '/student/aptitudetests',               name: 'Aptitude Tests',         element: Stu_AptitudeTests_TestDetails_MyTests},
   { path: '/student/aptitudetests/my',            name: 'My Tests',               element: Stu_AptitudeTests_TestDetails_MyTests},
   { path: '/student/aptitudetests/results',       name: 'Results',                element: Stu_AptitudeTests_TestDetails_Results},
