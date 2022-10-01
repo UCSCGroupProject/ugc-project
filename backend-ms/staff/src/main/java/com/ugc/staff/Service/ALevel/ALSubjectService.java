@@ -1,7 +1,7 @@
-package com.ugc.staff.Service;
+package com.ugc.staff.Service.ALevel;
 
 import com.ugc.staff.Model.ALevel.ALSubject;
-import com.ugc.staff.Repository.ALSubjectRepository;
+import com.ugc.staff.Repository.ALevel.ALSubjectRepository;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -69,6 +69,8 @@ public class ALSubjectService {
         alSubjectRepository.save(new ALSubject("Science for Technology"));
         alSubjectRepository.save(new ALSubject("Accountancy"));
         alSubjectRepository.save(new ALSubject("Biosystems Technology"));
-
+        alSubjectRepository.save(new ALSubject("General Information Technology"));
+        alSubjectRepository.save(new ALSubject("General English"));
+        alSubjectRepository.save(new ALSubject("Common General Test"));
     }
 }

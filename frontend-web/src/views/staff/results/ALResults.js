@@ -1,4 +1,6 @@
 import React from 'react'
+import { useState, useEffect } from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
 import {
   CCard,
   CTable,
@@ -6,6 +8,7 @@ import {
   CTableHead,
   CFormInput,
   CCardBody,
+  CSpinner,
   CButton,
   CFormSelect,
   CCardHeader,
@@ -15,143 +18,412 @@ import {
   CInputGroup,
   CRow,
   CTableBody,
+  CAlert,
   CTableDataCell,
+  CModal,
+  CModalHeader,
+  CModalTitle,
+  CModalBody,
+  CModalFooter,
 } from '@coreui/react'
 
 import { cilSearch } from '@coreui/icons'
-import { cilFilter,cibAddthis } from '@coreui/icons'
+import { cilFilter, cilArrowRight, cibAddthis } from '@coreui/icons'
+import { v_required } from '../../../utils/validator'
 import CIcon from '@coreui/icons-react'
 
+import { toast } from 'react-toastify'
+
+import AppFetchDataLoader from '../../../components/loaders/AppFetchDataLoader'
+
+import alResultsService from '../../../services/staff/alResultsService'
+
+const headers = [
+  { id: 'id', name: 'No.', sortable: false },
+  { id: 'name', name: 'Name', sortable: false },
+  { id: 'indexNumber', name: 'Index Number', sortable: false },
+  { id: 'zscore', name: 'Z Score', sortable: true },
+  { id: 'stream', name: 'Stream', sortable: false },
+  { id: 'district', name: 'District', sortable: false },
+  { id: 'school', name: 'School', sortable: false },
+  { id: 'districtRank', name: 'District Rank', sortable: true },
+  { id: 'islandRank', name: 'Island Rank', sortable: true },
+  { id: 'studentStatus', name: 'Status', sortable: false },
+  { id: 'passOrFail', name: 'P/F', sortable: false },
+]
+
 function ALResults() {
-  const ALResults = [
-    {
-      id: 1,
-      name: 'B.F.Ilma',
-      zscore: '1.5492',
-      stream: 'Physical Science',
-      district: 'Colombo',
-      school: "St Paul's Girls' School, Milagiriya",
-      islandRank: "50",
-      districtRank: "20",
-      status: 'Government',
-      _cellProps: { id: { scope: 'row' } },
-    },
-    {
-      id: 2,
-      name: 'K.N.Perera',
-      zscore: '1.8043',
-      stream: 'Biological Science',
-      district: 'Ratnapura',
-      school: 'Lyceum International School, Ratnapura',
-      islandRank: "55",
-      districtRank: "25",
-      status: 'Private',
-      _cellProps: { id: { scope: 'row' } },
-    },
-  ]
+  // For the server side requests and responses
+  const [loading, setLoading] = useState(false)
+
+  const [visibleUpload, setVisibleUpload] = useState(false)
+  const [visibleUploadForm, setVisibleUploadForm] = useState(false)
+  const [resMessage, setResMessage] = useState('')
+  const [progress, setProgress] = useState(0)
+  let navigate = useNavigate()
+
+  // Creating course
+  const [uploadResultsForm, setUploadResultsForm] = useState({
+    file: undefined,
+  })
+
+  const onUpdateInput = (e) => {
+    setUploadResultsForm((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.files,
+    }))
+  }
+
+  const [uploadResultsFormErrors, setUploadResultsFormErrors] = useState({
+    fileError: '',
+  })
+
+  // Validate the data and
+  // If valid send to the server
+  // else show the errors
+  const handleUploadResultsFormSubmit = async (e) => {
+    e.preventDefault()
+    let fileError = ''
+
+    if (!v_required(uploadResultsForm.file)) {
+      fileError = 'File can not be empty.'
+    }
+
+    // If errors exist, show errors
+    setUploadResultsFormErrors({
+      fileError,
+    })
+
+    console.log(uploadResultsFormErrors)
+
+    // If no errors exist, send to the server
+    if (!fileError) {
+      console.log('Results Uploaded')
+
+      // Sending to the server
+      setLoading(true)
+      setResMessage('')
+
+      let currentFile = uploadResultsForm.file[0]
+      alResultsService
+        .upload(currentFile, (e) => {
+          setProgress(Math.round((100 * e.loaded) / e.total))
+        })
+        .then(
+          (res) => {
+            if (res.type === 'OK') {
+              toast.success(res.message)
+
+              // Settings table data
+              console.log(uploadResultsForm)
+              navigate('/staff/results/al')
+            } else if (res.type === 'BAD') {
+              toast.error(res.message)
+            }
+
+            setLoading(false)
+          },
+          (error) => {
+            const res =
+              (error.response && error.response.data && error.response.data.message) ||
+              error.message ||
+              error.toString()
+            // After recieving the server request
+            toast.error(res)
+            setResMessage(res) // Remove later
+            setLoading(false)
+          },
+        )
+    }
+  }
+
+  useEffect(() => {
+    setLoading(true)
+
+    alResultsService.getResults().then(
+      (res) => {
+        if (res.type === 'OK') {
+          if (res.payload.length == 0) {
+            setVisibleUpload(!visibleUpload)
+          } else {
+            toast.success(res.message)
+            // Settings table data from fetched data
+            setTableData(headers, res.payload)
+          }
+        } else if (res.type === 'BAD') {
+          toast.error(res.message)
+        }
+
+        setLoading(false)
+      },
+      (error) => {
+        const res =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString()
+
+        // After recieving the server request
+        toast.error(res)
+        setLoading(false)
+      },
+    )
+  }, [])
+
+  // ADVANCED TABLE
+  const [tableHeaders, setTableHeaders] = useState([])
+  const [tableContent, setTableContent] = useState([])
+  const [presistentTableContent, setPresistentTableContent] = useState([])
+
+  // Set table data
+  const setTableData = (headers, content) => {
+    setTableHeaders(headers)
+    setTableContent(content)
+    setPresistentTableContent(content)
+  }
+
+  // Filter Bar
+  const [filterOptions, setFilterOptions] = useState({
+    field: 'all',
+    order: 'ascending',
+  })
+
+  // Update the form data while input
+  const onFilterOptionsUpdateInput = (e) => {
+    setFilterOptions((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }))
+  }
+
+  const handleFiltering = (e) => {
+    e.preventDefault()
+
+    if (filterOptions.field !== 'all') {
+      const sortedTemp = [...tableContent].sort(
+        (a, b) =>
+          a[filterOptions.field]
+            .toString()
+            .localeCompare(b[filterOptions.field].toString(), 'en', { numeric: true }) *
+          (filterOptions.order === 'ascending' ? 1 : -1),
+      )
+
+      setTableContent(sortedTemp)
+    } else {
+      setTableContent(tableContent)
+    }
+
+    console.log(filterOptions)
+  }
+
+  const FilterBar = () => {
+    return (
+      <CInputGroup>
+        <CInputGroupText>Filter By</CInputGroupText>
+        <CFormSelect
+          aria-label="filter-option-1"
+          name="field"
+          onChange={onFilterOptionsUpdateInput}
+          value={filterOptions.field}
+        >
+          <option key="all" value="all">
+            All
+          </option>
+          {tableHeaders.map(
+            (headerItem) =>
+              headerItem.sortable && (
+                <option key={headerItem.id} value={headerItem.id}>
+                  {headerItem.name}
+                </option>
+              ),
+          )}
+        </CFormSelect>
+        <CInputGroupText> in </CInputGroupText>
+        <CFormSelect
+          aria-label="filter-option-2"
+          name="order"
+          onChange={onFilterOptionsUpdateInput}
+          value={filterOptions.order}
+        >
+          <option value="ascending">Ascending</option>
+          <option value="descending">Descending</option>
+        </CFormSelect>
+        <CInputGroupText> order </CInputGroupText>
+        <CButton color="warning" type="button" className="text-white" onClick={handleFiltering}>
+          <CIcon icon={cilFilter} />
+          <span>{'  '}Filter</span>
+        </CButton>
+      </CInputGroup>
+    )
+  }
+
+  // Search Bar
+  const [searchText, setSearchOption] = useState('')
+
+  // Update the form data while input
+  const onSearchOptionsUpdateInput = (e) => {
+    setSearchOption(e.target.value)
+  }
+
+  const handleSearching = () => {
+    const temp = tableContent
+    const searchedTemp = []
+
+    console.log('called', searchText)
+
+    if (searchText !== '') {
+      temp.forEach((tableItem) => {
+        for (const headerItem of tableHeaders) {
+          console.log(tableItem['id'], headerItem.id)
+          if (
+            tableItem[headerItem.id].toString().toLowerCase().includes(searchText.toLowerCase())
+          ) {
+            searchedTemp.push(tableItem)
+            break // break statement not working on forEach, hence used for loop
+          }
+        }
+      })
+
+      setTableContent(searchedTemp)
+    } else {
+      setTableContent(presistentTableContent)
+    }
+  }
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <CInputGroup style={{ width: '20%' }}>
-          <CInputGroupText>Select Year</CInputGroupText>
-          <CFormSelect aria-label="filterByOption1">
-            <option value="2021">2021</option>
-            <option value="2020">2020</option>
-            <option value="2019">2019</option>
-            <option value="2018">2018</option>
-            <option value="2017">2017</option>
-          </CFormSelect>
-        </CInputGroup>
-      </div>
-
-      <br></br>
       <CRow>
         <CCol xs>
           <CCard className="mb-4">
-            <CCardHeader>A/L Results</CCardHeader>
+            <CCardHeader>A Level Examination Results</CCardHeader>
             <CCardBody>
-              <CRow className="py-2 bg-light rounded">
-                <CCol md={6}>
-                  <CInputGroup>
-                    <CInputGroupText>Filter By</CInputGroupText>
-                    <CFormSelect aria-label="filterByOption1">
-                      <option value="all">All</option>
-                      <option value="course">Z Score</option>
-                      <option value="university">Stream</option>
-                      <option value="zscore">District</option>
-                      <option value="school">School</option>
-                      <option value="school">District Rank</option>
-                      <option value="school">Island Rank</option>
-                      <option value="school">Status</option>
-                    </CFormSelect>
-                    <CInputGroupText> in </CInputGroupText>
-                    <CFormSelect aria-label="filterByOption1">
-                      <option value="ascending">Ascending</option>
-                      <option value="descending">Descending</option>
-                    </CFormSelect>
-                    <CInputGroupText> order </CInputGroupText>
-                    <CButton color="warning" type="button" className="text-white">
-                      <CIcon icon={cilFilter} />
-                      <span>{'  '}Filter</span>
+              <div>
+                <CRow className="py-2 bg-light rounded">
+                  {/* Filter bar */}
+                  <CCol md={6}>
+                    <FilterBar />
+                  </CCol>
+
+                  <CCol md={4} className="ms-auto">
+                    {/* Search bar */}
+                    <CInputGroup>
+                      <CFormInput
+                        type="text"
+                        id="searchBarInput"
+                        placeholder="Search..."
+                        name="searchText"
+                        onChange={onSearchOptionsUpdateInput}
+                        value={searchText}
+                        foc
+                      />
+                      <CButton
+                        color="warning"
+                        type="button"
+                        className="text-white"
+                        onClick={handleSearching}
+                      >
+                        <CIcon icon={cilSearch} />
+                        <span>{'  '}Search</span>
+                      </CButton>
+                    </CInputGroup>
+                  </CCol>
+                </CRow>
+                <br />
+                {visibleUpload && (
+                  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <CButton
+                      color="success"
+                      onClick={() => setVisibleUploadForm(!visibleUploadForm)}
+                    >
+                      <CIcon icon={cibAddthis}></CIcon> Upload A/L Results
                     </CButton>
-                  </CInputGroup>
-                </CCol>
-                <CCol md={4} className="ms-auto">
-                  <CInputGroup>
-                    <CFormInput type="text" name="phone" placeholder="Search..." />
-                    <CButton color="warning" type="button" className="text-white">
-                      <CIcon icon={cilSearch} />
-                      <span>{'  '}Search</span>
+                  </div>
+                )}
+
+                <CModal
+                  alignment="center"
+                  scrollable
+                  visible={visibleUploadForm}
+                  onClose={() => setVisibleUploadForm(false)}
+                >
+                  <CModalHeader>
+                    <CModalTitle>Upload Results</CModalTitle>
+                  </CModalHeader>
+                  <CModalBody>
+                    <CFormInput type="file" id="file" name="file" onChange={onUpdateInput} />
+                  </CModalBody>
+
+                  <CModalFooter>
+                    <CButton color="secondary" onClick={() => setVisibleUploadForm(false)}>
+                      Close
                     </CButton>
-                  </CInputGroup>
-                </CCol>
-              </CRow>
-              <br />
-              <CRow className="m-1">
-                <CTable bordered>
-                  <CTableHead color="dark">
-                    <CTableRow>
-                      <CTableHeaderCell>Name</CTableHeaderCell>
-                      <CTableHeaderCell>Z Score</CTableHeaderCell>
-                      <CTableHeaderCell>Stream</CTableHeaderCell>
-                      <CTableHeaderCell>District</CTableHeaderCell>
-                      <CTableHeaderCell>School</CTableHeaderCell>
-                      <CTableHeaderCell>District Rank</CTableHeaderCell>
-                      <CTableHeaderCell>Island Rank</CTableHeaderCell>
-                      <CTableHeaderCell>Status</CTableHeaderCell>
-                      <CTableHeaderCell></CTableHeaderCell>
-                    </CTableRow>
-                  </CTableHead>
-                  <CTableBody>
-                    {ALResults.map((item) => (
-                      // <NavLink to="/staff/univerityprofile" style={{ textDecoration: 'none', color: 'inherit' }}>
-                      <CTableRow key={item.id}>
-                        <CTableHeaderCell>{item.name}</CTableHeaderCell>
-                        <CTableDataCell>{item.zscore}</CTableDataCell>
-                        <CTableDataCell>{item.stream}</CTableDataCell>
-                        <CTableDataCell>{item.district}</CTableDataCell>
-                        <CTableDataCell>{item.school}</CTableDataCell>
-                        <CTableDataCell>{item.districtRank}</CTableDataCell>
-                        <CTableDataCell>{item.islandRank}</CTableDataCell>
-                        <CTableDataCell>{item.status}</CTableDataCell>
-                        <CTableDataCell>
-                          <CButton color="warning">Edit</CButton>
-                        </CTableDataCell>
+                    <CButton color="primary" onClick={handleUploadResultsFormSubmit}>
+                      {loading ? (
+                        <span>
+                          <CSpinner size="sm" /> Validating
+                        </span>
+                      ) : (
+                        <span>Upload</span>
+                      )}
+                    </CButton>
+                  </CModalFooter>
+                </CModal>
+
+                <CRow className="m-1">
+                  {/* Data fetch loader */}
+                  <AppFetchDataLoader loading={loading} />
+
+                  <CTable bordered>
+                    <CTableHead color="dark">
+                      <CTableRow>
+                        {tableHeaders.map((headerItem) => (
+                          <CTableHeaderCell key={headerItem.id}>{headerItem.name}</CTableHeaderCell>
+                        ))}
                       </CTableRow>
-                    ))}
-                  </CTableBody>
-                </CTable>
-              </CRow>
+                    </CTableHead>
+                    <CTableBody>
+                      {tableContent.map((tableItem) => (
+                        <CTableRow key={tableItem.id}>
+                          {tableHeaders.map((headerItem) => (
+                            <CTableDataCell
+                              key={tableItem.id + headerItem.id}
+                              className={filterOptions.field === headerItem.id ? 'bg-light ' : ''}
+                            >
+                              {/* if search text is empty, show default text */}
+                              {searchText === '' && <span>{tableItem[headerItem.id]}</span>}
+                              {/* if search text is not empty, if matching exists highlight else show default */}
+                              {searchText !== '' && (
+                                <span
+                                  className={
+                                    tableItem[headerItem.id]
+                                      .toString()
+                                      .toLowerCase()
+                                      .includes(searchText.toLowerCase())
+                                      ? 'bg-highlight-warning'
+                                      : ''
+                                  }
+                                >
+                                  {tableItem[headerItem.id]}
+                                </span>
+                              )}
+                            </CTableDataCell>
+                          ))}
+                          {
+                            <CTableDataCell>
+                              <NavLink to={`/staff/results/al/detailed?studentId=${tableItem.id}`}>
+                                <CIcon icon={cilArrowRight} />
+                              </NavLink>
+                            </CTableDataCell>
+                          }
+                        </CTableRow>
+                      ))}
+                    </CTableBody>
+                  </CTable>
+                </CRow>
+              </div>
             </CCardBody>
           </CCard>
         </CCol>
       </CRow>
-
-      <div style={{textAlign: 'right'}}>
-      <CButton color='success'><CIcon icon={cibAddthis}></CIcon> Add Results</CButton>
-      </div>
-      
     </div>
   )
 }

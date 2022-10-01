@@ -1,4 +1,4 @@
-package com.ugc.staff.Model.ALevel;
+package com.ugc.staff.Model.OLevel;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,35 +14,28 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ALResults {
+public class OLResults {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String indexNumber;
     private String name;
-
-    private String zscore;
-    private String stream;
     private String district;
     private String school;
-    private String districtRank;
     private String islandRank;
     private String passOrFail;
     private String studentStatus;
 
-    @OneToMany(mappedBy = "alResults")
-    private Set<ALStudentResult> alStudentResults = new HashSet<>();
+    @OneToMany(mappedBy = "olResults")
+    private Set<OLStudentResult> alStudentResults = new HashSet<>();
 
-    public ALResults(String district, String districtRank, String indexNumber, String islandRank, String name, String passOrFail, String school, String stream, String studentStatus, String zscore) {
+    public OLResults(String indexNumber, String name, String district, String school, String islandRank, String passOrFail, String studentStatus) {
         this.indexNumber = indexNumber;
         this.name = name;
-        this.stream = stream;
         this.district = district;
         this.school = school;
-        this.districtRank = districtRank;
         this.islandRank = islandRank;
         this.passOrFail = passOrFail;
         this.studentStatus = studentStatus;
-        this.zscore = zscore;
     }
 }

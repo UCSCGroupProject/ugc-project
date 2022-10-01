@@ -1,4 +1,4 @@
-package com.ugc.staff.Model.ALevel;
+package com.ugc.staff.Model.OLevel;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,16 +14,16 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ALSubject {
+public class OLSubject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(unique=true)
     private String name;
 
-    @OneToMany(mappedBy = "alSubject")
-    Set<ALStudentResult> alStudentResults = new HashSet<>();
-    public ALSubject(String name) {
+    @OneToMany(mappedBy = "olSubject")
+    Set<OLStudentResult> olStudentResults = new HashSet<>();
+    public OLSubject(String name) {
         this.name = name;
     }
 }
