@@ -1,14 +1,19 @@
 package com.ugc.university.service.olsubject;
 
+import com.ugc.university.model.alsubject.ALSubjectDependency;
 import com.ugc.university.model.alsubject.Alsubject;
 import com.ugc.university.model.course.Course;
 import com.ugc.university.model.olsubject.OLSubjectDependency;
 import com.ugc.university.model.olsubject.Olsubject;
+import com.ugc.university.payload.request.olsubject.Req_OLSubjectsWithResults;
 import com.ugc.university.repository.course.CourseRepository;
 import com.ugc.university.repository.olsubject.OLSubjectDependencyRepository;
 import com.ugc.university.repository.olsubject.OLSubjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class OLSubjectDependencyService {
@@ -93,5 +98,63 @@ public class OLSubjectDependencyService {
         olSubjectDependencyRepository.save(new OLSubjectDependency(this.getCourseByCode("109"), this.getOLSubjectByName("Mathematics"), "C"));
         // Arts - Information technology
         olSubjectDependencyRepository.save(new OLSubjectDependency(this.getCourseByCode("128"), this.getOLSubjectByName("Mathematics"), "C"));
+    }
+
+    public Boolean performDependencyCheckWithResults(Req_OLSubjectsWithResults req_olSubjectsWithResults) {
+        Course course = courseRepository.findByCode(req_olSubjectsWithResults.getCourseCode());
+
+        if(course == null) { System.out.println("Course not exists"); return false; }
+
+        List<OLSubjectDependency> olSubjectDependencies = olSubjectDependencyRepository.findOLSubjectDependenciesByCourse(course);
+
+        if(olSubjectDependencies == null){ System.out.println("No OL subject dependencies"); return true; }
+
+        for (OLSubjectDependency item: olSubjectDependencies){
+            System.out.println(item.getOlsubject().getName());
+            if(item.getOlsubject() == olSubjectRepository.findOlsubjectByName("English")){
+                // English validity available, THEN check results
+                // Results checking
+                if(!gradeChecking(item.getMinGrade(), req_olSubjectsWithResults.getEnglishResult())) {
+                    return false;
+                }
+            }else
+            if(item.getOlsubject() == olSubjectRepository.findOlsubjectByName("Mathematics")){
+                // Mathematics validity available, THEN check results
+                // Results checking
+                if(!gradeChecking(item.getMinGrade(), req_olSubjectsWithResults.getMathematicsResult())) {
+                    return false;
+                }
+            }else
+            if(item.getOlsubject() == olSubjectRepository.findOlsubjectByName("Science")){
+                // Science validity available, THEN check results
+                // Results checking
+                if(!gradeChecking(item.getMinGrade(), req_olSubjectsWithResults.getScienceResult())) {
+                    return false;
+                }
+            }else {
+                System.out.println("Undefined subject");
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static int findIndex(String arr[], String item){
+        int index = Arrays.binarySearch(arr, item);
+        return (index < 0) ? -1 : index;
+    }
+
+    public Boolean gradeChecking(String minGradeRequired, String currentGrade){
+        String[] grades = {"A", "B", "C", "S", "W"};
+
+        System.out.println(findIndex(grades, minGradeRequired) + " - " + findIndex(grades, currentGrade));
+
+        if(findIndex(grades, minGradeRequired) >= findIndex(grades, currentGrade)) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }

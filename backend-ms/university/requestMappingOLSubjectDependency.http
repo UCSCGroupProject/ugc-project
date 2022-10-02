@@ -1,0 +1,11 @@
+### Check subject with results compatibility over course
+POST http://localhost:8082/api/university/course/olsubjectdependency/checkwithresults
+Content-Type: application/json
+
+{
+  "englishResult": "S",
+  "mathematicsResult": "C",
+  "scienceResult": null,
+  "courseCode": "023"
+}
+
