@@ -16,13 +16,13 @@ import com.ugc.university.repository.alsubject.ALSubjectDependencyRepository;
 import com.ugc.university.repository.course.CourseRepository;
 import com.ugc.university.repository.course.UnicodeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.util.TestPropertyValues;
+import org.springframework.data.util.Pair;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class UnicodeService {
@@ -454,6 +454,16 @@ public class UnicodeService {
         });
 
         return uniCourseResponseList;
+    }
+
+    public Map<String, String> getCourseAndUniversity(String unicodeId) {
+        Unicode unicode = unicodeRepository.findUnicodeByUnicodeValue(unicodeId);
+        String course = unicode.getCourse().getName();
+        String university = unicode.getUniversity().getUniversityDetails().getName();
+        Map<String, String > courseAndUniversity = new HashMap<>();
+        courseAndUniversity.put("course", course);
+        courseAndUniversity.put("university", university);
+        return courseAndUniversity;
     }
 
 //    public ResponseEntity<?> getUnicodeOverview(String courseCode) {

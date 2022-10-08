@@ -22,10 +22,11 @@ const Staff_ALResults = React.lazy(() => import('./views/staff/results/ALResults
 const Staff_ALResults_Detailed = React.lazy(() => import('./views/staff/results/ALResultsDetailed'))
 const Staff_AptitudeTests_Upcoming = React.lazy(() => import('./views/staff/aptitudeTests/Upcoming'))
 const Staff_AptitudeTests_Completed = React.lazy(() => import('./views/staff/aptitudeTests/Completed'))
-const Staff_Selected = React.lazy(() => import('./views/staff/selection/selected/Selected'))
-const Staff_Selected_Courses = React.lazy(() => import('./views/staff/selection/selected/Courses'))
-const Staff_Selected_University = React.lazy(() => import('./views/staff/selection/selected/University'))
-const Staff_Selected_Students = React.lazy(() => import('./views/staff/selection/selected/Students'))
+const Staff_Selected_By_Courses = React.lazy(() => import('./views/staff/selection/selected/SelectedByCourse'))
+const Staff_Selected_Unicode = React.lazy(() => import('./views/staff/selection/selected/SelectedByUnicode'))
+const Staff_Selected_By_Universities = React.lazy(() => import('./views/staff/selection/selected/SelectedByUniversity'))
+const Staff_Selected_Unicode_Students = React.lazy(() => import('./views/staff/selection/selected/SelectedCourseStudents'))
+const Staff_Selected_University_Students = React.lazy(() => import('./views/staff/selection/selected/SelectedUniversityStudents'))
 const Staff_Selection_Process = React.lazy(() => import('./views/staff/selection/selected/SelectionProcess'))
 const Staff_Applied_Students = React.lazy(() => import('./views/staff/selection/AppliedStudents'))
 const Staff_Eligible = React.lazy(() => import('./views/staff/selection/eligible/Eligible'))
@@ -107,11 +108,12 @@ const routes = [
   { path: '/staff/results/al/detailed',             name: 'A/L Results Detailed',   element: Staff_ALResults_Detailed },
   { path: '/staff/aptitudetests/upcoming',          name: 'Upcoming Tests',         element: Staff_AptitudeTests_Upcoming},
   { path: '/staff/aptitudetests/completed',         name: 'Completed Tests',        element: Staff_AptitudeTests_Completed},
-  { path: '/staff/selected',                        name: 'Selected',               element: Staff_Selected },
   { path: '/staff/selectionprocess',                name: 'Selection Process',      element: Staff_Selection_Process },
-  { path: '/staff/selected/courses',                name: 'Courses',                element: Staff_Selected_Courses },
-  { path: '/staff/selected/university',             name: 'University',             element: Staff_Selected_University },
-  { path: '/staff/selected/courses/students',       name: 'Students',               element: Staff_Selected_Students },
+  { path: '/staff/selected/filterbyCourse',         name: 'Selected For Courses',   element: Staff_Selected_By_Courses },
+  { path: '/staff/selected/filterbyCourse/unicode', name: 'Courses',                element: Staff_Selected_Unicode },
+  { path: '/staff/selected/filterbyCourse/unicode/students',name: 'Course Students',element: Staff_Selected_Unicode_Students },
+  { path: '/staff/selected/filterbyUniversity',     name: 'Selected For Universities',element: Staff_Selected_By_Universities },
+  { path: '/staff/selected/filterbyUniversity/students', name: 'University Students', element: Staff_Selected_University_Students },
   { path: '/staff/appliedstudents',                 name: 'Applicants',             element: Staff_Applied_Students },
   { path: '/staff/eligible',                        name: 'Eligible',               element: Staff_Eligible },
   { path: '/staff/eligible/courses',                name: 'Courses',                element: Staff_Eligible_Courses },

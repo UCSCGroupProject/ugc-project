@@ -1,9 +1,12 @@
 package com.ugc.selections.Controller;
 
 import com.ugc.selections.Payload.Request.*;
+import com.ugc.selections.Payload.Response.PayloadResponse;
+import com.ugc.selections.Payload.Response.ResType;
 import com.ugc.selections.Service.SelectionService;
 import org.javatuples.Triplet;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +33,7 @@ public class SelectionController  {
     }
 
     @GetMapping(path = "/selectStudents")
-    public void selectStudents(){
+    public ResponseEntity<?> selectStudents(){
 
 ////        Get the list of courses with intakes
 //        CourseIntakeRequest courseIntakeRequest = restTemplate.getForObject("http://localhost:8083/staff/getCourses", CourseIntakeRequest.class);
@@ -88,6 +91,7 @@ public class SelectionController  {
         courseIntake.put("001D", 10);
         courseIntake.put("001E", 20);
         courseIntake.put("001F", 30);
+        courseIntake.put("002B", 10);
         CourseIntakeRequest courseIntakeRequest = new CourseIntakeRequest(courseIntake);
 
         List<String> indexApplicants= new ArrayList<>();
@@ -136,7 +140,7 @@ public class SelectionController  {
         Map<String, Integer> meritCourseIntake = selectionService.getMeritIntake(courseIntakeRequest.getCourseIntake());
 
         List<String> unicodeList1 = new ArrayList<>();
-        unicodeList1.add("001A");
+        unicodeList1.add("002B");
         unicodeList1.add("001B");
         unicodeList1.add("001C");
 
@@ -171,7 +175,7 @@ public class SelectionController  {
         unicodeList5.add("001B");
 
         List<String> unicodeList8 = new ArrayList<>();
-        unicodeList5.add("001C");
+        unicodeList5.add("002B");
         unicodeList5.add("001D");
         unicodeList5.add("001A");
 
@@ -254,5 +258,12 @@ public class SelectionController  {
 //        ------------------------------------------------EDUCATIONALLY DISADVANTAGED SELECTION------------------------------------------------
         selectionService.edSelection(sortedStudents, applications, edCourseIntake, aptitudeTestResultRequest, olUnicodeRequest, districtRequest);
         System.out.println("ED selection completed");
+
+        return ResponseEntity.ok(new PayloadResponse(null, "Selection successful", ResType.OK));
+    }
+
+    @GetMapping(path = "/getSelected")
+    public ResponseEntity<?> getSelectedStudents(){
+        return selectionService.getSelectedStudents();
     }
 }

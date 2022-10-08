@@ -2,8 +2,12 @@ package com.ugc.selections.Service;
 
 import com.ugc.selections.Entity.Student;
 import com.ugc.selections.Payload.Request.*;
+import com.ugc.selections.Payload.Response.PayloadResponse;
+import com.ugc.selections.Payload.Response.ResType;
 import com.ugc.selections.Repository.SelectionRepository;
+import org.javatuples.Pair;
 import org.javatuples.Triplet;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -310,6 +314,22 @@ public class SelectionService {
                     stableMarriage(course, intake, applications, sortedStudents, freeStudents, edCourseIntake, aptitudeTestResults, olUnicodeRequest, selectedCourse);
                 }
             }
+        }
+    }
+
+    public ResponseEntity<?> getSelectedStudents() {
+        List<Student> selectedStudents = selectionRepository.findAll();
+        if(selectedStudents.isEmpty()){
+            return ResponseEntity.ok(new PayloadResponse(null, "Selection not done", ResType.BAD));
+        }
+        else{
+            List<Triplet<Student, String, String>> selections = new ArrayList<>();
+            for (Student student: selectedStudents) {
+                Map<String, String> courseAndUniversity = restTemplate.getForObject("http://localhost:8082/api/university/unicode/getCourseAndUniversity?unicodeId="+student.getSelectedCourse(), Map.class);
+                Triplet<Student, String, String> newTriplet = new Triplet<>(student, courseAndUniversity.get("course"), courseAndUniversity.get("university"));
+                selections.add(newTriplet);
+            }
+            return ResponseEntity.ok(new PayloadResponse(selections, "Selection process completed", ResType.OK));
         }
     }
 }

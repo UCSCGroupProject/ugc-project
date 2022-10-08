@@ -99,7 +99,7 @@ const _nav = [
   {
     component: CNavItem,
     name: 'Selected Students',
-    to: '/staff/selected',
+    to: '/staff/selected/filterbyCourse',
     icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
   },
   {
