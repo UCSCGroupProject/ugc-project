@@ -1,5 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 import {
   CCard,
   CCardBody,
@@ -15,8 +16,40 @@ import {
 import CIcon from '@coreui/icons-react'
 import { cilArrowTop, cilOptions, cilArrowBottom } from '@coreui/icons'
 import { CChartLine } from '@coreui/react-chartjs'
-
+import studentService from '../../../services/staff/userDetails/studentService'
+import { toast } from 'react-toastify'
 function Overview() {
+
+   // For the server side requests and responses
+   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    setLoading(true)
+
+    studentService.getStudents().then(
+      (res) => {
+        if (res.type === 'OK') {
+          toast.success(res.message)
+          console.log(res.payload)
+        } else if (res.type === 'BAD') {
+          toast.error(res.message)
+        }
+
+        setLoading(false)
+      },
+      (error) => {
+        const res =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString()
+
+        // After recieving the server request
+        toast.error(res)
+        setLoading(false)
+      },
+    )
+  }, [])
+
   return (
     <CCard className="mb-4">
       <CCardHeader>User Statisticss</CCardHeader>

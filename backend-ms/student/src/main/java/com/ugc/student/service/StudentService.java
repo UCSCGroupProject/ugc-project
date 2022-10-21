@@ -5,16 +5,19 @@ import com.ugc.student.model.Role;
 import com.ugc.student.model.Student;
 import com.ugc.student.model.StudentDetails;
 import com.ugc.student.model.enums.E_Role;
+import com.ugc.student.payload.ResType;
 import com.ugc.student.payload.request.LoginRequest;
 import com.ugc.student.payload.request.PasswordResetRequest;
 import com.ugc.student.payload.request.studentRegistration.StudentRegisterRequest;
 import com.ugc.student.payload.response.JwtResponse;
+import com.ugc.student.payload.response.PayloadResponse;
 import com.ugc.student.repository.NICAndExamDetailsRepository;
 import com.ugc.student.repository.RoleRepository;
 import com.ugc.student.repository.StudentDetailsRepository;
 import com.ugc.student.repository.StudentRepository;
 import com.ugc.student.security.jwt.JwtUtils;
 import com.ugc.student.security.services.UserDetailsImpl;
+import org.javatuples.Triplet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -167,5 +170,25 @@ public class StudentService {
         studentRepository.updatePasswordByEmail(passwordResetRequest.getEmail(), encryptedPassword);
 
         return "Password changed sucessfully using email";
+    }
+
+    public ResponseEntity<?> getAllStudents() {
+        List<Student> students = studentRepository.findAll();
+        if(students.isEmpty()){
+            return ResponseEntity.ok(new PayloadResponse(null, "Students not found", ResType.BAD));
+        }
+        else{
+            List<Triplet<String, String, ArrayList<String>>> studentDetails = new ArrayList<>();
+            for (Student student: students) {
+                ArrayList<String> studentAdditionalDetails = new ArrayList<>();
+                studentAdditionalDetails.add(0, "Physical");
+                studentAdditionalDetails.add(1, "Colombo");
+                studentAdditionalDetails.add(2, "St.Paul's Girls' School");
+                Triplet<String, String, ArrayList<String>> newTriplet = new Triplet<>(student.getNicAndExamDetails().getIndexNo(), "1162667", studentAdditionalDetails);
+                studentDetails.add(newTriplet);
+            }
+            return ResponseEntity.ok(new PayloadResponse(studentDetails, "List of Students sent", ResType.OK));
+        }
+
     }
 }

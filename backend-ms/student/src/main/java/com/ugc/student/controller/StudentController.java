@@ -103,4 +103,9 @@ public class StudentController {
 
         return ResponseEntity.ok(new MessageResponse(result));
     }
+
+    @GetMapping("/getStudents")
+    public ResponseEntity<?> getAllStudents() {
+        return studentService.getAllStudents();
+    }
 }
