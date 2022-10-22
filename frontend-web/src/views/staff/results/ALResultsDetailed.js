@@ -56,8 +56,46 @@ function ALResultsDetailed() {
   const [resMessage, setResMessage] = useState('')
   let navigate = useNavigate()
 
+  // ADVANCED TABLE
+  const [tableHeaders, setTableHeaders] = useState([])
+  const [tableContent, setTableContent] = useState([])
+  const [presistentTableContent, setPresistentTableContent] = useState([])
+
+  // Set table data
+  const setTableData = (headers, content) => {
+    setTableHeaders(headers)
+    setTableContent(content)
+    setPresistentTableContent(content)
+  }
+
   const [searchParams, setSearchParams] = useSearchParams()
   const [studentID, setstudentID] = useState(searchParams.get('studentId'))
+
+  // Editing results
+  const [editResultsForm, setEditResultsForm] = useState({
+    firstSubject: '',
+    secondSubject: '',
+    thirdSubject: '',
+    git: '',
+    ge: '',
+    cgt: '',
+  })
+
+  const [editResultsFormErrors, setEditResultsFormErrors] = useState({
+    firstSubjectError: '',
+    secondSubjectError: '',
+    thirdSubjectError: '',
+    gitError: '',
+    geError: '',
+    cgtError: '',
+  })
+
+  const onUpdateInput = (e) => {
+    setEditResultsForm((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }))
+  }
 
   useEffect(() => {
     setLoading(true)
@@ -65,8 +103,8 @@ function ALResultsDetailed() {
     alResultsService.getResultOfStudent(studentID).then(
       (res) => {
         if (res.type === 'OK') {
-          console.log(res.payload)
-          setTableData(headers, res.payload)
+          setTableHeaders(headers)
+          setTableContent(res.payload)
         } else if (res.type === 'BAD') {
           toast.error(res.message)
         }
@@ -86,16 +124,97 @@ function ALResultsDetailed() {
     )
   }, [])
 
-  // ADVANCED TABLE
-  const [tableHeaders, setTableHeaders] = useState([])
-  const [tableContent, setTableContent] = useState([])
-  const [presistentTableContent, setPresistentTableContent] = useState([])
+  useEffect(() => {
+    
+      console.log(tableContent)
+      document.getElementById("firstSubject").label = tableContent[0]['subjectName'];
+    
+  }, [tableContent])
 
-  // Set table data
-  const setTableData = (headers, content) => {
-    setTableHeaders(headers)
-    setTableContent(content)
-    setPresistentTableContent(content)
+  const handleEditResultsFormSubmit = async (e) => {
+    e.preventDefault()
+    let firstSubjectError = ''
+    let secondSubjectError = ''
+    let thirdSubjectError = ''
+    let gitError = ''
+    let geError = ''
+    let cgtError = ''
+    if (!v_required(editResultsForm.firstSubject)) {
+      firstSubjectError = 'Results can not be empty.'
+    }
+
+    if (!v_required(editResultsForm.secondSubject)) {
+      secondSubjectError = 'Results can not be empty.'
+    }
+
+    if (!v_required(editResultsForm.thirdSubject)) {
+      thirdSubjectError = 'Results can not be empty.'
+    }
+
+    if (!v_required(editResultsForm.git)) {
+      gitError = 'Results can not be empty.'
+    }
+    if (!v_required(editResultsForm.ge)) {
+      geError = 'Results can not be empty.'
+    }
+    if (!v_required(editResultsForm.cgt)) {
+      cgtError = 'Results can not be empty.'
+    }
+
+    if (editResultsForm.firstSubject.match('[ABCSW]') == null) {
+      firstSubjectError = 'Results not valid'
+    }
+    // If errors exist, show errors
+    setEditResultsFormErrors({
+      firstSubjectError,
+      secondSubjectError,
+      thirdSubjectError,
+      gitError,
+      geError,
+      cgtError,
+    })
+
+    // If no errors exist, send to the server
+    if (
+      !(
+        firstSubjectError &&
+        secondSubjectError &&
+        thirdSubjectError &&
+        gitError &&
+        geError &&
+        cgtError
+      )
+    ) {
+      console.log('Edit results form submitted')
+
+      // Sending to the server
+      setLoading(true)
+      setResMessage('')
+
+      alResultsService.update(editResultsForm).then(
+        (res) => {
+          if (res.type === 'OK') {
+            // Settings table data
+            console.log(editResultsForm)
+            navigate('/staff/alresults')
+          } else if (res.type === 'BAD') {
+            toast.error(res.message)
+          }
+
+          setLoading(false)
+        },
+        (error) => {
+          const res =
+            (error.response && error.response.data && error.response.data.message) ||
+            error.message ||
+            error.toString()
+          // After recieving the server request
+          toast.error(res)
+          setResMessage(res) // Remove later
+          setLoading(false)
+        },
+      )
+    }
   }
 
   // Filter Bar
@@ -208,10 +327,95 @@ function ALResultsDetailed() {
 
   return (
     <div>
+      <div style={{ textAlign: 'right' }}>
+        <CButton color="warning" onClick={() => setVisible(!visible)}>
+          <CIcon icon={cibAddthis}></CIcon> Edit Results
+        </CButton>
+
+        <CModal alignment="center" scrollable visible={visible} onClose={() => setVisible(false)}>
+          <CModalHeader>
+            <CModalTitle>Edit Results</CModalTitle>
+          </CModalHeader>
+          <CModalBody>
+            <CFormInput
+              type="text"
+              id="firstSubject"
+              name="firstSubject"
+              onChange={onUpdateInput}
+              value={editResultsForm.firstSubject}
+              feedback={editResultsFormErrors.firstSubjectError}
+            />
+            <CFormInput
+              type="text"
+              id="secondSubject"
+              name="secondSubject"
+              onChange={onUpdateInput}
+              value={editResultsForm.secondSubject}
+              feedback={editResultsFormErrors.secondSubjectError}
+            />
+            <CFormInput
+              type="text"
+              id="thirdSubject"
+              name="thirdSubject"
+              onChange={onUpdateInput}
+              value={editResultsForm.thirdSubject}
+              feedback={editResultsFormErrors.thirdSubjectError}
+            />
+            <CFormInput
+              type="text"
+              id="git"
+              name="git"
+              onChange={onUpdateInput}
+              value={editResultsForm.git}
+              feedback={editResultsFormErrors.gitError}
+            />
+            <CFormInput
+              type="text"
+              id="ge"
+              name="ge"
+              onChange={onUpdateInput}
+              value={editResultsForm.ge}
+              feedback={editResultsFormErrors.geError}
+            />
+            <CFormInput
+              //label={presistentTableContent[5]['subjectName']}
+              //placeholder={tableContent[5]['grade']}
+              type="text"
+              id="cgt"
+              name="cgt"
+              onChange={onUpdateInput}
+              value={editResultsForm.cgt}
+              feedback={editResultsFormErrors.cgtError}
+            />
+            {resMessage && (
+              <CAlert color="danger" className="text-center">
+                {resMessage}
+              </CAlert>
+            )}
+          </CModalBody>
+
+          <CModalFooter>
+            <CButton color="secondary" onClick={() => setVisible(false)}>
+              Close
+            </CButton>
+            <CButton color="primary" onClick={handleEditResultsFormSubmit}>
+              {loading ? (
+                <span>
+                  <CSpinner size="sm" /> Validating
+                </span>
+              ) : (
+                <span>Update</span>
+              )}
+            </CButton>
+          </CModalFooter>
+        </CModal>
+      </div>
+
       <CRow>
         <CCol xs>
           <CCard className="mb-4">
             <CCardHeader>Results</CCardHeader>
+
             <CCardBody>
               <div>
                 <CRow className="py-2 bg-light rounded">

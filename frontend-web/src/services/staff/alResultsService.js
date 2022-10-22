@@ -32,6 +32,12 @@ class ALResultsService {
         return res.data
       })
   }
+
+  update(editResultsForm){
+    return axios.put(API_URL + '/update', editResultsForm).then((response) => {
+      return response.data
+    })
+  }
 }
 
 export default new ALResultsService()
