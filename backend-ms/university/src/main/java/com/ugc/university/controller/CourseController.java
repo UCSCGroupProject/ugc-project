@@ -3,6 +3,7 @@ package com.ugc.university.controller;
 import com.ugc.university.model.course.Course;
 import com.ugc.university.payload.request.course.AddCourseForm;
 import com.ugc.university.payload.request.course.EditCourseForm;
+import com.ugc.university.payload.request.ol_al.Req_OLALSubjects;
 import com.ugc.university.payload.response.MessageResponse;
 import com.ugc.university.payload.response.PayloadResponse;
 import com.ugc.university.payload.response.ResType;
@@ -36,6 +37,12 @@ public class CourseController {
     public ResponseEntity<?> getAllCourseList(){
         List<CourseResponse> courseResponseList = courseService.getAllCourseList();
         return ResponseEntity.ok(new PayloadResponse(courseResponseList, "All courses list", ResType.OK));
+    }
+
+    @PostMapping("/recommended")
+    public ResponseEntity<?> getRecommendedCourseList(@RequestBody Req_OLALSubjects req_olalSubjects){
+        List<CourseResponse> courseResponseList = courseService.getRecommendedCourseList(req_olalSubjects);
+        return ResponseEntity.ok(new PayloadResponse(courseResponseList, "Recommended courses list", ResType.OK));
     }
 
     // Get course overview

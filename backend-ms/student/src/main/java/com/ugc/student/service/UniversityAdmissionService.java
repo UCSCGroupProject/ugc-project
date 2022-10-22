@@ -140,6 +140,10 @@ public class UniversityAdmissionService {
                 step2FormRequest.getOlYear(),
                 step2FormRequest.getOlIndex(),
                 step2FormRequest.getOlNameUsed(),
+                step2FormRequest.getEnglishResult(),
+                step2FormRequest.getMathematicsResult(),
+                step2FormRequest.getScienceResult(),
+
                 student
         ));
 
@@ -147,9 +151,9 @@ public class UniversityAdmissionService {
                 step2FormRequest.getAlYear(),
                 step2FormRequest.getAlIndex(),
                 step2FormRequest.getAlNameUsed(),
-                step2FormRequest.getAlSubject1Id(),
-                step2FormRequest.getAlSubject2Id(),
-                step2FormRequest.getAlSubject3Id(),
+                step2FormRequest.getAlSubject1(),
+                step2FormRequest.getAlSubject2(),
+                step2FormRequest.getAlSubject3(),
                 step2FormRequest.getAlMedium(),
                 student
         ));

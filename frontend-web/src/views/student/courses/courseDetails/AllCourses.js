@@ -28,6 +28,8 @@ import { toast } from 'react-toastify'
 
 import AppFetchDataLoader from '../../../../components/loaders/AppFetchDataLoader'
 
+import AppStandardContainer from '../../../../components/containers/AppStandardContainer'
+
 import courseService from '../../../../services/university/courseService'
 
 const headers = [
@@ -204,99 +206,90 @@ function AllCourses() {
   }
 
   return (
-    <div>
-      <CRow>
-        <CCol xs>
-          <CCard className="mb-4">
-            <CCardHeader>All Courses</CCardHeader>
-            <CCardBody>
-              <div>
-                <CRow className="py-2 bg-light rounded">
-                  {/* Filter bar */}
-                  <CCol md={6}>
-                    <FilterBar />
-                  </CCol>
+    <AppStandardContainer title="All Courses">
+      <div>
+        <CRow className="py-2 bg-light rounded">
+          {/* Filter bar */}
+          <CCol md={6}>
+            <FilterBar />
+          </CCol>
 
-                  <CCol md={4} className="ms-auto">
-                    {/* Search bar */}
-                    <CInputGroup>
-                      <CFormInput
-                        type="text"
-                        id="searchBarInput"
-                        placeholder="Search..."
-                        name="searchText"
-                        onChange={onSearchOptionsUpdateInput}
-                        value={searchText}
-                        foc
-                      />
-                      <CButton
-                        color="warning"
-                        type="button"
-                        className="text-white"
-                        onClick={handleSearching}
-                      >
-                        <CIcon icon={cilSearch} />
-                        <span>{'  '}Search</span>
-                      </CButton>
-                    </CInputGroup>
-                  </CCol>
-                </CRow>
-                <br />
+          <CCol md={4} className="ms-auto">
+            {/* Search bar */}
+            <CInputGroup>
+              <CFormInput
+                type="text"
+                id="searchBarInput"
+                placeholder="Search..."
+                name="searchText"
+                onChange={onSearchOptionsUpdateInput}
+                value={searchText}
+                foc
+              />
+              <CButton
+                color="warning"
+                type="button"
+                className="text-white"
+                onClick={handleSearching}
+              >
+                <CIcon icon={cilSearch} />
+                <span>{'  '}Search</span>
+              </CButton>
+            </CInputGroup>
+          </CCol>
+        </CRow>
+        <br />
 
-                <CRow className="m-1">
-                  {/* Data fetch loader */}
-                  <AppFetchDataLoader loading={loading} />
+        <CRow className="m-1">
+          {/* Data fetch loader */}
+          <AppFetchDataLoader loading={loading} />
 
-                  <CTable hover responsive bordered>
-                    <CTableHead color="dark">
-                      <CTableRow>
-                        {tableHeaders.map((headerItem) => (
-                          <CTableHeaderCell key={headerItem.id}>{headerItem.name}</CTableHeaderCell>
-                        ))}
-                        <CTableHeaderCell></CTableHeaderCell>
-                      </CTableRow>
-                    </CTableHead>
-                    <CTableBody>
-                      {tableContent.map((tableItem) => (
-                        <CTableRow
-                          key={tableItem.id}
-                          onClick={() => onClickUniversiyCourseRecord(tableItem.course)}
+          <CTable hover responsive bordered>
+            <CTableHead color="dark">
+              <CTableRow>
+                {tableHeaders.map((headerItem) => (
+                  <CTableHeaderCell key={headerItem.id}>{headerItem.name}</CTableHeaderCell>
+                ))}
+                <CTableHeaderCell></CTableHeaderCell>
+              </CTableRow>
+            </CTableHead>
+            <CTableBody>
+              {tableContent.map((tableItem) => (
+                <CTableRow
+                  key={tableItem.id}
+                  onClick={() => onClickUniversiyCourseRecord(tableItem.course)}
+                >
+                  {tableHeaders.map((headerItem) => (
+                    <CTableDataCell
+                      key={tableItem.id + headerItem.id}
+                      className={filterOptions.field === headerItem.id ? 'bg-light ' : ''}
+                    >
+                      {/* if search text is empty, show default text */}
+                      {searchText === '' && <span>{tableItem[headerItem.id]}</span>}
+                      {/* if search text is not empty, if matching exists highlight else show default */}
+                      {searchText !== '' && (
+                        <span
+                          className={
+                            tableItem[headerItem.id]
+                              .toString()
+                              .toLowerCase()
+                              .includes(searchText.toLowerCase())
+                              ? 'bg-highlight-warning'
+                              : ''
+                          }
                         >
-                          {tableHeaders.map((headerItem) => (
-                            <CTableDataCell
-                              key={tableItem.id + headerItem.id}
-                              className={filterOptions.field === headerItem.id ? 'bg-light ' : ''}
-                            >
-                              {/* if search text is empty, show default text */}
-                              {searchText === '' && <span>{tableItem[headerItem.id]}</span>}
-                              {/* if search text is not empty, if matching exists highlight else show default */}
-                              {searchText !== '' && (
-                                <span
-                                  className={
-                                    tableItem[headerItem.id]
-                                      .toString()
-                                      .toLowerCase()
-                                      .includes(searchText.toLowerCase())
-                                      ? 'bg-highlight-warning'
-                                      : ''
-                                  }
-                                >
-                                  {tableItem[headerItem.id]}
-                                </span>
-                              )}
-                            </CTableDataCell>
-                          ))}
-                        </CTableRow>
-                      ))}
-                    </CTableBody>
-                  </CTable>
-                </CRow>
-              </div>
-            </CCardBody>
-          </CCard>
-        </CCol>
-      </CRow>
-    </div>
+                          {tableItem[headerItem.id]}
+                        </span>
+                      )}
+                    </CTableDataCell>
+                  ))}
+                </CTableRow>
+              ))}
+            </CTableBody>
+          </CTable>
+        </CRow>
+      </div>
+    </AppStandardContainer>
   )
 }
 

@@ -17,13 +17,13 @@ public class ALDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String alIndex;
     private String alYear;
+    private String alIndex;
 
     private String alNameUsed;
-    private Integer alSubject1Id;
-    private Integer alSubject2Id;
-    private Integer alSubject3Id;
+    private String alSubject1;
+    private String alSubject2;
+    private String alSubject3;
     private String alMedium;
 
 //    private String ALAdministrativeDistrictTaken;
@@ -42,13 +42,13 @@ public class ALDetails {
 //        this.student = student;
 //    }
 
-    public ALDetails(String alIndex, String alYear, String alNameUsed, Integer alSubject1Id, Integer alSubject2Id, Integer alSubject3Id, String alMedium, Student student) {
-        this.alIndex = alIndex;
+    public ALDetails(String alYear, String alIndex, String alNameUsed, String alSubject1, String alSubject2, String alSubject3, String alMedium, Student student) {
         this.alYear = alYear;
+        this.alIndex = alIndex;
         this.alNameUsed = alNameUsed;
-        this.alSubject1Id = alSubject1Id;
-        this.alSubject2Id = alSubject2Id;
-        this.alSubject3Id = alSubject3Id;
+        this.alSubject1 = alSubject1;
+        this.alSubject2 = alSubject2;
+        this.alSubject3 = alSubject3;
         this.alMedium = alMedium;
         this.student = student;
     }

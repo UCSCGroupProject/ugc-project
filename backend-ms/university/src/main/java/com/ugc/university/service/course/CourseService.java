@@ -1,10 +1,14 @@
 package com.ugc.university.service.course;
 
+import com.netflix.discovery.converters.Auto;
 import com.ugc.university.model.alsubject.ALSubjectDependency;
 import com.ugc.university.model.course.Course;
 import com.ugc.university.model.course.Stream;
 import com.ugc.university.model.course.Unicode;
 import com.ugc.university.model.olsubject.OLSubjectDependency;
+import com.ugc.university.payload.request.alsubject.Req_ChoosedALSubjects;
+import com.ugc.university.payload.request.ol_al.Req_OLALSubjects;
+import com.ugc.university.payload.request.olsubject.Req_OLSubjectsWithResults;
 import com.ugc.university.payload.response.PayloadResponse;
 import com.ugc.university.payload.response.ResType;
 import com.ugc.university.payload.response.course.CourseResponse;
@@ -19,6 +23,8 @@ import com.ugc.university.repository.course.CourseRepository;
 import com.ugc.university.repository.course.StreamRepository;
 import com.ugc.university.repository.course.UnicodeRepository;
 import com.ugc.university.repository.olsubject.OLSubjectDependencyRepository;
+import com.ugc.university.service.alsubject.ALSubjectDependencyService;
+import com.ugc.university.service.olsubject.OLSubjectDependencyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -31,6 +37,7 @@ public class CourseService {
     @Autowired
     CourseRepository courseRepository;
 
+
     @Autowired
     StreamRepository streamRepository;
     @Autowired
@@ -39,6 +46,13 @@ public class CourseService {
     ALSubjectDependencyRepository alSubjectDependencyRepository;
     @Autowired
     OLSubjectDependencyRepository olSubjectDependencyRepository;
+
+
+    @Autowired
+    private OLSubjectDependencyService olSubjectDependencyService;
+
+    @Autowired
+    private ALSubjectDependencyService alSubjectDependencyService;
 
     public void initCourses() {
         Stream arts = streamRepository.findByStreamName("Arts");
@@ -194,6 +208,52 @@ public class CourseService {
         return courseResponseList;
     }
 
+    public List<CourseResponse> getRecommendedCourseList(Req_OLALSubjects req_olalSubjects) {
+        List<CourseResponse> courseResponseList = new ArrayList<>();
+        List<Course> courseList = courseRepository.findAll();
+
+
+
+        courseList.forEach(item -> {
+            // Check ol dependencies
+            Boolean isOLResultsCompatible = olSubjectDependencyService.performDependencyCheckWithResults(
+                new Req_OLSubjectsWithResults(
+                        req_olalSubjects.englishResult,
+                        req_olalSubjects.mathematicsResult,
+                        req_olalSubjects.scienceResult,
+                        item.getCode()
+                )
+            );
+
+            // Check al dependencies
+            Boolean isALResultsCompatible = alSubjectDependencyService.performDependencyCheck(
+                    new Req_ChoosedALSubjects(
+                            req_olalSubjects.firstSubject,
+                            req_olalSubjects.secondSubject,
+                            req_olalSubjects.thirdSubject,
+                            item.getCode()
+                    )
+            );
+
+
+            // Add courses
+
+            if(isOLResultsCompatible && isALResultsCompatible) {
+                CourseResponse courseResponse = new CourseResponse(
+                        item.getId(),
+                        item.getName(),
+                        item.getStream().getStreamName(),
+                        item.getCode(),
+                        item.getProposedIntakes()
+                );
+
+                courseResponseList.add(courseResponse);
+            }
+        });
+
+        return courseResponseList;
+    }
+
     public ResponseEntity<?> getCourseOverview(String courseCode) {
         Res_CourseOverview res_courseOverview = new Res_CourseOverview();
 
@@ -334,6 +394,7 @@ public class CourseService {
         courseRepository.deleteById(courseId);
         return ResponseEntity.ok(new PayloadResponse(null, "Course deleted", ResType.OK));
     }
+
 
 
 }

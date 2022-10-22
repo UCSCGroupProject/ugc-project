@@ -61,15 +61,20 @@ function Step2Page() {
     }))
   }
 
+   // OL result table data
+   const [olData, setOlData] = useState({
+    olNameUsed: 'Dhanushka sandakelum',
+    englishResult: "A",
+    mathematicsResult: "A",
+    scienceResult: "A"
+  })
+
   // AL result table data
   const [alData, setAlData] = useState({
-    alNameUsed: 'Shaka bum',
-    alSubject1Id: 1,
-    alSubject2Id: 2,
-    alSubject3Id: 3,
-    alSubject1Name: 'Combined mathematics',
-    alSubject2Name: 'Physics',
-    alSubject3Name: 'Chemistry',
+    alNameUsed: 'Dhanushka sandakelum',
+    alSubject1: "Chemistry",
+    alSubject2: "Physics",
+    alSubject3: "Biology",
     alMedium: 'Sinhala',
   })
 
@@ -183,13 +188,25 @@ function Step2Page() {
       const user = authService.getCurrentUser()
 
       const payload = {
-        ...step2Form,
-        ...alData,
+        olYear: step2Form.olYear,   
+        olIndex: step2Form.olIndex,    
+        olNameUsed: olData.olNameUsed,  
+        englishResult: olData.englishResult, 
+        mathematicsResult: olData.mathematicsResult, 
+        scienceResult: olData.scienceResult, 
+
+        alYear: step2Form.alYear,     
+        alIndex: step2Form.alIndex,   
+        alNameUsed: alData.alNameUsed, 
+        alSubject1: alData.alSubject1,   
+        alSubject2: alData.alSubject2,   
+        alSubject3: alData.alSubject3,   
+        alMedium: alData.alMedium,      
       }
 
       console.log(payload)
 
-      universityAdmissionService.step2FormCheckAndSubmit(step2Form, user.username).then(
+      universityAdmissionService.step2FormCheckAndSubmit(payload, user.username).then(
         () => {
           setLoading(false)
           navigate('/student/registration/step3')
@@ -288,10 +305,12 @@ function Step2Page() {
                       id="validationOLIndex"
                       label="Name used in G.C.E.(O/L) Examination"
                       name="olNameUsed"
-                      onChange={onUpdateInput}
-                      value={step2Form.olNameUsed}
-                      feedback={step2FormErrors.olNameUsedError}
-                      invalid={step2FormErrors.olNameUsedError ? true : false}
+                      // onChange={onUpdateInput}
+                      value={olData.olNameUsed}
+                      readOnly
+                      disabled
+                      // feedback={step2FormErrors.olNameUsedError}
+                      // invalid={step2FormErrors.olNameUsedError ? true : false}
                     />
                   </CCol>
                   <CTable bordered>
@@ -306,11 +325,11 @@ function Step2Page() {
                     </CTableHead>
                     <CTableBody>
                       <CTableRow>
-                        <CTableHeaderCell>2016</CTableHeaderCell>
-                        <CTableDataCell>1300724</CTableDataCell>
-                        <CTableDataCell>A</CTableDataCell>
-                        <CTableDataCell>A</CTableDataCell>
-                        <CTableDataCell>A</CTableDataCell>
+                        <CTableHeaderCell>{step2Form.olYear}</CTableHeaderCell>
+                        <CTableDataCell>{step2Form.olIndex}</CTableDataCell>
+                        <CTableDataCell>{olData.englishResult}</CTableDataCell>
+                        <CTableDataCell>{olData.mathematicsResult}</CTableDataCell>
+                        <CTableDataCell>{olData.scienceResult}</CTableDataCell>
                       </CTableRow>
                     </CTableBody>
                   </CTable>
@@ -419,9 +438,9 @@ function Step2Page() {
                       <CTableRow>
                         <CTableHeaderCell>{step2Form.alYear}</CTableHeaderCell>
                         <CTableDataCell>{step2Form.alIndex}</CTableDataCell>
-                        <CTableDataCell>{alData.alSubject1Name}</CTableDataCell>
-                        <CTableDataCell>{alData.alSubject2Name}</CTableDataCell>
-                        <CTableDataCell>{alData.alSubject3Name}</CTableDataCell>
+                        <CTableDataCell>{alData.alSubject1}</CTableDataCell>
+                        <CTableDataCell>{alData.alSubject2}</CTableDataCell>
+                        <CTableDataCell>{alData.alSubject3}</CTableDataCell>
                         <CTableDataCell>{alData.alMedium}</CTableDataCell>
                         {/* <CTableDataCell>Participated</CTableDataCell>
                         <CTableDataCell>Participated</CTableDataCell> */}

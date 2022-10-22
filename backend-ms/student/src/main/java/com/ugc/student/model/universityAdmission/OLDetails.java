@@ -17,19 +17,26 @@ public class OLDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Integer OLYear;
-    private Integer OLIndex;
+    private String OLYear;
+    private String OLIndex;
     private String OLNameUsed;
+
+    private String englishResult;
+    private String mathematicsResult;
+    private String scienceResult;
 
     // Foreign key from Student - Refer id column of the Student table as stu_id
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "stu_id", referencedColumnName = "id")
     private Student student;
 
-    public OLDetails(Integer OLYear, Integer OLIndex, String OLNameUsed, Student student) {
+    public OLDetails(String OLYear, String OLIndex, String OLNameUsed, String englishResult, String mathematicsResult, String scienceResult, Student student) {
         this.OLYear = OLYear;
         this.OLIndex = OLIndex;
         this.OLNameUsed = OLNameUsed;
+        this.englishResult = englishResult;
+        this.mathematicsResult = mathematicsResult;
+        this.scienceResult = scienceResult;
         this.student = student;
     }
 }

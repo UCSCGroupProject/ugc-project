@@ -10,6 +10,13 @@ class CourseService {
     })
   }
 
+  getRecommendedCourseList = (olAlSubjects) => {
+    return axios.post(API_URL + '/recommended', olAlSubjects).then((res) => {
+      console.log(res.data)
+      return res.data
+    })
+  }
+
   getCourseOverview = (courseCode) => {
     return axios.get(API_URL + '?courseCode=' + courseCode).then((res) => {
       console.log(res.data)

@@ -28,6 +28,9 @@ Content-Type: application/json
   "username": "Dhanushka"
 }
 
+### Get step 2 form
+GET http://localhost:8081/api/student/universityAdmission/step2Form?username=Dhanushka
+
 ### Submit step 2 form
 POST http://localhost:8081/api/student/universityAdmission/step2Form
 Content-Type: application/json
