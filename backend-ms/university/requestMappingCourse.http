@@ -1,5 +1,19 @@
 ### Get all courses
 GET http://localhost:8082/api/university/course/all
 
+### Get recommended courses
+POST http://localhost:8082/api/university/course/recommended
+Content-Type: application/json
+
+{
+  "englishResult": "S",
+  "mathematicsResult": "C",
+  "scienceResult": "",
+
+  "firstSubject": "Chemistry",
+  "secondSubject": "Physics",
+  "thirdSubject": "Biology"
+}
+
 ### Get specific course
-GET http://localhost:8082/api/university/course?courseCode=107
+GET http://localhost:8082/api/university/course?courseCode=020

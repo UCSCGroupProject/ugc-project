@@ -73,25 +73,30 @@ public class UniversityAdmissionController {
                 olDetails.getOLYear(),
                 olDetails.getOLIndex(),
                 olDetails.getOLNameUsed(),
+                olDetails.getEnglishResult(),
+                olDetails.getMathematicsResult(),
+                olDetails.getScienceResult(),
 
                 alDetails.getAlYear(),
                 alDetails.getAlIndex(),
                 alDetails.getAlNameUsed(),
-                alDetails.getAlSubject1Id(),
-                alDetails.getAlSubject2Id(),
-                alDetails.getAlSubject3Id(),
+                alDetails.getAlSubject1(),
+                alDetails.getAlSubject2(),
+                alDetails.getAlSubject3(),
                 alDetails.getAlMedium()
         ));
     }
 
     @PostMapping("/step2Form")
     public ResponseEntity<?> step2FormCheckAndSubmit(@Valid @RequestBody Step2FormRequest step2FormRequest){
-        System.out.println(step2FormRequest.toString());
+        System.out.println("FROM" + step2FormRequest.toString());
 
         String result = universityAdmissionService.saveStep2Form(step2FormRequest);
 
         return ResponseEntity.ok(new MessageResponse(result));
     }
+
+
 
     // STEP 3
     @GetMapping("/step3Form")

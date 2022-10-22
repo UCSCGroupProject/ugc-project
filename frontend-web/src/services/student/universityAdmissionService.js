@@ -25,7 +25,7 @@ class UniversityAdmissionService {
 
   getStep2Form(username) {
     return axios.get(API_URL + '/step2Form', { params: { username: username } }).then((res) => {
-      console.log(res.data)
+      console.log("recieved", res.data)
       return res.data
     })
   }

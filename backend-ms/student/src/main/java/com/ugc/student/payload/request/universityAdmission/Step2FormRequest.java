@@ -11,13 +11,17 @@ public class Step2FormRequest {
     private String olYear;
     private String olIndex;
     private String olNameUsed;
+    private String englishResult;
+    private String mathematicsResult;
+    private String scienceResult;
+
 
     private String alYear;
     private String alIndex;
     private String alNameUsed;
-    private Integer alSubject1Id;
-    private Integer alSubject2Id;
-    private Integer alSubject3Id;
+    private String alSubject1;
+    private String alSubject2;
+    private String alSubject3;
     private String alMedium;
 
     private String username;
