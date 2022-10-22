@@ -41,15 +41,16 @@ function Step2Page() {
 
   const [step2Form, setStep2Form] = useState({
     // OL Results
-    olCategory: 'localOL',
     olYear: '2016',
     olIndex: '',
-    olNameUsed: '',
-    olResultsAcceptance: 'true',
+    // olResultsAcceptance: 'true',
     //AL Results
-    alAdministrativeDistrictTaken: 'Colombo',
-    alAdministrativeDistrictConsidered: 'Colombo',
-    alResultsAcceptance: 'true',
+    alYear: '2017',
+    alIndex: '',
+    // alResultsAcceptance: 'true',
+    // alAdministrativeDistrictTaken: 'Colombo',
+    // alAdministrativeDistrictConsidered: 'Colombo',
+    // alResultsAcceptance: 'true',
   })
 
   // Update the form data while input
@@ -59,6 +60,18 @@ function Step2Page() {
       [e.target.name]: e.target.value,
     }))
   }
+
+  // AL result table data
+  const [alData, setAlData] = useState({
+    alNameUsed: 'Shaka bum',
+    alSubject1Id: 1,
+    alSubject2Id: 2,
+    alSubject3Id: 3,
+    alSubject1Name: 'Combined mathematics',
+    alSubject2Name: 'Physics',
+    alSubject3Name: 'Chemistry',
+    alMedium: 'Sinhala',
+  })
 
   useEffect(() => {
     setLoading(true)
@@ -87,13 +100,13 @@ function Step2Page() {
   // For data errors
   const [step2FormErrors, setStep2FormErrors] = useState({
     // OL Results
-    olCategoryError: '',
     olYearError: '',
     olIndexError: '',
-    olNameUsedError: '',
     //AL Results
-    alAdministrativeDistrictTakenError: '',
-    alAdministrativeDistrictConsideredError: '',
+    alYearError: '',
+    alIndexError: '',
+    // alAdministrativeDistrictTakenError: '',
+    // alAdministrativeDistrictConsideredError: '',
   })
 
   // Validate the data and
@@ -103,20 +116,17 @@ function Step2Page() {
     e.preventDefault()
 
     // OL Results
-    let olCategoryError = ''
     let olYearError = ''
     let olIndexError = ''
-    let olNameUsedError = ''
     //AL Results
-    let alAdministrativeDistrictTakenError = ''
-    let alAdministrativeDistrictConsideredError = ''
+    let alYearError = ''
+    let alIndexError = ''
+    // let alAdministrativeDistrictTakenError = ''
+    // let alAdministrativeDistrictConsideredError = ''
 
     console.log(step2Form)
 
-    if (!v_required(step2Form.olCategory)) {
-      olCategoryError = 'OL category can not be empty.'
-    }
-
+    // OL Form
     if (!v_required(step2Form.olYear)) {
       olYearError = 'OL Year can not be empty.'
     }
@@ -125,27 +135,32 @@ function Step2Page() {
       olIndexError = 'OL Index can not be empty.'
     }
 
-    if (!v_required(step2Form.olNameUsed)) {
-      olNameUsedError = 'OL name used can not be empty.'
+    // AL Form
+    if (!v_required(step2Form.alYear)) {
+      alYearError = 'AL Year can not be empty.'
     }
 
-    if (!v_required(step2Form.alAdministrativeDistrictTaken)) {
-      alAdministrativeDistrictTakenError = 'Administrative district taken can not be empty.'
+    if (!v_required(step2Form.alIndex)) {
+      alIndexError = 'AL Index can not be empty.'
     }
 
-    if (!v_required(step2Form.alAdministrativeDistrictConsidered)) {
-      alAdministrativeDistrictConsideredError =
-        'Administrative district considered can not be empty.'
-    }
+    // if (!v_required(step2Form.alAdministrativeDistrictTaken)) {
+    //   alAdministrativeDistrictTakenError = 'Administrative district taken can not be empty.'
+    // }
+
+    // if (!v_required(step2Form.alAdministrativeDistrictConsidered)) {
+    //   alAdministrativeDistrictConsideredError =
+    //     'Administrative district considered can not be empty.'
+    // }
 
     // If errors exist, show errors
     setStep2FormErrors({
-      olCategoryError,
       olYearError,
       olIndexError,
-      olNameUsedError,
-      alAdministrativeDistrictTakenError,
-      alAdministrativeDistrictConsideredError,
+      alYearError,
+      alIndexError,
+      // alAdministrativeDistrictTakenError,
+      // alAdministrativeDistrictConsideredError,
     })
 
     console.log(step2FormErrors)
@@ -153,12 +168,9 @@ function Step2Page() {
     // If no errors exist, send to the server
     if (
       !(
-        olCategoryError ||
-        olYearError ||
-        olIndexError ||
-        olNameUsedError ||
-        alAdministrativeDistrictTakenError ||
-        alAdministrativeDistrictConsideredError
+        (olYearError || olIndexError || alYearError || alIndexError)
+        // alAdministrativeDistrictTakenError ||
+        // alAdministrativeDistrictConsideredError
       )
     ) {
       console.log('STEP 2 PAGE')
@@ -169,6 +181,13 @@ function Step2Page() {
       setResMessage('')
 
       const user = authService.getCurrentUser()
+
+      const payload = {
+        ...step2Form,
+        ...alData,
+      }
+
+      console.log(payload)
 
       universityAdmissionService.step2FormCheckAndSubmit(step2Form, user.username).then(
         () => {
@@ -225,19 +244,6 @@ function Step2Page() {
                 <CForm className="row g-3 needs-validation" noValidate>
                   <CCol md={4}>
                     <CFormSelect
-                      label="Category of G.C.E. (O/L)"
-                      aria-label="OLCategory-select"
-                      name="olCategory"
-                      onChange={onUpdateInput}
-                      value={step2Form.olCategory}
-                      feedback={step2FormErrors.olCategoryError}
-                      invalid={step2FormErrors.olCategoryError ? true : false}
-                    >
-                      <option value="localOL">Local G.C.E. (O/l)</option>
-                    </CFormSelect>
-                  </CCol>
-                  <CCol md={4}>
-                    <CFormSelect
                       label="Year"
                       aria-label="OLYear-select"
                       name="olYear"
@@ -267,11 +273,20 @@ function Step2Page() {
                       invalid={step2FormErrors.olIndexError ? true : false}
                     />
                   </CCol>
+                  <CCol sm={2}>
+                    <CButton
+                      color="primary"
+                      className="w-100 mt-3 h-75"
+                      // onClick={handleUniversityCourseFormSubmit}
+                    >
+                      Add
+                    </CButton>
+                  </CCol>
                   <CCol md={12}>
                     <CFormInput
                       type="text"
                       id="validationOLIndex"
-                      label="Named used in G.C.E.(O/L) Examination"
+                      label="Name used in G.C.E.(O/L) Examination"
                       name="olNameUsed"
                       onChange={onUpdateInput}
                       value={step2Form.olNameUsed}
@@ -299,7 +314,7 @@ function Step2Page() {
                       </CTableRow>
                     </CTableBody>
                   </CTable>
-                  <CCol md={5}>
+                  {/* <CCol md={5}>
                     Above results {'  '}
                     <CFormCheck
                       inline
@@ -321,7 +336,7 @@ function Step2Page() {
                       onChange={onUpdateInput}
                       checked={step2Form.olResultsAcceptance === 'false' ? true : false}
                     />
-                  </CCol>
+                  </CCol> */}
                 </CForm>
               </div>
               <br />
@@ -333,6 +348,111 @@ function Step2Page() {
               <div>
                 <CForm className="row g-3 needs-validation" noValidate>
                   <CCol md={4}>
+                    <CFormSelect
+                      label="Year"
+                      aria-label="ALYear-select"
+                      name="alYear"
+                      onChange={onUpdateInput}
+                      value={step2Form.alYear}
+                      feedback={step2FormErrors.alYearError}
+                      invalid={step2FormErrors.alYearError ? true : false}
+                    >
+                      <option value="2016">2016</option>
+                      <option value="2017">2017</option>
+                      <option value="2018">2018</option>
+                      <option value="2019">2019</option>
+                      <option value="2020">2020</option>
+                      <option value="2021">2021</option>
+                      <option value="2022">2022</option>
+                    </CFormSelect>
+                  </CCol>
+                  <CCol md={4}>
+                    <CFormInput
+                      type="text"
+                      id="validationALIndex"
+                      label="Index number"
+                      name="alIndex"
+                      onChange={onUpdateInput}
+                      value={step2Form.alIndex}
+                      feedback={step2FormErrors.alIndexError}
+                      invalid={step2FormErrors.alIndexError ? true : false}
+                    />
+                  </CCol>
+                  <CCol sm={2}>
+                    <CButton
+                      color="primary"
+                      className="w-100 mt-3 h-75"
+                      // onClick={handleUniversityCourseFormSubmit}
+                    >
+                      Add
+                    </CButton>
+                  </CCol>
+                  <CCol md={12}>
+                    <CFormInput
+                      type="text"
+                      id="validationALIndex"
+                      label="Name used in G.C.E.(A/L) Examination"
+                      name="alNameUsed"
+                      // onChange={onUpdateInput}
+                      value={alData.alNameUsed}
+                      readOnly
+                      disabled
+                      // feedback={step2FormErrors.alNameUsedError}
+                      // invalid={step2FormErrors.alNameUsedError ? true : false}
+                    />
+                  </CCol>
+                  <CTable bordered>
+                    <CTableHead color="dark">
+                      <CTableRow>
+                        <CTableHeaderCell>Year</CTableHeaderCell>
+                        <CTableHeaderCell>Index Number</CTableHeaderCell>
+                        <CTableHeaderCell>First subject</CTableHeaderCell>
+                        <CTableHeaderCell>Second subject</CTableHeaderCell>
+                        <CTableHeaderCell>Third subject</CTableHeaderCell>
+                        <CTableHeaderCell>Medium</CTableHeaderCell>
+                        {/* <CTableHeaderCell>Common General Test</CTableHeaderCell>
+                        <CTableHeaderCell>General English</CTableHeaderCell> */}
+                        {/* <CTableHeaderCell>Z-Score</CTableHeaderCell> */}
+                      </CTableRow>
+                    </CTableHead>
+                    <CTableBody>
+                      <CTableRow>
+                        <CTableHeaderCell>{step2Form.alYear}</CTableHeaderCell>
+                        <CTableDataCell>{step2Form.alIndex}</CTableDataCell>
+                        <CTableDataCell>{alData.alSubject1Name}</CTableDataCell>
+                        <CTableDataCell>{alData.alSubject2Name}</CTableDataCell>
+                        <CTableDataCell>{alData.alSubject3Name}</CTableDataCell>
+                        <CTableDataCell>{alData.alMedium}</CTableDataCell>
+                        {/* <CTableDataCell>Participated</CTableDataCell>
+                        <CTableDataCell>Participated</CTableDataCell> */}
+                        {/* <CTableDataCell>2.0665</CTableDataCell> */}
+                      </CTableRow>
+                    </CTableBody>
+                  </CTable>
+                  {/* <CCol md={5}>
+                    Above results {'  '}
+                    <CFormCheck
+                      inline
+                      type="radio"
+                      name="alResultsAcceptance"
+                      id="alResultsAcceptance_1"
+                      value="true"
+                      label="Accept"
+                      onChange={onUpdateInput}
+                      checked={step2Form.alResultsAcceptance === 'true' ? true : false}
+                    />
+                    <CFormCheck
+                      inline
+                      type="radio"
+                      name="alResultsAcceptance"
+                      id="alResultsAcceptance_2"
+                      value="false"
+                      label="Change"
+                      onChange={onUpdateInput}
+                      checked={step2Form.alResultsAcceptance === 'false' ? true : false}
+                    />
+                  </CCol> */}
+                  {/* <CCol md={4}>
                     <CFormSelect
                       label="Administrative District from which G.C.E. (A/L) was taken"
                       aria-label="ALAdministrativeDistrictTaken-select"
@@ -410,14 +530,6 @@ function Step2Page() {
                         <CTableDataCell>A</CTableDataCell>
                         <CTableDataCell>2.0665</CTableDataCell>
                       </CTableRow>
-                      {/* {allCoursesData.map((item) => (
-                        <CTableRow key={item.id}>
-                          <CTableHeaderCell>{item.id}</CTableHeaderCell>
-                          <CTableDataCell>{item.unicode}</CTableDataCell>
-                          <CTableDataCell>{item.courseOfStudy}</CTableDataCell>
-                          <CTableDataCell>{item.university}</CTableDataCell>
-                        </CTableRow>
-                      ))} */}
                     </CTableBody>
                   </CTable>
                   <CCol md={5}>
@@ -478,23 +590,13 @@ function Step2Page() {
                             </CTableRow>
                           </CTable>
                         </CTableDataCell>
-                        {/* <CTableDataCell>A</CTableDataCell>
-                        <CTableDataCell>A</CTableDataCell> */}
                         <CTableDataCell>Sinhala</CTableDataCell>
                         <CTableDataCell>40</CTableDataCell>
                         <CTableDataCell>A</CTableDataCell>
                         <CTableDataCell>2.0665</CTableDataCell>
                       </CTableRow>
-                      {/* {allCoursesData.map((item) => (
-                        <CTableRow key={item.id}>
-                          <CTableHeaderCell>{item.id}</CTableHeaderCell>
-                          <CTableDataCell>{item.unicode}</CTableDataCell>
-                          <CTableDataCell>{item.courseOfStudy}</CTableDataCell>
-                          <CTableDataCell>{item.university}</CTableDataCell>
-                        </CTableRow>
-                      ))} */}
                     </CTableBody>
-                  </CTable>
+                  </CTable> */}
                 </CForm>
               </div>
               <br />

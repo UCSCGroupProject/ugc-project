@@ -8,15 +8,17 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Step2FormRequest {
-    private String olCategory;
     private String olYear;
     private String olIndex;
     private String olNameUsed;
-    private Boolean olResultsAcceptance;
 
-    private String alAdministrativeDistrictTaken;
-    private String alAdministrativeDistrictConsidered;
-    private Boolean alResultsAcceptance;
+    private String alYear;
+    private String alIndex;
+    private String alNameUsed;
+    private Integer alSubject1Id;
+    private Integer alSubject2Id;
+    private Integer alSubject3Id;
+    private String alMedium;
 
     private String username;
 }

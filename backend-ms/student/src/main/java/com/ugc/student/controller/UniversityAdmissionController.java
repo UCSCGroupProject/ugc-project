@@ -70,15 +70,17 @@ public class UniversityAdmissionController {
         ALDetails alDetails = universityAdmissionService.getALDetailsByUsername(username);
 
         return ResponseEntity.ok(new Step2FormResponse(
-                olDetails.getOLCategory(),
                 olDetails.getOLYear(),
                 olDetails.getOLIndex(),
                 olDetails.getOLNameUsed(),
-                olDetails.getOLResultsAcceptance(),
 
-                alDetails.getALAdministrativeDistrictTaken(),
-                alDetails.getALAdministrativeDistrictConsidered(),
-                alDetails.getALResultsAcceptance()
+                alDetails.getAlYear(),
+                alDetails.getAlIndex(),
+                alDetails.getAlNameUsed(),
+                alDetails.getAlSubject1Id(),
+                alDetails.getAlSubject2Id(),
+                alDetails.getAlSubject3Id(),
+                alDetails.getAlMedium()
         ));
     }
 

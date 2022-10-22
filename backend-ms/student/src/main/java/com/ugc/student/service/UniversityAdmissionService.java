@@ -137,18 +137,20 @@ public class UniversityAdmissionService {
         }
 
         olDetailsRepository.save(new OLDetails(
-                step2FormRequest.getOlCategory(),
                 step2FormRequest.getOlYear(),
                 step2FormRequest.getOlIndex(),
                 step2FormRequest.getOlNameUsed(),
-                step2FormRequest.getOlResultsAcceptance(),
                 student
         ));
 
         alDetailsRepository.save(new ALDetails(
-                step2FormRequest.getAlAdministrativeDistrictTaken(),
-                step2FormRequest.getAlAdministrativeDistrictConsidered(),
-                step2FormRequest.getAlResultsAcceptance(),
+                step2FormRequest.getAlYear(),
+                step2FormRequest.getAlIndex(),
+                step2FormRequest.getAlNameUsed(),
+                step2FormRequest.getAlSubject1Id(),
+                step2FormRequest.getAlSubject2Id(),
+                step2FormRequest.getAlSubject3Id(),
+                step2FormRequest.getAlMedium(),
                 student
         ));
 
