@@ -31,6 +31,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -216,6 +217,17 @@ public class SchoolService {
             return ResponseEntity.ok(new PayloadResponse(resKeypair, "Keypair found", ResType.OK));
         } else {
             return ResponseEntity.ok(new PayloadResponse(null, "User not found", ResType.BAD));
+        }
+    }
+
+    public ResponseEntity<?> getAllSchools() {
+        List<School> schools = schoolRepository.findAll();
+        if(schools.isEmpty()){
+            return ResponseEntity.ok(new PayloadResponse(null, "Schools not found", ResType.BAD));
+        }
+        else{
+
+            return ResponseEntity.ok(new PayloadResponse(schools.size(), "Size of schools sent", ResType.OK));
         }
     }
 }

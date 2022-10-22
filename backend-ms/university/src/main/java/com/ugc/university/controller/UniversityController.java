@@ -91,4 +91,9 @@ public class UniversityController {
 
         return ResponseEntity.ok(new MessageResponse(result));
     }
+
+    @GetMapping("/getUniversities")
+    public ResponseEntity<?> getAllStudents() {
+        return universityService.getAllUniversities();
+    }
 }

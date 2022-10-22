@@ -8,6 +8,8 @@ import com.ugc.university.payload.request.LoginRequest;
 import com.ugc.university.payload.request.PasswordResetRequest;
 import com.ugc.university.payload.request.universityRegistration.UniversityRegisterRequest;
 import com.ugc.university.payload.response.JwtResponse;
+import com.ugc.university.payload.response.PayloadResponse;
+import com.ugc.university.payload.response.ResType;
 import com.ugc.university.repository.RoleRepository;
 import com.ugc.university.repository.UniversityDetailsRepository;
 import com.ugc.university.repository.UniversityRepository;
@@ -451,4 +453,13 @@ public class UniversityService {
 
         return "Password changed sucessfully using email";
     }
+
+    public ResponseEntity<?> getAllUniversities() {
+        List<University> universities = universityRepository.findAll();
+        if(universities.isEmpty()){
+            return ResponseEntity.ok(new PayloadResponse(null, "Universities not found", ResType.BAD));
+        }
+        else
+            return ResponseEntity.ok(new PayloadResponse(universities.size(), "Size of Universities sent", ResType.OK));
+        }
 }

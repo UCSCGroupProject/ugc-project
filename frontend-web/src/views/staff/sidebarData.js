@@ -137,39 +137,12 @@ const _nav = [
   },
   {
     component: CNavTitle,
-    name: 'Overview',
-  },
-  {
-    component: CNavGroup,
-    name: 'User Details',
-    to: '',
-    icon: <CIcon icon={cilChartLine} customClassName="nav-icon" />,
-    items: [
-      {
-        component: CNavItem,
-        name: 'User Overview',
-        to: '/staff/useroverview',
-      },
-    ],
-  },
-  {
-    component: CNavTitle,
     name: 'Validation',
   },
   {
     component: CNavItem,
     name: 'Send student validation list',
     to: '/staff/validation/status',
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
-  },
-  {
-    component: CNavTitle,
-    name: 'Complaints',
-  },
-  {
-    component: CNavItem,
-    name: 'User complaints',
-    to: '/staff/complaints',
     icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
   },
 ]
