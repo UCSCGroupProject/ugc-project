@@ -33,8 +33,9 @@ class ALResultsService {
       })
   }
 
-  update(editResultsForm){
-    return axios.put(API_URL + '/update', editResultsForm).then((response) => {
+  update(payload){
+    console.log(payload)
+    return axios.put(API_URL + '/update', payload ).then((response) => {
       return response.data
     })
   }

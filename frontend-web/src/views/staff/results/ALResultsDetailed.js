@@ -2,11 +2,13 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import { v_required } from '../../../utils/validator'
 import { useSearchParams, useNavigate } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import {
   CCard,
   CTable,
   CCol,
   CTableHead,
+  CForm,
   CFormInput,
   CCardBody,
   CSpinner,
@@ -50,9 +52,6 @@ function ALResultsDetailed() {
 
   const [visible, setVisible] = useState(false)
 
-  const [visible2, setVisible2] = useState(false)
-  const [deleteCourseId, setDeleteCourseId] = useState(0)
-
   const [resMessage, setResMessage] = useState('')
   let navigate = useNavigate()
 
@@ -72,23 +71,9 @@ function ALResultsDetailed() {
   const [studentID, setstudentID] = useState(searchParams.get('studentId'))
 
   // Editing results
-  const [editResultsForm, setEditResultsForm] = useState({
-    firstSubject: '',
-    secondSubject: '',
-    thirdSubject: '',
-    git: '',
-    ge: '',
-    cgt: '',
-  })
+  const [editResultsForm, setEditResultsForm] = useState([])
 
-  const [editResultsFormErrors, setEditResultsFormErrors] = useState({
-    firstSubjectError: '',
-    secondSubjectError: '',
-    thirdSubjectError: '',
-    gitError: '',
-    geError: '',
-    cgtError: '',
-  })
+  const [editResultsFormErrors, setEditResultsFormErrors] = useState([])
 
   const onUpdateInput = (e) => {
     setEditResultsForm((prev) => ({
@@ -97,6 +82,10 @@ function ALResultsDetailed() {
     }))
   }
 
+  // useEffect(() => {
+  //   console.log(tableContent)
+  // }, [tableContent])
+
   useEffect(() => {
     setLoading(true)
 
@@ -104,7 +93,10 @@ function ALResultsDetailed() {
       (res) => {
         if (res.type === 'OK') {
           setTableHeaders(headers)
-          setTableContent(res.payload)
+          //setTableContent(res.payload)
+          console.log(res.payload)
+          setEditResultsForm(res.payload)
+          setTableContent((prev) => [...prev, ...res.payload])
         } else if (res.type === 'BAD') {
           toast.error(res.message)
         }
@@ -124,13 +116,6 @@ function ALResultsDetailed() {
     )
   }, [])
 
-  useEffect(() => {
-    
-      console.log(tableContent)
-      document.getElementById("firstSubject").label = tableContent[0]['subjectName'];
-    
-  }, [tableContent])
-
   const handleEditResultsFormSubmit = async (e) => {
     e.preventDefault()
     let firstSubjectError = ''
@@ -139,31 +124,31 @@ function ALResultsDetailed() {
     let gitError = ''
     let geError = ''
     let cgtError = ''
-    if (!v_required(editResultsForm.firstSubject)) {
-      firstSubjectError = 'Results can not be empty.'
-    }
+    // if (!v_required(editResultsForm.firstSubject)) {
+    //   firstSubjectError = 'Results can not be empty.'
+    // }
 
-    if (!v_required(editResultsForm.secondSubject)) {
-      secondSubjectError = 'Results can not be empty.'
-    }
+    // if (!v_required(editResultsForm.secondSubject)) {
+    //   secondSubjectError = 'Results can not be empty.'
+    // }
 
-    if (!v_required(editResultsForm.thirdSubject)) {
-      thirdSubjectError = 'Results can not be empty.'
-    }
+    // if (!v_required(editResultsForm.thirdSubject)) {
+    //   thirdSubjectError = 'Results can not be empty.'
+    // }
 
-    if (!v_required(editResultsForm.git)) {
-      gitError = 'Results can not be empty.'
-    }
-    if (!v_required(editResultsForm.ge)) {
-      geError = 'Results can not be empty.'
-    }
-    if (!v_required(editResultsForm.cgt)) {
-      cgtError = 'Results can not be empty.'
-    }
+    // if (!v_required(editResultsForm.git)) {
+    //   gitError = 'Results can not be empty.'
+    // }
+    // if (!v_required(editResultsForm.ge)) {
+    //   geError = 'Results can not be empty.'
+    // }
+    // if (!v_required(editResultsForm.cgt)) {
+    //   cgtError = 'Results can not be empty.'
+    // }
 
-    if (editResultsForm.firstSubject.match('[ABCSW]') == null) {
-      firstSubjectError = 'Results not valid'
-    }
+    // if (editResultsForm.firstSubject.match('[ABCSW]') == null) {
+    //   firstSubjectError = 'Results not valid'
+    // }
     // If errors exist, show errors
     setEditResultsFormErrors({
       firstSubjectError,
@@ -185,18 +170,25 @@ function ALResultsDetailed() {
         cgtError
       )
     ) {
-      console.log('Edit results form submitted')
+      console.log(editResultsForm)
 
       // Sending to the server
       setLoading(true)
       setResMessage('')
 
-      alResultsService.update(editResultsForm).then(
+      const payload = {
+        studentId: studentID,
+        results: [
+          ...editResultsForm
+        ]
+      }
+      
+      alResultsService.update(payload).then(
         (res) => {
           if (res.type === 'OK') {
             // Settings table data
             console.log(editResultsForm)
-            navigate('/staff/alresults')
+            navigate('/staff/results/al/detailed?studentId='+ studentID)
           } else if (res.type === 'BAD') {
             toast.error(res.message)
           }
@@ -328,87 +320,61 @@ function ALResultsDetailed() {
   return (
     <div>
       <div style={{ textAlign: 'right' }}>
+        {/* <NavLink to={`/staff/results/al/detailed/edit?studentId=${studentID}`}>asd</NavLink> */}
         <CButton color="warning" onClick={() => setVisible(!visible)}>
           <CIcon icon={cibAddthis}></CIcon> Edit Results
         </CButton>
-
-        <CModal alignment="center" scrollable visible={visible} onClose={() => setVisible(false)}>
-          <CModalHeader>
-            <CModalTitle>Edit Results</CModalTitle>
-          </CModalHeader>
-          <CModalBody>
-            <CFormInput
-              type="text"
-              id="firstSubject"
-              name="firstSubject"
-              onChange={onUpdateInput}
-              value={editResultsForm.firstSubject}
-              feedback={editResultsFormErrors.firstSubjectError}
-            />
-            <CFormInput
-              type="text"
-              id="secondSubject"
-              name="secondSubject"
-              onChange={onUpdateInput}
-              value={editResultsForm.secondSubject}
-              feedback={editResultsFormErrors.secondSubjectError}
-            />
-            <CFormInput
-              type="text"
-              id="thirdSubject"
-              name="thirdSubject"
-              onChange={onUpdateInput}
-              value={editResultsForm.thirdSubject}
-              feedback={editResultsFormErrors.thirdSubjectError}
-            />
-            <CFormInput
-              type="text"
-              id="git"
-              name="git"
-              onChange={onUpdateInput}
-              value={editResultsForm.git}
-              feedback={editResultsFormErrors.gitError}
-            />
-            <CFormInput
-              type="text"
-              id="ge"
-              name="ge"
-              onChange={onUpdateInput}
-              value={editResultsForm.ge}
-              feedback={editResultsFormErrors.geError}
-            />
-            <CFormInput
-              //label={presistentTableContent[5]['subjectName']}
-              //placeholder={tableContent[5]['grade']}
-              type="text"
-              id="cgt"
-              name="cgt"
-              onChange={onUpdateInput}
-              value={editResultsForm.cgt}
-              feedback={editResultsFormErrors.cgtError}
-            />
-            {resMessage && (
-              <CAlert color="danger" className="text-center">
-                {resMessage}
-              </CAlert>
-            )}
-          </CModalBody>
-
-          <CModalFooter>
-            <CButton color="secondary" onClick={() => setVisible(false)}>
-              Close
-            </CButton>
-            <CButton color="primary" onClick={handleEditResultsFormSubmit}>
-              {loading ? (
-                <span>
-                  <CSpinner size="sm" /> Validating
-                </span>
-              ) : (
-                <span>Update</span>
+        {editResultsForm && (
+          <CModal alignment="center" scrollable visible={visible} onClose={() => setVisible(false)}>
+            <CModalHeader>
+              <CModalTitle>Edit Results</CModalTitle>
+            </CModalHeader>
+            <CModalBody>
+              <CForm>
+                {editResultsForm.map((item) => (
+                  <CFormInput
+                    type="text"
+                    id="grade"
+                    label={item.subjectName}
+                    name="grade"
+                    onChange={(e) => {
+                      const newState = editResultsForm.map((obj) => {
+                        if (obj.subjectId === item.subjectId) {
+                          return { ...obj, grade: e.target.value };
+                        }
+                        return obj;
+                      })
+                      setEditResultsForm(newState)
+                    }}
+                    value={item.grade}
+                    //feedback={editResultsFormErrors}
+                    //invalid={editResultsFormErrors ? true : false}
+                  />
+                ))}
+              </CForm>
+              {resMessage && (
+                <CAlert color="danger" className="text-center">
+                  {resMessage}
+                </CAlert>
               )}
-            </CButton>
-          </CModalFooter>
-        </CModal>
+            </CModalBody>
+
+            <CModalFooter>
+              <CButton color="secondary" onClick={() => setVisible(false)}>
+                Close
+              </CButton>
+              <CButton color="primary" onClick={handleEditResultsFormSubmit}>
+                {loading ? (
+                  <span>
+                    <CSpinner size="sm" /> Validating
+                  </span>
+                ) : (
+                  <span>Update</span>
+                )}
+              </CButton>
+            </CModalFooter>
+          </CModal>
+        )}
       </div>
 
       <CRow>

@@ -23,6 +23,30 @@ class ZscoreService{
           return response.data
         })
     }
+
+    import(file, onUploadProgress) {
+      let formData = new FormData()
+      formData.append('file', file)
+  
+      return axios
+        .post(API_URL + '/import', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+          onUploadProgress,
+        })
+        .then((res) => {
+          console.log(res.data)
+          return res.data
+        })
+    }
+
+    getResults = () => {
+      return axios.get(API_URL + '/ztables').then((res) => {
+        console.log(res.data)
+        return res.data
+      })
+    }
 }
 
 export default new ZscoreService()
