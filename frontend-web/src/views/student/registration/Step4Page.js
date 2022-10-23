@@ -29,6 +29,8 @@ import {
 import CIcon from '@coreui/icons-react'
 import { cilSwapVertical, cilDelete } from '@coreui/icons'
 
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
+
 function Step4Page() {
   const [orderOfPreferences, setOrderOfPreferences] = useState([
     {
@@ -48,59 +50,22 @@ function Step4Page() {
     },
   ])
 
-  const removeItem = (unicode) => {
-    setOrderOfPreferences((current) => current.filter((i) => i.unicode != unicode))
-  }
+  const handleOnDragEnd = (result) => {
+    if(!result.destination) return;
 
-  // const [fruitItems, setFruitItems] = useState(['Apple', 'Mango', 'Banana'])
+    const items = Array.from(orderOfPreferences)
+    const [reorderedItems] = items.splice(result.source.index,  1)
+    items.splice(result.destination.index, 0, reorderedItems)
 
-  // Save reference for dragItem and dragOverItem
-  const dragItem = useRef<any>(null)
-  const dragOverItem = useRef<any>(null)
-
-  // const handle drag sorting
-  const handleSort = () => {
-    // duplicate items
-    let _orderOfPreferences = [...orderOfPreferences]
-
-    // remove and save the dragged item content
-    const draggedItemContent = _orderOfPreferences.splice(dragItem.current, 1)[0]
-
-    // switch the position
-    _orderOfPreferences.splice(dragOverItem.current, 0, draggedItemContent)
-
-    // rest the position ref
-    dragItem.current = null
-    dragOverItem.current = null
-
-    // update the actual array
-    setOrderOfPreferences(_orderOfPreferences)
+    setOrderOfPreferences(items)
 
     console.log(orderOfPreferences)
   }
 
-  // const handleSort = () => {
-  //   // duplicate items
-  //   let _fruitItems = [...fruitItems]
-
-  //   // remove and save the dragged item content
-  //   const draggedItemContent = _fruitItems.splice(dragItem.current, 1)[0]
-
-  //   // switch the position
-  //   _fruitItems.splice(dragOverItem.current, 0, draggedItemContent)
-
-  //   // rest the position ref
-  //   dragItem.current = null
-  //   dragOverItem.current = null
-
-  //   // update the actual array
-  //   setFruitItems(_fruitItems)
-
-  //   console.log(fruitItems)
-  // }
-
-  const onDragEnd = (e: React.DragEvent<HTMLDivElement>) => {
-    console.log('drag end')
+  const removeItem = (unicode) => {
+    setOrderOfPreferences((current) => current.filter((i) => i.unicode != unicode))
+    
+    console.log(orderOfPreferences)
   }
 
   return (
@@ -168,46 +133,46 @@ function Step4Page() {
                         <CTableHeaderCell></CTableHeaderCell>
                       </CTableRow>
                     </CTableHead>
-                    <CTableBody>
-                      {/* {orderOfPreferences.map((item, index) => (
-                        <CTableRow
-                          className="hoverable-row"
-                          key={index}
-                          draggable
-                          onDragStart={(e) => (dragItem.current = index)}
-                          onDragEnter={(e) => (dragOverItem.current = index)}
-                          onDragEnd={handleSort}
-                          onDragOver={(e) => e.preventDefault()}
-                        >
-                          <CTableDataCell className="hoverable-card">
-                            <CIcon icon={cilSwapVertical} customClassName="nav-icon" />
-                          </CTableDataCell>
-                          <CTableDataCell>{item.unicode}</CTableDataCell>
-                          <CTableDataCell>{item.courseName}</CTableDataCell>
-                          <CTableDataCell>{item.universityName}</CTableDataCell>
-                          <CTableDataCell
-                            className="hoverable-card"
-                            onClick={() => removeItem(item.unicode)}
-                          >
-                            <CIcon icon={cilDelete} customClassName="nav-icon" />
-                          </CTableDataCell>
-                        </CTableRow>
-                      ))} */}
-                    </CTableBody>
+                    <DragDropContext onDragEnd={handleOnDragEnd}>
+                      <Droppable droppableId="characters">
+                        {(provided) => (
+                          <CTableBody {...provided.droppableProps} ref={provided.innerRef}>
+                            {orderOfPreferences.map((item, index) => (
+                              <Draggable
+                                key={item.unicode}
+                                draggableId={item.unicode}
+                                index={index}
+                              >
+                                {(provided2) => (
+                                  <CTableRow
+                                    {...provided2.draggableProps}
+                                    {...provided2.dragHandleProps}
+                                    ref={provided2.innerRef}
+                                    className="swappable-row"
+                                    key={index}
+                                  >
+                                    <CTableDataCell className="hoverable-card">
+                                      <CIcon icon={cilSwapVertical} customClassName="nav-icon" />
+                                    </CTableDataCell>
+                                    <CTableDataCell>{item.unicode}</CTableDataCell>
+                                    <CTableDataCell>{item.courseName}</CTableDataCell>
+                                    <CTableDataCell>{item.universityName}</CTableDataCell>
+                                    <CTableDataCell
+                                      className="hoverable-card"
+                                      onClick={() => removeItem(item.unicode)}
+                                    >
+                                      <CIcon icon={cilDelete} customClassName="nav-icon" />
+                                    </CTableDataCell>
+                                  </CTableRow>
+                                )}
+                              </Draggable>
+                            ))}
+                            {provided.placeholder}
+                          </CTableBody>
+                        )}
+                      </Droppable>
+                    </DragDropContext>
                   </CTable>
-
-                  {/* {fruitItems.map((item, index) => (
-                    <div
-                      key={index}
-                      draggable
-                      onDragStart={(e) => (dragItem.current = index)}
-                      onDragEnter={(e) => (dragOverItem.current = index)}
-                      onDragEnd={handleSort}
-                      onDragOver={(e) => e.preventDefault()}
-                    >
-                      {item}
-                    </div>
-                  ))} */}
                 </CForm>
               </div>
             </CCardBody>
