@@ -1,8 +1,13 @@
 package com.ugc.staff.Service.OLevel;
 
 import com.ugc.staff.Helper.CSVHelper;
+import com.ugc.staff.Model.ALevel.ALResultKey;
+import com.ugc.staff.Model.ALevel.ALStudentResult;
+import com.ugc.staff.Model.OLevel.OLResultKey;
 import com.ugc.staff.Model.OLevel.OLResults;
 import com.ugc.staff.Model.OLevel.OLStudentResult;
+import com.ugc.staff.Payload.Request.Results.EditResultsForm;
+import com.ugc.staff.Payload.Request.Results.ResultRow;
 import com.ugc.staff.Payload.Response.OLevel.OLResultsResponse;
 import com.ugc.staff.Payload.Response.OLevel.OLStudentResultResponse;
 import com.ugc.staff.Payload.Response.PayloadResponse;
@@ -74,7 +79,7 @@ public class OLResultsService {
     public List<OLStudentResultResponse> getStudentResults(Integer studentId) {
         List<OLStudentResultResponse> olStudentResultResponseList = new ArrayList<>();
         OLResults olResults = olResultsRepository.getById(studentId);
-        List<OLStudentResult> olStudentResults = olStudentRepository.findByOlResults(olResults);
+        List<OLStudentResult> olStudentResults = olStudentRepository.findById_studentId(olResults.getId());
         olStudentResults.forEach(item -> {
             OLStudentResultResponse olStudentResultResponse = new OLStudentResultResponse(
                     item.getOlSubject().getId(),
@@ -86,5 +91,18 @@ public class OLResultsService {
         });
 
         return olStudentResultResponseList;
+    }
+
+    public ResponseEntity<?> update(EditResultsForm editOLResultsForm) {
+        String studentId = editOLResultsForm.getStudentId();
+        for(ResultRow result : editOLResultsForm.getResults()){
+            OLResultKey olResultKey = new OLResultKey();
+            olResultKey.setStudentId(Integer.valueOf(studentId));
+            olResultKey.setOlSubjectId(Integer.valueOf(result.getSubjectId()));
+            OLStudentResult olStudentResult = olStudentRepository.getById(olResultKey);
+            olStudentResult.setGrade(result.getGrade());
+            olStudentRepository.save(olStudentResult);
+        }
+        return ResponseEntity.ok(new PayloadResponse(null, "Results updated", ResType.OK));
     }
 }

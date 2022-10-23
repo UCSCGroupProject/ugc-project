@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class EditALResultsForm {
+public class EditResultsForm {
     private String studentId;
     List<ResultRow> results;
 }

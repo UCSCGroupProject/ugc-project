@@ -1,7 +1,7 @@
 package com.ugc.staff.Controller;
 
 import com.ugc.staff.Helper.CSVHelper;
-import com.ugc.staff.Payload.Request.Results.EditALResultsForm;
+import com.ugc.staff.Payload.Request.Results.EditResultsForm;
 import com.ugc.staff.Payload.Response.ALevel.ALStudentResultResponse;
 import com.ugc.staff.Payload.Response.PayloadResponse;
 import com.ugc.staff.Service.ALevel.ALResultsService;
@@ -55,7 +55,7 @@ public class ALResultsController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> updateResults(@RequestBody EditALResultsForm editALResultsForm){
+    public ResponseEntity<?> updateResults(@RequestBody EditResultsForm editALResultsForm){
         return alResultsService.update(editALResultsForm);
     }
 }
