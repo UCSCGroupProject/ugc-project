@@ -7,6 +7,7 @@ import com.ugc.university.payload.request.ol_al.Req_OLALSubjects;
 import com.ugc.university.payload.response.MessageResponse;
 import com.ugc.university.payload.response.PayloadResponse;
 import com.ugc.university.payload.response.ResType;
+import com.ugc.university.payload.response.course.CourseDetailedResponse;
 import com.ugc.university.payload.response.course.CourseResponse;
 import com.ugc.university.payload.response.course.StreamResponse;
 import com.ugc.university.payload.response.course.UniCourseResponse;
@@ -43,6 +44,12 @@ public class CourseController {
     public ResponseEntity<?> getRecommendedCourseList(@RequestBody Req_OLALSubjects req_olalSubjects){
         List<CourseResponse> courseResponseList = courseService.getRecommendedCourseList(req_olalSubjects);
         return ResponseEntity.ok(new PayloadResponse(courseResponseList, "Recommended courses list", ResType.OK));
+    }
+
+    @PostMapping("/recommended/detailed")
+    public ResponseEntity<?> getRecommendedDetailedCourseList(@RequestBody Req_OLALSubjects req_olalSubjects){
+        List<CourseDetailedResponse> courseDetailedResponseList = courseService.getRecommendedDetailedCourseList(req_olalSubjects);
+        return ResponseEntity.ok(new PayloadResponse(courseDetailedResponseList, "Recommended detailed courses list", ResType.OK));
     }
 
     // Get course overview

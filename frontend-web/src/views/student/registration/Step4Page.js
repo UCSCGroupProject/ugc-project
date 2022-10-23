@@ -29,32 +29,190 @@ import {
 import CIcon from '@coreui/icons-react'
 import { cilSwapVertical, cilDelete } from '@coreui/icons'
 
+import { v_required } from '../../../utils/validator'
+
+import { toast } from 'react-toastify'
+
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 
+import AppFetchDataLoader from '../../../components/loaders/AppFetchDataLoader'
+
+import authService from '../../../services/authService'
+import universityAdmissionService from '../../../services/student/universityAdmissionService'
+import courseService from '../../../services/university/courseService'
+
 function Step4Page() {
-  const [orderOfPreferences, setOrderOfPreferences] = useState([
+  // For the server side requests and responses
+  const [loading, setLoading] = useState(false)
+  const [user, setUser] = useState(authService.getCurrentUser())
+  const [isStudentApppliedForUniversityAdmissions, setIsStudentApppliedForUniversityAdmissions] =
+    useState(false)
+
+  // COURSE AND UNIVERSITY SELECTION
+  // Recommended courses data
+  const [recommendedCourses, setRecommendedCourses] = useState([])
+
+  useEffect(() => {
+    setLoading(true)
+
+    universityAdmissionService.getStep2Form(user.username).then(
+      (res) => {
+        console.log('asasdasdd', res)
+
+        // Payload setting
+        const payload = {
+          englishResult: res.englishResult,
+          mathematicsResult: res.mathematicsResult,
+          scienceResult: res.scienceResult,
+
+          firstSubject: res.alSubject1,
+          secondSubject: res.alSubject2,
+          thirdSubject: res.alSubject3,
+        }
+
+        setIsStudentApppliedForUniversityAdmissions(true)
+
+        console.log('asd', payload)
+
+        courseService.getRecommendedDetailedCourseList(payload).then(
+          (res) => {
+            if (res.type === 'OK') {
+              toast.success(res.message)
+
+              // Settings table data from fetched data
+              setRecommendedCourses(res.payload)
+            } else if (res.type === 'BAD') {
+              toast.error(res.message)
+            }
+
+            setLoading(false)
+          },
+          (error) => {
+            const res =
+              (error.response && error.response.data && error.response.data.message) ||
+              error.message ||
+              error.toString()
+
+            // After recieving the server request
+            toast.error(res)
+            setLoading(false)
+          },
+        )
+      },
+      (error) => {
+        const res =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString()
+
+        // After recieving the server request
+        toast.error(res)
+        setLoading(false)
+      },
+    )
+  }, [])
+
+  const [offeredUniversities, setOfferedUniversities] = useState([
     {
-      unicode: '001A',
-      courseName: 'Medicine',
-      universityName: 'University of Colombo',
-    },
-    {
-      unicode: '002B',
-      courseName: 'Dental Surgery',
-      universityName: 'University of Peradeniya',
-    },
-    {
-      unicode: '001M',
-      courseName: 'Medicine',
-      universityName: 'Wayamba University of Sri Lanka',
+      universityName: '',
+      universityUsername: '',
+      unicode: '',
     },
   ])
 
+  // University courses and relevant universities
+  const [universityCourseForm, setUniversityCourseForm] = useState({
+    unicode: '',
+    courseName: '',
+    universityName: '',
+  })
+
+  // Update the form data while input
+  const onUniversityCourseUpdateInput = (e) => {
+    setUniversityCourseForm((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }))
+  }
+
+  const [universityCourseFormError, setUniversityCourseFormErrors] = useState({
+    courseNameError: '',
+    universityNameError: '',
+  })
+
+  useEffect(() => {
+    recommendedCourses.forEach((item) => {
+      if (item.courseName === universityCourseForm.courseName) {
+        setOfferedUniversities(item.offeredUniversities)
+      }
+    })
+  }, [universityCourseForm.courseName])
+
+  useEffect(() => {
+    recommendedCourses.forEach((item) => {
+      if (item.courseName === universityCourseForm.courseName) {
+        let offeredUniversities = item.offeredUniversities
+
+        offeredUniversities.forEach((i) => {
+          if (i.universityName == universityCourseForm.universityName) {
+            setUniversityCourseForm({
+              unicode: i.unicode,
+              courseName: universityCourseForm.courseName,
+              universityName: universityCourseForm.universityName,
+            })
+          }
+        })
+      }
+    })
+  }, [universityCourseForm.universityName])
+
+  // Validate the data and add to the order of preferences table
+  const handleUniversityCourseFormSubmit = async (e) => {
+    e.preventDefault()
+
+    // University course Details
+    let courseNameError = ''
+    let universityNameError = ''
+
+    if (!v_required(universityCourseForm.courseName)) {
+      courseNameError = 'Course can not be empty.'
+    }
+
+    if (!v_required(universityCourseForm.universityName)) {
+      universityNameError = 'University can not be empty.'
+    }
+
+    // If errors exist, show errors
+    setUniversityCourseFormErrors({
+      courseNameError,
+      universityNameError,
+    })
+
+    console.log(universityCourseFormError)
+
+    // If no errors exist, send to the server
+    if (!(courseNameError || universityNameError)) {
+      setOrderOfPreferences((prev) => [...prev, universityCourseForm])
+
+      setUniversityCourseForm({
+        unicode: '',
+        courseNameError: '',
+        universityNameError: '',
+      })
+
+      console.log(universityCourseForm)
+    }
+  }
+
+  // ORDER OF PREFERENCE TABLE
+  // Order of preferences table data
+  const [orderOfPreferences, setOrderOfPreferences] = useState([])
+
   const handleOnDragEnd = (result) => {
-    if(!result.destination) return;
+    if (!result.destination) return
 
     const items = Array.from(orderOfPreferences)
-    const [reorderedItems] = items.splice(result.source.index,  1)
+    const [reorderedItems] = items.splice(result.source.index, 1)
     items.splice(result.destination.index, 0, reorderedItems)
 
     setOrderOfPreferences(items)
@@ -64,7 +222,7 @@ function Step4Page() {
 
   const removeItem = (unicode) => {
     setOrderOfPreferences((current) => current.filter((i) => i.unicode != unicode))
-    
+
     console.log(orderOfPreferences)
   }
 
@@ -101,80 +259,114 @@ function Step4Page() {
               {/* Order of Preference for Courses Study and Universities */}
               <CCardTitle>Order of Preference for Courses Study and Universities</CCardTitle>
               <hr />
-              <div>
-                <CForm className="row g-3 needs-validation" noValidate>
-                  <CCol sm={5}>
-                    <CFormSelect label="Course" aria-label="course-select" name="course">
-                      <option selected>Choose...</option>
-                    </CFormSelect>
-                  </CCol>
-                  <CCol sm={5}>
-                    <CFormSelect
-                      label="University"
-                      aria-label="university-select"
-                      name="university"
-                    >
-                      <option selected>Choose...</option>
-                    </CFormSelect>
-                  </CCol>
-                  <CCol sm={2}>
-                    <CButton color="primary" className="w-100 mt-3 h-75">
-                      Add
-                    </CButton>
-                  </CCol>
+              {isStudentApppliedForUniversityAdmissions ? (
+                <div>
+                  <CForm className="row g-3 needs-validation" noValidate>
+                    <CCol sm={5}>
+                      <CFormSelect
+                        label="Course"
+                        aria-label="course-select"
+                        name="courseName"
+                        onChange={onUniversityCourseUpdateInput}
+                        value={universityCourseForm.courseName}
+                        feedback={universityCourseFormError.courseNameError}
+                        invalid={universityCourseFormError.courseNameError ? true : false}
+                      >
+                        <option selected>Choose...</option>
+                        {recommendedCourses.map((item) => (
+                          <option value={item.courseName}>{item.courseName}</option>
+                        ))}
+                      </CFormSelect>
+                    </CCol>
+                    <CCol sm={5}>
+                      <CFormSelect
+                        label="University"
+                        aria-label="university-select"
+                        name="universityName"
+                        onChange={onUniversityCourseUpdateInput}
+                        value={universityCourseForm.universityName}
+                        feedback={universityCourseFormError.universityNameError}
+                        invalid={universityCourseFormError.universityNameError ? true : false}
+                      >
+                        <option selected>Choose...</option>
+                        {offeredUniversities.map((item) => (
+                          <option value={item.universityName}>{item.universityName}</option>
+                        ))}
+                      </CFormSelect>
+                    </CCol>
+                    <CCol sm={2}>
+                      <CButton
+                        color="primary"
+                        className="w-100 mt-3 h-75"
+                        onClick={handleUniversityCourseFormSubmit}
+                      >
+                        Add
+                      </CButton>
+                    </CCol>
 
-                  <CTable bordered>
-                    <CTableHead color="dark">
-                      <CTableRow>
-                        <CTableHeaderCell></CTableHeaderCell>
-                        <CTableHeaderCell>Unicode</CTableHeaderCell>
-                        <CTableHeaderCell>Course</CTableHeaderCell>
-                        <CTableHeaderCell>University</CTableHeaderCell>
-                        <CTableHeaderCell></CTableHeaderCell>
-                      </CTableRow>
-                    </CTableHead>
-                    <DragDropContext onDragEnd={handleOnDragEnd}>
-                      <Droppable droppableId="characters">
-                        {(provided) => (
-                          <CTableBody {...provided.droppableProps} ref={provided.innerRef}>
-                            {orderOfPreferences.map((item, index) => (
-                              <Draggable
-                                key={item.unicode}
-                                draggableId={item.unicode}
-                                index={index}
-                              >
-                                {(provided2) => (
-                                  <CTableRow
-                                    {...provided2.draggableProps}
-                                    {...provided2.dragHandleProps}
-                                    ref={provided2.innerRef}
-                                    className="swappable-row"
-                                    key={index}
-                                  >
-                                    <CTableDataCell className="hoverable-card">
-                                      <CIcon icon={cilSwapVertical} customClassName="nav-icon" />
-                                    </CTableDataCell>
-                                    <CTableDataCell>{item.unicode}</CTableDataCell>
-                                    <CTableDataCell>{item.courseName}</CTableDataCell>
-                                    <CTableDataCell>{item.universityName}</CTableDataCell>
-                                    <CTableDataCell
-                                      className="hoverable-card"
-                                      onClick={() => removeItem(item.unicode)}
+                    <CTable bordered>
+                      <CTableHead color="dark">
+                        <CTableRow>
+                          <CTableHeaderCell></CTableHeaderCell>
+                          <CTableHeaderCell>Unicode</CTableHeaderCell>
+                          <CTableHeaderCell>Course</CTableHeaderCell>
+                          <CTableHeaderCell>University</CTableHeaderCell>
+                          <CTableHeaderCell></CTableHeaderCell>
+                        </CTableRow>
+                      </CTableHead>
+                      <DragDropContext onDragEnd={handleOnDragEnd}>
+                        <Droppable droppableId="characters">
+                          {(provided) => (
+                            <CTableBody {...provided.droppableProps} ref={provided.innerRef}>
+                              {orderOfPreferences.map((item, index) => (
+                                <Draggable
+                                  key={item.unicode}
+                                  draggableId={item.unicode}
+                                  index={index}
+                                >
+                                  {(provided2) => (
+                                    <CTableRow
+                                      {...provided2.draggableProps}
+                                      {...provided2.dragHandleProps}
+                                      ref={provided2.innerRef}
+                                      className="swappable-row"
+                                      key={index}
                                     >
-                                      <CIcon icon={cilDelete} customClassName="nav-icon" />
-                                    </CTableDataCell>
-                                  </CTableRow>
-                                )}
-                              </Draggable>
-                            ))}
-                            {provided.placeholder}
-                          </CTableBody>
-                        )}
-                      </Droppable>
-                    </DragDropContext>
-                  </CTable>
-                </CForm>
-              </div>
+                                      <CTableDataCell className="hoverable-card">
+                                        <CIcon icon={cilSwapVertical} customClassName="nav-icon" />
+                                      </CTableDataCell>
+                                      <CTableDataCell>{item.unicode}</CTableDataCell>
+                                      <CTableDataCell>{item.courseName}</CTableDataCell>
+                                      <CTableDataCell>{item.universityName}</CTableDataCell>
+                                      <CTableDataCell
+                                        className="hoverable-card"
+                                        onClick={() => removeItem(item.unicode)}
+                                      >
+                                        <CIcon icon={cilDelete} customClassName="nav-icon" />
+                                      </CTableDataCell>
+                                    </CTableRow>
+                                  )}
+                                </Draggable>
+                              ))}
+                              {provided.placeholder}
+                            </CTableBody>
+                          )}
+                        </Droppable>
+                      </DragDropContext>
+                    </CTable>
+                  </CForm>
+                </div>
+              ) : (
+                <div className="text-center my-3">
+                  <h2>You haven't enterd G.C.E(O/L) and G.C.E(A/L) results yet!</h2>
+                  <p>Please fill the university admission form to access this feature. </p>
+                  <NavLink to={`/student/registration/step2`} style={{ textDecoration: 'none' }}>
+                    <CButton color="success text-white" type="button" className="p-2">
+                      Apply for University Admissions
+                    </CButton>
+                  </NavLink>
+                </div>
+              )}
             </CCardBody>
           </CCard>
         </CRow>

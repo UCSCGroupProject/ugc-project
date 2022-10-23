@@ -426,7 +426,7 @@ function RecommendedCourses() {
         <div className="text-center my-3">
           <h2>You haven't selected order of preferences yet!</h2>
           <p>Please fill the university admission form to access this feature. </p>
-          <NavLink to={`/student/registration`} style={{ textDecoration: 'none' }}>
+          <NavLink to={`/student/registration/step4`} style={{ textDecoration: 'none' }}>
             <CButton color="success text-white" type="button" className="p-2">
               Apply for University Admissions
             </CButton>

@@ -11,10 +11,7 @@ import com.ugc.university.payload.request.ol_al.Req_OLALSubjects;
 import com.ugc.university.payload.request.olsubject.Req_OLSubjectsWithResults;
 import com.ugc.university.payload.response.PayloadResponse;
 import com.ugc.university.payload.response.ResType;
-import com.ugc.university.payload.response.course.CourseResponse;
-import com.ugc.university.payload.response.course.Res_CourseOverview;
-import com.ugc.university.payload.response.course.StreamResponse;
-import com.ugc.university.payload.response.course.UniCourseResponse;
+import com.ugc.university.payload.response.course.*;
 import com.ugc.university.payload.response.objects.ALSubjectRecord;
 import com.ugc.university.payload.response.objects.OLSubjectRecord;
 import com.ugc.university.payload.response.objects.UnicodeRecord;
@@ -212,8 +209,6 @@ public class CourseService {
         List<CourseResponse> courseResponseList = new ArrayList<>();
         List<Course> courseList = courseRepository.findAll();
 
-
-
         courseList.forEach(item -> {
             // Check ol dependencies
             Boolean isOLResultsCompatible = olSubjectDependencyService.performDependencyCheckWithResults(
@@ -237,7 +232,6 @@ public class CourseService {
 
 
             // Add courses
-
             if(isOLResultsCompatible && isALResultsCompatible) {
                 CourseResponse courseResponse = new CourseResponse(
                         item.getId(),
@@ -252,6 +246,60 @@ public class CourseService {
         });
 
         return courseResponseList;
+    }
+
+    public List<CourseDetailedResponse> getRecommendedDetailedCourseList(Req_OLALSubjects req_olalSubjects) {
+        List<CourseDetailedResponse> courseDetailedResponseList = new ArrayList<>();
+        List<Course> courseList = courseRepository.findAll();
+
+        courseList.forEach(item -> {
+            // Check ol dependencies
+            Boolean isOLResultsCompatible = olSubjectDependencyService.performDependencyCheckWithResults(
+                    new Req_OLSubjectsWithResults(
+                            req_olalSubjects.englishResult,
+                            req_olalSubjects.mathematicsResult,
+                            req_olalSubjects.scienceResult,
+                            item.getCode()
+                    )
+            );
+
+            // Check al dependencies
+            Boolean isALResultsCompatible = alSubjectDependencyService.performDependencyCheck(
+                    new Req_ChoosedALSubjects(
+                            req_olalSubjects.firstSubject,
+                            req_olalSubjects.secondSubject,
+                            req_olalSubjects.thirdSubject,
+                            item.getCode()
+                    )
+            );
+
+            if(isOLResultsCompatible && isALResultsCompatible) {
+                CourseDetailedResponse courseDetailedResponse = new CourseDetailedResponse();
+
+                courseDetailedResponse.setCourseName(item.getName());
+
+                // Populating offered universities
+                List<Unicode> unicodeList =unicodeRepository.findUnicodesByCourse(item);
+                List<UnicodeRecord> unicodeRecords = new ArrayList<>();
+
+                unicodeList.forEach(i -> {
+                    UnicodeRecord unicodeRecord = new UnicodeRecord(
+                            i.getUniversity().getUniversityDetails().getName(),
+                            i.getUniversity().getUsername(),
+                            i.getUnicodeValue()
+                    );
+
+                    unicodeRecords.add(unicodeRecord);
+                });
+
+                courseDetailedResponse.setOfferedUniversities(unicodeRecords);
+
+                // Populate the final outcome
+                courseDetailedResponseList.add(courseDetailedResponse);
+            }
+        });
+
+        return courseDetailedResponseList;
     }
 
     public ResponseEntity<?> getCourseOverview(String courseCode) {
