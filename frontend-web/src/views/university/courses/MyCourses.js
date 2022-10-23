@@ -34,6 +34,7 @@ import { cilPencil } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
 
 const MyCourses = () => {
+  
   const [visible, setVisible] = useState(false)
 
   const [allCoursesData, setAllCoursesData] = useState([
@@ -41,41 +42,49 @@ const MyCourses = () => {
       id: 1,
       unicode: '117N',
       courseOfStudy: 'Engineering',
+      faculty: '',
     },
     {
       id: 2,
       unicode: '112A',
       courseOfStudy: 'Medicine',
+      faculty: '',
     },
     {
       id: 3,
       unicode: '118M',
       courseOfStudy: 'Computer Science',
+      faculty: '',
     },
     {
       id: 4,
       unicode: '112L',
       courseOfStudy: 'Dental',
+      faculty: '',
     },
     {
       id: 5,
       unicode: '118V',
       courseOfStudy: 'Information System',
+      faculty: '',
     },
     {
       id: 6,
       unicode: '102F',
       courseOfStudy: 'Physical Science',
+      faculty: '',
     },
     {
       id: 7,
       unicode: '115N',
       courseOfStudy: 'Servay Science',
+      faculty: '',
     },
     {
       id: 8,
       unicode: '116K',
       courseOfStudy: 'Engineering(TM)',
+      faculty: '',
     },
   ])
 
@@ -194,6 +203,8 @@ const MyCourses = () => {
           </CCard>
         </CCol>
       </CRow>
+
+      {/* pop up form */}
       <CModal scrollable visible={visible} size="lg" onClose={() => setVisible(false)}>
         <CModalHeader>
           <CModalTitle>Course Edit</CModalTitle>
@@ -238,6 +249,7 @@ const MyCourses = () => {
                 />
               </CCol>
             </CRow>
+          
             <CRow className="mb-3">
               <CFormLabel htmlFor="inputdegree" className="col-sm-3 col-form-label">
                 Degree
@@ -252,6 +264,27 @@ const MyCourses = () => {
                 />
               </CCol>
             </CRow>
+
+            <CRow className="mb-3">
+              <CFormLabel htmlFor="inputcourse" className="col-sm-3 col-form-label">
+                Faculty
+              </CFormLabel>
+              <CCol sm={12}>
+                <CFormInput
+                  type="text"
+                  id="inputfaculty"
+                  defaultValue={currentItem ? currentItem.faculty : 'loading...'}
+                  onChange={(e) => {
+                    let temp = currentItem
+                    temp.courseOfStudy = e.target.value
+                    setCurrentItem(temp)
+                  }}
+                  feedbackInvalid="Please provide faculty name."
+                  required
+                />
+              </CCol>
+            </CRow>
+
             <CRow className="mb-3">
               <CFormLabel htmlFor="inputreq" className="col-sm-3 col-form-label">
                 Requirements
