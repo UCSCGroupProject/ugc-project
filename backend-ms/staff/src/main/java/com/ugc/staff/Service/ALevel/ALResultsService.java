@@ -1,8 +1,12 @@
 package com.ugc.staff.Service.ALevel;
 
 import com.ugc.staff.Helper.CSVHelper;
+import com.ugc.staff.Model.ALevel.ALResultKey;
 import com.ugc.staff.Model.ALevel.ALResults;
 import com.ugc.staff.Model.ALevel.ALStudentResult;
+import com.ugc.staff.Model.ALevel.ALSubject;
+import com.ugc.staff.Payload.Request.Results.EditALResultsForm;
+import com.ugc.staff.Payload.Request.Results.ResultRow;
 import com.ugc.staff.Payload.Response.ALevel.ALResultsResponse;
 import com.ugc.staff.Payload.Response.ALevel.ALStudentResultResponse;
 import com.ugc.staff.Payload.Response.PayloadResponse;
@@ -78,7 +82,7 @@ public class ALResultsService {
     public List<ALStudentResultResponse> getStudentResults(Integer studentId) {
         List<ALStudentResultResponse> alStudentResultResponseList = new ArrayList<>();
         ALResults alResults = alResultsRepository.getById(studentId);
-        List<ALStudentResult> alStudentResults = alStudentRepository.findByAlResults(alResults);
+        List<ALStudentResult> alStudentResults = alStudentRepository.findById_studentId(alResults.getId());
         System.out.println(alStudentResults);
         alStudentResults.forEach(item -> {
             ALStudentResultResponse alStudentResultResponse = new ALStudentResultResponse(
@@ -91,5 +95,18 @@ public class ALResultsService {
         });
 
         return alStudentResultResponseList;
+    }
+
+    public ResponseEntity<?> update(EditALResultsForm editALResultsForm) {
+        String studentId = editALResultsForm.getStudentId();
+        for(ResultRow result : editALResultsForm.getResults()){
+            ALResultKey alResultKey = new ALResultKey();
+            alResultKey.setStudentId(Integer.valueOf(studentId));
+            alResultKey.setAlSubjectId(Integer.valueOf(result.getSubjectId()));
+            ALStudentResult alStudentResult = alStudentRepository.getById(alResultKey);
+            alStudentResult.setGrade(result.getGrade());
+            alStudentRepository.save(alStudentResult);
+        }
+        return ResponseEntity.ok(new PayloadResponse(null, "Results updated", ResType.OK));
     }
 }
