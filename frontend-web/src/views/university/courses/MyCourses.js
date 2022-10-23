@@ -35,7 +35,9 @@ import CIcon from '@coreui/icons-react'
 
 const MyCourses = () => {
   
-  const [visible, setVisible] = useState(false)
+  const [visibleForm1, setVisibleForm1] = useState(false)
+
+  const [visibleForm2, setVisibleForm2] = useState(false)
 
   const [allCoursesData, setAllCoursesData] = useState([
     {
@@ -84,6 +86,39 @@ const MyCourses = () => {
       id: 8,
       unicode: '116K',
       courseOfStudy: 'Engineering(TM)',
+      faculty: '',
+    },
+  ])
+
+  const [allAddCoursesData, setAllAddCoursesData] = useState([
+    {
+      id: 1,
+      unicode: '117N',
+      courseOfStudy: 'Engineering',
+      faculty: '',
+    },
+    {
+      id: 2,
+      unicode: '112A',
+      courseOfStudy: 'Medicine',
+      faculty: '',
+    },
+    {
+      id: 3,
+      unicode: '118M',
+      courseOfStudy: 'Computer Science',
+      faculty: '',
+    },
+    {
+      id: 4,
+      unicode: '112L',
+      courseOfStudy: 'Dental',
+      faculty: '',
+    },
+    {
+      id: 5,
+      unicode: '118V',
+      courseOfStudy: 'Information System',
       faculty: '',
     },
   ])
@@ -152,7 +187,15 @@ const MyCourses = () => {
 
               <CRow className="m-1">
                 <CCol md={4}>
-                  <CButton color="success" type="button" className="text-white">
+                  <CButton 
+                    id="myaddpopup"
+                    color="success" 
+                    type="button" 
+                    className="text-white"
+                    onClick={() => {
+                      setVisibleForm2(!visibleForm2)
+                    }}
+                  >
                     <CIcon icon={cilPlus} />
                     <span>{'  '}ADD COURSE</span>
                   </CButton>
@@ -179,14 +222,14 @@ const MyCourses = () => {
                           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             {item.courseOfStudy}
                             <CButton
-                              id="mypopup"
+                              id="myeditpopup"
                               color="btn btn-primary btn-sm"
                               type="button"
                               className="text-white"
                               onClick={() => {
                                 setCurrentItem(item)
                                 setCurrentItemIndex(index)
-                                setVisible(!visible)
+                                setVisibleForm1(!visibleForm1)
                               }}
                             >
                               <CIcon icon={cilPencil} />
@@ -204,8 +247,8 @@ const MyCourses = () => {
         </CCol>
       </CRow>
 
-      {/* pop up form */}
-      <CModal scrollable visible={visible} size="lg" onClose={() => setVisible(false)}>
+      {/* pop up form1 for edit course */}
+      <CModal scrollable visible={visibleForm1} size="lg" onClose={() => setVisibleForm1(false)}>
         <CModalHeader>
           <CModalTitle>Course Edit</CModalTitle>
         </CModalHeader>
@@ -487,17 +530,66 @@ const MyCourses = () => {
           </CForm>
         </CModalBody>
         <CModalFooter>
-          <CButton color="secondary" onClick={() => setVisible(false)}>
+          <CButton color="secondary" onClick={() => setVisibleForm1(false)}>
             Close
           </CButton>
           <CButton
             color="primary"
             onClick={() => {
               updatecourse()
-              setVisible(false)
+              setVisibleForm1(false)
             }}
           >
             Save changes
+          </CButton>
+        </CModalFooter>
+      </CModal>
+
+      {/* pop up form2 for add course */}
+      <CModal scrollable visible={visibleForm2} size="lg" onClose={() => setVisibleForm2(false)}>
+        <CModalHeader>
+          <CModalTitle>Add Courses</CModalTitle>
+        </CModalHeader>
+        <CModalBody>
+          <CForm noValidate validated={validated} onSubmit={handleSubmit}>
+            <CRow className="mb-3">
+                <CTable bordered>
+                  <CTableHead color="dark">
+                    <CTableRow>
+                      <CTableHeaderCell>No.</CTableHeaderCell>
+                      <CTableHeaderCell>Unicode</CTableHeaderCell>
+                      <CTableHeaderCell>Course</CTableHeaderCell>
+                      <CTableHeaderCell>Add</CTableHeaderCell>
+                    </CTableRow>
+                  </CTableHead>
+                  <CTableBody>
+                    {allAddCoursesData.map((item, index) => (
+                      <CTableRow key={item.id}>
+                        <CTableHeaderCell>{item.id}</CTableHeaderCell>
+                        <CTableDataCell>{item.unicode}</CTableDataCell>
+                        <CTableDataCell>{item.courseOfStudy}</CTableDataCell>
+                        <CTableDataCell>
+                          <CFormCheck id={item.id}/>
+                        </CTableDataCell>
+                      </CTableRow>
+                    ))}
+                  </CTableBody>
+                </CTable>
+            </CRow>
+          </CForm>
+        </CModalBody>
+        <CModalFooter>
+          <CButton color="secondary" onClick={() => setVisibleForm2(false)}>
+            Close
+          </CButton>
+          <CButton
+            color="primary"
+            onClick={() => {
+              updatecourse()
+              setVisibleForm2(false)
+            }}
+          >
+            Add to Courses
           </CButton>
         </CModalFooter>
       </CModal>
