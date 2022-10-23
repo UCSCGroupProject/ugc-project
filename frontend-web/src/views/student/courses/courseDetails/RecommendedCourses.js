@@ -1,6 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+import { NavLink } from 'react-router-dom'
 import {
   CRow,
   CCol,
@@ -51,6 +52,9 @@ function RecommendedCourses() {
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
+  const [isStudentApppliedForUniversityAdmissions, setIsStudentApppliedForUniversityAdmissions] =
+    useState(false)
+
   const [user, setUser] = useState(authService.getCurrentUser())
 
   const [olSubjectDetails, setOlSubjectDetails] = useState({
@@ -94,6 +98,8 @@ function RecommendedCourses() {
           secondSubject: res.alSubject2,
           thirdSubject: res.alSubject3,
         }
+
+        setIsStudentApppliedForUniversityAdmissions(true)
 
         console.log('asd', payload)
 
@@ -267,155 +273,166 @@ function RecommendedCourses() {
 
   return (
     <AppStandardContainer title="Recommended Courses">
-      <div>
-        <CRow className="py-2 bg-light rounded">
-          {/* Filter bar */}
-          <CCol md={6}>
-            <FilterBar />
-          </CCol>
-
-          <CCol md={4} className="ms-auto">
-            {/* Search bar */}
-            <CInputGroup>
-              <CFormInput
-                type="text"
-                id="searchBarInput"
-                placeholder="Search..."
-                name="searchText"
-                onChange={onSearchOptionsUpdateInput}
-                value={searchText}
-                foc
-              />
-              <CButton
-                color="warning"
-                type="button"
-                className="text-white"
-                onClick={handleSearching}
-              >
-                <CIcon icon={cilSearch} />
-                <span>{'  '}Search</span>
-              </CButton>
-            </CInputGroup>
-          </CCol>
-        </CRow>
-        <br />
-
-        <CRow className="m-1">
+      {isStudentApppliedForUniversityAdmissions ? (
+        <div>
           {/* Data fetch loader */}
           <AppFetchDataLoader loading={loading} />
+          <CRow className="py-2 bg-light rounded">
+            {/* Filter bar */}
+            <CCol md={6}>
+              <FilterBar />
+            </CCol>
 
-          <p>
-            Note that following recommendations are filtered based on your G.C.E(O/L) subject
-            results and G.C.E(A/L) subjects.
-          </p>
-
-          <div>
-            <CRow>
-              <CCol md={6}>
-                <AppStandardCard
-                  title="G.C.E (O/L) Subjects and results"
-                  color="bg-fade-success"
-                  titleStyle="fw-semibold"
+            <CCol md={4} className="ms-auto">
+              {/* Search bar */}
+              <CInputGroup>
+                <CFormInput
+                  type="text"
+                  id="searchBarInput"
+                  placeholder="Search..."
+                  name="searchText"
+                  onChange={onSearchOptionsUpdateInput}
+                  value={searchText}
+                  foc
+                />
+                <CButton
+                  color="warning"
+                  type="button"
+                  className="text-white"
+                  onClick={handleSearching}
                 >
-                  <CTable>
-                    <CTableHead>
-                      <CTableRow color="dark">
-                        <CTableHeaderCell scope="col">Subject</CTableHeaderCell>
-                        <CTableHeaderCell scope="col">Grade</CTableHeaderCell>
-                      </CTableRow>
-                    </CTableHead>
-                    <CTableBody>
-                      <CTableRow>
-                        <CTableHeaderCell scope="row">English</CTableHeaderCell>
-                        <CTableDataCell>
-                          {olSubjectDetails.englishResult !== ''
-                            ? olSubjectDetails.englishResult
-                            : '---'}
-                        </CTableDataCell>
-                      </CTableRow>
-                      <CTableRow>
-                        <CTableHeaderCell scope="row">Mathematics</CTableHeaderCell>
-                        <CTableDataCell>
-                          {olSubjectDetails.mathematicsResult !== ''
-                            ? olSubjectDetails.mathematicsResult
-                            : '---'}
-                        </CTableDataCell>
-                      </CTableRow>
-                      <CTableRow>
-                        <CTableHeaderCell scope="row">Science</CTableHeaderCell>
-                        <CTableDataCell>
-                          {olSubjectDetails.scienceResult !== ''
-                            ? olSubjectDetails.scienceResult
-                            : '---'}
-                        </CTableDataCell>
-                      </CTableRow>
-                    </CTableBody>
-                  </CTable>
-                </AppStandardCard>
-              </CCol>
+                  <CIcon icon={cilSearch} />
+                  <span>{'  '}Search</span>
+                </CButton>
+              </CInputGroup>
+            </CCol>
+          </CRow>
+          <br />
 
-              <CCol md={6}>
-                <AppStandardCard
-                  title="G.C.E (A/L) Subjects"
-                  color="bg-fade-warning"
-                  titleStyle="fw-semibold"
-                >
-                  <CListGroup>
-                    <CListGroupItem>{alSubjectDetails.alSubject1}</CListGroupItem>
-                    <CListGroupItem>{alSubjectDetails.alSubject2}</CListGroupItem>
-                    <CListGroupItem>{alSubjectDetails.alSubject3}</CListGroupItem>
-                  </CListGroup>
-                </AppStandardCard>
-              </CCol>
-            </CRow>
-          </div>
+          <CRow className="m-1">
+            <p>
+              Note that following recommendations are filtered based on your G.C.E(O/L) subject
+              results and G.C.E(A/L) subjects.
+            </p>
 
-          <p></p>
-          <CTable hover responsive bordered>
-            <CTableHead color="dark">
-              <CTableRow>
-                {tableHeaders.map((headerItem) => (
-                  <CTableHeaderCell key={headerItem.id}>{headerItem.name}</CTableHeaderCell>
-                ))}
-                <CTableHeaderCell></CTableHeaderCell>
-              </CTableRow>
-            </CTableHead>
-            <CTableBody>
-              {tableContent.map((tableItem) => (
-                <CTableRow
-                  key={tableItem.id}
-                  onClick={() => onClickUniversiyCourseRecord(tableItem.course)}
-                >
+            <div>
+              <CRow>
+                <CCol md={6}>
+                  <AppStandardCard
+                    title="G.C.E (O/L) Subjects and results"
+                    color="bg-fade-success"
+                    titleStyle="fw-semibold"
+                  >
+                    <CTable>
+                      <CTableHead>
+                        <CTableRow color="dark">
+                          <CTableHeaderCell scope="col">Subject</CTableHeaderCell>
+                          <CTableHeaderCell scope="col">Grade</CTableHeaderCell>
+                        </CTableRow>
+                      </CTableHead>
+                      <CTableBody>
+                        <CTableRow>
+                          <CTableHeaderCell scope="row">English</CTableHeaderCell>
+                          <CTableDataCell>
+                            {olSubjectDetails.englishResult !== ''
+                              ? olSubjectDetails.englishResult
+                              : '---'}
+                          </CTableDataCell>
+                        </CTableRow>
+                        <CTableRow>
+                          <CTableHeaderCell scope="row">Mathematics</CTableHeaderCell>
+                          <CTableDataCell>
+                            {olSubjectDetails.mathematicsResult !== ''
+                              ? olSubjectDetails.mathematicsResult
+                              : '---'}
+                          </CTableDataCell>
+                        </CTableRow>
+                        <CTableRow>
+                          <CTableHeaderCell scope="row">Science</CTableHeaderCell>
+                          <CTableDataCell>
+                            {olSubjectDetails.scienceResult !== ''
+                              ? olSubjectDetails.scienceResult
+                              : '---'}
+                          </CTableDataCell>
+                        </CTableRow>
+                      </CTableBody>
+                    </CTable>
+                  </AppStandardCard>
+                </CCol>
+
+                <CCol md={6}>
+                  <AppStandardCard
+                    title="G.C.E (A/L) Subjects"
+                    color="bg-fade-warning"
+                    titleStyle="fw-semibold"
+                  >
+                    <CListGroup>
+                      <CListGroupItem>{alSubjectDetails.alSubject1}</CListGroupItem>
+                      <CListGroupItem>{alSubjectDetails.alSubject2}</CListGroupItem>
+                      <CListGroupItem>{alSubjectDetails.alSubject3}</CListGroupItem>
+                    </CListGroup>
+                  </AppStandardCard>
+                </CCol>
+              </CRow>
+            </div>
+
+            <p></p>
+            <CTable hover responsive bordered>
+              <CTableHead color="dark">
+                <CTableRow>
                   {tableHeaders.map((headerItem) => (
-                    <CTableDataCell
-                      key={tableItem.id + headerItem.id}
-                      className={filterOptions.field === headerItem.id ? 'bg-light ' : ''}
-                    >
-                      {/* if search text is empty, show default text */}
-                      {searchText === '' && <span>{tableItem[headerItem.id]}</span>}
-                      {/* if search text is not empty, if matching exists highlight else show default */}
-                      {searchText !== '' && (
-                        <span
-                          className={
-                            tableItem[headerItem.id]
-                              .toString()
-                              .toLowerCase()
-                              .includes(searchText.toLowerCase())
-                              ? 'bg-highlight-warning'
-                              : ''
-                          }
-                        >
-                          {tableItem[headerItem.id]}
-                        </span>
-                      )}
-                    </CTableDataCell>
+                    <CTableHeaderCell key={headerItem.id}>{headerItem.name}</CTableHeaderCell>
                   ))}
+                  <CTableHeaderCell></CTableHeaderCell>
                 </CTableRow>
-              ))}
-            </CTableBody>
-          </CTable>
-        </CRow>
-      </div>
+              </CTableHead>
+              <CTableBody>
+                {tableContent.map((tableItem) => (
+                  <CTableRow
+                    key={tableItem.id}
+                    onClick={() => onClickUniversiyCourseRecord(tableItem.course)}
+                  >
+                    {tableHeaders.map((headerItem) => (
+                      <CTableDataCell
+                        key={tableItem.id + headerItem.id}
+                        className={filterOptions.field === headerItem.id ? 'bg-light ' : ''}
+                      >
+                        {/* if search text is empty, show default text */}
+                        {searchText === '' && <span>{tableItem[headerItem.id]}</span>}
+                        {/* if search text is not empty, if matching exists highlight else show default */}
+                        {searchText !== '' && (
+                          <span
+                            className={
+                              tableItem[headerItem.id]
+                                .toString()
+                                .toLowerCase()
+                                .includes(searchText.toLowerCase())
+                                ? 'bg-highlight-warning'
+                                : ''
+                            }
+                          >
+                            {tableItem[headerItem.id]}
+                          </span>
+                        )}
+                      </CTableDataCell>
+                    ))}
+                  </CTableRow>
+                ))}
+              </CTableBody>
+            </CTable>
+          </CRow>
+        </div>
+      ) : (
+        <div className="text-center my-3">
+          <h2>You haven't selected order of preferences yet!</h2>
+          <p>Please fill the university admission form to access this feature. </p>
+          <NavLink to={`/student/registration`} style={{ textDecoration: 'none' }}>
+            <CButton color="success text-white" type="button" className="p-2">
+              Apply for University Admissions
+            </CButton>
+          </NavLink>
+        </div>
+      )}
     </AppStandardContainer>
   )
 }

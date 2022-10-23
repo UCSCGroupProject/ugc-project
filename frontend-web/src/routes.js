@@ -45,7 +45,7 @@ const Stu_Registration_UniversityAdmission = React.lazy(() => import('./views/st
 const Stu_Registration_UniversityAdmission_Step1 = React.lazy(() => import('./views/student/registration/Step1Page'))
 const Stu_Registration_UniversityAdmission_Step2 = React.lazy(() => import('./views/student/registration/Step2Page'))
 const Stu_Registration_UniversityAdmission_Step3 = React.lazy(() => import('./views/student/registration/Step3Page'))
-const Stu_Registration_UniversityAdmission_Step4 = React.lazy(() => import('./views/student/registration/Step4Page'))
+const Stu_Registration_UniversityAdmission_Step4 = React.lazy(() => import('./views/student/registration/Step4Page.tsx'))
 const Stu_NICAndExamDetails_Settings = React.lazy(() => import('./views/student/settings/NICAndExamDetails_Settings'))
 const Stu_StudentDetails_Settings = React.lazy(() => import('./views/student/settings/StudentDetails_Settings'))
 const Stu_LoginDetails_Settings = React.lazy(() => import('./views/student/settings/LoginDetails_Settings'))

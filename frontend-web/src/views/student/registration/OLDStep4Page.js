@@ -24,6 +24,8 @@ import {
   CAlert,
   CSpinner,
 } from '@coreui/react'
+import CIcon from '@coreui/icons-react'
+import { cilArrowCircleTop, cilArrowCircleBottom } from '@coreui/icons'
 
 import { v_required } from '../../../utils/validator'
 
@@ -411,6 +413,12 @@ function Step4Page() {
                           <CTableDataCell>{item.unicode}</CTableDataCell>
                           <CTableDataCell>{item.course}</CTableDataCell>
                           <CTableDataCell colSpan={2}>{item.university}</CTableDataCell>
+                          <CTableDataCell>
+                            <CIcon icon={cilArrowCircleTop} customClassName="nav-icon" />
+                          </CTableDataCell>
+                          <CTableDataCell>
+                            <CIcon icon={cilArrowCircleBottom} customClassName="nav-icon" />
+                          </CTableDataCell>
                         </CTableRow>
                       ))}
                     </CTableBody>
