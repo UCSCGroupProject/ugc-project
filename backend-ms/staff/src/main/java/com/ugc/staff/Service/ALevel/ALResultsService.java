@@ -4,8 +4,7 @@ import com.ugc.staff.Helper.CSVHelper;
 import com.ugc.staff.Model.ALevel.ALResultKey;
 import com.ugc.staff.Model.ALevel.ALResults;
 import com.ugc.staff.Model.ALevel.ALStudentResult;
-import com.ugc.staff.Model.ALevel.ALSubject;
-import com.ugc.staff.Payload.Request.Results.EditALResultsForm;
+import com.ugc.staff.Payload.Request.Results.EditResultsForm;
 import com.ugc.staff.Payload.Request.Results.ResultRow;
 import com.ugc.staff.Payload.Response.ALevel.ALResultsResponse;
 import com.ugc.staff.Payload.Response.ALevel.ALStudentResultResponse;
@@ -97,7 +96,7 @@ public class ALResultsService {
         return alStudentResultResponseList;
     }
 
-    public ResponseEntity<?> update(EditALResultsForm editALResultsForm) {
+    public ResponseEntity<?> update(EditResultsForm editALResultsForm) {
         String studentId = editALResultsForm.getStudentId();
         for(ResultRow result : editALResultsForm.getResults()){
             ALResultKey alResultKey = new ALResultKey();

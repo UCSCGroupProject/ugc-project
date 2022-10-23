@@ -1,8 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { v_required } from '../../../utils/validator'
 import { useSearchParams, useNavigate } from 'react-router-dom'
-import { NavLink } from 'react-router-dom'
 import {
   CCard,
   CTable,
@@ -60,13 +58,6 @@ function ALResultsDetailed() {
   const [tableContent, setTableContent] = useState([])
   const [presistentTableContent, setPresistentTableContent] = useState([])
 
-  // Set table data
-  const setTableData = (headers, content) => {
-    setTableHeaders(headers)
-    setTableContent(content)
-    setPresistentTableContent(content)
-  }
-
   const [searchParams, setSearchParams] = useSearchParams()
   const [studentID, setstudentID] = useState(searchParams.get('studentId'))
 
@@ -74,17 +65,6 @@ function ALResultsDetailed() {
   const [editResultsForm, setEditResultsForm] = useState([])
 
   const [editResultsFormErrors, setEditResultsFormErrors] = useState([])
-
-  const onUpdateInput = (e) => {
-    setEditResultsForm((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }))
-  }
-
-  // useEffect(() => {
-  //   console.log(tableContent)
-  // }, [tableContent])
 
   useEffect(() => {
     setLoading(true)

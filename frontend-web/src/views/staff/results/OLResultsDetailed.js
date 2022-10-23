@@ -7,6 +7,7 @@ import {
   CTable,
   CCol,
   CTableHead,
+  CForm,
   CFormInput,
   CCardBody,
   CSpinner,
@@ -50,14 +51,16 @@ function OLResultsDetailed() {
 
   const [visible, setVisible] = useState(false)
 
-  const [visible2, setVisible2] = useState(false)
-  const [deleteCourseId, setDeleteCourseId] = useState(0)
-
   const [resMessage, setResMessage] = useState('')
   let navigate = useNavigate()
 
   const [searchParams, setSearchParams] = useSearchParams()
   const [studentID, setstudentID] = useState(searchParams.get('studentId'))
+
+  // Editing results
+  const [editResultsForm, setEditResultsForm] = useState([])
+
+  const [editResultsFormErrors, setEditResultsFormErrors] = useState([])
 
   useEffect(() => {
     setLoading(true)
@@ -65,8 +68,8 @@ function OLResultsDetailed() {
     olResultsService.getResultOfStudent(studentID).then(
       (res) => {
         if (res.type === 'OK') {
-          console.log(res.payload)
           setTableData(headers, res.payload)
+          setEditResultsForm(res.payload)
         } else if (res.type === 'BAD') {
           toast.error(res.message)
         }
@@ -85,6 +88,74 @@ function OLResultsDetailed() {
       },
     )
   }, [])
+
+  const handleEditResultsFormSubmit = async (e) => {
+    e.preventDefault()
+    let firstSubjectError = ''
+    let secondSubjectError = ''
+    let thirdSubjectError = ''
+    let gitError = ''
+    let geError = ''
+    let cgtError = ''
+    
+    // If errors exist, show errors
+    setEditResultsFormErrors({
+      firstSubjectError,
+      secondSubjectError,
+      thirdSubjectError,
+      gitError,
+      geError,
+      cgtError,
+    })
+
+    // If no errors exist, send to the server
+    if (
+      !(
+        firstSubjectError &&
+        secondSubjectError &&
+        thirdSubjectError &&
+        gitError &&
+        geError &&
+        cgtError
+      )
+    ) {
+      console.log(editResultsForm)
+
+      // Sending to the server
+      setLoading(true)
+      setResMessage('')
+
+      const payload = {
+        studentId: studentID,
+        results: [
+          ...editResultsForm
+        ]
+      }
+      
+      olResultsService.update(payload).then(
+        (res) => {
+          if (res.type === 'OK') {
+            // Settings table data
+            navigate('/staff/results/ol/detailed?studentId='+ studentID)
+          } else if (res.type === 'BAD') {
+            toast.error(res.message)
+          }
+
+          setLoading(false)
+        },
+        (error) => {
+          const res =
+            (error.response && error.response.data && error.response.data.message) ||
+            error.message ||
+            error.toString()
+          // After recieving the server request
+          toast.error(res)
+          setResMessage(res) // Remove later
+          setLoading(false)
+        },
+      )
+    }
+  }
 
   // ADVANCED TABLE
   const [tableHeaders, setTableHeaders] = useState([])
@@ -208,6 +279,63 @@ function OLResultsDetailed() {
 
   return (
     <div>
+      <div style={{ textAlign: 'right' }}>
+        <CButton color="warning" onClick={() => setVisible(!visible)}>
+          <CIcon icon={cibAddthis}></CIcon> Edit Results
+        </CButton>
+        {editResultsForm && (
+          <CModal alignment="center" scrollable visible={visible} onClose={() => setVisible(false)}>
+            <CModalHeader>
+              <CModalTitle>Edit Results</CModalTitle>
+            </CModalHeader>
+            <CModalBody>
+              <CForm>
+                {editResultsForm.map((item) => (
+                  <CFormInput
+                    type="text"
+                    id="grade"
+                    label={item.subjectName}
+                    name="grade"
+                    onChange={(e) => {
+                      const newState = editResultsForm.map((obj) => {
+                        if (obj.subjectId === item.subjectId) {
+                          return { ...obj, grade: e.target.value };
+                        }
+                        return obj;
+                      })
+                      setEditResultsForm(newState)
+                    }}
+                    value={item.grade}
+                    //feedback={editResultsFormErrors}
+                    //invalid={editResultsFormErrors ? true : false}
+                  />
+                ))}
+              </CForm>
+              {resMessage && (
+                <CAlert color="danger" className="text-center">
+                  {resMessage}
+                </CAlert>
+              )}
+            </CModalBody>
+
+            <CModalFooter>
+              <CButton color="secondary" onClick={() => setVisible(false)}>
+                Close
+              </CButton>
+              <CButton color="primary" onClick={handleEditResultsFormSubmit}>
+                {loading ? (
+                  <span>
+                    <CSpinner size="sm" /> Validating
+                  </span>
+                ) : (
+                  <span>Update</span>
+                )}
+              </CButton>
+            </CModalFooter>
+          </CModal>
+        )}
+      </div>
+
       <CRow>
         <CCol xs>
           <CCard className="mb-4">

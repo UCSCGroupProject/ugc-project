@@ -32,6 +32,13 @@ class OLResultsService {
         return res.data
       })
   }
+
+  update(payload){
+    console.log(payload)
+    return axios.put(API_URL + '/update', payload ).then((response) => {
+      return response.data
+    })
+  }
 }
 
 export default new OLResultsService()
