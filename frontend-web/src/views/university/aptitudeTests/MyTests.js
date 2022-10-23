@@ -57,7 +57,7 @@ const MyTests = () => {
     {
       id: 3,
       unicode: '115K',
-      courseOfStudy: 'INformation System',
+      courseOfStudy: 'Information System',
       date: '2022-03-06',
       time: '02:00 PM',
       status: 'Done',

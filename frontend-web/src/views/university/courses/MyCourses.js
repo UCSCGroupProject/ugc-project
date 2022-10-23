@@ -32,9 +32,9 @@ import { cilPlus, cilSearch } from '@coreui/icons'
 import { cilFilter } from '@coreui/icons'
 import { cilPencil } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
+// import { sassNull } from 'sass'
 
 const MyCourses = () => {
-  
   const [visibleForm1, setVisibleForm1] = useState(false)
 
   const [visibleForm2, setVisibleForm2] = useState(false)
@@ -44,6 +44,39 @@ const MyCourses = () => {
       id: 1,
       unicode: '117N',
       courseOfStudy: 'Engineering',
+      faculty: '',
+    },
+  ])
+
+  const [allAddCoursesData, setAllAddCoursesData] = useState([
+    {
+      id: 1,
+      unicode: '117N',
+      courseOfStudy: 'Engineering',
+      faculty: '',
+    },
+    {
+      id: 2,
+      unicode: '112A',
+      courseOfStudy: 'Medicine',
+      faculty: '',
+    },
+    {
+      id: 3,
+      unicode: '118M',
+      courseOfStudy: 'Computer Science',
+      faculty: '',
+    },
+    {
+      id: 4,
+      unicode: '112L',
+      courseOfStudy: 'Dental',
+      faculty: '',
+    },
+    {
+      id: 5,
+      unicode: '118V',
+      courseOfStudy: 'Information System',
       faculty: '',
     },
     {
@@ -90,39 +123,20 @@ const MyCourses = () => {
     },
   ])
 
-  const [allAddCoursesData, setAllAddCoursesData] = useState([
-    {
-      id: 1,
-      unicode: '117N',
-      courseOfStudy: 'Engineering',
-      faculty: '',
-    },
-    {
-      id: 2,
-      unicode: '112A',
-      courseOfStudy: 'Medicine',
-      faculty: '',
-    },
-    {
-      id: 3,
-      unicode: '118M',
-      courseOfStudy: 'Computer Science',
-      faculty: '',
-    },
-    {
-      id: 4,
-      unicode: '112L',
-      courseOfStudy: 'Dental',
-      faculty: '',
-    },
-    {
-      id: 5,
-      unicode: '118V',
-      courseOfStudy: 'Information System',
-      faculty: '',
-    },
-  ])
+  const addNewCourseFromTable = (item) => {
+    let temp = allCoursesData.slice()
+    temp.push(item)
+    setAllCoursesData(temp)
+    let tempForTable = allAddCoursesData.filter((i) => {
+      return !(i.id == item.id)
+    })
 
+    console.log('hi ')
+    console.log(allAddCoursesData)
+    console.log(tempForTable)
+    console.log('hi ')
+    setAllAddCoursesData(tempForTable)
+  }
   const updatecourse = () => {
     let temp = allCoursesData.slice()
     temp[currentItemIndex] = currentItem
@@ -187,10 +201,10 @@ const MyCourses = () => {
 
               <CRow className="m-1">
                 <CCol md={4}>
-                  <CButton 
+                  <CButton
                     id="myaddpopup"
-                    color="success" 
-                    type="button" 
+                    color="success"
+                    type="button"
                     className="text-white"
                     onClick={() => {
                       setVisibleForm2(!visibleForm2)
@@ -292,7 +306,7 @@ const MyCourses = () => {
                 />
               </CCol>
             </CRow>
-          
+
             <CRow className="mb-3">
               <CFormLabel htmlFor="inputdegree" className="col-sm-3 col-form-label">
                 Degree
@@ -301,7 +315,7 @@ const MyCourses = () => {
                 <CFormInput
                   type="text"
                   id="inputdegree"
-                  defaultValue={"B.Sc in Engineering"}
+                  defaultValue={'B.Sc in Engineering'}
                   feedbackInvalid="Please provide degree name."
                   required
                 />
@@ -553,28 +567,43 @@ const MyCourses = () => {
         <CModalBody>
           <CForm noValidate validated={validated} onSubmit={handleSubmit}>
             <CRow className="mb-3">
-                <CTable bordered>
-                  <CTableHead color="dark">
-                    <CTableRow>
-                      <CTableHeaderCell>No.</CTableHeaderCell>
-                      <CTableHeaderCell>Unicode</CTableHeaderCell>
-                      <CTableHeaderCell>Course</CTableHeaderCell>
-                      <CTableHeaderCell>Add</CTableHeaderCell>
+              <CTable bordered>
+                <CTableHead color="dark">
+                  <CTableRow>
+                    <CTableHeaderCell>No.</CTableHeaderCell>
+                    <CTableHeaderCell>Unicode</CTableHeaderCell>
+                    <CTableHeaderCell>Course</CTableHeaderCell>
+                    <CTableHeaderCell>Add</CTableHeaderCell>
+                  </CTableRow>
+                </CTableHead>
+                <CTableBody>
+                  {allAddCoursesData.length == 0 ? <h1>Empty List </h1> : null}
+                  {allAddCoursesData.map((item, index) => (
+                    <CTableRow key={item.id}>
+                      <CTableHeaderCell>{item.id}</CTableHeaderCell>
+                      <CTableDataCell>{item.unicode}</CTableDataCell>
+                      <CTableDataCell>{item.courseOfStudy}</CTableDataCell>
+                      <CTableDataCell>
+                        <CButton
+                          color="primary"
+                          onClick={() => {
+                            addNewCourseFromTable(allAddCoursesData[index])
+                          }}
+                        >
+                          {' '}
+                          Add Cources{' '}
+                        </CButton>
+                        <CFormCheck
+                          id={item.id}
+                          onChange={() => {
+                            addNewCourseFromTable(allAddCoursesData[index])
+                          }}
+                        />
+                      </CTableDataCell>
                     </CTableRow>
-                  </CTableHead>
-                  <CTableBody>
-                    {allAddCoursesData.map((item, index) => (
-                      <CTableRow key={item.id}>
-                        <CTableHeaderCell>{item.id}</CTableHeaderCell>
-                        <CTableDataCell>{item.unicode}</CTableDataCell>
-                        <CTableDataCell>{item.courseOfStudy}</CTableDataCell>
-                        <CTableDataCell>
-                          <CFormCheck id={item.id}/>
-                        </CTableDataCell>
-                      </CTableRow>
-                    ))}
-                  </CTableBody>
-                </CTable>
+                  ))}
+                </CTableBody>
+              </CTable>
             </CRow>
           </CForm>
         </CModalBody>
