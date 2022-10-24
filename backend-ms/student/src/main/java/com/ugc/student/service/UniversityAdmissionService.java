@@ -245,6 +245,15 @@ public class UniversityAdmissionService {
             return "User not exists";
         }
 
+        List<OrderOfPreference> orderOfPreferences = orderOfPreferenceRepository.findByStudent(student);
+
+        // Delete data if exists
+        if(orderOfPreferences != null){
+            orderOfPreferences.forEach(item -> {
+                orderOfPreferenceRepository.delete(item);
+            });
+        }
+
         List<UnicodeRecord> unicodeRecords = step4FormRequest.getUnicodeRecords();
 
         unicodeRecords.forEach(item -> {

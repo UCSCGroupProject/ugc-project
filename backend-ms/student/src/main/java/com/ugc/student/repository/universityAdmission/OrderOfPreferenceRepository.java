@@ -11,4 +11,6 @@ import java.util.List;
 @Repository
 public interface OrderOfPreferenceRepository extends JpaRepository<OrderOfPreference, Long> {
     List<OrderOfPreference> findByStudent(Student student);
+
+
 }
