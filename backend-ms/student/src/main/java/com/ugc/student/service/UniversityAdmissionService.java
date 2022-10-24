@@ -3,6 +3,7 @@ package com.ugc.student.service;
 import com.ugc.student.model.Student;
 import com.ugc.student.model.universityAdmission.*;
 import com.ugc.student.payload.request.universityAdmission.*;
+import com.ugc.student.payload.response.universityAdmission.UnicodeRecord;
 import com.ugc.student.repository.StudentRepository;
 import com.ugc.student.repository.universityAdmission.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -244,16 +245,16 @@ public class UniversityAdmissionService {
             return "User not exists";
         }
 
-        List<String> unicodes = step4FormRequest.getUnicodes();
+        List<UnicodeRecord> unicodeRecords = step4FormRequest.getUnicodeRecords();
 
-        if(unicodes != null){
-            unicodes.forEach(item -> {
-                orderOfPreferenceRepository.save(new OrderOfPreference(
-                        item,
-                        student
-                ));
-            });
-        }
+        unicodeRecords.forEach(item -> {
+            orderOfPreferenceRepository.save(new OrderOfPreference(
+                    item.getUnicode(),
+                    item.getCourseName(),
+                    item.getUniversityName(),
+                    student
+            ));
+        });
 
         return "Form saved successfully";
     }

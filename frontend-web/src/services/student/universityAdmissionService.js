@@ -47,7 +47,6 @@ class UniversityAdmissionService {
 
   getStep3Form(username) {
     return axios.get(API_URL + '/step3Form', { params: { username: username } }).then((res) => {
-      console.log(res.data)
       return res.data
     })
   }
@@ -70,7 +69,7 @@ class UniversityAdmissionService {
 
   getStep4Form(username) {
     return axios.get(API_URL + '/step4Form', { params: { username: username } }).then((res) => {
-      console.log(res.data)
+      console.log("called recieved", res.data)
       return res.data
     })
   }
@@ -79,7 +78,7 @@ class UniversityAdmissionService {
     console.log(data)
 
     const payload = {
-      unicodes: data,
+      unicodeRecords: data,
       username: username,
     }
 

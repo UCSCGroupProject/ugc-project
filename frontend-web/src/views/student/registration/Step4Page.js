@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect, useRef } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate, Link } from 'react-router-dom'
 import {
   CNav,
   CNavItem,
@@ -40,13 +40,19 @@ import AppFetchDataLoader from '../../../components/loaders/AppFetchDataLoader'
 import authService from '../../../services/authService'
 import universityAdmissionService from '../../../services/student/universityAdmissionService'
 import courseService from '../../../services/university/courseService'
+import axios from 'axios'
 
 function Step4Page() {
   // For the server side requests and responses
   const [loading, setLoading] = useState(false)
+  let navigate = useNavigate()
+
   const [user, setUser] = useState(authService.getCurrentUser())
   const [isStudentApppliedForUniversityAdmissions, setIsStudentApppliedForUniversityAdmissions] =
     useState(false)
+
+  // Order of preferences table data
+  const [orderOfPreferences, setOrderOfPreferences] = useState([])
 
   // COURSE AND UNIVERSITY SELECTION
   // Recommended courses data
@@ -55,6 +61,7 @@ function Step4Page() {
   useEffect(() => {
     setLoading(true)
 
+    // Getting admissible courses and universities
     universityAdmissionService.getStep2Form(user.username).then(
       (res) => {
         console.log('asasdasdd', res)
@@ -110,6 +117,51 @@ function Step4Page() {
         setLoading(false)
       },
     )
+  }, [])
+
+  useEffect(() => {
+    setLoading(true)
+    console.log('use eff 2 called')
+
+    axios
+      .get(
+        'http://localhost:8081/api/student/universityAdmission/step4Form?username=' + user.username,
+      )
+      .then((res) => {
+        console.log("rrrrr",res.data.unicodeRecords);
+        setOrderOfPreferences(res.data.unicodeRecords)
+      })
+
+    // populating order of preferences table id=f exists
+    // const data =  universityAdmissionService.getStep4Form(user.username);
+    // .then(
+    //   (res) => {
+    //     if (res.type === 'OK') {
+    //       toast.success(res.message)
+
+    //       console.log("rrrrrrrrrrrrr");
+
+    //       // Settings table data from fetched data
+    //       setOrderOfPreferences(res.unicodeRecords)
+
+    //       console.log("OOP", res.unicodeRecords);
+    //     } else if (res.type === 'BAD') {
+    //       toast.error(res.message)
+    //     }
+
+    //     setLoading(false)
+    //   },
+    //   (error) => {
+    //     const res =
+    //       (error.response && error.response.data && error.response.data.message) ||
+    //       error.message ||
+    //       error.toString()
+
+    //     // After recieving the server request
+    //     toast.error(res)
+    //     setLoading(false)
+    //   },
+    // )
   }, [])
 
   const [offeredUniversities, setOfferedUniversities] = useState([
@@ -205,8 +257,6 @@ function Step4Page() {
   }
 
   // ORDER OF PREFERENCE TABLE
-  // Order of preferences table data
-  const [orderOfPreferences, setOrderOfPreferences] = useState([])
 
   const handleOnDragEnd = (result) => {
     if (!result.destination) return
@@ -224,6 +274,50 @@ function Step4Page() {
     setOrderOfPreferences((current) => current.filter((i) => i.unicode != unicode))
 
     console.log(orderOfPreferences)
+  }
+
+  // final
+  const handleOrderOfPreferencesTableSubmit = async (e) => {
+    e.preventDefault()
+
+    if (orderOfPreferences.length === 0) {
+      setLoading(true)
+      toast.error('Order of Preferences table is empty')
+      setLoading(false)
+    }
+
+    // If no errors exist, send to the server
+    if (orderOfPreferences.length !== 0) {
+      console.log('STEP 4 PAGE')
+
+      // Sending to the server
+      setLoading(true)
+
+      const user = authService.getCurrentUser()
+
+      // let unicodes = []
+
+      // orderOfPreferences.forEach((item) => {
+      //   unicodes.push(item.unicode)
+      // })
+
+      universityAdmissionService.step4FormCheckAndSubmit(orderOfPreferences, user.username).then(
+        () => {
+          setLoading(false)
+          toast.success('Send successfully')
+          navigate('/student/registration')
+        },
+        (error) => {
+          const res =
+            (error.response && error.response.data && error.response.data.message) ||
+            error.message ||
+            error.toString()
+          // After recieving the server request
+          toast.error(res)
+          setLoading(false)
+        },
+      )
+    }
   }
 
   return (
@@ -354,6 +448,31 @@ function Step4Page() {
                         </Droppable>
                       </DragDropContext>
                     </CTable>
+                    <br />
+                    <CRow>
+                      <CCol md={4} className="ms-auto">
+                        <CButtonGroup size="sm" className="w-100">
+                          <Link to="/" className="btn btn-outline-dark p-2">
+                            Cancel
+                          </Link>
+
+                          <CButton
+                            color="primary"
+                            type="button"
+                            className="p-2"
+                            onClick={handleOrderOfPreferencesTableSubmit}
+                          >
+                            {loading ? (
+                              <span>
+                                <CSpinner size="sm" /> Validating
+                              </span>
+                            ) : (
+                              <span>Save</span>
+                            )}
+                          </CButton>
+                        </CButtonGroup>
+                      </CCol>
+                    </CRow>
                   </CForm>
                 </div>
               ) : (

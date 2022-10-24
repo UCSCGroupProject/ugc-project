@@ -12,5 +12,5 @@ import java.util.List;
 @ToString
 @AllArgsConstructor
 public class Step4FormResponse {
-    private List<String> unicodes;
+    private List<UnicodeRecord> unicodeRecords;
 }

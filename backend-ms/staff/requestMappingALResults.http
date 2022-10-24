@@ -1,0 +1,5 @@
+### View
+GET http://localhost:8083/api/staff/alresults/view
+
+### View
+GET http://localhost:8083/api/staff/alresults/view

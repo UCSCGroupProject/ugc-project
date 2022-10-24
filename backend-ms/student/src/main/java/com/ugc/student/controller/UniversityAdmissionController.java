@@ -152,17 +152,23 @@ public class UniversityAdmissionController {
 
         List<OrderOfPreference> orderOfPreferences = universityAdmissionService.getOrderOfPreferencesByUsername(username);
 
-        List<String> unicodes = new ArrayList<>();
+        List<UnicodeRecord> unicodeRecords = new ArrayList<>();
 
         if(orderOfPreferences != null){
             orderOfPreferences.forEach(item -> {
-                unicodes.add(item.getUnicode());
+                UnicodeRecord unicodeRecord = new UnicodeRecord(
+                        item.getUnicode(),
+                        item.getCourseName(),
+                        item.getCourseName()
+                );
+
+                unicodeRecords.add(unicodeRecord);
             });
         }
 
-        return ResponseEntity.ok(new Step4FormResponse(
-                unicodes
-        ));
+        System.out.println("step 4 form called");
+
+        return ResponseEntity.ok(new Step4FormResponse(unicodeRecords));
     }
 
     @PostMapping("/step4Form")

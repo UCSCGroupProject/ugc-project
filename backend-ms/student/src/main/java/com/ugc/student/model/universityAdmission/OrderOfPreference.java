@@ -18,6 +18,8 @@ public class OrderOfPreference {
     private Integer id;
 
     private String unicode;
+    private String courseName;
+    private String universityName;
 
     // private Long stuId;
     // Foreign key from Student - Refer id column of the Student table as stu_id
@@ -25,8 +27,10 @@ public class OrderOfPreference {
     @JoinColumn(name = "stu_id", referencedColumnName = "id")
     private Student student;
 
-    public OrderOfPreference(String unicode, Student student) {
+    public OrderOfPreference(String unicode, String courseName, String universityName, Student student) {
         this.unicode = unicode;
+        this.courseName = courseName;
+        this.universityName = universityName;
         this.student = student;
     }
 }
