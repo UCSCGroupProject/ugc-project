@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ugc.university.payload.response.ResType;
+import com.ugc.zscore.Helper.CSVHelper;
 import com.ugc.zscore.Helper.CSVsHelper;
 import com.ugc.zscore.Model.ZTable;
+import com.ugc.zscore.Model.Zscore;
 import com.ugc.zscore.Repository.ZTableRepository;
 import com.ugc.zscore.payload.response.PayloadResponse;
 import com.ugc.zscore.payload.response.ZScoreResponse;
@@ -56,5 +58,16 @@ public class CSVService {
             return ResponseEntity.ok(new PayloadResponse(null, "Results not found", ResType.BAD));
         }
 
+    }
+
+    public ByteArrayInputStream load() {
+        List<ZTable> tutorials = repository.findAll();
+
+        ByteArrayInputStream in = CSVsHelper.tutorialsToCSV(tutorials);
+        return in;
+    }
+
+    public List<ZTable> getAllTutorials() {
+        return repository.findAll();
     }
 }

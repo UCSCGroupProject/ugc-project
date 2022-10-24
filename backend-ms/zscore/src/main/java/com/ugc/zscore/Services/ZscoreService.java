@@ -54,6 +54,8 @@ public class ZscoreService {
                         item.getId(),
                         item.getfirst_name(),
                         item.getlast_name(),
+                        item.getCourse(),
+                        item.getUni(),
                         item.getage()
 //                        item.getUni_code(),
 //                        item.getZvalue()

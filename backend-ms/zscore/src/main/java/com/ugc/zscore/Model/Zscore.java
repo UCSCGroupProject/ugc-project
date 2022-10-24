@@ -15,8 +15,8 @@ import java.sql.Date;
 @Setter
 public class Zscore {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String id;
 
     @Column(name = "first_name")
     private String first_name;
@@ -24,27 +24,49 @@ public class Zscore {
     @Column(name = "last_name")
     private String last_name;
 
+    @Column(name = "course")
+    private String course;
+
+    @Column(name = "uni")
+    private String uni;
+
     @Column(name = "age")
-    private Integer age;
+    private String age;
 
     public Zscore() {
 
     }
 
-    public Zscore(String first_name, String  last_name, int age) {
-//        this.id = id;
+    public Zscore(String id, String first_name, String last_name, String course, String uni, String age) {
+        this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;
+        this.course = course;
+        this.uni = uni;
         this.age = age;
     }
 
-//    public long getId() {
-//        return id;
-//    }
-//
-//    public void setId(long id) {
+    //    public Zscore(String id, String first_name, String last_name, String age) {
 //        this.id = id;
+//        this.first_name = first_name;
+//        this.last_name = last_name;
+//        this.age = age;
 //    }
+
+    //    public Zscore(String id, String first_name, String  last_name, int age) {
+//        this.id = id;
+//        this.first_name = first_name;
+//        this.last_name = last_name;
+//        this.age = age;
+//    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getfirst_name() {
         return first_name;
@@ -62,11 +84,27 @@ public class Zscore {
         this.last_name = last_name;
     }
 
-    public int getage(){
+    public String getCourse() {
+        return course;
+    }
+
+    public void setCourse(String course) {
+        this.course = course;
+    }
+
+    public String getUni() {
+        return uni;
+    }
+
+    public void setUni(String uni) {
+        this.uni = uni;
+    }
+
+    public String getage(){
         return age;
     }
 
-    public void setage(int age){
+    public void setage(String age){
         this.age = age;
     }
 
