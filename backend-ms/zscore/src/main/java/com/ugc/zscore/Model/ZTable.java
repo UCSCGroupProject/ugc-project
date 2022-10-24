@@ -1,12 +1,18 @@
 package com.ugc.zscore.Model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import java.sql.Date;
 
 @Entity
-@Table(name = "Z_scoreTable")
+@Table(name = "z_score_table")
+@Getter
+@Setter
 public class ZTable {
     @Id
     @Column(name = "id")
@@ -30,7 +36,8 @@ public class ZTable {
     public ZTable() {
     }
 
-    public ZTable(String district, String course, String uni, String uni_code, String zvalue) {
+    public ZTable(Integer id,String district, String course, String uni, String uni_code, String zvalue) {
+        this.id = id;
         this.district = district;
         this.course = course;
         this.uni = uni;
@@ -97,13 +104,6 @@ public class ZTable {
 
     @Override
     public String toString() {
-        return "ZTable{" +
-                "id=" + id +
-                ", district='" + district + '\'' +
-                ", course='" + course + '\'' +
-                ", uni='" + uni + '\'' +
-                ", uni_code='" + uni_code + '\'' +
-                ", zvalue='" + zvalue + '\'' +
-                '}';
+        return "Member[id=" + id + ", district=" + district + ", course='" + course + ", uni='" + uni + ", uni_code='" + uni_code + ", zvalue='" + zvalue + "]";
     }
 }

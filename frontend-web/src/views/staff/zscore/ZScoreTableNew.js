@@ -40,10 +40,12 @@ import zscoreService from '../../../services/zscoreService'
 import zscoreTableService from '../../../services/zscoreTableService'
 
 const headers = [
-  { id: 'id', name: 'No.', sortable: false },
-  { id: 'first_name', name: 'FName', sortable: false },
-  { id: 'last_name', name: 'LName', sortable: false },
-  { id: 'age', name: 'Age', sortable: true },
+  { id: 'id', name: 'Uni-Code.', sortable: false },
+  { id: 'course', name: 'Course', sortable: true },
+  { id: 'uni', name: 'University', sortable: true },
+  { id: 'first_name', name: 'District', sortable: true },
+  { id: 'last_name', name: 'Stream', sortable: true },
+  { id: 'age', name: 'Required minimum Z - Score', sortable: false },
   // { id: 'district', name: 'District', sortable: false },
   // { id: 'course', name: 'Course', sortable: false },
   // { id: 'uni', name: 'University', sortable: false },

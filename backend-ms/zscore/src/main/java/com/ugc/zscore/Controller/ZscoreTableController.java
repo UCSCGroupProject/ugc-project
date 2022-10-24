@@ -1,9 +1,11 @@
 package com.ugc.zscore.Controller;
 
+import com.ugc.zscore.Helper.CSVHelper;
 import com.ugc.zscore.Helper.CSVsHelper;
+import com.ugc.zscore.Model.ZTable;
+import com.ugc.zscore.Model.Zscore;
 import com.ugc.zscore.Services.CSVService;
 import java.util.List;
-
 import com.ugc.zscore.payload.response.ResponseMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -37,7 +39,7 @@ public class ZscoreTableController {
                 message = "Uploaded the file successfully: " + file.getOriginalFilename();
 
                 String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                        .path("/api/csv/download/")
+                        .path("/api/zscoreTable/download/")
                         .path(file.getOriginalFilename())
                         .toUriString();
 
@@ -55,5 +57,30 @@ public class ZscoreTableController {
     @GetMapping("/view")
     public ResponseEntity<?> getAllZvalues() {
         return fileService.getAllZvalues();
+    }
+
+    @GetMapping("/ztables")
+    public ResponseEntity<List<ZTable>> getAllTutorials() {
+        try {
+            List<ZTable> tutorials = fileService.getAllTutorials();
+
+            if (tutorials.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+
+            return new ResponseEntity<>(tutorials, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/download/{fileName:.+}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName) {
+        InputStreamResource file = new InputStreamResource(fileService.load());
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName)
+                .contentType(MediaType.parseMediaType("application/csv"))
+                .body(file);
     }
 }

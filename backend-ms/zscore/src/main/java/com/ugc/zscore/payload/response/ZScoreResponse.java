@@ -10,10 +10,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ZScoreResponse {
-    public Long id;
+    public String id;
     public String first_name;
     public String last_name;
-    public Integer age;
-
+    public String course;
+    public String uni;
+    public String age;
 
 }
