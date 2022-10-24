@@ -60,6 +60,11 @@ public class ZscoreController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message,""));
     }
 
+    @GetMapping("/view")
+    public ResponseEntity<?> getAllZvalues() {
+        return fileService.getAllZvalues();
+    }
+
     @GetMapping("/ztables")
     public ResponseEntity<List<Zscore>> getAllTutorials() {
         try {

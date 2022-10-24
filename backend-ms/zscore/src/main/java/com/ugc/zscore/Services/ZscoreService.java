@@ -1,15 +1,21 @@
 package com.ugc.zscore.Services;
 
+import com.ugc.university.payload.response.ResType;
 import com.ugc.zscore.Helper.CSVHelper;
 import com.ugc.zscore.Model.Zscore;
 import com.ugc.zscore.Repository.ZscoreRepository;
+import com.ugc.zscore.payload.response.PayloadResponse;
+import com.ugc.zscore.payload.response.ZScoreResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.ResponseEntity;
+
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.ArrayList;
 
 @Service
 public class ZscoreService {
@@ -35,5 +41,32 @@ public class ZscoreService {
 
     public List<Zscore> getAllTutorials() {
         return repository.findAll();
+    }
+
+    public ResponseEntity<?> getAllZvalues() {
+        List<ZScoreResponse> zScoreResponses = new ArrayList<>();
+
+        List<Zscore> alResults = repository.findAll();
+
+        if(alResults != null) {
+            alResults.forEach(item -> {
+                ZScoreResponse zScoreResponse = new ZScoreResponse(
+                        item.getId(),
+                        item.getfirst_name(),
+                        item.getlast_name(),
+                        item.getage()
+//                        item.getUni_code(),
+//                        item.getZvalue()
+                );
+
+                zScoreResponses.add(zScoreResponse);
+            });
+
+            return ResponseEntity.ok(new PayloadResponse(zScoreResponses, "Results found", ResType.OK));
+        }
+        else {
+            return ResponseEntity.ok(new PayloadResponse(null, "Results not found", ResType.BAD));
+        }
+
     }
 }

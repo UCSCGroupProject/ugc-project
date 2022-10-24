@@ -11,6 +11,30 @@ class ZscoreService{
     //     })
     // }
 
+    import(file, onUploadProgress) {
+      let formData = new FormData()
+      formData.append('file', file)
+  
+      return axios
+        .post(API_URL + '/import', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+          onUploadProgress,
+        })
+        .then((res) => {
+          console.log(res.data)
+          return res.data
+        })
+    }
+
+    getResults = () => {
+      return axios.get(API_URL + '/view').then((res) => {
+        console.log(res.data)
+        return res.data
+      })
+    }
+
     getZScoreTable = () => {
         return axios.get(API_URL + '/ZValue').then((res) => {
           console.log(res.data)
@@ -42,7 +66,7 @@ class ZscoreService{
     }
 
     getResults = () => {
-      return axios.get(API_URL + '/ztables').then((res) => {
+      return axios.get(API_URL + '/view').then((res) => {
         console.log(res.data)
         return res.data
       })

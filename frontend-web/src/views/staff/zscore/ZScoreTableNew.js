@@ -37,19 +37,19 @@ import { toast } from 'react-toastify'
 import AppFetchDataLoader from '../../../components/loaders/AppFetchDataLoader'
 
 import zscoreService from '../../../services/zscoreService'
+import zscoreTableService from '../../../services/zscoreTableService'
 
 const headers = [
   { id: 'id', name: 'No.', sortable: false },
   { id: 'first_name', name: 'FName', sortable: false },
   { id: 'last_name', name: 'LName', sortable: false },
   { id: 'age', name: 'Age', sortable: true },
-  // { id: 'stream', name: 'Stream', sortable: false },
   // { id: 'district', name: 'District', sortable: false },
-  // { id: 'school', name: 'School', sortable: false },
-  // { id: 'districtRank', name: 'District Rank', sortable: true },
-  // { id: 'islandRank', name: 'Island Rank', sortable: true },
-  // { id: 'studentStatus', name: 'Status', sortable: false },
-  // { id: 'passOrFail', name: 'P/F', sortable: false },
+  // { id: 'course', name: 'Course', sortable: false },
+  // { id: 'uni', name: 'University', sortable: false },
+  // { id: 'uni_code', name: 'Uni Code', sortable: true },
+  // { id: 'zvalue', name: 'Z-Score', sortable: true },
+  
 ]
 
 function StaffZScoreTable() {

@@ -26,7 +26,7 @@ const Staff_Applied_Students = React.lazy(() => import('./views/staff/selection/
 const Staff_Eligible = React.lazy(() => import('./views/staff/selection/eligible/Eligible'))
 const Staff_Eligible_Courses = React.lazy(() => import('./views/staff/selection/eligible/Courses'))
 const Staff_Eligible_Students = React.lazy(() => import('./views/staff/selection/eligible/Students'))
-const Staff_ZScore = React.lazy(() => import('./views/staff/zscore/ZScore'))
+const Staff_ZScore = React.lazy(() => import('./views/staff/zscore/ZScoreTableNew'))
 const Staff_ZScoreTable = React.lazy(() => import('./views/staff/zscore/ZScoreTable'))
 const Staff_Analytics = React.lazy(() => import('./views/staff/analytics/Analytics'))
 const Staff_Status_Validation = React.lazy(() => import('./views/staff/validation/Status'))
