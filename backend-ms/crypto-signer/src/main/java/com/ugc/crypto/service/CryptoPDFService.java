@@ -34,10 +34,10 @@ public class CryptoPDFService {
 
     ResValidationDocument resValidationDocument = new ResValidationDocument();
 
-    public Boolean getDocumentData(Integer schoolId) {
+    public Boolean getDocumentData(String username) {
         try {
             // Cant recieve complex objects
-            ResValidationDocument resValidationDocumentTemp = restTemplate.getForObject("http://localhost:8084/api/school/support/document?schoolId="+schoolId, ResValidationDocument.class);
+            ResValidationDocument resValidationDocumentTemp = restTemplate.getForObject("http://localhost:8084/api/school/support/document?username="+username, ResValidationDocument.class);
 
             if(resValidationDocumentTemp != null) {
                 resValidationDocument = resValidationDocumentTemp;

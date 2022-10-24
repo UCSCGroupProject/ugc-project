@@ -38,6 +38,7 @@ function ValidateStudents() {
     id: '',
     schoolId: '',
     schoolName: '',
+    schoolUsername: "",
     schoolAddress: '',
   })
 
@@ -56,7 +57,7 @@ function ValidateStudents() {
   useEffect(() => {
     setLoading(true)
 
-    validationDocumentService.getDocument(user.id).then(
+    validationDocumentService.getDocument(user.username).then(
       (res) => {
         if (res.type === 'OK') {
           toast.success(res.message)
@@ -66,6 +67,7 @@ function ValidateStudents() {
             id: res.payload.id,
             schoolId: res.payload.schoolId,
             schoolName: res.payload.schoolName,
+            schoolUsername: res.payload.schoolUsername,
             schoolAddress: res.payload.schoolAddress,
           })
 
@@ -138,7 +140,7 @@ function ValidateStudents() {
   }
 
   const handleDownloadPDF = async (e) => {
-    cryptoSignerService.generate(user.id).then(
+    cryptoSignerService.generate(user.username).then(
       (res) => {},
       (error) => {
         const res =

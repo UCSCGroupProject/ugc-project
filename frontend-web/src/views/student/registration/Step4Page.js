@@ -130,38 +130,8 @@ function Step4Page() {
       .then((res) => {
         console.log("rrrrr",res.data.unicodeRecords);
         setOrderOfPreferences(res.data.unicodeRecords)
+        setLoading(false)
       })
-
-    // populating order of preferences table id=f exists
-    // const data =  universityAdmissionService.getStep4Form(user.username);
-    // .then(
-    //   (res) => {
-    //     if (res.type === 'OK') {
-    //       toast.success(res.message)
-
-    //       console.log("rrrrrrrrrrrrr");
-
-    //       // Settings table data from fetched data
-    //       setOrderOfPreferences(res.unicodeRecords)
-
-    //       console.log("OOP", res.unicodeRecords);
-    //     } else if (res.type === 'BAD') {
-    //       toast.error(res.message)
-    //     }
-
-    //     setLoading(false)
-    //   },
-    //   (error) => {
-    //     const res =
-    //       (error.response && error.response.data && error.response.data.message) ||
-    //       error.message ||
-    //       error.toString()
-
-    //     // After recieving the server request
-    //     toast.error(res)
-    //     setLoading(false)
-    //   },
-    // )
   }, [])
 
   const [offeredUniversities, setOfferedUniversities] = useState([

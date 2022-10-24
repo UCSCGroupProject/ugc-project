@@ -16,8 +16,8 @@ public class ValidationDocumentController {
 
     // Get Document
     @GetMapping("")
-    public ResponseEntity<?> getDocument(@RequestParam(name = "schoolId") Integer schoolId) {
-        return validationDocumentService.getDocument(schoolId);
+    public ResponseEntity<?> getDocument(@RequestParam(name = "username") String username) {
+        return validationDocumentService.getDocument(username);
     }
 
     // Create document

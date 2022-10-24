@@ -1,2 +1,2 @@
 ### Get Document
-GET http://localhost:8084/api/school/support/document?schoolId=1
+GET http://localhost:8084/api/school/support/document?username=RC

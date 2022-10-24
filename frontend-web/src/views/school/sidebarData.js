@@ -18,12 +18,12 @@ const _nav = [
     component: CNavTitle,
     name: 'Digital signing',
   },
-  {
-    component: CNavItem,
-    name: 'Digital Signing',
-    to: '/school/signing/sign',
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
-  },
+  // {
+  //   component: CNavItem,
+  //   name: 'Digital Signing',
+  //   to: '/school/signing/sign',
+  //   icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+  // },
   {
     component: CNavItem,
     name: 'Upload document',

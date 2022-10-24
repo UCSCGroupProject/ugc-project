@@ -11,8 +11,9 @@ import java.util.List;
 @AllArgsConstructor
 public class ResValidationDocument {
     private Integer id;
-    private Integer schoolId;
+    private Long schoolId;
     private String schoolName;
+    private String schoolUsername;
     private String schoolAddress;
     private List<ResStudentRecord> studentRecords;
     private Boolean status;

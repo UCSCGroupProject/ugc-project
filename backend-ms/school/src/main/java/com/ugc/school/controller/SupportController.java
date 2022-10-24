@@ -15,7 +15,7 @@ public class SupportController {
 
     // Get Document
     @GetMapping("")
-    public ResValidationDocument getDocument(@RequestParam(name = "schoolId") Integer schoolId) {
-        return supportService.getDocument(schoolId);
+    public ResValidationDocument getDocument(@RequestParam(name = "username") String username) {
+        return supportService.getDocument(username);
     }
 }

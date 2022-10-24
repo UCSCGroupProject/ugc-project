@@ -1,0 +1,22 @@
+<!-- Containarizing -->
+docker build -t ucscgroupproject/frontend-web .
+docker push ucscgroupproject/frontend-web
+docker image pull ucscgroupproject/frontend-web:latest
+
+
+<!-- Starting kubernetes -->
+minikube start
+cd kubernetes/frontend-web
+kubectl apply -f deployment.yml
+kubectl apply -f service.yml
+
+
+<!-- Running by tunneling -->
+kubectl get pods
+kubectl get services
+minikube service frontend-web
+
+<!-- Running alternative -->
+kubectl get pods
+kubectl get services
+minikube ip

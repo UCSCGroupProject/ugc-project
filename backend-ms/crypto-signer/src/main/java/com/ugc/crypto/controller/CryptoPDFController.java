@@ -25,7 +25,7 @@ public class CryptoPDFController {
 
     // TODO: Generate PDF
     @GetMapping("")
-    public void generate(@RequestParam(name = "schoolId") Integer schoolId, HttpServletResponse httpServletResponse) throws IOException {
+    public void generate(@RequestParam(name = "username") String username, HttpServletResponse httpServletResponse) throws IOException {
         httpServletResponse.setContentType("application/pdf");
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd:hh:mm:ss");
         String currentDateTime = dateFormat.format(new Date());
@@ -34,7 +34,7 @@ public class CryptoPDFController {
         String headerValue = "attachment; filename=pdf_"+currentDateTime+".pdf";
         httpServletResponse.setHeader(headerKey, headerValue);
 
-        if(cryptoPDFService.getDocumentData(schoolId)) {
+        if(cryptoPDFService.getDocumentData(username)) {
             cryptoPDFService.generate(httpServletResponse);
         }
     }

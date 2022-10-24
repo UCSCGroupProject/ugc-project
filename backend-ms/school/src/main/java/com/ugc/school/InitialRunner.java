@@ -19,7 +19,8 @@ public class InitialRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         schoolService.initRoles();
+        schoolService.initSchools();
         districtService.initDistricts();
-        defaultSchoolService.initSchools();
+//        defaultSchoolService.initSchools();
     }
 }

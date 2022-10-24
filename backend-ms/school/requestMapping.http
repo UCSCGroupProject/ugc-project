@@ -39,5 +39,6 @@ Content-Type: application/json
 
   "username": "HRCC",
   "email": "hrcc@gmail.com",
+  "role": "ROLE_SCHOOL_STAFF",
   "password": "TESTING@test123"
 }

@@ -4,7 +4,7 @@ const API_URL = 'http://localhost:8084/api/school/document'
 
 class ValidationDocumentService {
   getDocument(schoolId) {
-    return axios.get(API_URL + '?schoolId=' + schoolId).then((res) => {
+    return axios.get(API_URL + '?username=' + schoolId).then((res) => {
       console.log('recieved', res.data)
       return res.data
     })

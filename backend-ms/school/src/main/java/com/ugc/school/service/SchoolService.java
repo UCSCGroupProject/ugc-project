@@ -83,6 +83,19 @@ public class SchoolService {
             return false;
     }
 
+    public void initSchools() {
+        this.register(new SchoolRegisterRequest(
+                "Royale College",
+                "Royale College, Colombo 7",
+                "Colombo",
+                "0362254890",
+                "RC",
+                "royalcollege@gmail.com",
+                "ROLE_SCHOOL_STAFF",
+                "TESTING@123"
+        ));
+    }
+
     // For school details validation
     public boolean isPhoneAlreadyExists(String phone){return schoolDetailsRepository.existsByPhone(phone);}
 
@@ -158,7 +171,6 @@ public class SchoolService {
                 break;
             }
         }
-
         System.out.println(roles);
         school.setRoles(roles);
 
@@ -175,21 +187,17 @@ public class SchoolService {
         );
         schoolDetailsRepository.save(schoolDetails);
 
-        // For digital signing
-        Wallet wallet = new Wallet();
-
-        // Save key pair
-        Keypair keypair = new Keypair(
-                wallet.getPrivateKeyAsString(),
-                wallet.getPublicKeyAsString(),
-                school
-        );
+//        // For digital signing
+//        Wallet wallet = new Wallet();
+//
+//        // Save key pair
 //        Keypair keypair = new Keypair(
-//                reqKeyPair.getPrivateKey(),
-//                reqKeyPair.getPublicKey(),
+//                wallet.getPrivateKeyAsString(),
+//                wallet.getPublicKeyAsString(),
 //                school
 //        );
-        keypairRepository.save(keypair);
+
+//        keypairRepository.save(keypair);
 
         return ResponseEntity.ok(new PayloadResponse(null, "School registered successfully", ResType.OK));
     }

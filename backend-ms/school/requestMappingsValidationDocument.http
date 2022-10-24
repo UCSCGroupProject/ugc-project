@@ -1,14 +1,12 @@
 ### Get Document
-GET http://localhost:8084/api/school/document?schoolId=1
+GET http://localhost:8084/api/school/document?username=RC
 
 ### Create document
 POST http://localhost:8084/api/school/document
 Content-Type: application/json
 
 {
-  "schoolId": "1",
-  "schoolName": "Hanwella Rajasinghe Central College",
-  "schoolAddress": "School Ln, Hanwella",
+  "schoolUsername": "RC",
   "studentRecords": [
     {
       "stuIndex": "1236547",
@@ -35,9 +33,7 @@ PUT http://localhost:8084/api/school/document
 Content-Type: application/json
 
 {
-  "schoolId": "1",
-  "schoolName": "Hanwella Rajasinghe Central College",
-  "schoolAddress": "School Ln, Hanwella",
+  "schoolUsername": "RC",
   "studentRecords": [
     {
       "id": 1,

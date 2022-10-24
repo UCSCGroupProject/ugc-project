@@ -1,5 +1,6 @@
 package com.ugc.school.service.document;
 
+import com.ugc.school.model.School;
 import com.ugc.school.model.defaultschool.DefaultSchool;
 import com.ugc.school.model.document.StudentRecord;
 import com.ugc.school.model.document.UploadedDocument;
@@ -10,6 +11,7 @@ import com.ugc.school.payload.response.PayloadResponse;
 import com.ugc.school.payload.response.ResType;
 import com.ugc.school.payload.response.document.ResStudentRecord;
 import com.ugc.school.payload.response.document.ResValidationDocument;
+import com.ugc.school.repository.SchoolRepository;
 import com.ugc.school.repository.defaultSchool.DefaultSchoolRepository;
 import com.ugc.school.repository.document.UploadedDocumentRepository;
 import com.ugc.school.repository.document.ValidationDocumentRepository;
@@ -31,11 +33,17 @@ public class ValidationDocumentService {
     @Autowired
     private StudentRecordRepository studentRecordRepository;
     @Autowired
+    private SchoolRepository schoolRepository;
+    @Autowired
     private DefaultSchoolRepository defaultSchoolRepository;
 
 
-    public ResponseEntity<?> getDocument(Integer schoolId) {
-        ValidationDocument document = validationDocumentRepository.findDocumentBySchoolId(schoolId);
+    public ResponseEntity<?> getDocument(String username) {
+        School school = schoolRepository.findByUsername(username);
+
+        ValidationDocument document = validationDocumentRepository.findValidationDocumentBySchool(school);
+
+        System.out.println("OUT" + document.toString());
 
         List<StudentRecord> studentRecords =  document.getStudentRecords();
         List<ResStudentRecord> resStudentRecords = new ArrayList<>();
@@ -56,9 +64,10 @@ public class ValidationDocumentService {
 
         ResValidationDocument resValidationDocument = new ResValidationDocument(
                 document.getId(),
-                document.getSchoolId(),
-                document.getSchoolName(),
-                document.getSchoolAddress(),
+                document.getSchool().getId(),
+                document.getSchool().getSchoolDetails().getName(),
+                document.getSchool().getUsername(),
+                document.getSchool().getSchoolDetails().getAddress(),
                 resStudentRecords,
                 document.getStatus()
         );
@@ -71,10 +80,16 @@ public class ValidationDocumentService {
     }
 
     public ResponseEntity<?> createDocument(ReqValidationDocument reqValidationDocument) {
+        School school = schoolRepository.findByUsername(reqValidationDocument.getSchoolUsername());
+
+
         ValidationDocument document = new ValidationDocument(
-                reqValidationDocument.getSchoolId(),
-                reqValidationDocument.getSchoolName(),
-                reqValidationDocument.getSchoolAddress(),
+                school,
+//                school.getSchoolDetails().getName(),
+//                school.getSchoolDetails().getAddress(),
+//                reqValidationDocument.getSchoolId(),
+//                reqValidationDocument.getSchoolName(),
+//                reqValidationDocument.getSchoolAddress(),
                 reqValidationDocument.getStatus()
         );
 
@@ -100,7 +115,9 @@ public class ValidationDocumentService {
     }
 
     public ResponseEntity<?> updateDocument(ReqValidationDocument reqValidationDocument) {
-        ValidationDocument document = validationDocumentRepository.findDocumentBySchoolId(reqValidationDocument.getSchoolId());
+        School school = schoolRepository.findByUsername(reqValidationDocument.getSchoolUsername());
+
+        ValidationDocument document = validationDocumentRepository.findValidationDocumentBySchool(school);
         document.setStatus(true);
 
         if(document != null){

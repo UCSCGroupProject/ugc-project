@@ -12,6 +12,7 @@ public class ReqValidationDocument {
     private Integer id;
     private Integer schoolId;
     private String schoolName;
+    private String schoolUsername;
     private String schoolAddress;
     private List<ReqStudentRecord> studentRecords;
     private Boolean status;
