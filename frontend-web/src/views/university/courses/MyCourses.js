@@ -307,7 +307,7 @@ const MyCourses = () => {
               </CCol>
             </CRow>
 
-            <CRow className="mb-3">
+            {/* <CRow className="mb-3">
               <CFormLabel htmlFor="inputdegree" className="col-sm-3 col-form-label">
                 Degree
               </CFormLabel>
@@ -320,9 +320,9 @@ const MyCourses = () => {
                   required
                 />
               </CCol>
-            </CRow>
+            </CRow> */}
 
-            <CRow className="mb-3">
+            {/* <CRow className="mb-3">
               <CFormLabel htmlFor="inputcourse" className="col-sm-3 col-form-label">
                 Faculty
               </CFormLabel>
@@ -340,7 +340,7 @@ const MyCourses = () => {
                   required
                 />
               </CCol>
-            </CRow>
+            </CRow> */}
 
             <CRow className="mb-3">
               <CFormLabel htmlFor="inputreq" className="col-sm-3 col-form-label">
@@ -524,12 +524,12 @@ const MyCourses = () => {
 
             <CRow className="mb-3">
               <CCol sm={12}>
-                <CFormSwitch id="checktest" label="Aptitude Test" />
+                {/* <CFormSwitch id="checktest" label="Aptitude Test" /> */}
                 <CFormSwitch id="checkOL" label="Require O/L Results" />
               </CCol>
             </CRow>
 
-            <CRow className="mb-3">
+            {/* <CRow className="mb-3">
               <CFormLabel htmlFor="inputdescrip" className="col-sm-3 col-form-label">
                 Description
               </CFormLabel>
@@ -540,7 +540,7 @@ const MyCourses = () => {
                   defaultValue={'Good Occupation.Highere Salary.'}
                 ></CFormTextarea>
               </CCol>
-            </CRow>
+            </CRow> */}
           </CForm>
         </CModalBody>
         <CModalFooter>
