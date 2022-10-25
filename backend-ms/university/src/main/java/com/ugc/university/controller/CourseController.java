@@ -59,7 +59,6 @@ public class CourseController {
     }
 
     // TODO: Create course
-
     @PostMapping("/create")
     public ResponseEntity<?> createCourse(@RequestBody AddCourseForm addCourseForm){
         return courseService.create(addCourseForm.getName(),

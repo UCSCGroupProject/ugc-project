@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: school
-          image: ucscgroupproject/school:latest
+          image: ucscgroupproject/school
           imagePullPolicy: Never
           ports:
             - containerPort: 8084

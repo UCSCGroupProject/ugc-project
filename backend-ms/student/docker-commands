@@ -1,0 +1,10 @@
+minikube start --driver=docker
+
+kubectl cluster-info
+
+minikube docker-env
+# copy the last line and paste it to set permissions
+
+docker build -t student:1.0 .
+
+kubectl create deployment student --image=IMAGE_NAME:TAG --port=8001

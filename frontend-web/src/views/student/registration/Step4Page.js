@@ -214,15 +214,31 @@ function Step4Page() {
 
     // If no errors exist, send to the server
     if (!(courseNameError || universityNameError)) {
-      setOrderOfPreferences((prev) => [...prev, universityCourseForm])
-
-      setUniversityCourseForm({
-        unicode: '',
-        courseNameError: '',
-        universityNameError: '',
+      // Check already exists on the order of preferences or not
+      let isUnicodeAlreadyExists = false;
+      
+      orderOfPreferences.forEach(i => {
+        if(i.unicode == universityCourseForm.unicode) {
+          isUnicodeAlreadyExists = true
+        }
       })
 
-      console.log(universityCourseForm)
+      if(!isUnicodeAlreadyExists){
+        setOrderOfPreferences((prev) => [...prev, universityCourseForm])
+
+        // setUniversityCourseForm({
+        //   unicode: '',
+        //   courseNameError: '',
+        //   universityNameError: '',
+        // })
+
+        console.log(universityCourseForm)
+      }
+      else {
+        console.log("Already exists")
+        toast.error("Course already exists on the order of preferences table")
+      }
+      
     }
   }
 

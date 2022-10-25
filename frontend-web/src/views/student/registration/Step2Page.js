@@ -32,6 +32,7 @@ import { v_required } from '../../../utils/validator'
 
 import authService from '../../../services/authService'
 import universityAdmissionService from '../../../services/student/universityAdmissionService'
+import alResultsService from '../../../services/staff/alResultsService'
 
 function Step2Page() {
   // For the server side requests and responses
@@ -78,6 +79,34 @@ function Step2Page() {
     alMedium: 'Sinhala',
   })
 
+  const handleALResultInserting = async (e) => {
+    e.preventDefault()
+
+    alResultsService.getStudentSubjectsAL(step2Form.alIndex).then(
+      (res) => {
+        setLoading(false)
+
+        console.log(res);
+        setAlData({
+          alNameUsed: 'Dhanushka sandakelum',
+          alSubject1: res.firstSubject,
+          alSubject2: res.secondSubject,
+          alSubject3: res.thirdSubject,
+          alMedium: 'Sinhala',
+        })
+      },
+      (error) => {
+        const res =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString()
+        // After recieving the server request
+        setResMessage(res)
+        setLoading(false)
+      },
+    )
+  }
+
   useEffect(() => {
     setLoading(true)
 
@@ -86,7 +115,33 @@ function Step2Page() {
     universityAdmissionService.getStep2Form(user.username).then(
       (res) => {
         setLoading(false)
-        setStep2Form(res)
+        // setStep2Form(res)
+
+        setStep2Form(
+          {
+            // OL Results
+            olYear: res.olYear,
+            olIndex: res.olIndex,
+            //AL Results
+            alYear: res.alYear,
+            alIndex: res.alIndex,
+          }
+        )
+
+        setOlData({
+          olNameUsed: res.olNameUsed,
+          englishResult: res.englishResult,
+          mathematicsResult: res.mathematicsResult,
+          scienceResult: res.scienceResult,
+        })
+
+        setAlData({
+          alNameUsed: res.alNameUsed,
+          alSubject1: res.alSubject1,
+          alSubject2: res.alSubject2,
+          alSubject3: res.alSubject3,
+          alMedium: res.alMedium,
+        })
       },
       (error) => {
         const res =
@@ -401,7 +456,7 @@ function Step2Page() {
                     <CButton
                       color="primary"
                       className="w-100 mt-3 h-75"
-                      // onClick={handleUniversityCourseFormSubmit}
+                      onClick={handleALResultInserting}
                     >
                       Add
                     </CButton>

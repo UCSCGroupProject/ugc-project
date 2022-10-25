@@ -137,6 +137,13 @@ public class UniversityAdmissionService {
             return "User not exists";
         }
 
+        // Delete old records if exists
+        OLDetails olDetails = olDetailsRepository.findByStudent(student);
+
+        if(olDetails != null){
+            olDetailsRepository.delete(olDetails);
+        }
+
         olDetailsRepository.save(new OLDetails(
                 step2FormRequest.getOlYear(),
                 step2FormRequest.getOlIndex(),
@@ -147,6 +154,13 @@ public class UniversityAdmissionService {
 
                 student
         ));
+
+        // Delete old records if exists
+        ALDetails alDetails = alDetailsRepository.findByStudent(student);
+
+        if(alDetails != null){
+            alDetailsRepository.delete(alDetails);
+        }
 
         alDetailsRepository.save(new ALDetails(
                 step2FormRequest.getAlYear(),

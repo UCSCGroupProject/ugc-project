@@ -2,8 +2,10 @@ package com.ugc.staff.Controller;
 
 import com.ugc.staff.Helper.CSVHelper;
 import com.ugc.staff.Payload.Request.Results.EditResultsForm;
+import com.ugc.staff.Payload.Response.ALevel.ALSubjectResponse;
 import com.ugc.staff.Payload.Response.OLevel.OLResultRequest;
 import com.ugc.staff.Payload.Response.OLevel.OLStudentResultResponse;
+import com.ugc.staff.Payload.Response.OLevel.OLSubjectResponse;
 import com.ugc.staff.Payload.Response.PayloadResponse;
 import com.ugc.staff.Service.OLevel.OLResultsService;
 import com.ugc.university.payload.response.ResType;
@@ -53,6 +55,11 @@ public class OLResultsController {
         List<OLStudentResultResponse> olStudentResultResponseList = olResultsService.getStudentResults(studentId);
 
         return ResponseEntity.ok(new PayloadResponse(olStudentResultResponseList, "Student Results Sent", ResType.OK));
+    }
+
+    @GetMapping("/getStudentSubjects")
+    public OLSubjectResponse getStudentSubjects(@RequestParam(name = "olIndex") String olIndex){
+        return olResultsService.getStudentSubjects(olIndex);
     }
 
     @PutMapping("/update")
