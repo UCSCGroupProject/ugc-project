@@ -3,3 +3,6 @@ GET http://localhost:8083/api/staff/alresults/view
 
 ### View
 GET http://localhost:8083/api/staff/alresults/view
+
+### Al subjects check
+GET http://localhost:8083/api/staff/alresults/getStudentSubjects?alIndex=1945682131

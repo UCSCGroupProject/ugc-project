@@ -4,6 +4,7 @@ import com.ugc.staff.Helper.CSVHelper;
 import com.ugc.staff.Payload.Request.Results.EditResultsForm;
 import com.ugc.staff.Payload.Response.ALevel.ALPassedRequest;
 import com.ugc.staff.Payload.Response.ALevel.ALStudentResultResponse;
+import com.ugc.staff.Payload.Response.ALevel.ALSubjectResponse;
 import com.ugc.staff.Payload.Response.ALevel.ZScoreRequest;
 import com.ugc.staff.Payload.Response.PayloadResponse;
 import com.ugc.staff.Service.ALevel.ALResultsService;
@@ -54,6 +55,11 @@ public class ALResultsController {
         List<ALStudentResultResponse> alStudentResultResponseList = alResultsService.getStudentResults(studentId);
 
         return ResponseEntity.ok(new PayloadResponse(alStudentResultResponseList, "Student Results Sent", ResType.OK));
+    }
+
+    @GetMapping("/getStudentSubjects")
+    public ALSubjectResponse getStudentSubjects(@RequestParam(name = "alIndex") String alIndex){
+        return alResultsService.getStudentSubjects(alIndex);
     }
 
     @PutMapping("/update")

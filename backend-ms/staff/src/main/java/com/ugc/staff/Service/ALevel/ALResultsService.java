@@ -4,12 +4,10 @@ import com.ugc.staff.Helper.CSVHelper;
 import com.ugc.staff.Model.ALevel.ALResultKey;
 import com.ugc.staff.Model.ALevel.ALResults;
 import com.ugc.staff.Model.ALevel.ALStudentResult;
+import com.ugc.staff.Model.ALevel.ALSubject;
 import com.ugc.staff.Payload.Request.Results.EditResultsForm;
 import com.ugc.staff.Payload.Request.Results.ResultRow;
-import com.ugc.staff.Payload.Response.ALevel.ALPassedRequest;
-import com.ugc.staff.Payload.Response.ALevel.ALResultsResponse;
-import com.ugc.staff.Payload.Response.ALevel.ALStudentResultResponse;
-import com.ugc.staff.Payload.Response.ALevel.ZScoreRequest;
+import com.ugc.staff.Payload.Response.ALevel.*;
 import com.ugc.staff.Payload.Response.PayloadResponse;
 import com.ugc.staff.Repository.ALevel.ALResultsRepository;
 import com.ugc.staff.Repository.ALevel.ALStudentResultRepository;
@@ -20,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.security.auth.Subject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -126,5 +125,27 @@ public class ALResultsService {
         }
         ZScoreRequest zScoreRequest = new ZScoreRequest(zscores);
         return zScoreRequest;
+    }
+
+    public ALSubjectResponse getStudentSubjects(String alIndex) {
+        ALResults studentId = alResultsRepository.getIndex(alIndex);
+        System.out.println(studentId);
+        String[] threeSubjects = new String[3];
+        Integer count = 0;
+        List<ALSubject> subjects = alStudentRepository.getResults(studentId);
+        System.out.println(subjects);
+        for(ALSubject subject: subjects){
+            if(subject.getId() != 54 && subject.getId() != 55 && subject.getId() != 56){
+                threeSubjects[count] = subject.getName();
+                count++;
+            }
+        }
+        ALSubjectResponse alSubjectResponse = new ALSubjectResponse(
+                alIndex,
+                threeSubjects[0],
+                threeSubjects[1],
+                threeSubjects[2]
+        );
+        return  alSubjectResponse;
     }
 }

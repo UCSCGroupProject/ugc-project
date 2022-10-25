@@ -1,0 +1,61 @@
+district,district_rank,index_number,island_rank,name,pass_or_fail,school,stream,student_status,zscore,first_subject,first_subject_grade,second_subject,second_subject_grade,third_subject,third_subject_grade,general_english,common_general_test,general_IT
+colombo,1,1945682131,1,Camila Rixon,pass,"Ananda Balika Vidayalaya, Colombo 10",Arts,Government,2.9658,2,C,8,B,9,B,B,75,A
+colombo,595,1945682135,1356,Ramon Drew,fail,Ananda College,Commerce,Government,0.9855,1,B,11,F,10,S,C,63,A
+Ratnapura,124,1945682139,1246,Blake Pickard,pass,"Mihindu Vidyalaya, Ratnapura",Biological Science,Government,-1.1231,49,A,47,A,48,B,A,89,A
+Gampaha,3,1945682143,46,Percy Jennson,pass,"Bandaranaike Vidyalaya, Gampaha",Physical Science,Government,1.8555,7,B,47,B,48,B,A,56,A
+kalutara,567,1945682147,5495,Michael Harrington,pass,"Holy Cross College, Kalutara",Engineering Technology,Government,0.1248,50,S,51,S,17,S,A,23,A
+Kandy,1,1945682151,16,Bryce Morris,pass,"Ceylinco Sussex College Kandy Branch, Kandy",Biosystems Technology,Private,2.8457,53,A,51,A,19,A,A,75,B
+Nuwara Eliya,456,1945682155,1234,Ellen Gray,pass,Narandeniya Central College,Other,Government,1.2375,53,B,51,B,50,C,A,65,A
+Galle,72,1945682159,862,Chadwick Ventura,pass,Anurudda kumara maha vidyalaya,Arts,Government,1.7956,3,A,2,B,5,A,A,63,B
+Matara,56,1945682163,4562,Rufus Cameron,pass,Rahula College,Commerce,Government,1.3254,1,C,11,B,10,B,B,48,B
+Hambantota,346,1945682167,2124,Abdul Wigley,pass,Arafa National College,Engineering Technology,Government,1.5055,50,A,51,B,17,B,A,79,A
+Jaffna,325,1945682171,1423,Leroy Weldon,pass,Jaffna Hindu Ladies College,Biological Science,Government,1.0235,53,B,51,C,19,C,B,56,B
+Kilinochchi,354,1945682175,985,Mavis Ring,pass,Sri Somaskanda College,Physical Science,Government,1.6894,7,B,47,B,48,A,C,23,A
+Mannar,444,1945682179,1456,Dani Plant,pass,St Mary's College,Arts,Private,1.0103,4,C,5,S,2,S,C,45,B
+Mullaitivu,356,1945682183,7562,Leanne Skinner,pass,Lankapura Maha vidyalaya,Commerce,Government,0.0885,1,S,11,S,10,S,S,78,A
+Vavuniya,4652,1945682187,8656,Maxwell Burge,pass,Mallavi Central College,Biological Science,Government,0.5125,49,S,47,S,48,S,A,46,C
+Trincolamlee,67,1945682191,235,Winnie Jefferson,pass,Kinniya Central College,Physical Science,Government,1.5648,7,B,47,C,48,B,A,64,A
+Vavuniya,754,1945682195,4567,Owen Utterson,pass,Mallavi Central College,Engineering Technology,Government,0.3231,50,S,51,S,17,S,A,22,B
+Trincolamlee,564,1945682199,1543,Marvin Collis,pass,Kinniya Central College,Biosystems Technology,Government,1.454,53,A,51,B,19,B,S,90,C
+Batticaloa,2349,1945682203,8723,Ilona Corbett,pass,St. Josophs College,Arts,Government,0.6848,9,C,13,S,16,S,C,56,F
+Ampara,1,1945682207,24,Melanie Moreno,pass,Zahira College,Commerce,Government,2.7785,1,A,11,A,10,A,B,86,A
+Puttalam,21,1945682211,256,Mark Long,fail,"Andre College, Puttalam",Biological Science,Government,1.8402,49,A,47,A,48,B,F,75,A
+Kurunegala,5689,1945682215,9963,David Neville,fail,Holy Family Convent,Physical Science,Government,-1.2242,7,F,47,F,48,F,A,23,A
+Anuradhapura,1,1945682219,12,Celina Cavanagh,pass,Hindu College,Engineering Technology,Government,2.7511,50,A,51,A,17,A,S,92,A
+Polonnaruwa,786,1945682223,5462,Andie Gordon,pass,St. Anne's College,Biosystems Technology,Government,1.2348,53,B,51,C,19,B,S,85,A
+Badulla,3468,1945682227,9562,Cara Crawley,pass,"Ambadandegama Maha Vidyalaya, Bandarawela",Arts,Government,0.3539,22,S,31,S,33,S,A,12,A
+Monaragala,457,1945682231,9954,Abdul Leslie,pass,Good Shepherd Convent,Commerce,Private,0.0541,1,S,11,S,10,S,A,13,A
+Kegalle,345,1945682235,2659,Melinda Robertson,pass,Lankapura Maha vidyalaya,Biological Science,Government,1.3249,49,B,47,C,48,C,A,76,A
+Ratnapura,454,1945682239,3497,Adelaide Moreno,pass,"Sivali Central College, Ratnapura",Physical Science,Government,1.2795,7,B,47,C,48,C,B,86,A
+Comlombo,2437,1945682243,4548,Phillip Bryson,pass,Nalanda College,Engineering Technology,Government,0.8582,50,S,51,S,17,S,S,59,B
+Gampaha,454,1945682247,4656,Matt Gosling,pass,St. Lucia's College,Biosystems Technology,Government,1.1028,53,C,51,S,19,B,A,78,A
+kalutara,30,1923812131,356,Emerald Wild,pass,"Kalutara Vidyalaya, Kalutara",Arts,Government,1.7246,34,A,31,A,45,B,B,26,A
+Matale,2453,1923812135,1245,Carina Potter,pass,Sangamiththa Balika Maha vidyalaya,Commerce,Government,1.6242,1,B,11,B,10,B,C,35,A
+kandy,2456,1923812139,6475,Melanie Freeburn,pass,"Mahamaya Girls' College, Kandy",Biological Science,Government,1.5203,49,B,47,B,48,B,S,98,B
+Nuwara Eliya,213,1923812143,456,Rocco Pickard,pass,Government Science College,Physical Science,Government,1.121,7,C,47,S,48,C,A,56,A
+Galle,7875,1923812147,9613,Elijah Chappell,pass,Richmond College,Engineering Technology,Government,0.4236,50,S,51,S,17,S,B,48,C
+Matara,59,1923812151,120,Mark Higgs,pass,St Chearch College,Biosystems Technology,Government,1.8012,53,A,51,B,19,A,C,23,C
+Hambantota,4235,1923812155,8467,Mona Jenkins,pass,St. Johns College,Arts,Government,0.4448,52,S,51,S,43,S,S,63,B
+Jaffna,52,1923812159,132,Crystal Strong,pass,Jaffna Central College,Commerce,Government,1.601,1,A,11,B,10,B,A,48,A
+Kilinochchi,103,1923812163,256,Kieth Upsdell,pass,"Hindu College, Chavakachcheri",Biological Science,Government,1.4445,49,B,47,C,48,C,A,23,B
+Mannar,2357,1923812167,4795,Nate Farrant,pass,Sri Janananda National School,Physical Science,Government,0.1548,7,S,47,S,48,S,B,89,A
+Mullaitivu,13,1923812171,26,Destiny Abbey,fail,St Mary's College,Engineering Technology,Government,1.1003,50,C,51,B,17,S,F,23,A
+Vavuniya,89,1923812175,1688,Valerie Poole,pass,Darmapala Maha Vidyalaya,Biosystems Technology,Government,0.7543,53,S,51,S,19,S,S,78,B
+Trincolamlee,175,1923812179,2463,William Wallace,pass,Ramakrishna Mission Sri Koneswara Hindu College,Arts,Government,1.2332,18,B,16,B,21,C,A,23,C
+Batticaloa,213,1923812183,4657,Ryan Forester,pass,St Mary's College,Commerce,Private,0.7061,1,S,11,S,10,S,A,63,B
+Ampara,124,1923812187,2647,William Rose,pass,St. Thomas College,Biological Science,Government,0.9002,49,S,47,S,48,S,A,85,C
+Puttalam,1,1923812191,96,Nicholas Nicolas,pass,St. John's College,Physical Science,Government,2.3547,7,A,47,A,48,A,B,96,C
+Kurunegala,7651,1923812195,9993,Kenzie Flett,fail,Ambanpola Kanista Vidyalaya,Engineering Technology,Government,-1.021,50,F,51,S,17,F,B,12,C
+Anuradhapura,2684,1923812199,4679,Kaylee Harvey,pass,warnapali Balika Vidyalaya,Biosystems Technology,Government,0.5505,53,S,51,S,19,S,C,54,A
+Polonnaruwa,3468,1923812203,6475,Elijah Warren,pass,Zahira College,Arts,Government,0.4501,14,S,6,S,4,S,S,65,A
+Badulla,9,1923812207,49,Elena Jenkins,pass,Uva College,Commerce,Government,2.1056,1,A,11,A,10,A,C,32,B
+Monaragala,5645,1923812211,9876,Gil Yates,pass,Lankapura Maha vidyalaya,Biological Science,Government,0.4628,49,S,47,C,48,S,C,96,B
+Kegalle,6462,1923812215,3648,Alexander Sheldon,pass,St Joseph's Convent,Physical Science,Government,0.3456,7,S,47,C,48,S,B,3,B
+Ratnapura,5,1923812219,39,Lucy Johnson,pass,Sumana Balika Vidyalaya,Engineering Technology,Government,2.1032,50,A,51,A,17,A,B,89,B
+kalutara,1248,1923812223,2465,Mike Miller,pass,"Holy Cross College, Kalutara",Biosystems Technology,Private,0.7026,53,S,51,C,19,S,B,89,B
+Gampaha,2456,1923812227,6879,Chloe Tyrrell,pass,"Lyceum International School, Gampaha",Arts,Government,0.9067,9,S,11,C,12,S,B,23,A
+Kandy,1243,1923812231,4356,Jack Stuart,pass,Hillwood College,Commerce,Government,1.4561,1,B,11,A,10,C,B,78,A
+Matale,3225,1923812235,6792,Sofia Rivers,pass,St Thomas' Girls School,Biological Science,Government,0.5959,49,S,47,S,48,S,B,23,B
+Nuwara Eliya,1245,1923812239,6645,Margot Darcy,pass,St. Mary's Convent,Physical Science,Government,0.8167,7,S,47,S,48,S,A,23,C
+Galle,356,1923812243,5467,Priscilla Bentley,pass,Southlands College,Engineering Technology,Government,1.1121,50,C,51,C,17,C,A,78,B
+Hambantota,455,1923812247,8676,Ruth Radcliffe,pass,Zahira college,Biosystems Technology,Government,0.4467,53,S,51,S,19,S,B,23,C
