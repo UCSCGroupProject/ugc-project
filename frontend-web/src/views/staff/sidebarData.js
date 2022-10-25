@@ -80,18 +80,6 @@ const _nav = [
   },
   {
     component: CNavItem,
-    name: 'Applicants',
-    to: '/staff/appliedstudents',
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
-  },
-  {
-    component: CNavItem,
-    name: 'Eligible',
-    to: '/staff/eligible',
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
-  },
-  {
-    component: CNavItem,
     name: 'Selection Process',
     to: '/staff/selectionprocess',
     icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
@@ -102,22 +90,22 @@ const _nav = [
     to: '/staff/selected/filterbyCourse',
     icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
   },
-  {
-    component: CNavTitle,
-    name: 'Aptitude Tests',
-  },
-  {
-    component: CNavItem,
-    name: 'Upcoming Tests',
-    to: '/staff/aptitudetests/upcoming',
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
-  },
-  {
-    component: CNavItem,
-    name: 'Completed Tests',
-    to: '/staff/aptitudetests/completed',
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
-  },
+  // {
+  //   component: CNavTitle,
+  //   name: 'Aptitude Tests',
+  // },
+  // {
+  //   component: CNavItem,
+  //   name: 'Upcoming Tests',
+  //   to: '/staff/aptitudetests/upcoming',
+  //   icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+  // },
+  // {
+  //   component: CNavItem,
+  //   name: 'Completed Tests',
+  //   to: '/staff/aptitudetests/completed',
+  //   icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+  // },
   {
     component: CNavTitle,
     name: 'University',

@@ -6,11 +6,13 @@ import com.ugc.staff.Model.ALevel.ALResults;
 import com.ugc.staff.Model.ALevel.ALStudentResult;
 import com.ugc.staff.Payload.Request.Results.EditResultsForm;
 import com.ugc.staff.Payload.Request.Results.ResultRow;
+import com.ugc.staff.Payload.Response.ALevel.ALPassedRequest;
 import com.ugc.staff.Payload.Response.ALevel.ALResultsResponse;
 import com.ugc.staff.Payload.Response.ALevel.ALStudentResultResponse;
+import com.ugc.staff.Payload.Response.ALevel.ZScoreRequest;
 import com.ugc.staff.Payload.Response.PayloadResponse;
 import com.ugc.staff.Repository.ALevel.ALResultsRepository;
-import com.ugc.staff.Repository.ALevel.ALStudentRepository;
+import com.ugc.staff.Repository.ALevel.ALStudentResultRepository;
 import com.ugc.staff.Repository.ALevel.ALSubjectRepository;
 import com.ugc.university.payload.response.ResType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +31,7 @@ public class ALResultsService {
     @Autowired
     ALResultsRepository alResultsRepository;
     @Autowired
-    ALStudentRepository alStudentRepository;
+    ALStudentResultRepository alStudentRepository;
 
     @Autowired
     private ALSubjectRepository alSubjectRepository;
@@ -107,5 +110,21 @@ public class ALResultsService {
             alStudentRepository.save(alStudentResult);
         }
         return ResponseEntity.ok(new PayloadResponse(null, "Results updated", ResType.OK));
+    }
+
+    public ALPassedRequest getPassed() {
+        List<String> indexNumbers = alResultsRepository.findByPassOrFail("pass");
+        ALPassedRequest alPassedRequest = new ALPassedRequest(indexNumbers);
+        return alPassedRequest;
+    }
+
+    public ZScoreRequest getZScore() {
+        Map<String, Double> zscores = new HashMap<>();
+        List<ALResults> alResults = alResultsRepository.findAll();
+        for(ALResults alResults1 : alResults){
+            zscores.put(alResults1.getIndexNumber(), Double.valueOf(alResults1.getZscore()));
+        }
+        ZScoreRequest zScoreRequest = new ZScoreRequest(zscores);
+        return zScoreRequest;
     }
 }

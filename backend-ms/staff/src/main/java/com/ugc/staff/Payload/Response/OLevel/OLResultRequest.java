@@ -1,16 +1,14 @@
-package com.ugc.selections.Payload.Request;
+package com.ugc.staff.Payload.Response.OLevel;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ApplicantRequest {
-    List<String> indexNumbers;
+public class OLResultRequest {
+    String result;
 }

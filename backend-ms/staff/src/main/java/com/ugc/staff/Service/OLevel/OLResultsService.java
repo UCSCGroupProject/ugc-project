@@ -1,18 +1,17 @@
 package com.ugc.staff.Service.OLevel;
 
 import com.ugc.staff.Helper.CSVHelper;
-import com.ugc.staff.Model.ALevel.ALResultKey;
-import com.ugc.staff.Model.ALevel.ALStudentResult;
 import com.ugc.staff.Model.OLevel.OLResultKey;
 import com.ugc.staff.Model.OLevel.OLResults;
 import com.ugc.staff.Model.OLevel.OLStudentResult;
 import com.ugc.staff.Payload.Request.Results.EditResultsForm;
 import com.ugc.staff.Payload.Request.Results.ResultRow;
+import com.ugc.staff.Payload.Response.OLevel.OLResultRequest;
 import com.ugc.staff.Payload.Response.OLevel.OLResultsResponse;
 import com.ugc.staff.Payload.Response.OLevel.OLStudentResultResponse;
 import com.ugc.staff.Payload.Response.PayloadResponse;
 import com.ugc.staff.Repository.OLevel.OLResultsRepository;
-import com.ugc.staff.Repository.OLevel.OLStudentRepository;
+import com.ugc.staff.Repository.OLevel.OLStudentResultRepository;
 import com.ugc.staff.Repository.OLevel.OLSubjectRepository;
 import com.ugc.university.payload.response.ResType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +29,7 @@ public class OLResultsService {
     @Autowired
     OLResultsRepository olResultsRepository;
     @Autowired
-    OLStudentRepository olStudentRepository;
+    OLStudentResultRepository olStudentRepository;
     @Autowired
     private OLSubjectRepository olSubjectRepository;
 
@@ -104,5 +103,11 @@ public class OLResultsService {
             olStudentRepository.save(olStudentResult);
         }
         return ResponseEntity.ok(new PayloadResponse(null, "Results updated", ResType.OK));
+    }
+
+    public OLResultRequest getResultOfSubject(String studentId, String subject) {
+        String grade = olStudentRepository.getSubjectResult(studentId, subject);
+        OLResultRequest olResultRequest = new OLResultRequest(grade);
+        return olResultRequest;
     }
 }
