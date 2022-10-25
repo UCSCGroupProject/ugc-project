@@ -15,13 +15,13 @@ spec:
       containers:
         - name: student
           image: ucscgroupproject/student:latest
-          imagePullPolicy: Never
+#          imagePullPolicy: Never
           ports:
             - containerPort: 8081
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: kube
-      restartPolicy: Always
+#      restartPolicy: Always
   selector:
     matchLabels:
       app: student

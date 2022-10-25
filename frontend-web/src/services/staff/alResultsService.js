@@ -39,6 +39,12 @@ class ALResultsService {
       return response.data
     })
   }
+
+  getStudentSubjectsAL = (alIndex) => {
+    return axios.get(API_URL + '/getStudentSubjects?alIndex='+ alIndex).then((res) => {
+      return res.data
+    })
+  }
 }
 
 export default new ALResultsService()

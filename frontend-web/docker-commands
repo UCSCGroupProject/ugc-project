@@ -1,3 +1,6 @@
+<!-- Building -->
+npm run-script build
+
 <!-- Containarizing -->
 docker build -t ucscgroupproject/frontend-web .
 docker push ucscgroupproject/frontend-web

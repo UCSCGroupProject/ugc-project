@@ -9,6 +9,7 @@ import com.ugc.staff.Payload.Request.Results.ResultRow;
 import com.ugc.staff.Payload.Response.OLevel.OLResultRequest;
 import com.ugc.staff.Payload.Response.OLevel.OLResultsResponse;
 import com.ugc.staff.Payload.Response.OLevel.OLStudentResultResponse;
+import com.ugc.staff.Payload.Response.OLevel.OLSubjectResponse;
 import com.ugc.staff.Payload.Response.PayloadResponse;
 import com.ugc.staff.Repository.OLevel.OLResultsRepository;
 import com.ugc.staff.Repository.OLevel.OLStudentResultRepository;
@@ -109,5 +110,9 @@ public class OLResultsService {
         String grade = olStudentRepository.getSubjectResult(studentId, subject);
         OLResultRequest olResultRequest = new OLResultRequest(grade);
         return olResultRequest;
+    }
+
+    public OLSubjectResponse getStudentSubjects(String olIndex) {
+
     }
 }
