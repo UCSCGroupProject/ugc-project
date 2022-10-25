@@ -57,6 +57,10 @@ public class SelectionController  {
 //        Get merit intake amount for each course
         Map<String, Integer> meritCourseIntake = selectionService.getMeritIntake(courseIntakeRequest.getCourseIntake());
 
+        for (String name: meritCourseIntake.keySet()) {
+            String value = meritCourseIntake.get(name).toString();
+            System.out.println(name + " " + value);
+        }
 //        Get applications of each student
         ApplicationRequest applications = restTemplate.getForObject("http://localhost:8081/api/student/applicant/getApplications", ApplicationRequest.class);
 

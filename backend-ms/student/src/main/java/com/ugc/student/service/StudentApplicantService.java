@@ -92,8 +92,8 @@ public class StudentApplicantService {
         List<OrderOfPreference> orderOfPreferences = new ArrayList<>();
         Map<String, List<String>> applications = new HashMap<>();
         List<String> pref = new ArrayList<>();
-        pref.add("019A");
         pref.add("019B");
+//        pref.add("019A");
         pref.add("019C");
         pref.add("019D");
         pref.add("019E");
@@ -183,7 +183,7 @@ public class StudentApplicantService {
         applications.put("1945682155", pref6);
 
         List<String> pref7 = new ArrayList<>();
-        pref7.add("019A");
+//        pref7.add("019A");
         pref7.add("019B");
         pref7.add("019C");
         pref7.add("019D");
@@ -249,7 +249,7 @@ public class StudentApplicantService {
 
         List<String> pref12 = new ArrayList<>();
         pref12.add("019B");
-        pref12.add("019A");
+//        pref12.add("019A");
         pref12.add("019C");
         pref12.add("019D");
         pref12.add("019E");
@@ -327,7 +327,7 @@ public class StudentApplicantService {
 
         List<String> pref18 = new ArrayList<>();
         pref18.add("019D");
-        pref18.add("019A");
+//        pref18.add("019A");
         pref18.add("019B");
         pref18.add("019C");
         pref18.add("019E");
@@ -405,7 +405,7 @@ public class StudentApplicantService {
 
         List<String> pref24 = new ArrayList<>();
         pref24.add("019F");
-        pref24.add("019A");
+//        pref24.add("019A");
         pref24.add("019B");
         pref24.add("019C");
         pref24.add("019D");
@@ -483,7 +483,7 @@ public class StudentApplicantService {
 
         List<String> pref30 = new ArrayList<>();
         pref30.add("019E");
-        pref30.add("019A");
+//        pref30.add("019A");
         pref30.add("019B");
         pref30.add("019C");
         pref30.add("019D");
@@ -561,7 +561,7 @@ public class StudentApplicantService {
 
         List<String> pref36 = new ArrayList<>();
         pref36.add("019B");
-        pref36.add("019A");
+//        pref36.add("019A");
         pref36.add("019C");
         pref36.add("019D");
         pref36.add("019E");
@@ -639,7 +639,7 @@ public class StudentApplicantService {
 
         List<String> pref42 = new ArrayList<>();
         pref42.add("019B");
-        pref42.add("019A");
+//        pref42.add("019A");
         pref42.add("019C");
         pref42.add("019D");
         pref42.add("019E");
@@ -795,7 +795,7 @@ public class StudentApplicantService {
 
         List<String> pref54 = new ArrayList<>();
         pref54.add("019B");
-        pref54.add("019A");
+//        pref54.add("019A");
         pref54.add("019C");
         pref54.add("019D");
         pref54.add("019E");

@@ -89,7 +89,7 @@ function SelectionProcess() {
 
         if (res.type === 'OK') {
           toast.success(res.message)
-          navigate('/staff/selected')
+          navigate('/staff/selected/filterbyCourse')
         } else if (res.type === 'BAD') {
           toast.error(res.message)
         }

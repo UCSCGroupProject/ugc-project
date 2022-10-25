@@ -1,0 +1,61 @@
+district,index_number,island_rank,name,pass_or_fail,school,student_status,religion,religion_grade,language,language_grade,english,history,science,mathematics,b1,b1_grade,b2,b2_grade,b3,b3_grade
+colombo,1162667,5319,Camila Rixon,pass,"Ananda Balika Vidayalaya, Colombo 10",Government,1,A,6,C,A,C,S,C,12,C,28,C,38,C
+colombo,5564236,5797,Ramon Drew,fail,Ananda College,Government,2,A,6,A,B,S,A,A,13,A,30,A,39,A
+Ratnapura,5657956,1246,Blake Pickard,pass,"Mihindu Vidyalaya, Ratnapura",Government,3,B,7,B,B,C,A,B,14,B,30,B,40,B
+Gampaha,5328455,1234,Percy Jennson,pass,"Bandaranaike Vidyalaya, Gampaha",Government,1,A,6,A,C,A,A,A,15,A,31,A,41,A
+kalutara,9963244,4584,Michael Harrington,pass,"Holy Cross College, Kalutara",Government,2,B,6,A,A,A,B,A,16,A,32,A,42,A
+Kandy,9861345,2256,Bryce Morris,pass,"Ceylinco Sussex College Kandy Branch, Kandy",Private,3,A,6,B,C,B,A,A,17,A,33,A,43,A
+Nuwara Eliya,1245785,2689,Ellen Gray,pass,Narandeniya Central College,Government,1,B,6,B,B,B,A,B,18,B,34,B,44,B
+Galle,5679236,248,Chadwick Ventura,pass,Anurudda kumara maha vidyalaya,Government,2,B,6,B,S,B,B,B,19,B,35,B,45,B
+Matara,5656599,2364,Rufus Cameron,pass,Rahula College,Government,1,B,6,A,A,A,B,A,20,A,36,A,46,A
+Hambantota,2312457,249,Abdul Wigley,pass,Arafa National College,Government,1,B,6,B,A,B,B,B,21,B,28,B,47,B
+Jaffna,2365985,2254,Leroy Weldon,pass,Jaffna Hindu Ladies College,Government,2,C,6,C,B,C,B,A,22,B,30,B,48,B
+Kilinochchi,2318746,124,Mavis Ring,pass,Sri Somaskanda College,Government,3,S,7,C,A,B,C,C,23,C,30,C,49,C
+Mannar,2345557,365,Dani Plant,pass,St Mary's College,Private,3,A,6,C,C,C,C,C,24,C,31,C,38,C
+Mullaitivu,6339654,23,Leanne Skinner,pass,Lankapura Maha vidyalaya,Government,2,A,7,S,B,C,B,A,25,B,32,B,39,B
+Vavuniya,1124578,895,Maxwell Burge,pass,Mallavi Central College,Government,1,A,6,S,S,S,S,S,26,S,33,S,40,S
+Trincolamlee,3254669,24,Winnie Jefferson,pass,Kinniya Central College,Government,3,B,6,C,S,C,S,S,27,S,34,S,41,S
+Vavuniya,5536985,6657,Owen Utterson,pass,Mallavi Central College,Government,1,B,7,B,B,B,A,B,12,B,35,B,42,B
+Trincolamlee,2235233,245,Marvin Collis,pass,Kinniya Central College,Government,2,A,7,A,A,A,A,A,13,A,36,A,43,A
+Batticaloa,4785521,2782,Ilona Corbett,pass,St. Josophs College,Government,2,B,7,C,S,S,C,S,14,S,28,S,44,S
+Ampara,2245777,225,Melanie Moreno,pass,Zahira College,Government,1,B,6,S,S,S,A,S,15,S,30,S,45,S
+Puttalam,7786593,228,Mark Long,fail,"Andre College, Puttalam",Government,2,A,6,B,B,B,B,B,16,B,30,B,46,B
+Kurunegala,2336569,3699,David Neville,fail,Holy Family Convent,Government,2,A,6,C,C,S,C,C,17,C,31,C,47,C
+Anuradhapura,4415725,745,Celina Cavanagh,pass,Hindu College,Government,3,C,6,C,B,A,A,B,18,A,32,A,48,A
+Polonnaruwa,5669332,782,Andie Gordon,pass,St. Anne's College,Government,3,C,7,C,B,B,S,B,19,B,33,B,49,B
+Badulla,2314775,21,Cara Crawley,pass,"Ambadandegama Maha Vidyalaya, Bandarawela",Government,1,C,6,A,A,A,A,A,20,A,34,A,38,A
+Monaragala,1248965,305,Abdul Leslie,pass,Good Shepherd Convent,Private,1,A,6,B,C,S,A,C,21,A,35,C,39,B
+Kegalle,2366956,74,Melinda Robertson,pass,Lankapura Maha vidyalaya,Government,1,C,6,B,B,B,B,B,22,B,36,B,40,B
+Ratnapura,2258712,966,Adelaide Moreno,pass,"Sivali Central College, Ratnapura",Government,3,B,6,C,S,B,S,B,23,C,28,C,41,S
+Comlombo,4463258,1578,Phillip Bryson,pass,Nalanda College,Government,1,C,6,S,C,S,A,S,24,S,30,S,42,S
+Gampaha,9961257,639,Matt Gosling,pass,St. Lucia's College,Government,2,A,6,S,S,C,S,S,25,S,30,S,43,S
+kalutara,4468753,2688,Emerald Wild,pass,"Kalutara Vidyalaya, Kalutara",Government,1,B,6,S,S,A,B,S,26,A,31,C,44,S
+Matale,2215285,12,Carina Potter,pass,Sangamiththa Balika Maha vidyalaya,Government,3,S,6,C,B,C,B,C,27,C,32,B,45,S
+kandy,7845996,744,Melanie Freeburn,pass,"Mahamaya Girls' College, Kandy",Government,3,C,6,S,S,S,S,S,12,S,33,S,46,S
+Nuwara Eliya,3365884,963,Rocco Pickard,pass,Government Science College,Government,3,B,6,A,S,A,A,A,13,A,34,A,47,A
+Galle,4755165,665,Elijah Chappell,pass,Richmond College,Government,1,B,6,S,A,S,A,A,14,A,35,A,48,A
+Matara,1552478,2368,Mark Higgs,pass,St Chearch College,Government,2,F,7,B,B,B,B,B,15,B,36,B,49,B
+Hambantota,6996326,5236,Mona Jenkins,pass,St. Johns College,Government,1,A,6,A,A,S,S,S,16,S,28,S,38,S
+Jaffna,2336952,7894,Crystal Strong,pass,Jaffna Central College,Government,2,A,6,B,B,B,B,B,17,B,30,B,39,B
+Kilinochchi,5227448,458,Kieth Upsdell,pass,"Hindu College, Chavakachcheri",Government,3,A,7,B,A,A,A,A,18,A,30,A,40,A
+Mannar,8857496,236,Nate Farrant,pass,Sri Janananda National School,Government,1,B,7,C,C,C,C,C,19,C,31,C,41,C
+Mullaitivu,9998745,6663,Destiny Abbey,fail,St Mary's College,Government,2,B,6,B,B,B,B,S,20,B,32,B,42,B
+Vavuniya,2254874,2477,Valerie Poole,pass,Darmapala Maha Vidyalaya,Government,2,A,6,B,B,B,B,C,21,B,33,B,43,B
+Trincolamlee,1524478,6378,William Wallace,pass,Ramakrishna Mission Sri Koneswara Hindu College,Government,1,B,6,C,C,C,C,C,22,C,34,C,44,C
+Batticaloa,6633265,5555,Ryan Forester,pass,St Mary's College,Private,2,C,6,C,C,S,C,C,23,C,35,C,45,C
+Ampara,5227894,2545,William Rose,pass,St. Thomas College,Government,3,B,7,S,S,S,S,S,24,S,36,S,46,S
+Puttalam,2336562,3963,Nicholas Nicolas,pass,St. John's College,Government,1,A,6,B,A,S,S,S,25,S,28,S,47,S
+Kurunegala,2323236,59,Kenzie Flett,fail,Ambanpola Kanista Vidyalaya,Government,3,B,6,A,A,A,A,B,26,A,30,A,48,A
+Anuradhapura,8978963,574,Kaylee Harvey,pass,warnapali Balika Vidyalaya,Government,2,C,6,A,A,A,A,A,27,A,30,A,49,A
+Polonnaruwa,5659561,124,Elijah Warren,pass,Zahira College,Government,2,C,7,B,B,B,B,B,12,B,31,B,38,B
+Badulla,6244856,556,Elena Jenkins,pass,Uva College,Government,3,C,6,C,S,A,A,S,13,A,32,A,39,A
+Monaragala,9756653,968,Gil Yates,pass,Lankapura Maha vidyalaya,Government,1,A,6,S,S,S,S,S,14,S,33,S,40,S
+Kegalle,6578466,3564,Alexander Sheldon,pass,St Joseph's Convent,Government,1,B,6,S,S,S,S,S,15,S,34,S,41,S
+Ratnapura,5599885,258,Lucy Johnson,pass,Sumana Balika Vidyalaya,Government,1,C,6,A,A,A,A,A,16,A,35,A,42,A
+kalutara,4112889,549,Mike Miller,pass,"Holy Cross College, Kalutara",Private,3,S,6,S,S,S,S,S,17,S,36,S,43,S
+Gampaha,3669562,47,Chloe Tyrrell,pass,"Lyceum International School, Gampaha",Government,2,S,6,A,A,A,A,A,18,A,28,A,44,A
+Kandy,2653984,963,Jack Stuart,pass,Hillwood College,Government,2,A,6,A,A,A,A,A,19,A,30,A,45,A
+Matale,4154476,602,Sofia Rivers,pass,St Thomas' Girls School,Government,2,B,7,B,B,S,B,B,20,B,30,B,46,B
+Nuwara Eliya,1248796,1055,Margot Darcy,pass,St. Mary's Convent,Government,1,C,6,B,C,B,B,C,21,B,31,B,47,B
+Galle,6355248,230,Priscilla Bentley,pass,Southlands College,Government,2,C,6,C,A,A,A,A,22,A,32,A,48,A
+Hambantota,7889562,8980,Ruth Radcliffe,pass,Zahira college,Government,3,A,6,C,A,C,C,C,23,C,33,C,49,C

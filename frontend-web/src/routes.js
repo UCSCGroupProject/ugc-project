@@ -86,6 +86,7 @@ const routes = [
   { path: '/admin/staffregistration',               name: 'Dashboard',              element: Adm_Authorize_StaffRegistration },
   { path: '/admin/privileges',                      name: 'Dashboard',              element: Adm_Authorize_Privileges },
   { path: '/staff/dashboard',                       name: 'Staff Dashboard',        element: Staff_Dashboard },
+  { path: '/staff',                                 name: 'Staff Dashboard',        element: Staff_Dashboard },
   { path: '/staff/universities',                    name: 'All Universities',       element: Staff_Universities },
   { path: '/staff/university/profile',              name: 'University Profile',     element: Staff_UniversityProfiles},
   { path: '/staff/courses',                         name: 'Courses',                element: Staff_Courses },

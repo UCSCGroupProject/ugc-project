@@ -74,9 +74,11 @@ public class SelectionService {
         //Iterate through each course
         for(String course : meritCourseIntake.keySet()){
             Integer intake = meritCourseIntake.get(course);
+            System.out.println(intake);
             //Match scenario to stable marriage problem
             stableMarriage(course, intake, applications, sortedStudents, freeStudents, meritCourseIntake, aptitudeTestResults, olUnicodeRequest, selectedCourse);
         }
+
     }
 
 
@@ -84,9 +86,11 @@ public class SelectionService {
 
         List<String> applicants = new ArrayList<>();
         while (intake > 0){
+            System.out.println("x");
             //Filter out the students who applied for the course
             for (String application : applications.getApplications().keySet()){
                 if(applications.getApplications().get(application).contains(course) && sortedStudents.contains(application)){
+                    System.out.printf("%s applied for %s", application , course);
                     applicants.add(application);
                 }
             }
@@ -134,7 +138,7 @@ public class SelectionService {
                     entry.getValue()
             );
             if(selectionRepository.findByIndexNumber(entry.getKey()) != null){
-                System.out.println(entry.getKey());
+//                System.out.println(entry.getKey());
                 Integer deletedRecords = selectionRepository.deleteByIndexNumber(entry.getKey());
             }
             selectionRepository.save(student);
@@ -214,11 +218,11 @@ public class SelectionService {
         List<String> unicodeList = applications.getApplications().get(student);
         for (String unicode : unicodeList){
             //If already selected course comes first, return true
-            if(unicode == alreadySelectedCourse){
+            if(unicode.equals(alreadySelectedCourse)){
                 return true;
             }
             //If new course comes first, return false
-            if(unicode == course){
+            if(unicode.equals(course)){
                 return false;
             }
         }
