@@ -1,11 +1,15 @@
 package com.ugc.staff.Service.OLevel;
 
 import com.ugc.staff.Helper.CSVHelper;
+import com.ugc.staff.Model.ALevel.ALResults;
+import com.ugc.staff.Model.ALevel.ALSubject;
 import com.ugc.staff.Model.OLevel.OLResultKey;
 import com.ugc.staff.Model.OLevel.OLResults;
 import com.ugc.staff.Model.OLevel.OLStudentResult;
+import com.ugc.staff.Model.OLevel.OLSubject;
 import com.ugc.staff.Payload.Request.Results.EditResultsForm;
 import com.ugc.staff.Payload.Request.Results.ResultRow;
+import com.ugc.staff.Payload.Response.ALevel.ALSubjectResponse;
 import com.ugc.staff.Payload.Response.OLevel.OLResultRequest;
 import com.ugc.staff.Payload.Response.OLevel.OLResultsResponse;
 import com.ugc.staff.Payload.Response.OLevel.OLStudentResultResponse;
@@ -113,6 +117,16 @@ public class OLResultsService {
     }
 
     public OLSubjectResponse getStudentSubjects(String olIndex) {
+        OLResults studentId = olResultsRepository.getIndex(olIndex);
+        OLSubject mathematics = olSubjectRepository.getById(11);
+        OLSubject science = olSubjectRepository.getById(10);
+        OLSubject english = olSubjectRepository.getById(8);
+        String mathsGrade = olStudentRepository.getGrade(studentId, mathematics);
+        String scienceGrade = olStudentRepository.getGrade(studentId, science);
+        String englishGrade = olStudentRepository.getGrade(studentId, english);
 
+        OLSubjectResponse olSubjectResponse = new OLSubjectResponse(olIndex, englishGrade, mathsGrade, scienceGrade);
+
+        return  olSubjectResponse;
     }
 }

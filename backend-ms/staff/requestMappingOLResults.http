@@ -1,0 +1,2 @@
+### Ol subjects check
+GET http://localhost:8083/api/staff/olresults/getStudentSubjects?olIndex=1162667
