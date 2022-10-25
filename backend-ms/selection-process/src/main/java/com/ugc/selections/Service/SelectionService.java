@@ -166,7 +166,7 @@ public class SelectionService {
             if(requirements.getValue0() == course){
                 //Course has OL requirements
                 //Check OL results
-//                OLResultRequest olResultRequest = restTemplate.getForObject("http://localhost:8083/staff/getOLResult/" + student + "/" + requirements.getValue1(), OLResultRequest.class);
+//                OLResultRequest olResultRequest = restTemplate.getForObject("http://localhost:8083/api/staff/olresults/getOLResult/" + student + "/" + requirements.getValue1(), OLResultRequest.class);
                 OLResultRequest olResultRequest = new OLResultRequest("A");
                 int req = 0;
                 int res = 0;

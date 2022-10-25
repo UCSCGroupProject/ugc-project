@@ -2,7 +2,9 @@ package com.ugc.staff.Controller;
 
 import com.ugc.staff.Helper.CSVHelper;
 import com.ugc.staff.Payload.Request.Results.EditResultsForm;
+import com.ugc.staff.Payload.Response.ALevel.ALPassedRequest;
 import com.ugc.staff.Payload.Response.ALevel.ALStudentResultResponse;
+import com.ugc.staff.Payload.Response.ALevel.ZScoreRequest;
 import com.ugc.staff.Payload.Response.PayloadResponse;
 import com.ugc.staff.Service.ALevel.ALResultsService;
 import com.ugc.university.payload.response.ResType;
@@ -57,5 +59,15 @@ public class ALResultsController {
     @PutMapping("/update")
     public ResponseEntity<?> updateResults(@RequestBody EditResultsForm editALResultsForm){
         return alResultsService.update(editALResultsForm);
+    }
+
+    @GetMapping("/getPassed")
+    public ALPassedRequest getPassed(){
+        return alResultsService.getPassed();
+    }
+
+    @GetMapping("/getZScore")
+    public ZScoreRequest getZScore(){
+        return alResultsService.getZScore();
     }
 }

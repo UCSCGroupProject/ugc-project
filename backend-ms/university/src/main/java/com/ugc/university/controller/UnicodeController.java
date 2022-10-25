@@ -2,6 +2,7 @@ package com.ugc.university.controller;
 
 import com.ugc.university.payload.response.PayloadResponse;
 import com.ugc.university.payload.response.ResType;
+import com.ugc.university.payload.response.course.CourseIntakeRequest;
 import com.ugc.university.payload.response.course.UniCourseResponse;
 import com.ugc.university.service.course.UnicodeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +43,10 @@ public class UnicodeController {
     public Map<String, String> getCourseAndUniversity(@RequestParam(name = "unicodeId") String unicodeId){
         Map<String, String> courseAndUniversity = unicodeService.getCourseAndUniversity(unicodeId);
         return courseAndUniversity;
+    }
+
+    @GetMapping("/getUnicodeIntake")
+    public CourseIntakeRequest getUnicodeIntake(){
+        return unicodeService.getUnicodeIntake();
     }
 }
