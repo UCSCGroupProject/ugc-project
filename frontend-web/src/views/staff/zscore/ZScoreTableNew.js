@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate, useSearchParams } from 'react-router-dom'
 import {
   CCard,
   CTable,
@@ -25,6 +25,7 @@ import {
   CModalTitle,
   CModalBody,
   CModalFooter,
+  CForm
 } from '@coreui/react'
 
 import { cilSearch } from '@coreui/icons'
@@ -40,29 +41,118 @@ import zscoreService from '../../../services/zscoreService'
 import zscoreTableService from '../../../services/zscoreTableService'
 
 const headers = [
-  { id: 'id', name: 'Uni-Code.', sortable: false },
+  { id: 'id', name: '#', sortable: true },
   { id: 'course', name: 'Course', sortable: true },
   { id: 'uni', name: 'University', sortable: true },
-  { id: 'first_name', name: 'District', sortable: true },
-  { id: 'last_name', name: 'Stream', sortable: true },
-  { id: 'age', name: 'Required minimum Z - Score', sortable: false },
-  // { id: 'district', name: 'District', sortable: false },
-  // { id: 'course', name: 'Course', sortable: false },
-  // { id: 'uni', name: 'University', sortable: false },
-  // { id: 'uni_code', name: 'Uni Code', sortable: true },
-  // { id: 'zvalue', name: 'Z-Score', sortable: true },
+  { id: 'first_name', name: 'Uni - Code', sortable: true },
+  { id: 'last_name', name: 'District', sortable: true },
+  { id: 'age', name: 'Required minimum Z - Score', sortable: true },
   
 ]
 
 function StaffZScoreTable() {
   // For the server side requests and responses
   const [loading, setLoading] = useState(false)
-
+  
   const [visibleUpload, setVisibleUpload] = useState(false)
   const [visibleUploadForm, setVisibleUploadForm] = useState(false)
   const [resMessage, setResMessage] = useState('')
   const [progress, setProgress] = useState(0)
   let navigate = useNavigate()
+
+  // new adding
+  const [visible, setVisible] = useState(false)
+  const [editZscoreValueForm, setEditZscoreValueForm] = useState([])
+
+  const [editZscoreValueFormErrors, setEditZscoreValueFormErrors] = useState([])
+  // const [loading, setLoading] = useState(false)
+  const [searchParams, setSearchParams] = useSearchParams()
+  const [id, setID] = useState(searchParams.get('id'))
+
+  // not neccessary
+  // useEffect(() => {
+  //   setLoading(true)
+
+  //   zscoreService.getZscorevalue(id).then(
+  //     (res) => {
+  //       if (res.type === 'OK') {
+  //         // setTableHeaders(headers)
+  //         //setTableContent(res.payload)
+  //         console.log(res.payload)
+  //         setEditZscoreValueForm(res.payload)
+  //         setTableContent((prev) => [...prev, ...res.payload])
+  //       } else if (res.type === 'BAD') {
+  //         toast.error(res.message)
+  //       }
+
+  //       setLoading(false)
+  //     },
+  //     (error) => {
+  //       const res =
+  //         (error.response && error.response.data && error.response.data.message) ||
+  //         error.message ||
+  //         error.toString()
+
+  //       // After recieving the server request
+  //       toast.error(res)
+  //       setLoading(false)
+  //     },
+  //   )
+  // }, [])
+  //
+
+  const handleEditZscoreValueFormSubmit = async (e) =>{
+    e.preventDefault()
+    let zvalueError = ''
+
+    setEditZscoreValueFormErrors({
+      zvalueError
+    })
+
+    if(
+      !(
+        zvalueError
+      )
+    ) {
+      console.log(editZscoreValueForm)
+
+      // Sending to the server
+      setLoading(true)
+      setResMessage('')
+
+      const payload = {
+        id: id,
+        results: [
+          ...editZscoreValueForm
+        ]
+      }
+
+      zscoreService.update(payload).then(
+        (res) => {
+          if (res.type === 'OK') {
+            // Settings table data
+            console.log(editZscoreValueForm)
+            navigate('/staff/zscore')
+          } else if (res.type === 'BAD') {
+            toast.error(res.message)
+          }
+
+          setLoading(false)
+        },
+        (error) => {
+          const res =
+            (error.response && error.response.data && error.response.data.message) ||
+            error.message ||
+            error.toString()
+          // After recieving the server request
+          toast.error(res)
+          setResMessage(res) // Remove later
+          setLoading(false)
+        },
+      )
+    }
+  }
+  // end here
 
   // Creating course
   const [uploadResultsForm, setUploadResultsForm] = useState({
@@ -411,9 +501,11 @@ function StaffZScoreTable() {
                           ))}
                           {
                             // <CTableDataCell>
-                            //   <NavLink to={`/staff/results/al/detailed?studentId=${tableItem.id}`}>
-                            //     <CIcon icon={cilArrowRight} />
-                            //   </NavLink>
+                            //   <NavLink to={`/staff/zscoretable?id=${tableItem.id}`}>
+                            //   <CButton color="warning">
+                            //     <CIcon icon={cibAddthis}></CIcon> Edit
+                            //   </CButton></NavLink>
+                              
                             // </CTableDataCell>
                           }
                         </CTableRow>

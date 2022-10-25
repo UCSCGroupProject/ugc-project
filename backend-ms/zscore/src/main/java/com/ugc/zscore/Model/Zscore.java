@@ -46,20 +46,6 @@ public class Zscore {
         this.age = age;
     }
 
-    //    public Zscore(String id, String first_name, String last_name, String age) {
-//        this.id = id;
-//        this.first_name = first_name;
-//        this.last_name = last_name;
-//        this.age = age;
-//    }
-
-    //    public Zscore(String id, String first_name, String  last_name, int age) {
-//        this.id = id;
-//        this.first_name = first_name;
-//        this.last_name = last_name;
-//        this.age = age;
-//    }
-
     public String getId() {
         return id;
     }

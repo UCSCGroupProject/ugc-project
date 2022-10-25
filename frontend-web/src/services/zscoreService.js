@@ -71,6 +71,19 @@ class ZscoreService{
         return res.data
       })
     }
+
+    update(payload){
+      console.log(payload)
+      return axios.put(API_URL + '/update', payload ).then((response) => {
+        return response.data
+      })
+    }
+
+    getZscorevalue = (id) => {
+      return axios.get(API_URL + '/getZvalueId?id='+ id).then((res) => {
+        return res.data
+      })
+    }
 }
 
 export default new ZscoreService()

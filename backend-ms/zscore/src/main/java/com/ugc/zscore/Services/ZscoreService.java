@@ -4,6 +4,7 @@ import com.ugc.university.payload.response.ResType;
 import com.ugc.zscore.Helper.CSVHelper;
 import com.ugc.zscore.Model.Zscore;
 import com.ugc.zscore.Repository.ZscoreRepository;
+import com.ugc.zscore.payload.request.EditZscoreValueForm;
 import com.ugc.zscore.payload.response.PayloadResponse;
 import com.ugc.zscore.payload.response.ZScoreResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,5 +71,38 @@ public class ZscoreService {
             return ResponseEntity.ok(new PayloadResponse(null, "Results not found", ResType.BAD));
         }
 
+    }
+
+    public List<ZScoreResponse> getZvalue(Long id) {
+        List<ZScoreResponse> zValueList = new ArrayList<>();
+        Zscore zscore = repository.getById(id);
+        System.out.println(zscore);
+            ZScoreResponse zScoreResponse = new ZScoreResponse(
+                    zscore.getId(),
+                    zscore.getCourse(),
+                    zscore.getUni(),
+                    zscore.getfirst_name(),
+                    zscore.getlast_name(),
+                    zscore.getage()
+            );
+
+            zValueList.add(zScoreResponse);
+//        });
+
+        return zValueList;
+    }
+
+    public ResponseEntity<?> update(EditZscoreValueForm editZvalueForm) {
+        String id = editZvalueForm.getId();
+        String zvalue = editZvalueForm.getZvalue();
+//        for(ResultRow result : editZvalueForm.getResults()){
+//            ALResultKey alResultKey = new ALResultKey();
+//            alResultKey.setStudentId(Integer.valueOf(studentId));
+//            alResultKey.setAlSubjectId(Integer.valueOf(result.getSubjectId()));
+//            ALStudentResult alStudentResult = alStudentRepository.getById(alResultKey);
+//            alStudentResult.setGrade(result.getGrade());
+//            alStudentRepository.save(alStudentResult);
+//        }
+        return ResponseEntity.ok(new PayloadResponse(null, "Results updated", ResType.OK));
     }
 }

@@ -1,12 +1,16 @@
 package com.ugc.zscore.Controller;
 
+import com.ugc.university.payload.response.ResType;
 import com.ugc.zscore.Helper.CSVHelper;
 import com.ugc.zscore.Model.Zscore;
 import com.ugc.zscore.Model.ZscoreTable;
 import com.ugc.zscore.Services.ZScoreTableService;
 import com.ugc.zscore.Services.ZscoreService;
 import com.ugc.zscore.Services.ZscoreTableServiceImpl;
+import com.ugc.zscore.payload.request.EditZscoreValueForm;
+import com.ugc.zscore.payload.response.PayloadResponse;
 import com.ugc.zscore.payload.response.ResponseMessage;
+import com.ugc.zscore.payload.response.ZScoreResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -111,6 +115,17 @@ public class ZscoreController {
     public String deleteValuebyId(@PathVariable("id") Long z_id) {
         zscoreTableService.deleteZvalueById(z_id);
         return "Z-score value deleted successfully";
+    }
+
+    @GetMapping("/getZvalueId")
+    public ResponseEntity<?> getZvalue(@RequestParam(name = "id") Long id){
+        List<ZScoreResponse> zScoreResponsesList = fileService.getZvalue(id);
+
+        return ResponseEntity.ok(new PayloadResponse(zScoreResponsesList, "Z-score value Sent", ResType.OK));
+    }
+    @PutMapping("/update")
+    public ResponseEntity<?> updateZvalue(@RequestBody EditZscoreValueForm editZvalueForm){
+        return fileService.update(editZvalueForm);
     }
 
 }
