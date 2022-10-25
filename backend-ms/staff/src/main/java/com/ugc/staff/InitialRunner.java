@@ -25,6 +25,7 @@ public class InitialRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
         staffService.initRoles();
         staffService.initOfficeDept();
+        staffService.initStaff();
         alSubjectService.initSubjects();
         olSubjectService.initSubjects();
     }

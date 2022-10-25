@@ -25,6 +25,7 @@ function ValidationDocuments() {
     {
       schoolId: null,
       schoolName: '',
+      schoolUsername: "",
       districtName: '',
       documentId: null,
       status: null,
@@ -104,8 +105,8 @@ function ValidationDocuments() {
                     {item.status !== null && (
                       <NavLink
                         to={
-                          '/staff/school/validation/documents/overview?schoolId=' +
-                          item.schoolId +
+                          '/staff/school/validation/documents/overview?schoolUsername=' +
+                          item.schoolUsername +
                           '&fileId=' +
                           item.fileId
                         }

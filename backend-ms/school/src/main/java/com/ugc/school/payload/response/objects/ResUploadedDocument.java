@@ -10,8 +10,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ResUploadedDocument {
-    public Integer schoolId;
+    public Long schoolId;
     public String schoolName;
+    public String schoolUsername;
     public String districtName;
 
     public Integer documentId;

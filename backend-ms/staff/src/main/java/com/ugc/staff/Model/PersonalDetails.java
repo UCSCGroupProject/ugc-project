@@ -34,7 +34,7 @@ public class PersonalDetails {
     private String gender;
 
     // Foreign key from Staff - Refer id column of the Staff table as staff_id
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "staff_id", referencedColumnName = "id")
     private Staff staff;
 

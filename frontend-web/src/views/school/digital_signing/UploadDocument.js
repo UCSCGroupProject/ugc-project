@@ -26,12 +26,13 @@ function UploadDocument() {
   useEffect(() => {
     setLoading(true)
 
-    validationDocumentService.getDocument(user.id).then(
+    validationDocumentService.getDocument(user.username).then(
       (res) => {
         if (res.type === 'OK') {
           toast.success(res.message)
 
           // Settings table data
+          console.log(res.payload.id);
           setDocumentId(res.payload.id)
 
           // Check if document already exists

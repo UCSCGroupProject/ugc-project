@@ -32,6 +32,13 @@ class SchoolService {
       return res.data
     })
   }
+
+  getAllSchools() {
+    return axios.get(API_URL + '/all').then((res) => {
+      console.log('recieved', res.data)
+      return res.data
+    })
+  }
 }
 
 export default new SchoolService()

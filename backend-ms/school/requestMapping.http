@@ -42,3 +42,6 @@ Content-Type: application/json
   "role": "ROLE_SCHOOL_STAFF",
   "password": "TESTING@test123"
 }
+
+### Get all schools
+GET http://localhost:8084/api/school/all

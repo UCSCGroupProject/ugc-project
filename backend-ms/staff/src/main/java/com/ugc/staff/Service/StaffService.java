@@ -80,6 +80,26 @@ public class StaffService {
         roleRepository.save(staffRole7);
     }
 
+    public void initStaff() {
+        this.register(new StaffRegisterRequest(
+                "default",
+                "staff",
+
+                "Mr",
+                "Noel",
+                "Noel Perera",
+                new Date(),
+                "Kaluaggla",
+                "0775642956",
+                "0775642956",
+                "male",
+
+                "noel",
+                "noel@gmail.com",
+                "TESTING@test123"
+        ));
+    }
+
     public void initOfficeDept() {
         OfficeDept officeDept0 = new OfficeDept();
         officeDept0.setName(E_OfficeDept.OFFICEDEPT_Default);

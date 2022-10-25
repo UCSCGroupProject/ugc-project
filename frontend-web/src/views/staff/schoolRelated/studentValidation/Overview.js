@@ -70,7 +70,7 @@ function Overview() {
 
     setLoading(true)
 
-    validationDocumentService.getDocument(searchParams.get('schoolId')).then(
+    validationDocumentService.getDocument(searchParams.get('schoolUsername')).then(
       (res) => {
         if (res.type === 'OK') {
           toast.success(res.message)
@@ -80,6 +80,7 @@ function Overview() {
             id: res.payload.id,
             schoolId: res.payload.schoolId,
             schoolName: res.payload.schoolName,
+            schoolUsername: res.payload.schoolUsername,
             schoolAddress: res.payload.schoolAddress,
           })
 
@@ -114,7 +115,7 @@ function Overview() {
   }, [])
 
   const handleDownloadSignedDocument = () => {
-    fileManagerService.downloadFile(searchParams.get('schoolId'))
+    fileManagerService.downloadFile(searchParams.get('fileId'))
   }
 
   return (

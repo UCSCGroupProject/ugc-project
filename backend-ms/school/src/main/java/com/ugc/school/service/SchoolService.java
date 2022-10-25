@@ -13,6 +13,7 @@ import com.ugc.school.payload.request.schoolRegistration.SchoolRegisterRequest;
 import com.ugc.school.payload.response.JwtResponse;
 import com.ugc.school.payload.response.PayloadResponse;
 import com.ugc.school.payload.response.ResType;
+import com.ugc.school.payload.response.SchoolResponse;
 import com.ugc.school.payload.response.objects.ResKeypair;
 import com.ugc.school.repository.KeypairRepository;
 import com.ugc.school.repository.RoleRepository;
@@ -230,12 +231,24 @@ public class SchoolService {
 
     public ResponseEntity<?> getAllSchools() {
         List<School> schools = schoolRepository.findAll();
-        if(schools.isEmpty()){
-            return ResponseEntity.ok(new PayloadResponse(null, "Schools not found", ResType.BAD));
+
+        if(!schools.isEmpty()){
+            List<SchoolResponse> schoolResponses = new ArrayList<>();
+
+            schools.forEach(item -> {
+                SchoolResponse schoolResponse = new SchoolResponse(
+                        item.getId(),
+                        item.getSchoolDetails().getName(),
+                        item.getSchoolDetails().getDistrict()
+                );
+
+                schoolResponses.add(schoolResponse);
+            });
+
+            return ResponseEntity.ok(new PayloadResponse(schoolResponses, "Size of schools sent", ResType.OK));
         }
         else{
-
-            return ResponseEntity.ok(new PayloadResponse(schools.size(), "Size of schools sent", ResType.OK));
+            return ResponseEntity.ok(new PayloadResponse(null, "Schools not found", ResType.BAD));
         }
     }
 }

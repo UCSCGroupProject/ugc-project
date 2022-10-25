@@ -1,6 +1,8 @@
 package com.ugc.student.payload.request.studentRegistration;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
@@ -8,6 +10,8 @@ import java.util.Set;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class StudentRegisterRequest {
 //    private NICAndExamDetailsRequest nicAndExamDetailsRequest;
     private String nic;

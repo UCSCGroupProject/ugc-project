@@ -13,5 +13,6 @@ public class InitialRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         studentService.initRoles();
+        studentService.initStudents();
     }
 }

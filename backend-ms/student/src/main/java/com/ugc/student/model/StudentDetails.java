@@ -25,7 +25,7 @@ public class StudentDetails {
 
     // private Long stuId;
     // Foreign key from Student - Refer id column of the Student table as stu_id
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "stu_id", referencedColumnName = "id")
     private Student student;
 

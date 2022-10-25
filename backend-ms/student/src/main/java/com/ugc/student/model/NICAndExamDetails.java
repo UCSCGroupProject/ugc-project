@@ -26,7 +26,7 @@ public class NICAndExamDetails {
     private String usedIDCopy;
 
     // Foreign key from Student - Refer id column of the Student table as stu_id
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "stu_id", referencedColumnName = "id")
     private Student student;
 

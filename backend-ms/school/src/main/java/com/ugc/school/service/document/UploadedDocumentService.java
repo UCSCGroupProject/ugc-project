@@ -1,11 +1,13 @@
 package com.ugc.school.service.document;
 
+import com.ugc.school.model.School;
 import com.ugc.school.model.defaultschool.DefaultSchool;
 import com.ugc.school.model.document.UploadedDocument;
 import com.ugc.school.model.document.ValidationDocument;
 import com.ugc.school.payload.response.PayloadResponse;
 import com.ugc.school.payload.response.ResType;
 import com.ugc.school.payload.response.objects.ResUploadedDocument;
+import com.ugc.school.repository.SchoolRepository;
 import com.ugc.school.repository.defaultSchool.DefaultSchoolRepository;
 import com.ugc.school.repository.document.UploadedDocumentRepository;
 import com.ugc.school.repository.document.ValidationDocumentRepository;
@@ -20,6 +22,8 @@ import java.util.List;
 public class UploadedDocumentService {
     @Autowired
     private UploadedDocumentRepository uploadedDocumentRepository;
+    @Autowired
+    private SchoolRepository schoolRepository;
     @Autowired
     private DefaultSchoolRepository defaultSchoolRepository;
     @Autowired
@@ -50,19 +54,20 @@ public class UploadedDocumentService {
     }
 
     public ResponseEntity<?> getDocuments() {
-        List<DefaultSchool> defaultSchoolList = defaultSchoolRepository.findAll();
+        List<School> schoolList = schoolRepository.findAll();
 
         List<ResUploadedDocument> resUploadedDocuments = new ArrayList<>();
 
-        defaultSchoolList.forEach(item -> {
+        schoolList.forEach(item -> {
             ResUploadedDocument resUploadedDocument = new ResUploadedDocument();
 
             resUploadedDocument.setSchoolId(item.getId());
-            resUploadedDocument.setSchoolName(item.getName());
-            resUploadedDocument.setDistrictName(item.getDistrict().getName());
+            resUploadedDocument.setSchoolName(item.getSchoolDetails().getName());
+            resUploadedDocument.setSchoolUsername(item.getUsername());
+            resUploadedDocument.setDistrictName(item.getSchoolDetails().getDistrict());
 
             // Get validation document
-            ValidationDocument validationDocument = validationDocumentRepository.findDocumentBySchoolId(item.getId());
+            ValidationDocument validationDocument = validationDocumentRepository.findValidationDocumentBySchool(item);
 
             if(validationDocument != null) {
                 resUploadedDocument.setDocumentId(validationDocument.getId());
@@ -82,6 +87,39 @@ public class UploadedDocumentService {
 
             resUploadedDocuments.add(resUploadedDocument);
         });
+
+//        List<DefaultSchool> defaultSchoolList = defaultSchoolRepository.findAll();
+
+//        List<ResUploadedDocument> resUploadedDocuments = new ArrayList<>();
+//
+//        defaultSchoolList.forEach(item -> {
+//            ResUploadedDocument resUploadedDocument = new ResUploadedDocument();
+//
+//            resUploadedDocument.setSchoolId(item.getId());
+//            resUploadedDocument.setSchoolName(item.getName());
+//            resUploadedDocument.setDistrictName(item.getDistrict().getName());
+//
+//            // Get validation document
+//            ValidationDocument validationDocument = validationDocumentRepository.findDocumentBySchoolId(item.getId());
+//
+//            if(validationDocument != null) {
+//                resUploadedDocument.setDocumentId(validationDocument.getId());
+//                if(validationDocument.getStatus() == true) {
+//                    resUploadedDocument.setStatus("Validated");
+//
+//                    // Get file
+//                    UploadedDocument uploadedDocument = uploadedDocumentRepository.findUploadedDocumentByDocumentId(validationDocument.getId());
+//
+//                    if(uploadedDocument != null) {
+//                        resUploadedDocument.setFileId(uploadedDocument.getFileId());
+//                    }
+//                } else {
+//                    resUploadedDocument.setStatus("Pending");
+//                }
+//            }
+//
+//            resUploadedDocuments.add(resUploadedDocument);
+//        });
 
         return ResponseEntity.ok(new PayloadResponse(resUploadedDocuments, "Validation documents found", ResType.OK));
     }

@@ -115,4 +115,9 @@ public class SchoolController {
     }
 
 
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllSchools(){
+        return schoolService.getAllSchools();
+    }
+
 }

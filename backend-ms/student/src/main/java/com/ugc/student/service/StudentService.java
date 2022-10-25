@@ -58,6 +58,34 @@ public class StudentService {
         roleRepository.save(studentRole);
     }
 
+    public void initStudents() {
+        this.register(new StudentRegisterRequest(
+
+                "199931712165",
+                new Date(),
+                "sdfsdfsg",
+                "DL",
+                "dfgdfg",
+                new Date(),
+                "C:\\fakepath\\AdobePIP.dll",
+                "miss",
+
+                "sdfsdf",
+                "gdg",
+                new Date(),
+                "2",
+                "1",
+                "1",
+                "+94775642956",
+                "Dhanushka",
+
+                "dhanushka@gmail.com",
+                null,
+                "TESTING@test123"
+                )
+        );
+    }
+
     public boolean isStudent(String email) {
         if(studentRepository.existsByEmail(email))
             return true;
