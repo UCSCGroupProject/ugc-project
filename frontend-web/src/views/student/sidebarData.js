@@ -78,33 +78,33 @@ const _nav = [
     to: '/student/unicode',
     icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
   },
-  {
-    component: CNavTitle,
-    name: 'Aptitude Tests',
-  },
-  {
-    component: CNavGroup,
-    name: 'Test details',
-    to: '',
-    icon: <CIcon icon={cilLibrary} customClassName="nav-icon" />,
-    items: [
-      {
-        component: CNavItem,
-        name: 'My Tests',
-        to: '/student/aptitudetests/my',
-      },
-      {
-        component: CNavItem,
-        name: 'Results',
-        to: '/student/aptitudetests/results',
-      },
-      {
-        component: CNavItem,
-        name: 'Progress',
-        to: '/student/aptitudetests/progress',
-      },
-    ],
-  },
+  // {
+  //   component: CNavTitle,
+  //   name: 'Aptitude Tests',
+  // },
+  // {
+  //   component: CNavGroup,
+  //   name: 'Test details',
+  //   to: '',
+  //   icon: <CIcon icon={cilLibrary} customClassName="nav-icon" />,
+  //   items: [
+  //     {
+  //       component: CNavItem,
+  //       name: 'My Tests',
+  //       to: '/student/aptitudetests/my',
+  //     },
+  //     {
+  //       component: CNavItem,
+  //       name: 'Results',
+  //       to: '/student/aptitudetests/results',
+  //     },
+  //     {
+  //       component: CNavItem,
+  //       name: 'Progress',
+  //       to: '/student/aptitudetests/progress',
+  //     },
+  //   ],
+  // },
 ]
 
 export default _nav

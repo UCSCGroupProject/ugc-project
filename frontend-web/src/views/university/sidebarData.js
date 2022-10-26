@@ -42,39 +42,39 @@ const _nav = [
       },
     ],
   },
-  {
-    component: CNavTitle,
-    name: 'Aptitude Tests',
-  },
-  {
-    component: CNavItem,
-    name: 'My Tests',
-    to: '/university/aptitudetests/my',
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
-  },
-  {
-    component: CNavGroup,
-    name: 'Test details',
-    to: '',
-    icon: <CIcon icon={cilLibrary} customClassName="nav-icon" />,
-    items: [
-      {
-        component: CNavItem,
-        name: 'Applied Students',
-        to: '/university/aptitudetests/appliedstudents',
-      },
-      {
-        component: CNavItem,
-        name: 'Progress',
-        to: '/university/aptitudetests/progress',
-      },
-      {
-        component: CNavItem,
-        name: 'Test Results',
-        to: '/university/aptitudetests/results',
-      },
-    ],
-  },
+  // {
+  //   component: CNavTitle,
+  //   name: 'Aptitude Tests',
+  // },
+  // {
+  //   component: CNavItem,
+  //   name: 'My Tests',
+  //   to: '/university/aptitudetests/my',
+  //   icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+  // },
+  // {
+  //   component: CNavGroup,
+  //   name: 'Test details',
+  //   to: '',
+  //   icon: <CIcon icon={cilLibrary} customClassName="nav-icon" />,
+  //   items: [
+  //     {
+  //       component: CNavItem,
+  //       name: 'Applied Students',
+  //       to: '/university/aptitudetests/appliedstudents',
+  //     },
+  //     {
+  //       component: CNavItem,
+  //       name: 'Progress',
+  //       to: '/university/aptitudetests/progress',
+  //     },
+  //     {
+  //       component: CNavItem,
+  //       name: 'Test Results',
+  //       to: '/university/aptitudetests/results',
+  //     },
+  //   ],
+  // },
 ]
 
 export default _nav
