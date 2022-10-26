@@ -83,19 +83,31 @@ public class ValidationDocumentService {
         School school = schoolRepository.findByUsername(reqValidationDocument.getSchoolUsername());
 
 
+        ValidationDocument validationDocument = validationDocumentRepository.findValidationDocumentBySchool(school);
+
+
+
+        if(validationDocument != null){
+            // Delete student records if exists
+            List<StudentRecord> studentRecords = studentRecordRepository.findStudentRecordsByDocument(validationDocument);
+
+            studentRecords.forEach(item -> {
+                studentRecordRepository.delete(item);
+            });
+
+            // Delete validation document if exists
+            validationDocumentRepository.delete(validationDocument);
+        }
+
         ValidationDocument document = new ValidationDocument(
                 school,
-//                school.getSchoolDetails().getName(),
-//                school.getSchoolDetails().getAddress(),
-//                reqValidationDocument.getSchoolId(),
-//                reqValidationDocument.getSchoolName(),
-//                reqValidationDocument.getSchoolAddress(),
                 reqValidationDocument.getStatus()
         );
 
         validationDocumentRepository.save(document);
 
         List<ReqStudentRecord> reqStudentRecords = reqValidationDocument.getStudentRecords();
+
 
         reqStudentRecords.forEach(item -> {
             StudentRecord studentRecord = new StudentRecord(

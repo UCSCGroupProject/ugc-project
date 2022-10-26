@@ -1,3 +1,9 @@
-FROM nginx:stable-alpine
+FROM node:17-alpine3.15
 
-COPY build/ /usr/share/nginx/html 
+COPY package.json package-lock.json .
+
+RUN npm install
+
+COPY . .
+
+RUN npm run build

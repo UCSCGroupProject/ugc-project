@@ -1,0 +1,13 @@
+kubectl delete deployment student
+
+docker build -t student:1.0 .
+
+kubectl create deployment student --image=student:1.0 --port=8001
+
+kubectl get pods
+
+kubectl expose deployment student --type=NodePort
+
+minikube service student --url
+
+

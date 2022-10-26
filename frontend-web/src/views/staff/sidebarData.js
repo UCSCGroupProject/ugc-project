@@ -62,6 +62,11 @@ const _nav = [
     to: '',
     icon: <CIcon icon={cilChartLine} customClassName="nav-icon" />,
     items: [
+      // {
+      //   component: CNavItem,
+      //   name: 'Send documents',
+      //   to: '/staff/school/validation/send',
+      // },
       {
         component: CNavItem,
         name: 'Send documents',
@@ -69,7 +74,7 @@ const _nav = [
       },
       {
         component: CNavItem,
-        name: 'Validation documents',
+        name: 'Validate documents',
         to: '/staff/school/validation/documents',
       },
     ],
@@ -123,16 +128,11 @@ const _nav = [
       },
     ],
   },
-  {
-    component: CNavTitle,
-    name: 'Validation',
-  },
-  {
-    component: CNavItem,
-    name: 'Send student validation list',
-    to: '/staff/validation/status',
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
-  },
+  // {
+  //   component: CNavTitle,
+  //   name: 'Validation',
+  // },
+ 
 ]
 
 export default _nav

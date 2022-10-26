@@ -7,7 +7,7 @@ spring:
     name:
       staff
   datasource:
-    url: jdbc:mysql://localhost:3306/staff_db
+    url: jdbc:mysql://localhost:3307/staff_db
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver

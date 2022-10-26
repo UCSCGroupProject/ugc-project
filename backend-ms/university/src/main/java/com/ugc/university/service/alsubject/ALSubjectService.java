@@ -47,7 +47,7 @@ public class ALSubjectService {
 
         alSubjectRepository.save(new Alsubject("Accounting"));
         alSubjectRepository.save(new Alsubject("Business"));
-        alSubjectRepository.save(new Alsubject("Statistics Business"));
+        alSubjectRepository.save(new Alsubject("Business Statistics"));         // changed
         alSubjectRepository.save(new Alsubject("Studies Economics"));
 
         alSubjectRepository.save(new Alsubject("Agricultural Science"));
@@ -66,6 +66,6 @@ public class ALSubjectService {
         alSubjectRepository.save(new Alsubject("Agro Technology"));
         alSubjectRepository.save(new Alsubject("Engineering Technology"));
         alSubjectRepository.save(new Alsubject("General Information Technology"));
-        alSubjectRepository.save(new Alsubject("Information & Communication Technology"));
+        alSubjectRepository.save(new Alsubject("Information and Communication Technology"));
     }
 }

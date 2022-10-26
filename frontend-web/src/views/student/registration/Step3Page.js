@@ -56,6 +56,8 @@ function Step3Page() {
       ...prev,
       [e.target.name]: e.target.value,
     }))
+
+    console.log(step3Form);
   }
 
   useEffect(() => {
@@ -579,20 +581,20 @@ function Step3Page() {
                         type="radio"
                         name="alreadyRegisteredAsInternalStudent"
                         id="alreadyRegisteredAsInternalStudent_1"
-                        value="true"
+                        value={true}
                         label="Yes"
                         onChange={onUpdateInput}
-                        checked={step3Form.alreadyRegisteredAsInternalStudent ? 'true' : 'false'}
+                        checked={step3Form.alreadyRegisteredAsInternalStudent=== true? true : false}
                       />
                       <CFormCheck
                         inline
                         type="radio"
                         name="alreadyRegisteredAsInternalStudent"
                         id="alreadyRegisteredAsInternalStudent_2"
-                        value="false"
+                        value={false}
                         label="No"
                         onChange={onUpdateInput}
-                        checked={step3Form.alreadyRegisteredAsInternalStudent ? 'true' : 'false'}
+                        checked={step3Form.alreadyRegisteredAsInternalStudent=== false? true : false}
                       />
                     </div>
                   </CCol>
@@ -608,20 +610,20 @@ function Step3Page() {
                         type="radio"
                         name="alreadyReceivedForeignScholarships"
                         id="alreadyReceivedForeignScholarships_1"
-                        value="true"
+                        value={true}
                         label="Yes"
                         onChange={onUpdateInput}
-                        checked={step3Form.alreadyReceivedForeignScholarships ? 'true' : 'false'}
+                        checked={step3Form.alreadyReceivedForeignScholarships=== true ? true : false}
                       />
                       <CFormCheck
                         inline
                         type="radio"
                         name="alreadyReceivedForeignScholarships"
                         id="alreadyReceivedForeignScholarships_2"
-                        value="false"
+                        value={false}
                         label="No"
                         onChange={onUpdateInput}
-                        checked={step3Form.alreadyReceivedForeignScholarships ? 'true' : 'false'}
+                        checked={step3Form.alreadyReceivedForeignScholarships===false ? true : false}
                       />
                     </div>
                   </CCol>

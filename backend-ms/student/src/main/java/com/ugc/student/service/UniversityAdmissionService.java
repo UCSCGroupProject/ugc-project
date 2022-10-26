@@ -81,6 +81,12 @@ public class UniversityAdmissionService {
             return "User not exists";
         }
 
+        // Delete Residence details if exists
+        ResidenceDetails residenceDetails = residenceDetailsRepository.findByStudent(student);
+        if(residenceDetails != null) {
+            residenceDetailsRepository.delete(residenceDetails);
+        }
+
         residenceDetailsRepository.save(new ResidenceDetails(
                 step1FormRequest.getPermanentAddress(),
                 step1FormRequest.getAdministrativeDistrict(),
@@ -94,12 +100,24 @@ public class UniversityAdmissionService {
                 student
         ));
 
+        // Delete Parent details if exists
+        ParentDetails parentDetails = parentDetailsRepository.findByStudent(student);
+        if(parentDetails != null){
+            parentDetailsRepository.delete(parentDetails);
+        }
+
         parentDetailsRepository.save(new ParentDetails(
                 step1FormRequest.getFatherFullname(),
                 step1FormRequest.getMotherFullname(),
                 step1FormRequest.getGuardianFullname(),
                 student
         ));
+
+        // Delete Contact person details if exists
+        ContactPersonDetails contactPersonDetails = contactPersonDetailsRepository.findByStudent(student);
+        if(contactPersonDetails != null){
+            contactPersonDetailsRepository.delete(contactPersonDetails);
+        }
 
         contactPersonDetailsRepository.save(new ContactPersonDetails(
                 step1FormRequest.getContactPersonType(),
@@ -139,7 +157,6 @@ public class UniversityAdmissionService {
 
         // Delete old records if exists
         OLDetails olDetails = olDetailsRepository.findByStudent(student);
-
         if(olDetails != null){
             olDetailsRepository.delete(olDetails);
         }
@@ -157,7 +174,6 @@ public class UniversityAdmissionService {
 
         // Delete old records if exists
         ALDetails alDetails = alDetailsRepository.findByStudent(student);
-
         if(alDetails != null){
             alDetailsRepository.delete(alDetails);
         }
@@ -209,6 +225,12 @@ public class UniversityAdmissionService {
             return "User not exists";
         }
 
+        // Delete school details if exists
+        SchoolDetails schoolDetails = schoolDetailsRepository.findByStudent(student);
+        if(schoolDetails != null){
+            schoolDetailsRepository.delete(schoolDetails);
+        }
+
         schoolDetailsRepository.save(new SchoolDetails(
                 step3FormRequest.getSchoolName(),
                 step3FormRequest.getSchoolAddress(),
@@ -217,6 +239,14 @@ public class UniversityAdmissionService {
                 step3FormRequest.getSchoolDateOfAdmission(),
                 student
         ));
+
+        // Delete Additional school details if exists
+        List<AdditionalSchoolDetails> additionalSchoolDetails = additionalSchoolDetailsRepository.findByStudent(student);
+        if (additionalSchoolDetails != null){
+            additionalSchoolDetails.forEach(item -> {
+                additionalSchoolDetailsRepository.delete(item);
+            });
+        }
 
         List<AdditionalSchoolRequest> additionalSchools = step3FormRequest.getAdditionalSchools();
 
@@ -230,6 +260,12 @@ public class UniversityAdmissionService {
                         student
                 ));
             });
+        }
+
+        // Delete Other details if exists
+        OtherDetails otherDetails = otherDetailsRepository.findByStudent(student);
+        if (otherDetails != null){
+            otherDetailsRepository.delete(otherDetails);
         }
 
         otherDetailsRepository.save(new OtherDetails(
@@ -259,9 +295,8 @@ public class UniversityAdmissionService {
             return "User not exists";
         }
 
-        List<OrderOfPreference> orderOfPreferences = orderOfPreferenceRepository.findByStudent(student);
-
         // Delete data if exists
+        List<OrderOfPreference> orderOfPreferences = orderOfPreferenceRepository.findByStudent(student);
         if(orderOfPreferences != null){
             orderOfPreferences.forEach(item -> {
                 orderOfPreferenceRepository.delete(item);

@@ -39,6 +39,12 @@ class OLResultsService {
       return response.data
     })
   }
+
+  getStudentSubjectsOL = (olIndex) => {
+    return axios.get(API_URL + '/getStudentSubjects?olIndex='+ olIndex).then((res) => {
+      return res.data
+    })
+  }
 }
 
 export default new OLResultsService()

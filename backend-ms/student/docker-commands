@@ -7,4 +7,7 @@ minikube docker-env
 
 docker build -t student:1.0 .
 
-kubectl create deployment student --image=IMAGE_NAME:TAG --port=8001
+# delete deployment if exists
+kubectl delete deployment student
+
+kubectl create deployment student --image=student:1.0 --port=8001

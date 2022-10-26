@@ -32,7 +32,9 @@ import { v_required } from '../../../utils/validator'
 
 import authService from '../../../services/authService'
 import universityAdmissionService from '../../../services/student/universityAdmissionService'
+import olResultsService from '../../../services/staff/olResultsService'
 import alResultsService from '../../../services/staff/alResultsService'
+import { toast } from 'react-toastify'
 
 function Step2Page() {
   // For the server side requests and responses
@@ -70,6 +72,38 @@ function Step2Page() {
     scienceResult: "A"
   })
 
+  const handleOLResultInserting = async (e) => {
+    e.preventDefault()
+
+    olResultsService.getStudentSubjectsOL(step2Form.olIndex).then(
+      (res) => {
+        setLoading(false)
+
+        console.log(res);
+
+        if(!(res.englishResult == null || res.mathematicsResult== null ||res.scienceResult))
+        {setAlData({
+          olNameUsed: 'Dhanushka sandakelum',
+          englishResult: res.englishResult,
+          mathematicsResult: res.mathematicsResult,
+          scienceResult: res.scienceResult,
+        }
+        )} else {
+          toast.error("This index doesn't have relevant grades")
+        }
+      },
+      (error) => {
+        const res =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString()
+        // After recieving the server request
+        setResMessage(res)
+        setLoading(false)
+      },
+    )
+  }
+
   // AL result table data
   const [alData, setAlData] = useState({
     alNameUsed: 'Dhanushka sandakelum',
@@ -87,13 +121,18 @@ function Step2Page() {
         setLoading(false)
 
         console.log(res);
-        setAlData({
+
+        if(!(res.firstSubject == null || res.secondSubject== null ||res.thirdSubject))
+        {setAlData({
           alNameUsed: 'Dhanushka sandakelum',
           alSubject1: res.firstSubject,
           alSubject2: res.secondSubject,
           alSubject3: res.thirdSubject,
           alMedium: 'Sinhala',
-        })
+        }
+        )} else {
+          toast.error("This index doesn't have relevant subjects")
+        }
       },
       (error) => {
         const res =
@@ -349,7 +388,7 @@ function Step2Page() {
                     <CButton
                       color="primary"
                       className="w-100 mt-3 h-75"
-                      // onClick={handleUniversityCourseFormSubmit}
+                      onClick={handleOLResultInserting}
                     >
                       Add
                     </CButton>

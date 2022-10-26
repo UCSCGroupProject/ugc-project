@@ -10,6 +10,12 @@ class ValidationDocumentService {
     })
   }
 
+  createDocument(document) {
+    return axios.post(API_URL, document).then((res) => {
+      return res.data
+    })
+  }
+
   updateDocument(document) {
     return axios.put(API_URL, document).then((res) => {
       return res.data
